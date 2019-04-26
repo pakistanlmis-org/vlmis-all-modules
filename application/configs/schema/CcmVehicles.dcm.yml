@@ -1,0 +1,81 @@
+CcmVehicles:
+  type: entity
+  table: ccm_vehicles
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    registrationNo:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+      column: registration_no
+    usedForEpi:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: used_for_epi
+    comments:
+      type: text
+      nullable: true
+    createdDate:
+      type: datetime
+      nullable: false
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: true
+      column: modified_date
+  oneToOne:
+    fuelType:
+      targetEntity: ListDetail
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        fuel_type_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    ccmAssetSubType:
+      targetEntity: CcmAssetTypes
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        ccm_asset_sub_type_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    ccm:
+      targetEntity: ColdChain
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        ccm_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

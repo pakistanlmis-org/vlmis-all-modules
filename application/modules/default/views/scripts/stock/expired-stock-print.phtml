@@ -1,0 +1,133 @@
+<?php
+/**
+ *  phtml for Expired Stock Print
+ */
+?>
+<!-- Content -->
+<style>
+    #content_print {
+        margin-left: 50px;
+        width: 624px;
+    }
+    table#mytable {
+        border: 1px solid #e5e5e5;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table#mytable tr td {
+        border: 1px solid #e5e5e5;
+    }
+    table#mytable tr th {
+        border: 1px solid #e5e5e5;
+    }
+</style>
+<!-- Content -->
+
+<style type="text/css" media="print">
+    .page
+    {
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print
+    {    
+        #printButt
+        {
+            display: none !important;
+        }
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- Table -->
+        <h4>Expired stock found between <?php echo $this->date_from; ?> and <?php echo $this->date_to; ?> due to expiry or cold chain break</h4>
+        <table id="mytable">
+            <!-- Table heading -->
+            <?php if ($this->expired && count($this->expired) > 0) : ?>
+                <tr>
+                    <th colspan="7"><h4>Expired</h4></th>
+                </tr>
+                <tr>
+                    <th rowspan="2"><?php echo $this->translate("Sr.No") ?></th>
+                    <th rowspan="2"><?php echo $this->translate("Product") ?></th>
+                    <th rowspan="2"><?php echo $this->translate("Batch Number") ?></th>
+                    <th rowspan="2"><?php echo $this->translate("Reason") ?></th>
+                    <th colspan="2" class="center"><?php echo $this->translate("Quantity") ?></th>
+                    <th rowspan="2"><?php echo $this->translate("Expiry Date") ?></th>
+                </tr>
+                <tr>
+                    <th class="right">Vials</th>
+                    <th class="right">Doses</th>
+                </tr>
+                <?php
+                $m_res = array();
+                $i = 1;
+                foreach ($this->expired as $row):
+                    ?>
+                    <tr class="gradeX">
+                        <td><?php echo $i; ?></td>
+                        <td><?php echo $row['item_name']; ?></td>
+                        <td><?php echo $row['number']; ?></td>
+                        <td><?php echo $row['reason']; ?></td>
+                        <td class="right"><?php echo number_format($row['vails']); ?></td>
+                        <td class="right"><?php echo number_format($row['doses']); ?></td>
+                        <td class="center"><?php echo $row['expiry_date']; ?></td>
+                    </tr>
+                    <!-- // Table row END --><?php
+                    $i++;
+                endforeach;
+            endif;
+            ?>
+            <?php if ($this->ccbreak && count($this->ccbreak) > 0) : ?>
+                <tr>
+                    <th colspan="6"><h4>Cold chain break</h4></th>
+                </tr>
+                <tr>
+                    <th rowspan="2"><?php echo $this->translate("Sr.No") ?></th>
+                    <th rowspan="2"><?php echo $this->translate("Product") ?></th>
+                    <th rowspan="2"><?php echo $this->translate("Batch Number") ?></th>
+                    <th rowspan="2"><?php echo $this->translate("Reason") ?></th>
+                    <th colspan="2" class="center"><?php echo $this->translate("Quantity") ?></th>
+                    <th rowspan="2"><?php echo $this->translate("Expiry Date") ?></th>
+                </tr>
+                <tr>
+                    <th class="right">Vials</th>
+                    <th class="right">Doses</th>
+                </tr>
+                <?php
+                $m_res = array();
+                $i = 1;
+                foreach ($this->ccbreak as $row):
+                    ?>
+                    <tr class="gradeX">
+                        <td><?php echo $i; ?></td>
+                        <td><?php echo $row['item_name']; ?></td>
+                        <td><?php echo $row['number']; ?></td>
+                        <td><?php echo $row['reason']; ?></td>
+                        <td class="right"><?php echo number_format($row['vails']); ?></td>
+                        <td class="right"><?php echo number_format($row['doses']); ?></td>
+                        <td class="center"><?php echo $row['expiry_date']; ?></td>
+                    </tr>
+                    <!-- // Table row END --><?php
+                    $i++;
+                endforeach;
+            endif;
+            ?>
+            <!-- // Table body END -->
+        </table>
+        <!-- // Table END -->
+    </div>
+</div>
+<br>
+<div style="float:left;">
+    <div class="col-md-12 left">
+        <b>Printed By:</b> <?php echo $this->username ?><br> 
+        <b>Print Date:</b> <?php echo date("d/m/Y"); ?>
+    </div>
+</div>
+<div class="col-md-12" class="widget">
+    <div class="widget-body right">
+        <button id="print" name="print" value="1" type="button" class="btn btn-primary" ><?php echo $this->translate("Print"); ?></button>
+    </div>
+</div>

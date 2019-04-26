@@ -1,0 +1,162 @@
+<?php
+/**
+*  phtml for Central Provincial Warehouse
+*/
+?>
+<?php
+$sel_month = $this->month_sel;
+$sel_year = $this->year_sel;
+$counter = 1;
+
+$sel_stk = $this->in_stk;
+$sel_prov = $this->prov_sel;
+$sel_dist = $this->in_dist;
+$sel_indicator = $this->sel_indicator;
+$in_col = $this->in_col;
+$in_rg = $this->in_rg;
+$in_type = $this->in_type;
+$stk_sel = $this->stk_sel;
+$start_date = $this->start_date;
+$end_date = $this->end_date;
+$period = $this->period;
+$str_indicator = $this->str_indicator;
+$wh_type = $this->wh_type;
+$warehouse_id = $this->warehouse_id;
+
+
+$getWHName = $this->reports()->getWarehousename($warehouse_id);
+$whName = $getWHName[0]['warehouse_name'];
+
+if ($sel_indicator == 1) {
+    $where = "stock_batch_warehouses.warehouse_id = $warehouse_id AND stock_master.transaction_type_id = 2 AND DATE_FORMAT(stock_master.transaction_date,'%Y-%m') = ";
+} else if ($sel_indicator == 2) {
+    $where = "stock_batch_warehouses.warehouse_id = $warehouse_id AND DATE_FORMAT(stock_master.transaction_date,'%Y-%m') <= ";
+} else if ($sel_indicator == 3) {
+    $where = "stock_batch_warehouses.warehouse_id = $warehouse_id AND stock_master.transaction_type_id = 1 AND DATE_FORMAT(stock_master.transaction_date,'%Y-%m') = ";
+}
+
+$data_arr = array();
+foreach ($this->item_id as $row) {
+    $data_arr[$row['pkId']][] = $row['itemName'];
+    $count = 1;
+    foreach ($period as $date) {
+        $data_arr[$row['pkId']][$count] = 0;
+        $count++;
+    }
+}
+// Headers of the Grid
+$header = 'Product';
+$width = '*';
+$ro = 'ro';
+
+$count = 1;
+foreach ($period as $date) {
+    $monthArr[] = $str_date = $date->format("Y-m");
+    $header .= ',<span>' . $date->format("M-y") . '</span>';
+    $width .= ',75';
+    $ro .= ',ro';
+
+    $cond = $where . " '" . $str_date . "'";
+    $query_vals = $this->reports()->getEPIStoresReport($cond);
+
+    foreach ($query_vals as $row) {
+        $date1 = new DateTime($str_date);
+        $date2 = new DateTime(date("Y-m"));
+        if($date1 > $date2){
+            $row['total'] = 0;
+        }
+        $data_arr[$row['item_id']][$count] = $row['total'];
+    }
+    $count++;
+}
+
+$xml_store = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+$xml_store .= "<rows>";
+
+$sum_arr = array();
+
+foreach ($data_arr as $dis_id => $sub_arr) {
+    $xml_store .= "<row>";
+    $xml_store .= "<cell>$sub_arr[0]</cell>";
+
+    foreach ($sub_arr as $key => $value) {
+        if (!isset($sum_arr[$key])) {
+            $sum_arr[$key] = 0;
+        } else {
+            $sum_arr[$key] += $value;
+        }        
+
+        if ($key > 0) {
+            $xml_store .= "<cell style=\"text-align:right\">" . number_format($value) . "</cell>";
+        }
+    }
+    $xml_store .="</row>";
+}
+$xml_store .="</rows>";
+
+?>
+
+<?php
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $report_title . ' ' . $report_month . ' ' . $sel_year; ?></h3>
+        <div class="innerLR">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php
+                        echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('inventory-management/reports-header.phtml') ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td style="text-align:right; padding-bottom:10px;">
+                        <img style="cursor:pointer;" src="<?php echo $this->baseUrl(); ?>/images/pdf-32.png" onClick="mygrid.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="<?php echo $this->translate("Export to PDF"); ?>"/>&nbsp;&nbsp;
+                        <img style="cursor:pointer; margin-left:-5px" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="mygrid.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');" title="<?php echo $this->translate("Export to Excel"); ?>" />
+                    </td>
+                </tr>
+            </table>
+            <table width="99%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <div id="mygrid_container" style="width:100%; height:363px;">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    var mygrid;
+    function doInitGrid() {
+        mygrid = new dhtmlXGridObject('mygrid_container');
+        mygrid.selMultiRows = true;
+        mygrid.setImagePath("<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+        mygrid.setHeader("<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'><?php echo "$whName : Indicator = $this->str_indicator"; ?></div>,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan");
+        mygrid.attachHeader("<?php echo $header; ?>");
+        mygrid.setInitWidths("<?php echo $width; ?>");
+        mygrid.setColTypes("<?php echo $ro; ?>");
+        mygrid.enableRowsHover(true, 'onMouseOver');
+        mygrid.setSkin("light");
+        mygrid.init();
+        mygrid.clearAll();
+        $('body').append('<textarea id="xml_string" style="display:none;"><?php echo addslashes($xml_store); ?></textarea>');
+        mygrid.loadXMLString(document.getElementById('xml_string').value);
+    }
+</script>

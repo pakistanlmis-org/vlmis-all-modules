@@ -1,0 +1,65 @@
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Merge Stock Batch"); ?> </h3>
+        <?php
+        /**
+         *  phtml for Ajax Merge Batch
+         */
+        ?>
+        <?php if (!empty($this->result) && count($this->result) > 0) { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <form name="merge-batches" id="merge-batches" method="post" action="">
+                        <table class="table table-striped table-bordered table-condensed">
+                            <tr>
+                                <th class="center" style="width:4%;">S.No</th>
+                                <th style="width:3%;">Check</th>
+                                <th style="width:3%;">Merge into</th>
+                                <th class="col-md-1">Batch Id</th>
+                                <th class="col-md-2">Batch Number</th>
+                                <th class="col-md-1">Expiry</th>
+                                <th class="col-md-1">Product</th>
+                            </tr>              
+                            <?php
+                            $count = 1;
+                            $number = '';
+                            foreach ($this->result as $row) {
+                                ?>
+                                <?php if ($number != $row->getNumber() && $count != 1) { ?>
+                                    <tr>
+                                        <td colspan="7" class="right"><input type="submit" class="btn btn-success" name="merge" id="merge" value="Merge" /></td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
+                                <tr>
+                                    <td class="center"><?php echo $count; ?></td>
+                                    <td><input type="checkbox" name="checkbatches[]" class="mergecheck" value="<?php echo $row->getPkId(); ?>" /></td>
+                                    <td><input type="radio" name="mergeinto" class="mergeinto" value="<?php echo $row->getPkId(); ?>" /></td>
+                                    <td><?php echo $row->getPkId(); ?></td>
+                                    <td><?php echo $row->getNumber(); ?></td>
+                                    <td><?php echo $row->getExpiryDate()->format("d/m/Y"); ?></td>
+                                    <td><?php echo $row->getPackInfo()->getStakeholderItemPackSize()->getItemPackSize()->getItemName(); ?></td>
+                                </tr>
+                                <?php
+                                $number = $row->getNumber();
+                                $count++;
+                            }
+                            ?>
+                            <tr>
+                                <td colspan="7" class="right"><input type="submit" class="btn btn-success" name="merge" id="merge" value="Merge" /></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        <?php } else { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>All batches are merged successfully!</h4>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+</div>

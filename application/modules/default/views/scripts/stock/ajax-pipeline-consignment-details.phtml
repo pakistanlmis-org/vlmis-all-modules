@@ -1,0 +1,137 @@
+<?php
+/**
+*  phtml for Ajax Pipeline Consignment Details
+*/
+?>
+<?php if ($this->arr_data && count($this->arr_data) > 0) { ?>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <?php echo $this->translate("Shipment Details - Voucher #") . " $this->voucher_number - Received From " . $this->arr_data[0]->getFromWarehouse()->getWarehouseName(); ?>
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse"></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form name="pipeline-form" id="pipeline-form" method="post" action="<?php echo $this->baseUrl(); ?>/stock/upload-pipeline-consignments">
+                                <table class="table table-striped table-bordered table-condensed">
+                                    <!-- Table heading -->
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <?php echo $this->translate("S.No"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Product"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Lot/Batch No."); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Production Date"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Expiry"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Manufacturer"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("VVM Type"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Unit Price"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Quantity"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Received"); ?>
+                                            </th>
+                                            <th style="text-align: center;">
+                                                <?php echo $this->translate("Action"); ?>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <!-- // Table heading END -->
+
+                                    <!-- Table body -->
+                                    <tbody>
+                                        <!-- Table row -->
+                                        <?php
+                                        $i = 1;
+                                        foreach ($this->arr_data as $row) {
+                                            $status = $row->getStatus();
+                                            ?>
+                                            <tr class="gradeX">
+                                                <td class="center">
+                                                    <?php echo $i; ?>
+                                                </td>
+                                                <td nowrap>
+                                                    <?php echo $row->getItemPackSize()->getItemName(); ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $row->getBatchNumber(); ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo ($row->getProductionDate() != null) ? $row->getProductionDate()->format("d/m/Y") : ''; ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $row->getExpiryDate()->format("d/m/Y"); ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $row->getManufacturer()->getStakeholderItemPackSize()->getStakeholder()->getStakeholderName(); ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $row->getVvmType()->getVvmTypeName(); ?>
+                                                </td>
+                                                <td class="right">
+                                                    <?php echo $row->getUnitPrice(); ?>
+                                                </td>
+                                                <td class="right">
+                                                    <?php echo number_format($row->getQuantity()); ?>
+                                                </td>
+                                                <td id="<?php echo $row->getPkId(); ?>-editable" class="col-md-2 right">
+                                                    <?php echo number_format(ABS($row->getReceivedQuantity())); ?>
+                                                </td>                                                
+                                                <td align="center">
+                                                    <?php if ($status != 'Received') { ?>
+                                                        <span data-toggle="notyfy" id="<?php echo $row->getPkId(); ?>" data-type="confirm" data-layout="top" class="fa fa-times cursor-hand"></span>
+                                                        <input type="hidden" name="pipeline[<?php echo $i - 1; ?>]" value="<?php echo $row->getPkId(); ?>"/>
+                                                        <input type="hidden" id="<?php echo $row->getPkId(); ?>-received" name="receivedqty[<?php echo $i - 1; ?>]" value="<?php echo $row->getReceivedQuantity(); ?>"/>
+                                                    <?php } ?>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                            $i++;
+                                        }
+                                        ?>
+                                        <!-- // Table row END -->
+                                    </tbody>
+                                    <!-- // Table body END -->
+                                    <?php if ($status != 'Received') { ?>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="11" class="left">
+                                                    <input type="button" class="btn btn-success" name="received" id="received" value="Received" />
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    <?php } ?>
+                                </table>
+                                <input type="hidden" id="type" name="type" value="1"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+?>

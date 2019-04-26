@@ -1,0 +1,231 @@
+<?php
+/**
+ *  phtml for Add Vaccine Carrier
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            <?php echo $this->translate("Add Vaccine Carriers"); ?>
+        </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Add Vaccine Carriers"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                            <div class="alert alert-success">
+                                <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                <strong>Data</strong> has been saved successfully!
+                            </div>
+                        <?php } ?>
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <form method="POST" name="vaccine_carrier_form" id="vaccine_carrier_form" action="">
+                            <!-- Row -->
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label class="control-label" for="firstname">
+                                            Placed At <span class="red">*</span>
+                                        </label>
+                                        <div class="widget-body uniformjs">
+                                            <?php echo $this->form->placed_at; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <?php $this->allLevelCombo(); ?>
+
+                            <div class="row">
+                               
+                                <div class="col-md-2">
+                                    <label for="catalogueid" class="control-label"><?php echo $this->translate("Catalogue ID"); ?> <span class="red">*</span></label>
+                                    <div class="controls">
+                                        <?php echo $this->form->catalogue_id; ?>&nbsp;
+                                        
+                                    </div>
+                                </div>
+                                 <div class="col-md-1">
+                                    <label for="catalogueid" class="control-label">&nbsp;&nbsp;&nbsp;</label>
+                                    <div class="controls">
+                                      
+                                        <a title="<?php echo $this->translate("Add New Catalogue"); ?>" href="#modal-new-catalogue" data-toggle="modal" onclick="javascript:void(0);" class="btn btn-primary btn-small">
+                                            <?php echo $this->translate("Add"); ?>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="control-label"><?php echo $this->translate("Total Available For Vaccination Activities") ?></label> <span class="red">*</span>
+                                        <?php echo $this->form->quantity; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3" id="div_make">
+                                    <div class="form-group">
+                                        <label class="control-label" for="ccmmakeid"><?php echo $this->translate("Make"); ?> <span class="red">*</span></label>
+                                        <?php echo $this->form->ccm_make_id; ?>
+                                        <?php echo $this->form->ccm_make_id_hidden; ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" id="div_model">
+                                    <div class="form-group">
+                                        <label class="control-label" for="ccmmodelid"><?php echo $this->translate("Model"); ?> <span class="red">*</span></label>
+                                        <?php echo $this->form->ccm_model_id; ?>
+                                        <?php echo $this->form->ccm_model_id_hidden; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">                                
+                                <div class="col-md-3" id="internal_dimensions">
+                                    <div class="form-group">
+                                        <label class="control-label"><?php echo $this->translate("Internal Dimensions") ?></label>
+                                        <?php echo $this->form->asset_dimension_length; ?>
+                                        <?php echo $this->form->asset_dimension_width; ?>
+                                        <?php echo $this->form->asset_dimension_height; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1 pull-right">
+                                    <button type="submit" class="btn btn-primary" id="add-carriers"><?php echo $this->translate("Save") ?></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- // Asset Add Popup  -->
+<form name="asset_add_popup" id="asset_add_popup" action="" method="POST">
+    <div id="modal-new-catalogue" class="modal fade" tabindex="-1" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal heading -->
+                <div class="modal-header">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                    <h3><?php echo $this->translate("Suggest new make and model"); ?></h3>
+                </div>
+                <!-- // Modal heading END -->
+                <input type="hidden" name="model_type" id="model_type" value="<?php echo Model_CcmAssetTypes::VACCINECARRIER; ?>">
+                <input type="hidden" name="ccm_asset_type_id_popup" id="ccm_asset_type_id_popup" value="<?php echo Model_CcmAssetTypes::VACCINECARRIER; ?>">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <!-- BODY HERE -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="control-label" for="catalogueid" ><?php echo $this->translate("Catalogue ID"); ?> <span class="red">*</span></label>
+                            <div class="controls">
+                                <?php echo $this->form->catalogue_id_popup; ?>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label" ><?php echo $this->translate("Make"); ?> <span class="red">*</span></label>
+                            <div class="controls">
+                                <?php echo $this->form->ccm_make_popup; ?>
+                            </div>
+                        </div>                
+                        <div class="col-md-3">
+                            <label class="control-label" ><?php echo $this->translate("Model"); ?> <span class="red">*</span></label>
+                            <div class="controls">
+                                <?php echo $this->form->ccm_model_popup; ?>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+
+                            <div class="controls">
+
+                                <input type="hidden" id="ccm_asset_type_id_popup" name="ccm_asset_type_id_popup" value="2">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="control-label" for="dimensions"><?php echo $this->translate("Dimensions"); ?><span class="red">*</span></label>
+                            <div class="controls">
+                                <?php echo $this->form->asset_dimension_length_popup; ?>
+                                <?php echo $this->form->asset_dimension_width_popup; ?>
+                                <?php echo $this->form->asset_dimension_height_popup; ?>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label" for="dimensions"><?php echo $this->translate("Dimensions(Internal)"); ?></label>
+                            <div class="controls">
+                                <?php echo $this->form->internal_dimension_length_popup; ?>
+                                <?php echo $this->form->internal_dimension_width_popup; ?>
+                                <?php echo $this->form->internal_dimension_height_popup; ?>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label" for="dimensions"><?php echo $this->translate("Dimensions(Storage)"); ?></label>
+                            <div class="controls">
+                                <?php echo $this->form->storage_dimension_length_popup; ?>
+                                <?php echo $this->form->storage_dimension_width_popup; ?>
+                                <?php echo $this->form->storage_dimension_height_popup; ?>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label" for="dimensions"><?php echo $this->translate("Cost(US$)"); ?></label>
+                            <div class="controls">
+                                <?php echo $this->form->product_price; ?>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="control-label" for="dimensions"><?php echo $this->translate("Vaccine Net Storage Capacity"); ?><span class="red">*</span></label>
+                            <div class="controls">
+                                <?php echo $this->form->net_capacity_4; ?>
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="control-label" for="dimensions"><?php echo $this->translate("Coldlife without openings(Hours at +43C)"); ?></label>
+                            <div class="controls">
+                                <?php echo $this->form->cold_life; ?>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- // Modal body END -->
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <a data-dismiss="modal" class="btn btn-default" href="#"><?php echo $this->translate("Close"); ?></a> 
+                    <button class="btn btn-primary btn-small pull-right btn-icon" type="button" id="asset_add_popup-save" name="asset_add_popup-save">
+                        <?php echo $this->translate("Save"); ?>
+                    </button> 
+
+                </div>
+                <!-- // Modal footer END -->
+            </div>
+        </div>
+    </div>
+</form>
+<!-- // Asset Add Popup END  -->
+
+

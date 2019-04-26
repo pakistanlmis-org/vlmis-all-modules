@@ -1,0 +1,265 @@
+<?php
+/**
+ *  phtml for Receive Search
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <?php if ($this->layout()->user_role == 34) { ?>
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <?php echo $this->translate("Change Store Filters"); ?>
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <?php $this->allLevelCombo(); ?>
+                        </div>
+                        <div class="col-md-1 right" style="padding-top: 29px;">
+                            <a onclick="javascript:location.reload(true);" class="btn btn-success">GO</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+        <h3 class="page-title"> <?php echo $this->translate("Stock Receive - Search") ?></h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Filters") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse"></a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource')); ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="batch_search" action="" id="batch_search">
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="firstname"><?php echo $this->translate("Date From") ?></label>
+                                                <?php echo $this->form->date_from; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="firstname"><?php echo $this->translate("Date To") ?></label>
+                                                <?php echo $this->form->date_to; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="warehouse"><?php echo $this->translate("Warehouse Supplier") ?></label>
+                                                <?php echo $this->form->warehouses; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="firstname"><?php echo $this->translate("Product") ?></label>
+                                                <?php echo $this->form->product; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="Purpose"><?php echo $this->translate("Purpose"); ?></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->activity_id; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="firstname"><?php echo $this->translate("Search by") ?></label>
+                                                <?php echo $this->form->searchby; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="number">&nbsp;</label>
+                                                <?php echo $this->form->number; ?>
+                                            </div>
+                                        </div>
+                                        <!-- Group -->
+                                        <div class="col-md-6">
+                                            <div class="form-group form-btn-margin-top">
+                                                <button type="submit" name="search" value="search" class="btn btn-success"><?php echo $this->translate("Search") ?></button>
+                                                <button type="reset" class="btn btn-info" id="reset">Reset</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Stock Receive Search") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- Table -->
+                                <table class="dynamicTable table table-striped table-bordered table-hover dataTable no-footer" id="sample_2">
+                                    <!-- Table heading -->
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2"><?php echo $this->translate("S.No") ?></th>
+                                            <th rowspan="2"><?php echo $this->translate("Date") ?></th>
+                                            <th rowspan="2"><?php echo $this->translate("Receive No") ?></th>
+                                            <th rowspan="2" class="hidden-tablet hidden-phone"><?php echo $this->translate("Received From") ?></th>
+                                            <th rowspan="2" class="hidden-tablet hidden-phone"><?php echo $this->translate("Ref No") ?></th>
+                                            <th rowspan="2" class="hidden-tablet hidden-phone"><?php echo $this->translate("Product") ?></th>
+                                            <th rowspan="2" class="hidden-tablet hidden-phone"><?php echo $this->translate("Batch No") ?></th>
+                                            <th rowspan="2"><?php echo $this->translate("Manufacturer") ?></th>
+                                            <th colspan="2" style="text-align:center;"><?php echo $this->translate("Quantity") ?></th>
+                                            <th rowspan="2">Doses<br/>Per<br/>Vial</th>
+                                            <th rowspan="2" class="hidden-tablet hidden-phone"><?php echo $this->translate("Unit") ?></th>
+                                            <th rowspan="2"><?php echo $this->translate("Expiry Date") ?></th>
+                                            <th rowspan="2"><?php echo $this->translate("Created On"); ?></th>
+                                            <th rowspan="2"><?php echo $this->translate("Action") ?></th>
+                                        </tr>
+                                        <tr>
+                                            <th><?php echo $this->translate("Vials Pcs") ?></th>
+                                            <th><?php echo $this->translate("Doses") ?></th>
+                                        </tr>
+                                    </thead>
+                                    <!-- // Table heading END -->
+
+                                    <!-- Table body -->
+                                    <tbody>
+                                        <!-- Table row -->
+                                        <?php
+                                        $i = 1;
+                                        if ($this->result && count($this->result) > 0) :
+                                            foreach ($this->result as $row):
+                                                // batch_id|placement_loc_id|vvm_stage_id|qty, batch_id|placement_loc_id|vvm_stage_id|qty,batch_id|placement_loc_id|vvm_stage_id|qty
+
+                                                $placement_detail = $row['batchId'] . '|' . $row['itemName'] . '|' . $row['number'] . '|' . $row['expiryDate'] . '|' . $row['quantity'];
+                                                ?>
+                                                <tr class="gradeX">
+                                                    <td class="center"><?php echo $i; ?></td>
+                                                    <td><?php echo date("d/m/Y", strtotime($row['transactionDate'])); ?></td>
+                                                    <td><a onclick="window.open('print-receive?id=<?php echo $row['pkId']; ?>', '_blank', 'scrollbars=1,width=860,height=595');" href="javascript:void(0);"><?php echo $row['transactionNumber']; ?></a></td>
+                                                    <td><?php echo $row['warehouseName']; ?></td>
+                                                    <td><?php echo $row['transactionReference']; ?></td>
+                                                    <td><?php echo $row['itemName']; ?></td>
+                                                    <td><?php echo $row['number']; ?></td>
+                                                    <td><?php echo $row['stakeholderName']; ?></td>
+                                                    <td class="right"><?php echo number_format($row['quantity']); ?></td>
+                                                    <td><?php echo number_format($row['quantity'] * $row['description']) ?></td>
+                                                    <td><?php echo number_format($row['description']); ?></td>
+                                                    <td><?php echo $row['itemUnitName']; ?></td>                                                    
+                                                    <td><?php echo date("d/m/Y", strtotime($row['expiryDate'])); ?></td>
+                                                    <td><?php echo $row['createdDate']; ?></td>
+                                                    <td style="text-align:center;">
+                                                        <?php
+                                                        if ($this->role_id != 23) {
+                                                            $is_rec_delete = $this->isReceiveDelete($row['detailId']);
+                                                            ?>
+                                                                              <!-- <a itemid="<?php //echo $row['detailId']     ?>" class="btn stock-placement btn-link btn-success btn-mini" data-toggle="modal" href="#modal-stock-placement"><?php //echo $this->translate("Placement")     ?></a>&nbsp; -->
+                                                            <?php if ($is_rec_delete == 'DIRECT_DELETE') { ?>   <a data-toggle="notyfy" id="<?php echo $row['detailId']; ?>" data-type="confirm" data-layout="top" class="fa fa-times cursor-hand"></a> <?php } ?>
+                                                                              <!-- <?php //if ($this->isReceiveEdit($row['detailId'],$this->wh_id)) {                 ?>| <a id="<?php //echo $row['detailId'];                 ?>-stockedit" class="fa fa-edit cursor-hand"></a> <?php //}                 ?> -->
+                                                                              <!--<a id="<?php echo $row['detailId']; ?>-stockedit" class="fa fa-edit cursor-hand"></a> -->
+
+                                                            <?php //if ($is_rec_delete == 'CUSTOME_DELETE') { ?> 
+            <!--                                                                <a id="<?php //echo $row['detailId'];  ?>" pkid="<?php //echo $placement_detail;  ?>" class="placement-detail"  data-toggle="modal" title="Placement Info" href="#modal-placement-detail">
+                                                                                <i class="fa fa-times cursor-hand">  </i>   
+                                                                            </a>-->
+                                                            <?php //} ?>
+                                                        <?php } ?>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                $i++;
+                                            endforeach;
+                                        endif;
+                                        ?>
+                                        <!-- // Table row END -->
+                                    </tbody>
+                                    <!-- // Table body END -->
+                                </table>
+                                <!-- // Table END -->
+                                <!---->
+                                <?php if (count($this->result) > 0) { ?>
+                                    <div class="right" style="float:right;">
+                                        <b><?php echo $this->translate("Detail"); ?>: </b>
+                                        <input type="radio" name="groupBy" id="none" value="none" checked="checked" /> <?php echo $this->translate("None"); ?>
+                                        <input type="radio" name="groupBy" id="loc" value="loc" /> <?php echo $this->translate("Location wise"); ?>
+                                        <input type="radio" name="groupBy" id="prod" value="prod" /> <?php echo $this->translate("Product wise"); ?>
+                                        <button id="print_vaccine_receive" type="button" class="btn btn-warning"><?php echo $this->translate("Print"); ?></button>
+                                    </div>
+                                    <div class="left" style="float:left">
+                                        <b><?php echo $this->translate("Summary"); ?>: </b>
+                                        <input type="radio" name="summary" id="prod" value="prod" checked="checked" /> <?php echo $this->translate("Product Wise"); ?>
+                                        <input type="radio" name="summary" id="loc" value="loc" /> <?php echo $this->translate("Location wise"); ?>
+                                        <button id="print_vaccine_summary" type="button" class="btn btn-warning"><?php echo $this->translate("Print"); ?></button>
+                                    </div>
+                                <?php } ?>
+                                <div class="right">
+                                    <button type="button" style=" visibility: hidden;" id="print_stock" class="btn btn-warning input-sm"><?php echo $this->translate("Print") ?></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- // Content END -->
+
+<!-- Modal -->
+<form method="post" action="<?php echo $this->baseUrl(); ?>/stock/delete-batch-placement" id="form-delete-placement">
+    <div class="modal fade" id="modal-placement-detail" tabindex="-1" role="basic" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3>Delete Batch Placement</h3>
+                </div>
+                <div class="modal-body" id="modal-body-contents">
+
+                </div>
+                <div class="modal-footer " id="update-button">
+                    <input id="delete-placement" class="btn btn-primary" type="submit" value="<?php echo $this->translate("Delete"); ?>">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- End Modal -->

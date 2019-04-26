@@ -1,0 +1,14 @@
+<?php
+/**
+*  phtml for Locations Combos For Div
+*/
+?>
+<?php if ($this->result != false) { ?>
+    <option value=""><?php echo $this->translate("Select"); ?></option>
+    
+    <?php foreach ($this->result as $row) {
+        ?>
+        <option value="<?php echo $row['key']; ?>" <?php if (!empty($this->div_id) && $row['key'] == $this->div_id) echo 'selected'; ?>>
+            <?php echo $row['value']; ?></option>
+    <?php }
+} ?>

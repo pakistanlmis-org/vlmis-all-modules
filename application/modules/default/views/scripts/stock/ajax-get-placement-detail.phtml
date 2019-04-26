@@ -1,0 +1,80 @@
+<?php
+/**
+*  phtml for Ajax Get Placment Detail
+*/
+?>
+<div class="scroller" style="min-height:200px" data-always-visible="1" data-rail-visible1="1">
+    <strong>Product : </strong><?php echo $this->array_data['1']; ?>,&nbsp;&nbsp;&nbsp;<strong>Batch No : </strong> <?php echo $this->array_data['2']; ?>,&nbsp;&nbsp;&nbsp;<strong>Expiry : </strong><?php echo date("d/m/Y", strtotime($this->array_data['3'])); ?>,&nbsp;&nbsp;&nbsp;
+    <br><strong>Qty Received: </strong><?php echo $this->array_data['4']; ?>
+    <input type="hidden" name="qty-r" id="qty-r" value="<?php echo $this->array_data['4']; ?>">
+    <input type="hidden" name="id" id="id" value="<?php echo $this->id; ?>">
+    <br>
+    <?php
+    $batch_id = $this->array_data['0'];
+    $qty_received = $this->array_data['4'];
+    ?>
+    <table class="table table-striped table-bordered table-hover table-full-width" id="sample_2">
+        <!-- Table heading -->
+        <thead>
+            <tr>
+                <th><?php echo $this->translate("Sr No"); ?></th>
+                <th><?php echo $this->translate("Location"); ?></th>
+                <th><?php echo $this->translate("VVM Stage"); ?> </th>
+                <th><?php echo $this->translate("Qty (Vials)"); ?></th>
+                <th><?php echo $this->translate("Qty to be deleted"); ?></th>
+            </tr>
+        </thead>
+        <!-- // Table heading END -->
+
+        <!-- Table body -->
+        <tbody>
+        <form id="form-delete-placement">
+
+            <?php
+            if (!empty($this->data) && count($this->data) > 0) {
+                $i = 1;
+                $total = 0;
+                $placement_details = "";
+                foreach ($this->data as $row) {
+                    // batch_id|placement_loc_id|vvm_stage_id|qty, batch_id|placement_loc_id|vvm_stage_id|qty,batch_id|placement_loc_id|vvm_stage_id|qty
+                    $placement_details = $row['batch_id'] . "|" . $row['place_loc_id'] . "|" . $row['vvm_stage_id'];
+                    ?>
+                    <!-- Table row -->
+                    <tr class="gradeX">
+                        <td class="center"><?php echo $i; ?></td>
+                        <td><?php echo $row['asset_id']; ?></td>
+                        <td class="center"><?php echo $row['vvm_stage']; ?></td>
+                        <td class="right"><?php echo number_format($row['quantity']); ?></td>
+                        <td><input id="<?php echo $i; ?>-qty-del" data-aqty="<?php echo $row['quantity']; ?>" data-bid="<?php echo $row['batch_id']; ?>" data-locid="<?php echo $row['place_loc_id']; ?>" data-vvmid="<?php echo $row['vvm_stage_id']; ?>" class="form-control input-sm" type="text" value="0" name="qtydel[<?php echo $i; ?>]">
+                            <input type="hidden" name="rowinfo[<?php echo $i; ?>]" value="<?php echo $placement_details; ?>"/>
+                        </td>
+                    </tr>
+                    <?php
+                    $total += $row['quantity'];
+                    $i++;
+                }
+                ?>
+                <!-- // Table row END -->
+            </form>
+            </tbody>
+            <!-- // Table body END -->
+            <tfoot>
+                <tr>
+                    <th class="right" colspan="3"><?php echo $this->translate("Total:"); ?></th>
+                    <th class="right"><?php echo number_format($total); ?></th>
+                </tr>
+            </tfoot>
+            <?php
+        } else {
+            ?>
+            <tfoot>
+                <tr class="gradeX center">
+                    <th colspan="4" class="center">No Record Found</th>
+                </tr>
+            </tfoot>
+            <?php
+        }
+        ?>
+    </table>
+    <div style="clear: both;"></div>
+</div>

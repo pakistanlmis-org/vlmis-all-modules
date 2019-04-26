@@ -1,0 +1,86 @@
+Items:
+  type: entity
+  table: items
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    description:
+      type: text
+      nullable: true
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: true
+      column: modified_date
+    packVolume:
+      type: float
+      nullable: true
+      column: pack_volume
+    dosesPerYear:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: doses_per_year
+    packDiluentVolume:
+      type: float
+      nullable: true
+      column: pack_diluent_volume
+    targetPopulationFactor:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: target_population_factor
+    itemCategoryId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: item_category_id
+    multiplier:
+      type: integer
+      unsigned: false
+      nullable: true
+    wastageRateAllowed:
+      type: float
+      nullable: true
+      column: wastage_rate_allowed
+    populationPercentIncreasePerYear:
+      type: float
+      nullable: true
+      column: population_percent_increase_per_year
+    childSurvivingPercentPerYear:
+      type: float
+      nullable: true
+      column: child_surviving_percent_per_year
+    childSurvivingPercentTillSecondYear:
+      type: float
+      nullable: true
+      column: child_surviving_percent_till_second_year
+  oneToOne:
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

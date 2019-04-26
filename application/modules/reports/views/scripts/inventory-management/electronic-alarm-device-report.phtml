@@ -1,0 +1,292 @@
+
+<style>
+    table#myTable{margin-top:20px;border-collapse: collapse;border-spacing: 0; border:1px solid #999;}
+    table#myTable tr td{font-size:11px;padding:3px; text-align:left; border:1px solid #999;}
+    table#myTable tr th{font-size:11px;padding:3px; text-align:center; border:1px solid #999;}
+    table#myTable tr td.TAR{text-align:right; padding:5px;width:50px !important;}
+    .sb1NormalFont {
+        color: #444444;
+        font-size: 11px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    p{margin-bottom:5px; font-size:11px !important; line-height:1 !important; padding:0 !important;}
+    table#headerTable tr td{ font-size:11px;}
+
+    /* Print styles */
+    @media only print
+    {
+        table#myTable tr th{font-size:8px;padding:3px !important; text-align:center; border:1px solid #999;}
+        table#myTable tr td{font-size:8px;padding:3px !important; text-align:left; border:1px solid #999;}
+        #doNotPrint{display: none !important;}
+    }
+</style>
+
+<?php
+/**
+ *  phtml for shipment scenario
+ */
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Vaccine Arrival Report"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table width="200" id="headerTable" align="right">
+
+                                    <tr>
+                                        <td align="left"><p style="width: 100%; display: table;"> <span style="display: table-cell; width: 75px;">Country: </span> <span style="display: table-cell; border-bottom: 1px solid black;"></span> </p></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><p style="width: 100%; display: table;"> <span style="display: table-cell; width: 75px;">Report Date: </span> <span style="display: table-cell; border-bottom: 1px solid black;"></span> </p></td>
+                                    </tr>
+
+
+
+                                </table>
+                                </br>
+                                </br>
+                                <table width="100%" id="myTable" cellspacing="0" align="center">
+
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                Type of device
+                                            </td>
+                                            <td>
+                                                Q-tage 2 plus <input type="checkbox"></br>
+                                                Spytemp || OMS <input type="checkbox"></br>
+                                                3M TX01/02 <input type="checkbox">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Type of Vaccine
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+                                </br>
+
+                                <table width="100%" id="myTable" cellspacing="0" align="center">
+                                    <thead>
+                                        <tr>
+                                            <td rowspan="2" class="center" >
+                                                Box number
+                                            </td>
+                                            <td rowspan="2" class="center">
+                                                Serial number
+                                            </td>
+                                            <td rowspan="2"  class="center">
+                                                Time stopped
+                                            </td>
+                                            <td rowspan="2" class="center">
+                                                Elapsed transit time
+                                            </td>
+                                            <td colspan="2"  class="center">
+                                                >= 45c 1 hour
+                                            </td>
+                                            <td colspan="2"  class="center">
+                                                >= 30c 10 hours
+                                            </td>
+                                            <td colspan="2"  class="center">
+                                                >= 10c 20 hours
+                                            </td>
+                                            <td colspan="2"  class="center">
+                                                >= 0.9c 1 hour
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                            <td  >
+                                                Time
+                                            </td>
+                                            <td  >
+                                                C
+                                            </td>
+
+                                            <td  >
+                                                Time
+                                            </td>
+                                            <td  >
+                                                C
+                                            </td>
+                                            <td  >
+                                                Time
+                                            </td>
+                                            <td  >
+                                                C
+                                            </td>
+                                            <td  >
+                                                Time
+                                            </td>
+                                            <td  >
+                                                C
+                                            </td>
+
+
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+
+
+
+                                        </tr>
+
+                                        <tr>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td >
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+
+
+
+                                        </tr>
+
+
+
+                                    </tbody>
+
+                                </table>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>

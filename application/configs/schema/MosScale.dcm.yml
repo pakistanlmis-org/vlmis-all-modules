@@ -1,0 +1,98 @@
+MosScale:
+  type: entity
+  table: mos_scale
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    shortTerm:
+      type: string
+      length: 5
+      fixed: false
+      nullable: true
+      column: short_term
+    longTerm:
+      type: string
+      length: 30
+      fixed: false
+      nullable: true
+      column: long_term
+    scaleStart:
+      type: float
+      nullable: true
+      column: scale_start
+    scaleEnd:
+      type: float
+      nullable: true
+      column: scale_end
+    extra:
+      type: string
+      length: 10
+      fixed: false
+      nullable: true
+    colorCode:
+      type: string
+      length: 30
+      fixed: false
+      nullable: true
+      column: color_code
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: false
+      column: modified_date
+  oneToOne:
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    item:
+      targetEntity: ItemPackSizes
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        item_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    stakeholder:
+      targetEntity: Stakeholders
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        stakeholder_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    geoLevel:
+      targetEntity: GeoLevels
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        geo_level_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

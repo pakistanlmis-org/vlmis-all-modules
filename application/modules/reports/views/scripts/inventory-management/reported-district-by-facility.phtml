@@ -1,0 +1,214 @@
+<?php
+/**
+*  phtml for Reported District by Facility
+*/
+?>
+<?php
+$sel_month = $this->month_sel;
+$sel_year = $this->year_sel;
+$counter = 1;
+
+$sel_stk = $this->in_stk;
+$sel_prov = $this->province;
+$sel_dist = $this->district;
+$sel_tehsil = $this->tehsil;
+$wh_type = $this->wh_type;
+$sel_indicator = $this->sel_indicator;
+$in_col = $this->in_col;
+$in_rg = $this->in_rg;
+$in_type = $this->in_type;
+$stk_sel = $this->stk_sel;
+$start_date = $this->start_date;
+$end_date = $this->end_date;
+$period = $this->period;
+$str_indicator = $this->str_indicator;
+
+
+$data_arr = array();
+// Headers of the Grid
+if ($wh_type == 2) {
+    $header = 'District Id,District,Total Facilities';
+} else {
+    $header = 'Tehsil Id,Tehsil/Town,Total Facilities';
+}
+
+$header1 = '#rspan,#rspan,#rspan';
+$cspan = '';
+$width = '50,*,60';
+$ro = 'ro,ro,ro';
+
+foreach ($period as $date) {
+    $cspan .= ',#cspan,#cspan';
+    $header .= ',<span>' . $date->format("M-y") . '</span>,#cspan';
+    $monthArr[] = $date->format("m-Y");
+    $width .= ',60,60';
+    $ro .= ',ro,ro';
+    $header1 .= ',<span>Reported HFs</span>,#cspan';
+}
+
+$query = $this->reports()->getReportedDistrictsByFacility($wh_type, $sel_prov, $sel_dist);
+
+foreach ($query as $row) {
+    $data_arr[$row['districtId']][] = $row['districtName'];
+    $data_arr[$row['districtId']][] = $row['totalWH'];
+    $count = 2;
+    foreach ($period as $date) {
+        $data_arr[$row['districtId']][$count] = 0;
+        $count++;
+    }
+}
+
+$count = 2;
+foreach ($period as $date) {
+    $date_in = $startDate = $endDate = $date->format("Y-m");
+    $query2 = $this->reports()->getReportedDistrictsByFacility1($wh_type, $sel_prov, $sel_dist, $date_in);
+
+    foreach ($query2 as $row) {
+        $data_arr[$row['districtId']][$count] = $row['reported'];
+    }
+    $count++;
+}
+
+$s_date = $this->start_date;
+$e_date = $this->end_date;
+$xml_store = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+$xml_store .= "<rows>";
+
+$sum_arr = array();
+
+foreach ($data_arr as $dis_id => $sub_arr) {
+
+    $xml_store .= "<row>";
+
+    $param1 = base64_encode($wh_type . '|' . $sub_arr[0] . '|' . $s_date . '|' . $e_date . '|' . $dis_id . '|' . $sub_arr[1] . '|' . '3');
+
+    $xml_store .= "<cell>$dis_id</cell>";
+    $xml_store .= "<cell><![CDATA[<a href=javascript:showGraph('$param1')>$sub_arr[0]</a>]]>^_self</cell>";
+    $xml_store .= "<cell style=\"text-align:right\">$sub_arr[1]</cell>";
+    foreach ($sub_arr as $key => $value) {
+        if (!isset($sum_arr[$key])) {
+            $sum_arr[$key] = 0;
+        }
+        $sum_arr[$key] += $value;
+
+        if ($key > 1) {
+            $param = base64_encode($wh_type . '-' . $dis_id . '-' . $monthArr[$key - 2]);
+            $xml_store .= "<cell style=\"text-align:right\"><![CDATA[<a href=javascript:functionCall('$param')>$value</a>]]>^_self</cell>";
+            $xml_store .= "<cell style=\"text-align:right\">" . @round(($value / $sub_arr[1]) * 100) . " %</cell>";
+        }
+    }
+    $xml_store .="</row>";
+}
+
+// To show Total
+array_shift($sum_arr);
+
+$xml_store .= "<row>";
+$xml_store .= "<cell></cell>";
+$xml_store .= "<cell style=\"font-weight:bold\">Total</cell>";
+foreach ($sum_arr as $key => $value) {
+    if ($key == 0) {
+        $total_wh = $value;
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+    } else {
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">$value</cell>";
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($value / $total_wh) * 100) . " %</cell>";
+    }
+}
+
+$xml_store .="</row>";
+
+$xml_store .="</rows>";
+
+?>
+
+<?php
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $report_title . ' ' . $report_month . ' ' . $sel_year; ?></h3>
+        <div class="innerLR">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php
+                        echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('inventory-management/reports-header.phtml') ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td style="text-align:right; padding-bottom:10px;">
+                        <img style="cursor:pointer;" src="<?php echo $this->baseUrl(); ?>/images/pdf-32.png" onClick="mygrid.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="<?php echo $this->translate("Export to PDF"); ?>"/>&nbsp;&nbsp;
+                        <img style="cursor:pointer; margin-left:-5px" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="mygrid.setColumnHidden(0, false);
+                                mygrid.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');
+                                mygrid.setColumnHidden(0, true);" title="<?php echo $this->translate("Export to Excel"); ?>" />
+                    </td>
+                </tr>
+            </table>
+
+            <table width="99%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <div id="mygrid_container" style="width:100%; height:510px;">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    var mygrid;
+    function doInitGrid() {
+        mygrid = new dhtmlXGridObject('mygrid_container');
+        mygrid.selMultiRows = true;
+        mygrid.setImagePath(
+                "<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+        //mygrid.setHeader("Province,Consumption,AMC,On Hand,MOS,#cspan");
+        mygrid.setHeader(",<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'><?php echo $this->report_title . " As on(" . date('F', mktime(0, 0, 0, $this->month_sel)) . '-' . $this->year_sel; ?>)<?php echo $cspan; ?>,#cspan");
+        mygrid.attachHeader("<?php echo $header; ?>");
+        mygrid.attachHeader("<?php echo $header1; ?>");
+        mygrid.setInitWidths("<?php echo $width; ?>");
+        //mygrid.setColAlign("left,right,right,right,right,right,right,right,right,right,right,right,right");
+        //mygrid.setColSorting("str,int");
+        mygrid.setColTypes("<?php echo $ro; ?>");
+        mygrid.setColumnHidden(0, true);
+        mygrid.setColumnHidden(0, true);
+        mygrid.enableRowsHover(true, 'onMouseOver');
+        mygrid.setSkin("light");
+        mygrid.init();
+        mygrid.clearAll();
+        $('body').append('<textarea id="xml_string" style="display:none;"><?php echo addslashes($xml_store); ?></textarea>');
+        mygrid.loadXMLString(document.getElementById('xml_string').value);
+    }
+
+    function functionCall(param) {
+        var width = 1002;
+        var height = 595;
+        var x = (screen.width / 2) - (width / 2);
+        var y = (screen.height / 2) - (height / 2);
+        window.open('reported-warehouse-list?param=' + param, '_blank', 'scrollbars=1,width=' + width + ',height=' + height + ',left=' + x + ',top=' + y);
+    }
+
+    function showGraph(param) {
+        window.open('<?php echo $this->baseUrl(); ?>/reports/graphs/reported-districts?param=' + param, '_blank', 'scrollbars=1,width=950,height=600');
+    }
+    var whType = <?php echo $wh_type; ?>;
+    var province = <?php echo $sel_prov; ?>;
+    var district = <?php echo $sel_dist; ?>;
+    var tehsil = <?php echo $sel_tehsil; ?>;
+</script>
+

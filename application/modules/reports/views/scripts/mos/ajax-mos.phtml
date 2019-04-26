@@ -1,0 +1,210 @@
+<?php
+/**
+ *
+ */
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo 'Month of Stocks'; ?></h3>
+        <span>            <ul class="nav navbar-nav report-tab">
+                <li>
+                    <span>MOS Legends:</span>
+                </li>
+                <li>
+                    Unknown
+                    <div style="display:inline-block;width:10px; height:11px; background-color:#eee;margin-left:5px;"></div>
+                </li>
+                <li>Stock Out (0-0.99 months)<div style="display:inline-block;width:10px; height:11px; background-color:#f5b7b1;margin-left:5px;"></div></li>
+                <li>Under Stock (1-2.99 months)<div style="display:inline-block;width:10px; height:11px; background-color:#f9e79f;margin-left:5px;"></div></li>
+                <li>Satisfactory (3-5.99 months)<div style="display:inline-block;width:10px; height:11px; background-color:#58d68d;margin-left:5px;"></div></li>
+                <li>Over Stock (6-infinity months)<div style="display:inline-block;width:10px; height:11px; background-color:#d4e6f1;margin-left:5px;"></div></li>
+            </ul></span>
+        <div class="innerLR">
+
+
+            <div class="col-md-12 right">
+
+                <img src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="tableToExcel('export', 'sheet 1', 'MOS')" alt="Excel" style="cursor:pointer;" />
+            </div>
+            <div class="row">
+                <div class="col-md-9"></div>
+                <div class="col-md-3 right">
+                    <div data-toggle="buttons" class="btn-group btn-group-justified">
+                        <label class="btn blue">
+                            <input type="radio" class="toggle" value="1"> Stock Out</label>
+                        <label class="btn blue active">
+                            <input type="radio" class="toggle" value="2"> Detail </label>
+                    </div>
+
+                </div>
+            </div>
+            <?php
+            /**
+             *  phtml for Priority Vaccines Distribution Detail Print
+             */
+            ?>
+            <!-- Content -->
+            <style>
+                #content_print {
+                    margin-left: 50px;
+                    width: 100%;
+                }
+                table.mytable {
+                    border: 1px solid grey;
+                    font-size: 9pt;
+                    width: 100%;
+                }
+                table.mytable tr td {
+                    border: 1px solid grey;
+
+                    padding-left: 5px;
+                }
+                table.mytable tr th {
+                    border: 1px solid grey;
+                }
+            </style>
+            <!-- Content -->
+
+            <style type="text/css" media="print">
+                .page{
+                    -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+                    filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+                }
+                @media print{    
+                    #printButt{
+                        display: none !important;
+                    }
+                }
+            </style>
+
+
+            <br>  
+            <div class="row" id="export">
+                <div class="col-md-12 col-sm-12">
+
+                    <?php
+                    $base_url = Zend_Registry::get("baseurl");
+                    ?>
+                    <table class="table table-bordered table-condensed" id="priority-vaccine-distribution">
+                        <thead>
+                            <tr style="background-color: #026002; color: #fff;">
+
+                                <th style="width:3%;">Vaccine</th>
+                                <th style="width:3%;">Store</th>
+                                <th style="width:3%;">SOH</th>
+                                <th style="width:3%;">AMC</th>
+                                <th style="width:3%;">MOS</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $count = 1;
+                            $total_soh = 0;
+                            $total_amc = 0;
+                            if (count($this->dd1) > 0) {
+                                foreach ($this->dd1 as $res) {
+                                    ?>
+                                    <tr >
+                                        <?php if ($res['province'] == '8') {
+                                            ?>
+                                            <td rowspan="8"><?php echo $res['item_name']; ?></td>
+                                        <?php } ?>
+                                        <?php
+                                        $m_mos = Round($res['soh'] / $res['amc']);
+                                        if ($m_mos >= 0 && $m_mos <= 0.99) {
+                                            $color = 'style="width:10px; height:12px; background-color:#f5b7b1;"';
+                                        } else if ($m_mos >= 3 && $m_mos <= 5.99) {
+                                            $color = 'style="width:10px; height:12px; background-color: #58d68d ;"';
+                                        } else if ($m_mos >= 1 && $m_mos <= 2.99) {
+                                            $color = 'style="width:10px; height:12px; background-color: #f9e79f ;"';
+                                        } else if ($m_mos >= 6 && $m_mos <= 99999) {
+                                            $color = 'style="width:10px; height:12px; background-color: #d4e6f1 ;"';
+                                        } else if ($m_mos < 0) {
+                                            $color = 'style="width:10px; height:12px; background-color:#eee;"';
+                                        } else {
+                                            $color = 'style="width:10px; height:12px; background-color:#eee;"';
+                                        }
+                                        ?>
+                                        <td ><?php
+                                if ($res['province'] == '8') {
+                                    echo 'Federal EPI (Warehouse)';
+                                            ?>
+                                                <a class="btn default btn-xs green-stripe detail">1 store</a>
+                                            <?php
+                                            } else if ($res['province'] == "Punjab") {
+                                                echo $res['province'];
+                                                ?>
+                                                <a class="btn default btn-xs green-stripe detail">2 stores</a> 
+                                            <?php
+                                            } else {
+                                                echo $res['province'];
+                                                ?>  <a class="btn default btn-xs green-stripe detail">1 store</a>
+                                            <?php }
+                                            ?></td>
+                                        <td <?php echo $color; ?>><?php
+                                    echo number_format($res['soh']);
+                                    if ($res['province'] == "Khyber Pakhtunkhwa") {
+                                                ?>
+                                                <i id="reference_tooltip" data-container="body" data-original-title="From EPI-MIS" class="fa fa-warning tooltips"></i>
+                                            <?php
+                                            }
+                                            if ($res['soh'] > 0) {
+                                                $total_soh += $res['soh'];
+                                            }
+                                            ?></td>
+                                        <td <?php echo $color; ?>><?php
+                                            echo number_format($res['amc']);
+                                            if ($res['amc'] > 0) {
+                                                $total_amc += $res['amc'];
+                                            }
+                                            ?></td>
+                                        <td <?php echo $color; ?>>
+
+                                            <?php
+                                            echo Round($res['soh'] / $res['amc']);
+                                            ?>
+                                        </td>
+
+                                    </tr>
+                                    <?php if ($res['province'] == 'Sindh') { ?>
+                                        <tr >
+                                            <td colspan="2" align="right" class="bold" style="background-color: #2980b9;color: white; ">Total</td>
+
+
+
+
+                                            <td class="bold" style="background-color: #2980b9; color: white; "><?php echo number_format($total_soh); ?></td>
+                                            <td class="bold" style="background-color: #2980b9; color: white; "><?php echo number_format($total_amc); ?></td>
+                                            <td class="bold" style="background-color: #2980b9; color: white;"><?php
+                                                echo Round($total_soh / $total_amc);
+                                                ?></td>
+                                        </tr>
+                                        <?php
+                                        $total_amc = 0;
+                                        $total_soh = 0;
+                                    }
+                                    ?>
+                                    <?php
+                                    $count++;
+                                }
+                            } else {
+                                ?>
+                                <tr>
+                                    <td colspan="8" style="text-align:center">No data found</td>
+
+                                </tr>
+<?php } ?>
+                        </tbody>
+                    </table>
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+

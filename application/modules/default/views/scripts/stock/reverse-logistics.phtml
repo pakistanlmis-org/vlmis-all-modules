@@ -1,0 +1,105 @@
+<?php
+/**
+ *  phtml for Reverse Logistics
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <?php $label = "Reverse Logistics"; ?>
+        <h3 class="page-title"><?php echo $this->translate($label); ?></h3>
+        <?php if (!empty($this->msg)) { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert <?php echo $this->msg_class; ?>">
+                        <button data-dismiss="alert" class="close" type="button">
+                            ×
+                        </button>
+                        <?php echo $this->msg; ?>
+                    </div>                                
+                </div>
+            </div>
+        <?php } ?>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Filters"); ?>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <form method="POST" id="reverse_batch" name="reverse_batch" action="" >
+                            <!-- Row -->
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label class="control-label" for="healthfacilities">
+                                            <?php echo $this->translate("Health Facilities"); ?> <span class="red">*</span>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->healthfacilities; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label class="control-label" for="product">
+                                            <?php echo $this->translate("Product"); ?> <span class="red">*</span>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->product; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label class="control-label" for="batch">
+                                            <?php echo $this->translate("Batch"); ?> <span class="red">*</span>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->batch; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label class="control-label" for="expiry_date">
+                                            <?php echo $this->translate("Expiry Date"); ?> <span class="red">*</span>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->expiry_date; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label class="control-label" for="quantity">
+                                            <?php echo $this->translate("Quantity"); ?> <span class="red">*</span>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->quantity; ?>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label class="control-label">&nbsp;</label>
+                                        <div class="controls">
+                                            <button type="submit" class="btn btn-primary btn-md" id="reveive">Receive</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>    
+                            <input type="hidden" id="batch_id" name="batch_id" value="" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- // Content END -->

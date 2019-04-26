@@ -1,0 +1,224 @@
+<?php
+/**
+ *  phtml for Search Ice Pack
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"> <?php echo $this->translate("Cold Chain") ?></h3>
+        <button class="btn red btn-xs" type="button" title="Click here" id="last-updated" pkId="4">Last Updated</button>
+        <span id="l_update"> </span>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Ice Pack Search") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="batch_search" action="" id="batch_search">
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="firstname"> <?php echo $this->translate("Make") ?></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->ccm_make_id; ?>
+                                                    <div class="col-md-1" id="loader_make" style="display:none;">
+                                                        <img src="<?php echo Zend_Registry::get('baseurl'); ?>/images/loader-mini.gif" style="margin-top:8px; float:left" alt="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="number"><?php echo $this->translate("Model") ?></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->ccm_model_id; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="control-label" for=""></label>
+                                            <div class="control-group" id="placed_at_radio">
+                                                <label class="control-label" for="placedat">
+                                                    <?php echo $this->translate('Placed at'); ?>
+                                                </label>
+                                                <div class="widget-body uniformjs">
+                                                    <?php echo $this->form->placed_at; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <?php $this->allLevelCombo(); ?>
+                                        </div>        
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 pull-right" style="margin-top: 10px;">
+                                            <div class="form-group">
+                                                <button class="btn btn-primary" type="submit" id="search" name="search"><?php echo $this->translate('Search'); ?></button>
+                                                <button id="reset" class="btn btn-info" type="reset"><?php echo $this->translate('Reset'); ?></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php echo $this->form->office_id; ?>
+                                    <?php echo $this->form->combo1_id; ?>
+                                    <?php echo $this->form->warehouse_id; ?>
+                                    <?php echo $this->form->model_id; ?>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Ice Pack Search") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-6" >
+                                <div class="control-group" id="report_type_radio">
+                                    <label class="control-label" for="report_type">
+                                        <?php echo $this->translate('Report Tpe'); ?>
+                                    </label>
+                                    <div class="widget-body uniformjs" id="report_type_radio">
+                                        <?php echo $this->form->report_type; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="details_div">
+                            <div class="col-md-12">
+                                <!-- Table -->
+
+                                <table class="table table-striped table-bordered table-condensed" id="sample_2">
+                                    <thead>
+                                        <tr>
+                                            <th><?php echo $this->translate("S.No") ?></th>
+                                            <th><?php echo $this->translate("District") ?></th>
+                                            <th><?php echo $this->translate("Facility") ?></th>
+                                            <th><?php echo $this->translate("Make") ?></th>
+                                            <th><?php echo $this->translate("Model") ?></th>
+                                            <th><?php echo $this->translate("Quantity") ?></th>
+                                            <th><?php echo $this->translate("Date") ?></th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        if ($this->ice_pack_search && count($this->ice_pack_search) > 0) {
+                                            $i = 1;
+                                            foreach ($this->ice_pack_search as $row) {
+                                                ?>
+                                                <tr>
+                                                    <td class="center"><?php echo $i; ?></td>
+                                                    <td><?php echo (($row['locationName'] == "") ? '-' : $row['locationName']); ?></td>
+                                                    <td><?php echo (($row['warehouseName'] == "") ? '-' : $row['warehouseName']); ?></td>
+                                                    <td><?php echo $row['ccmMakeName']; ?></td>
+                                                    <td><?php echo $row['ccmModelName']; ?></td>
+                                                    <td><?php echo $row['quantity']; ?></td>
+                                                    <td><?php echo (($row['createdDate'] == "0000-00-00 00:00:00") ? '-' : App_Controller_Functions::dateToUserFormat($row['createdDate'])); ?></td>
+                                                    <td class="center"><a class="fa fa-files-o cursor-hand" onclick="javascript:void(0);" id="<?= $row['pkId'] ?>print_button" title="<?php echo $this->translate("View more details"); ?>" target="_blank"></a></td>
+                                                </tr>
+                                                <?php
+                                                $i++;
+                                            }
+                                        }
+                                        ?>
+
+                                    </tbody>
+                                </table>
+
+
+                                <?php
+                                //if ($this->ice_pack_search && count($this->ice_pack_search) > 0) :
+                                //echo $this->paginationControl($this->paginator, 'Sliding', 'cold-chain/paginator.phtml');
+                                //endif;
+                                ?>
+
+                            </div>
+                        </div>
+                        <!-- //End Details Div  -->
+
+                        <div class="row hidden" id="summary_div">
+                            <div class="col-md-12">
+                                <!-- Table -->
+                                <table class="icePackSearch table table-striped table-bordered table-condensed" id="sample_2">
+
+                                    <!-- Table heading -->
+                                    <thead>
+                                        <tr>
+                                            <th><?php echo $this->translate("Store") ?></th>
+                                            <th><?php echo $this->translate("Cold Chain Type") ?></th>
+                                            <th><?php echo $this->translate("Quantity"); ?></th>
+                                        </tr>
+                                    </thead>
+                                    <!-- // Table heading END -->
+
+                                    <!-- Table body -->
+                                    <tbody>
+                                        <!-- Table row -->
+                                        <?php
+                                        $i = 1;
+                                        if ($this->ice_pack_search && count($this->ice_pack_search) > 0) :
+                                            foreach ($this->ice_pack_search as $row):
+                                                ?>
+                                                <tr >
+                                                    <td><?= $row['warehouseName'] ?></td>
+                                                    <td><?= $row['assetTypeName'] ?></td>
+                                                    <td><?= $row['quantity'] ?></td>
+                                                </tr>
+                                                <?php
+                                                $i++;
+                                            endforeach;
+                                        endif;
+                                        ?>
+                                        <!-- // Table row END -->
+                                    </tbody>
+                                    <!-- // Table body END -->
+                                </table>
+                                <!-- // Table END -->
+
+
+                            </div>
+                        </div>
+                        <!-- //End Summary Div  -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // Content END -->

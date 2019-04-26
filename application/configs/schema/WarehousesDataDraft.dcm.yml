@@ -1,0 +1,73 @@
+WarehousesDataDraft:
+  type: entity
+  table: warehouses_data_draft
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    openingBalance:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: opening_balance
+    receivedBalance:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: received_balance
+    issueBalance:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: issue_balance
+    closingBalance:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: closing_balance
+    wastages:
+      type: integer
+      unsigned: false
+      nullable: true
+    vialsUsed:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: vials_used
+    adjustments:
+      type: integer
+      unsigned: false
+      nullable: true
+    reportingStartDate:
+      type: datetime
+      nullable: true
+      column: reporting_start_date
+    nearestExpiry:
+      type: datetime
+      nullable: true
+      column: nearest_expiry
+    itemPackSizeId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: item_pack_size_id
+    warehouseId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: warehouse_id
+    createdBy:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: created_by
+    modifiedDate:
+      type: datetime
+      nullable: false
+      column: modified_date
+  lifecycleCallbacks: {  }

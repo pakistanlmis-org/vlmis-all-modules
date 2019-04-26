@@ -1,0 +1,14 @@
+<?php
+/**
+*  phtml for Ajax Get Services Type
+*/
+?>
+<?php
+foreach ($this->result as $rs) {
+    ?>
+    <input type="checkbox" name='services_type[]' id='hf_type<?php echo $rs['pkId']; ?>' value='<?php echo $rs['pkId']; ?>' disabled="disabled" checked="checked">
+        <?php echo $rs['listValue']; ?>
+    <?php
+}
+?>
+    

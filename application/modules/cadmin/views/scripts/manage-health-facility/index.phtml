@@ -1,0 +1,292 @@
+<?php
+/**
+*  phtml for Index
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Manage Health Facility") ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Health Facility Search") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="health_facility_search" action="" >
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <?php $this->ucLevelCombo("Office", "3"); ?>
+                                        <?php echo $this->form->office_id; ?>
+                                        <?php echo $this->form->combo1_id; ?>
+                                        <?php echo $this->form->combo2_id; ?>
+                                        <?php echo $this->form->warehouse_id; ?>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 margin-top-25">
+                                            <label class="control-label" >&nbsp;</label>
+                                            <button class="btn btn-primary" type="submit" name="search"><?php echo $this->translate("Search") ?></button>
+                                            <button type="reset" class="btn btn-info" id="reset">Reset</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Health Facility List"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dataTables_wrapper form-inline">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <?php $this->recordsPerPage($this->counter); ?>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="dataTables_filter">
+                                                <label>
+                                                    <a class="btn btn-primary" data-toggle="modal" href="#modal-add-facility"><?php echo $this->translate("Add Health Facility") ?></a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table table-striped table-bordered table-condensed dataTable">
+                                        <!-- Table heading -->
+                                        <?php
+                                        $fields = array(
+                                            'routine_icepack_requirements' => 'Routine Immunization',
+                                            'snid_icepack_requirements' => 'SNID / NID',
+                                            'epi_vaccination_staff' => 'EPI Vaccination Staff',
+                                            'grid_electricity_ava' => 'Grid Electricity Avalability'
+                                        );
+                                        $this->tableHeading($this->order, $this->sort, $fields);
+                                        ?>
+                                        <!-- // Table heading END -->
+                                        <!-- Table body -->
+
+                                        <!-- // Table body END -->
+                                        <tbody>
+                                            <?php
+                                            $m_res = array();
+                                            $i = 1;
+                                            if ($this->paginator && count($this->paginator) > 0) :
+                                                foreach ($this->paginator as $row):
+                                                    ?>
+                                                    <tr class="<?php if ($i % 2 == 0) { ?>gradeX even<?php } else { ?> gradeA odd<?php } ?>">
+                                                        <td><?php echo $row['routineImmunizationIcepackRequirments']; ?></td>
+                                                        <td><?php echo $row['campaignIcepackRequirments']; ?></td>
+                                                        <td><?php echo $row['vaccination']; ?></td>
+                                                        <td><?php echo $row['electricity']; ?></td>
+                                                        <td><a itemid="<?php echo $row['pkId']; ?>" class="btn update-user btn-link btn-success btn-mini" data-toggle="modal" href="#modal-update-user"><?php echo $this->translate("Edit") ?></a>
+                                                            <!--       <a data-bind="<?php echo $row['pkId']; ?>" data-toggle="notyfy" data-type="confirm" data-layout="top" class="btn btn-danger btn-link btn-mini"><?php echo $this->translate("Delete") ?></a>
+                                                    </tr>-->
+                                                            <!-- // Table row END --><?php
+                                                            $i++;
+                                                        endforeach;
+                                                    endif;
+                                                    ?>
+                                        </tbody>
+                                    </table>
+                                    <?php echo $this->paginationControl($this->paginator, 'Sliding', 'paginator.phtml', array('params' => $this->pagination_params)); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/cadmin/manage-health-facility/add" id="add-user">
+            <div class="modal  fade" id="modal-add-facility" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Add Health Facility</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <?php $this->ucLevelCombo(); ?>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group" >
+                                        <label class="control-label" ><?php echo $this->translate("Type of Health Facility"); ?> <span class="red">*</span></label>
+                                        <?php echo $this->form_add->health_facility_type; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Types of Services Provided"); ?> <span class="red">*</span></label><br><br>
+                                        <?php
+                                        foreach ($this->services_type as $rs) {
+                                            ?>
+                                            <input type="checkbox" name='services_type[]' id='hf_type<?php echo $rs['pkId']; ?>' value='<?php echo $rs['pkId']; ?>'> <?php echo $rs['listValue']; ?><br />
+                                            <?php
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="form6-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Routine Immunization Ice Pack Requirements"); ?> <span class="red">*</span></label>
+                                        <?php echo $this->form_add->routine_immunization_ice_pack; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="form-group ">
+                                        <label class="control-label" ><?php echo $this->translate("SNID/NID Ice Pack Requirments"); ?> <span class="red">*</span></label>
+                                        <?php echo $this->form_add->snid_nid_ice_pack; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="clear:both;"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Vaccine Supply Mode"); ?> <span class="red">*</span></label>
+                                        <?php echo $this->form_add->vaccine_supply_mode; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <label class="control-label" ><?php echo $this->translate("EPI Vaccination Staff"); ?> <span class="red">*</span></label><br><br>
+                                        <?php
+                                        foreach ($this->epi_vaccination_staff as $rs) {
+                                            ?>
+                                            <input type="checkbox" name='epi_vaccination_staff[]' id='hf_type<?php echo $rs['pkId']; ?>' value='<?php echo $rs['pkId']; ?>'> <?php echo $rs['listValue']; ?><br />
+                                            <?php
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Grid Electricity Availability"); ?> <span class="red">*</span></label>
+                                        <?php echo $this->form_add->grid_electricity_availibility; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Solar Energy"); ?> <span class="red">*</span></label><br><br>
+                                        <?php
+                                        foreach ($this->solar_energy as $rs) {
+                                            ?>
+                                            <input type="checkbox" name='solar_energy[]' id='hf_type<?php echo $rs['pkId']; ?>' value='<?php echo $rs['pkId']; ?>'> <?php echo $rs['listValue']; ?><br />
+                                            <?php
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="control-group ">
+                                                <label class="control-label" ><?php echo $this->translate("Facility Total Population"); ?></label>
+                                                <div class="controls">
+                            <?php echo $this->form_add->facility_total_population; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                            <div class="col-md-6">
+                                            <div class="control-group ">
+                                                <label class="control-label" ><?php echo $this->translate("Live Birth Per Year"); ?></label>
+                                                <div class="controls">
+                            <?php echo $this->form_add->live_birth_per_year; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>-->
+                            <!--
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="control-group ">
+                                            <label class="control-label" ><?php echo $this->translate("Pregnant Women Per Year"); ?></label>
+                                            <div class="controls">
+                            <?php echo $this->form_add->pregnant_women_per_year; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <div class="col-md-6">
+                                        <div class="control-group ">
+                                            <label class="control-label" ><?php echo $this->translate("Women of Child Bearing Age"); ?></label>
+                                            <div class="controls">
+                            <?php echo $this->form_add->women_of_child_bearing_age; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+                            <!--                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <div class="control-group ">
+                                                                            <label class="control-label" ><?php echo $this->translate("Estimation Year"); ?></label>
+                                                                            <div class="controls">
+                            <?php echo $this->form_add->estimation_year; ?>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>-->
+                        </div>
+                        <div class="modal-footer">
+                            <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit"><?php echo $this->translate("Save"); ?></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/cadmin/manage-health-facility/update" id="update-user" enctype="multipart/form-data">
+            <div class="modal fade" id="modal-update-user" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Edit Health Facility</h4>
+                        </div>
+                        <div class="modal-body" id="modal-body-contents">
+                            <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                        </div>
+                        <div class="modal-footer" id="update-button">
+                            <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit"><?php echo $this->translate("Update"); ?></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- // Content END -->

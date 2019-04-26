@@ -1,0 +1,121 @@
+<?php
+/**
+ *  phtml for Pipeline MOS Report
+ */
+?>
+<?php
+$data_array = array();
+if ($this->is_post) {
+    $soh = $this->pipeline()->getSOH($this->product, $this->wh_id);
+    
+    if ($soh != false) {
+        for ($i = $soh[0]['from_year']; $i <= $this->to_year; $i++) {
+            $target = $this->pipeline()->getAMC($this->product, $this->wh_id, $i);
+            if ($target != '0') {
+                if ($i == $soh[0]['from_year']) {
+                    $from_month = $soh[0]['from_month'];
+                } else {
+                    $from_month = 1;
+                }
+
+                for ($y = $from_month; $y <= 12; $y++) {
+                    $data_array[str_pad($y, 2, "0", STR_PAD_LEFT) . "/" . $i] = array(
+                        'shipment' => 0,
+                        'soh' => 0,
+                        'target' => $target,
+                        'mos' => 0
+                    );
+                }
+            }
+        }
+
+        foreach ($soh as $data1) {
+            $data_array[str_pad($data1['from_month'], 2, "0", STR_PAD_LEFT) . "/" . $data1['from_year']]['soh'] = $data1['qty'];
+        }
+
+        $shipment = $this->pipeline()->getShipments($this->product, $this->wh_id, $soh[0]['from_year'] . "-" . $soh[0]['from_month']);
+        foreach ($shipment as $data2) {
+            $data_array[$data2['ship_date']]['shipment'] = $data2['qty'];
+        }
+    }
+}
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            Pipeline MOS Report (Federal EPI Store)
+        </h3>
+        <form name="pipeline" id="pipeline" method="post" action="">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="control-group">
+                        <label class="control-label" for="period">Product</label>
+                        <div class="controls">
+                            <?php echo $this->form->product; ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" style="padding-top: 26px;">
+                    <div class="control-group">
+                        <input name="submit" id="submit" type="submit" class="btn btn-success col-md-2" value="Go"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <?php if (count($data_array) > 0) { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped table-bordered table-condensed" id="stkledger">
+                        <thead>
+                            <tr>
+                                <th class="col-md-1">S.No</th>
+                                <th class="col-md-2">Months</th>
+                                <th class="col-md-2">Shipment</th>
+                                <th class="col-md-2">Stock On Hand</th>
+                                <th class="col-md-2">Target</th>
+                                <th class="col-md-2">MOS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $count = 1;
+                            foreach ($data_array as $month => $data) {
+
+                                if ($count == 1) {
+                                    $stock_on_hand = $data['soh'] + $data['shipment'];
+                                } else {
+                                    $stock_on_hand = $stock_on_hand + $data['shipment'] - $data['target'];
+                                }
+                                if ($data['target'] > 0) {
+                                    $mos = round($stock_on_hand / $data['target'], 2);
+                                } else {
+                                    $mos = 0;
+                                }
+                                ?>
+                                <tr>
+                                    <td><?php echo $count; ?></td>
+                                    <td><?php echo $month; ?></td>
+                                    <td class="right"><?php echo number_format($data['shipment']); ?></td>
+                                    <td class="right"><?php echo number_format($stock_on_hand); ?></td>
+                                    <td class="right"><?php echo number_format($data['target']); ?></td>
+                                    <td class="right" style="background-color: <?php
+                                    if ($mos < 1) {
+                                        echo "#FF9777";
+                                    } elseif ($mos < 6) {
+                                        echo "#FFF377";
+                                    }
+                                    ?>;"><?php echo $mos; ?></td>
+                                </tr>
+                                <?php
+                                $count++;
+                            }
+                            ?>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+<?php } ?>
+    </div>
+</div>

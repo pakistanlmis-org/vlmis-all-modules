@@ -1,0 +1,31 @@
+<?php
+/**
+*  phtml for Ajax Edit
+*/
+?>
+<div class="row">
+<div class="col-md-7">
+    <div class="form-group ">
+        <label class="control-label" ><?php echo $this->translate("Select List"); ?></label>
+        <?php echo $this->form->list_master; ?>
+    </div>
+</div>
+    </div>
+    <div class="row">
+<div class="col-md-7">
+    <div class="form-group ">
+        <label class="control-label" ><?php echo $this->translate("List Value"); ?><span class="red">*</span></label>
+        <?php echo $this->form->list_value; ?>
+    </div>
+</div>
+        </div>
+   <div class="row">
+<div class="col-md-7">
+    <div class="form-group">
+        <label class="control-label" ><?php echo $this->translate("Description"); ?></label>
+        <?php echo $this->form->description; ?>
+    </div>
+</div>
+    <?php echo $this->form->id; ?>
+</div>
+

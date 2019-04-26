@@ -1,0 +1,10 @@
+<?php
+/**
+*  phtml for Data Entry Status
+*/
+?>
+<?php
+
+FC_SetRenderer('javascript');
+echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie3D.swf", "", $this->xmlstore, 'DataEntryStatus', '100%', 350, false, false);
+?>

@@ -1,0 +1,331 @@
+<?php
+/**
+ *  phtml for Purpose Transfer Management
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            Stock Transfer By Purpose (Campaign/Routine/PTP/IHR)
+        </h3>
+        <!-- <p class="red"><b>Important!</b> Please use Ctrl + R before using this form.</p> -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse"></a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <?php if (isset($this->msg) && !empty($this->msg)) { ?>
+                                <div class="col-md-12">
+                                    <div class="alert alert-info">
+                                        <button data-dismiss="alert" class="close" type="button">
+                                            ×
+                                        </button>
+                                        <?php echo $this->msg; ?>                                        
+                                    </div>                                
+                                </div>
+                            <?php } ?>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="transfer-management-filter" id="transfer-management-filter" action="">
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="product">
+                                                    <?php echo $this->translate("Product"); ?><span class="red">*</span>
+                                                </label>
+                                                <?php echo $this->form->product; ?>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="batch">
+                                                    <?php echo $this->translate("Batch"); ?> | <?php echo $this->translate("Quantity"); ?><span class="red">*</span>
+                                                </label>
+                                                <?php echo $this->form->batch; ?>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="batch">
+                                                    <?php echo $this->translate("Transfer Date"); ?> 
+                                                </label>
+                                                <?php echo $this->form->transfer_date; ?>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label class="control-label">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </label>
+                                                <input class="btn btn-success" type="submit" name="go" id="go" value="GO"/>
+                                                <input type="hidden" name="sel_batch" id="sel_batch" value="<?php echo $this->batch; ?>"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form method="POST" name="transfer-management" id="transfer-management" action="">
+                                    <div id="transfer-management-div">
+                                        <?php if ($this->result) { ?>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <table class="table table-striped table-bordered table-condensed">
+                                                        <!-- Table heading -->
+                                                        <thead>
+                                                            <tr style="background-color: #558347; color: white;">
+                                                                <th>
+                                                                    <?php echo $this->translate("S.No"); ?>
+                                                                </th>
+                                                                <th>
+                                                                    <?php echo $this->translate("Location"); ?>
+                                                                </th>
+                                                                <th>
+                                                                    <?php echo $this->translate("Placed Qty Vials"); ?>
+                                                                </th>
+                                                                <th>
+                                                                    <?php echo $this->translate("VVM Stage"); ?>
+                                                                </th>
+                                                                <th>
+                                                                    <?php echo $this->translate("Current Purpose"); ?>
+                                                                </th>
+                                                                <th>
+                                                                    <?php echo $this->translate("New Purpose"); ?>
+                                                                </th>
+                                                                <th>
+                                                                    <?php echo $this->translate("Transfer To Product"); ?>
+                                                                </th>
+                                                                <th class="col-md-2 center">
+                                                                    <?php echo $this->translate("New Transfer Qty (Vials)"); ?>
+                                                                </th>                                                        
+                                                            </tr>
+                                                        </thead>
+                                                        <!-- // Table heading END -->
+                                                        <!-- Table body -->
+                                                        <tbody>
+                                                            <?php
+                                                            $counter = 1;
+                                                            if ($this->result) {
+                                                                foreach ($this->result as $row) {
+                                                                    $key = $row['stock_batch_warehouse_id'] . "_" . $row['vvm_stage'] . "_" . $row['placement_location_id'] . "_" . $row['stakeholder_activity_id'];
+                                                                    ?>
+                                                                    <tr class="gradeX">
+                                                                        <td><?php echo $counter; ?></td>
+                                                                        <td><?php echo $this->getLocationName($row['location_id'], $row['location_type']); ?></td>
+                                                                        <td id="<?php echo $key; ?>_placed_quantity"><?php  echo $this->getLocationQuantity($row['location_id'], $row['location_type'],$row['stock_batch_warehouse_id']); ?></td>
+                                                                        <td><?php echo ($row['vvm_group_id'] == 1 ? $row['vvm_stage'] : $row['vvm_stage_value']); ?></td>
+                                                                        <td><?php echo $row['activityname']; ?></td>
+                                                                        <td><?php echo $this->getTransferPurpose($row['stakeholder_activity_id'], $key); ?></td>
+                                                                        <td><select class="form-control" name="toproducts[<?php echo $key; ?>]" id="<?php echo $key; ?>_toproduct" readonly="readonly"><option value="">Select</option></select></td>
+                                                                        <td><input class="form-control quantity" type="text" id="<?php echo $key; ?>_quantity" name="quantity[<?php echo $key; ?>]" /></td>
+                                                                    </tr>
+                                                                    <?php
+                                                                    $counter++;
+                                                                }
+                                                            }
+                                                            ?>
+                                                            <!-- // Table row END -->
+                                                        </tbody>
+                                                        <!-- // Table body END -->
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <lable class="control-label">Comments</lable>
+                                                        <textarea name="comments" id="comments" class="form-control"></textarea>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12 right">
+                                                    <div class="form-group">
+                                                        <input class="btn btn-success" type="button" name="updatetransfer" id="updatetransfer" value="Update Purpose"/>
+                                                        <input name="today" id="today" type="hidden" value="<?php echo date("d/m/Y"); ?>" />
+                                                        <input name="transfer_d" id="transfer_d" type="hidden" value="<?php echo $this->transfer_d; ?>" />
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                        <?php } else {
+                                            ?>
+                                            <div id="transfer-management-msg-div" style="display:none">
+                                                <table style = "width:100%;">
+                                                    <tr>
+                                                        <td class = "left"><h4>No record found, please make sure that selected batch is placed in vLMIS.</h4></td>                                                   
+                                                    </tr>     
+                                                </table>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php if ($this->h_result && count($this->h_result) > 0) { ?>
+            <div id="history-div">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <?php echo $this->translate("Product - Purpose Transfer History") ?>
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php if ($this->h_result && count($this->h_result) > 0) { ?>
+
+                                            <table class="table table-striped table-bordered table-condensed" id="sample_20">
+                                                <!-- Table heading -->
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            <?php echo $this->translate("S.No"); ?>
+                                                        </th>
+
+                                                        <th>
+                                                            <?php echo $this->translate("Date"); ?>
+                                                        </th>
+
+                                                        <th>
+                                                            <?php echo $this->translate("From Activity"); ?>
+                                                        </th>
+
+                                                        <th>
+                                                            <?php echo $this->translate("To Activity"); ?>
+                                                        </th>
+                                                        <th>
+                                                            <?php echo $this->m . $this->translate("From Item"); ?>
+                                                        </th>
+                                                        <th>
+                                                            <?php echo $this->m . $this->translate("To Item"); ?>
+                                                        </th>
+                                                        <th>
+                                                            <?php echo $this->m . $this->translate("Quantity"); ?> +ve
+                                                        </th>
+                                                        <th>
+                                                            <?php echo $this->m . $this->translate("Quantity"); ?> -ve
+                                                        </th>
+                                                        <th>
+                                                            <?php echo $this->m . $this->translate("Balance"); ?>
+                                                        </th>
+                                                    </tr>
+
+
+                                                </thead>
+                                                <!-- // Table heading END -->
+
+                                                <!-- Table body -->
+                                                <tbody>
+
+                                                    <tr>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th colspan="2">Pervious Quantity</th>
+                                                        <th><?php echo number_format($this->opening_balance_result[0]['opening_balance']); ?></th>                                            
+                                                    </tr>
+                                                    <!-- Table row -->
+                                                    <?php
+                                                    $j = 1;
+                                                    $balance = $this->opening_balance_result[0]['opening_balance'];
+                                                    foreach ($this->h_result as $row) {
+                                                        $quantity = '';
+                                                        if ($this->product == $row['from_item_id']) {
+                                                            $quantity = $row['quantity'];
+                                                            $balance = $balance - $row['quantity'];
+                                                        } else if ($this->product == $row['to_item_id']) {
+                                                            $quantity = $row['quantity'];
+                                                            $balance = $balance + $row['quantity'];
+                                                        }
+                                                        ?>
+                                                        <tr class="dynamic-rows">
+                                                            <td class="serial" style="font-size:12px" align="center">
+                                                                <?php echo $j; ?>
+                                                            </td>
+                                                            <td style="font-size:12px;" align="center" nowrap>
+                                                                <?php echo $row['date']; ?>
+                                                            </td>
+                                                            <td style="font-size:12px" nowrap>
+                                                                <?php echo $row['from_activity'] ?>
+                                                            </td>
+                                                            <td style="font-size:12px" nowrap align="left">
+                                                                <?php echo $row['to_activity'] ?>
+                                                            </td>
+                                                            <td style="font-size:12px"  align="left">
+                                                                <?php echo $row['from_item'] ?>
+                                                            </td>
+                                                            <td style="font-size:12px" nowrap>
+                                                                <?php echo $row['to_item'] ?>
+                                                            </td>
+                                                            <td style="font-size:12px" nowrap align="right">
+                                                                <?php echo $quantity; ?>
+                                                            </td>
+                                                            <td style="font-size:12px" nowrap align="right">
+                                                                <?php echo $quantity; ?>
+                                                            </td>
+                                                            <td style="font-size:12px" nowrap align="right">
+                                                                <?php echo $balance; ?>
+                                                            </td>
+                                                        </tr>
+                                                        <?php
+                                                        $j ++;
+                                                    }
+                                                    ?>
+                                                    <!-- // Table row END -->
+                                                    <tr>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th>Current Quantity</th>
+                                                        <th><?php echo number_format($balance); //echo number_format(($this->opening_balance_result[0]['opening_balance'] + $this->closing_balance_result[0]['sum_quantity']) - $this->closing_balance_result[0]['minus_quantity']);                  ?></th>                    
+                                                    </tr>
+                                                </tbody>
+                                                <!-- // Table body END -->                                      
+
+                                            </table>
+
+
+                                            <?php
+                                        } else {
+                                            echo "No data found.";
+                                        }
+                                        ?>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+</div>

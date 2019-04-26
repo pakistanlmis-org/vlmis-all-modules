@@ -1,0 +1,44 @@
+<?php
+/**
+*  phtml for Ajax Vaccines Detail Data Issue no.
+*/
+?>
+<table class="gatepass table table-striped table-bordered table-hover dataTable no-footer"  >
+    <!-- Table heading -->
+    <thead>
+        <tr>
+            <th rowspan="2"><?php echo $this->translate("Vaccine") ?></th>
+            <th rowspan="2"><?php echo $this->translate("Batch No") ?></th>
+            <th rowspan="2"><?php echo $this->translate("Expiry Date") ?></th>  
+             <th rowspan="2"><?php echo $this->translate("Quantity") ?></th> 
+             <th rowspan="2"><?php echo $this->translate("Action") ?></th> 
+        </tr>      
+    </thead>
+    <!-- // Table heading END -->
+
+    <!-- Table body -->
+    <tbody>				
+        <!-- Table row -->
+        <?php
+        $remianing_qty = "";
+        if ($this->data && count($this->data) > 0) :
+            foreach ($this->data as $row):
+            $unpicked_qty= $row["quantity"] - $row["place_quantity"];
+          
+                ?>
+                <tr class="gradeX">
+
+                    <td><?php echo $row['item_name']; ?></td>
+                    <td><?php echo $row["number"]; ?></td>
+                    <td><?php echo $row["expiry_date"]; ?></td>
+                    <td><?php echo $unpicked_qty; ?></td>
+                    <td><a class="btn btn-primary input-sm" href="<?php echo $this->baseUrl(); ?>/stock/stock-vaccines-pick-data?detailid=<?php echo $row["pk_id"]."&batchid=".$row["batch_id"]; ?>"><?php echo $this->translate("Pick");?></a></td>
+                </tr>
+                <?php
+            endforeach;
+        endif;
+        ?>
+        <!-- // Table row END -->
+    </tbody>
+    <!-- // Table body END -->
+</table>

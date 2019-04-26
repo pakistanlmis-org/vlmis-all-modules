@@ -1,0 +1,13 @@
+<?php
+/**
+* @package phtml for Ajax Change Status
+*/
+?>
+<?php
+
+if ($this->ajaxaction == 'active') {
+    echo $this->translate("Active");
+} else {
+    echo $this->translate("Deactive");
+}
+?>

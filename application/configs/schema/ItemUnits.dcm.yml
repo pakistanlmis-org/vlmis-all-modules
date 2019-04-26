@@ -1,0 +1,49 @@
+ItemUnits:
+  type: entity
+  table: item_units
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    itemUnitName:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+      column: item_unit_name
+    status:
+      type: boolean
+      nullable: true
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: true
+      column: modified_date
+  oneToOne:
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

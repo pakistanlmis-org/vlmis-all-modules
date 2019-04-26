@@ -1,0 +1,222 @@
+<?php
+/**
+ *  phtml for Shipment Report
+ */
+?>
+<?php
+$sel_month = $this->month_sel;
+$sel_year = $this->year_sel;
+$counter = 1;
+
+$sel_stk = $this->in_stk;
+$sel_prov = $this->province;
+$sel_div = $this->division;
+$sel_dist = $this->district;
+$sel_tehsil = $this->tehsil;
+$wh_type = $this->wh_type;
+$sel_indicator = $this->sel_indicator;
+$in_col = $this->in_col;
+$in_rg = $this->in_rg;
+$sel_prod = $this->sel_prod;
+$in_type = $this->in_type;
+$stk_sel = $this->stk_sel;
+$start_date = $this->start_date;
+$end_date = $this->end_date;
+$period = $this->period;
+$str_indicator = $this->str_indicator;
+
+$provFilter = (!empty($sel_prov) && $sel_prov != 'all') ? " AND warehouses.province_id = $sel_prov" : '';
+$divFilter = (!empty($sel_div) && $sel_div != 'all') ? " AND locations.pk_id = $sel_div" : '';
+$distFilter = (!empty($sel_dist) && $sel_dist != 'all') ? " AND warehouses.district_id = $sel_dist" : '';
+$tehsilFilter = (!empty($sel_tehsil) && $sel_tehsil != 'all') ? " AND locations.pk_id = $sel_tehsil" : '';
+
+$report_title = $this->report_title;
+// Central
+if ($wh_type == 1) {
+    $qry = $this->reports()->getShipmentCentral();
+    $report_title = 'Central ' . $report_title;
+}
+// Provincial
+else if ($wh_type == 2) {
+    $qry = $this->reports()->getShipmentProvincial($provFilter);
+    $report_title = 'Provincial ' . $report_title;
+}
+// Division
+else if ($wh_type == 3) {
+    $qry = $this->reports()->getShipmentDivision($provFilter, $divFilter);
+    $report_title = 'Division ' . $report_title;
+}
+// District
+else if ($wh_type == 4) {
+    $qry = $this->reports()->getShipmentDistrict($provFilter, $distFilter);
+    $report_title = 'District ' . $report_title;
+}
+// Tehsil
+else if ($wh_type == 5) {
+    $qry = $this->reports()->getShipmentTehsil($provFilter, $distFilter, $tehsilFilter);
+    $report_title = 'Tehsil ' . $report_title;
+}
+
+$data_arr = array();
+foreach ($qry as $row) {
+    $data_arr[$row['wh_id']][] = $row['wh_name'];
+
+    $count = 1;
+    foreach ($period as $date) {
+        $data_arr[$row['wh_id']][$count] = 0;
+        $count++;
+        $data_arr[$row['wh_id']][$count] = 0;
+        $count++;
+    }
+}
+$header = '';
+$header1 = '#rspan';
+$cspan = '';
+$width = '*';
+$ro = 'ro';
+
+$header .= 'Store';
+
+foreach ($period as $date) {
+    $cspan .= ',#cspan,#cspan';
+    $header .= ",<div style='text-align:center;'>" . $date->format('M-y') . "</div>,#cspan";
+    $monthArr[] = $date->format("m-Y") . '|Receive';
+    $monthArr[] = $date->format("m-Y") . '|Issue';
+    $width .= ',60,60';
+    $ro .= ',ro,ro';
+    $header1 .= ',<span>Receive</span>, <span>Issue</span>';
+}
+
+$count = 1;
+foreach ($period as $date) {
+    $str_date = $date->format("Y-m");
+
+    if ($wh_type == 1) {
+        $qry1 = $this->reports()->getShipmentCentral1($str_date);
+    } else if ($wh_type == 2) {
+        $qry1 = $this->reports()->getShipmentProvincial1($provFilter, $str_date);
+    } else if ($wh_type == 3) {
+        $qry1 = $this->reports()->getShipmentDivision1($provFilter, $divFilter, $str_date);
+    } else if ($wh_type == 4) {
+        $qry1 = $this->reports()->getShipmentDistrict1($provFilter, $distFilter, $str_date);
+    } else if ($wh_type == 5) {
+        $qry1 = $this->reports()->getShipmentTehsil1($provFilter, $distFilter, $tehsilFilter, $str_date);
+    }
+
+    foreach ($qry1 as $row) {
+        $data_arr[$row['wh_id']][$count] = $row['stockRcv'];
+        $count1 = $count + 1;
+        $data_arr[$row['wh_id']][$count1] = $row['stockIssue'];
+    }
+    $count = $count + 2;
+}
+
+$xml_store = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+$xml_store .= "<rows>";
+
+$sum_arr = array();
+
+foreach ($data_arr as $dis_id => $sub_arr) {
+
+    $xml_store .= "<row>";
+    $xml_store .= "<cell><![CDATA[" . $sub_arr[0] . "]]>^_self</cell>";
+
+    foreach ($sub_arr as $key => $value) {
+        if (!isset($sum_arr[$key])) {
+            $sum_arr[$key] = 0;
+        }
+        $sum_arr[$key] += $value;
+        $accpLimit = '';
+        if ($key > 0) {
+
+            $param = base64_encode($dis_id . '|' . $sub_arr[0] . '|' . $monthArr[$key - 1]);
+            if ($value > 0) {
+                $xml_store .= "<cell><![CDATA[<a href=javascript:functionCall('$param')>" . number_format($value) . "</a>]]>^_self</cell>";
+            } else {
+                $xml_store .= "<cell>" . number_format($value) . "</cell>";
+            }
+        }
+    }
+    $xml_store .="</row>";
+}
+$xml_store .="</rows>";
+
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $report_title . ' ' . $report_month . ' ' . $sel_year; ?></h3>
+        <div class="innerLR">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php
+                        echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('inventory-management/reports-header.phtml') ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="text-align:right; padding-bottom:10px;">
+                        <img style="cursor:pointer;" src="<?php echo $this->baseUrl(); ?>/images/pdf-32.png" onClick="mygrid.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="<?php echo $this->translate("Export to PDF"); ?>"/>&nbsp;&nbsp;
+                        <img style="cursor:pointer; margin-left:-5px" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="mygrid.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');" title="<?php echo $this->translate("Export to Excel"); ?>" />
+                    </td>
+                </tr>
+            </table>
+
+            <table width="99%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <div id="mygrid_container" style="width:100%; height:500px;">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    var mygrid;
+    function doInitGrid() {
+        mygrid = new dhtmlXGridObject('mygrid_container');
+        mygrid.selMultiRows = true;
+        mygrid.setImagePath("<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+        mygrid.setHeader("<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'><?php echo $report_title . ' As on (' . date('F', mktime(0, 0, 0, $this->month_sel)) . '-' . $this->year_sel; ?>)</div><?php echo $cspan; ?>");
+        mygrid.setColAlign("left,right,right,right,right,right,right,right,right,right,right,right,right,");
+
+        mygrid.attachHeader("<?php echo $header; ?>");
+        mygrid.attachHeader("<?php echo $header1; ?>");
+        mygrid.setInitWidths("<?php echo $width; ?>");
+        mygrid.setColTypes("<?php echo $ro; ?>");
+        mygrid.enableRowsHover(true, 'onMouseOver');
+        mygrid.setSkin("light");
+        mygrid.init();
+        mygrid.clearAll();
+        $('body').append('<textarea id="xml_string" style="display:none;"><?php echo addslashes($xml_store); ?></textarea>');
+        mygrid.loadXMLString(document.getElementById('xml_string').value);
+    }
+
+    var whType = <?php echo $wh_type; ?>;
+    var province = <?php echo $sel_prov; ?>;
+    var division = <?php echo $sel_div; ?>;
+    var district = <?php echo $sel_dist; ?>;
+    var tehsil = <?php echo $sel_tehsil; ?>;
+
+    function functionCall(param)
+    {
+        window.open('transaction-detail?param=' + param, '_blank', 'scrollbars=1,width=842,height=595');
+    }
+
+</script>

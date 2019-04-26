@@ -1,0 +1,214 @@
+<?php
+/**
+*  phtml for Index
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Manage CCM Status Lists") ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("CCM Status List Search") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                 <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button"> Ã—</button>
+                                        <strong>Data</strong> has been saved successfully!
+                                    </div>
+                                <?php } 
+                                
+                                if (isset($_GET['success']) && $_GET['success'] == 2) { ?>
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button"> Ã—</button>
+                                        <strong>Data</strong> has been updated successfully!
+                                    </div>
+                                <?php }
+                                
+                                
+                                ?>
+                                <form method="POST" name="status_list_search" action="" >
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <div class="form-group ">
+                                                    <label class="control-label" ><?php echo $this->translate("Status List Name"); ?></label>
+                                                    <?php echo $this->form->ccm_status_list_name; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 margin-top-25">
+                                                <div class="form-group" id="div_status">
+                                                    <label class="control-label" ><?php echo $this->translate("Status"); ?></label>
+                                                    <?php echo $this->form->status; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 margin-top-25">
+                                                <div class="form-group">
+                                                    <button class="btn btn-primary" type="submit" name="search"><?php echo $this->translate("Search") ?></button>
+                                                    <button type="reset" class="btn btn-info" id="reset">Reset</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("CCM Status List") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dataTables_wrapper form-inline">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <?php $this->recordsPerPage($this->counter); ?>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="dataTables_filter">
+                                                <label>
+                                                    <a class="btn btn-primary" data-toggle="modal" href="#add-status-list"><?php echo $this->translate("Add CCM Status List") ?></a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table table-striped table-bordered table-hover dataTable no-footer">
+                                        <!-- Table heading -->
+                                        <?php
+                                        $fields = array(
+                                            'ccm_status_list_name' => 'Status List Name',
+                                            'type' => 'Status List Type',
+                                            'created_by' => 'Created By'
+                                        );
+                                        $this->tableHeading($this->order, $this->sort, $fields);
+                                        ?>
+                                        <!-- // Table heading END -->
+                                        <!-- Table body -->
+
+                                        <!-- // Table body END -->
+                                        <tbody>
+                                            <?php
+                                            $m_res = array();
+                                            $i = 1;
+                                            if ($this->paginator && count($this->paginator) > 0) :
+                                                foreach ($this->paginator as $row):
+                                                    ?>
+                                                    <tr class="<?php if ($i % 2 == 0) { ?>gradeX even<?php } else { ?> gradeA odd<?php } ?>">
+                                                        <td><?php echo $row['ccmStatusListName']; ?></td>
+                                                        <td><?php if($row['type'] == 1){echo "Working Status";} if($row['type'] == 2){echo "Reason";}if($row['type'] == 3){echo "Utilization";}?></td>
+                                                        <td><?php echo $row['userName']; ?></td>
+                                                        <td>
+                                                            <a itemid="<?php echo $row['pkId']; ?>" class="btn update-status-list btn-link btn-success btn-mini" data-toggle="modal" href="#modal-update-status-list"><?php echo $this->translate("Edit") ?></a>
+                                                       <?php if ($row['status'] == 1) { ?>
+                                                                <a id="<?php echo $row['pkId']; ?>" class="active btn-link btn-danger input-sm"><?php echo $this->translate("Active"); ?></a>
+                                                            <?php } else { ?>
+                                                                <a id="<?php echo $row['pkId']; ?>" class="deactivate btn-link btn-danger input-sm"><?php echo $this->translate("Deactive"); ?></a>
+                                                            <?php } ?>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- // Table row END --><?php
+                                                    $i++;
+                                                endforeach;
+                                            endif;
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                    <?php echo $this->paginationControl($this->paginator, 'Sliding', 'paginator.phtml', array('params' => $this->pagination_params)); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- // modal box for add -->
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/cadmin/manage-ccm-status-lists/add" id="add-status-lists">
+            <div class="modal fade" id="add-status-list" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Add CCM Status List</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                 <div class="col-md-4">
+                                    <div class="form-group ">
+                                        <label class="control-label" ><?php echo $this->translate("CCM Status List Type"); ?> <span class="red">*</span></label>
+                                        <?php echo $this->form_add->type; ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group ">
+                                        <label class="control-label" ><?php echo $this->translate("CCM Status List Name"); ?> <span class="red">*</span></label>
+                                        <?php echo $this->form_add->ccm_status_list_name; ?>
+                                    </div>
+                                </div>
+                        
+                                <div class="col-md-6 margin-top-25">
+                                    <div class="form-group" id="div_status">
+                                        <label class="control-label" ><?php echo $this->translate("Status"); ?></label>
+                                        <?php echo $this->form_add->status; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input class="btn btn-primary" type="submit" value="<?php echo $this->translate("Save"); ?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- // modal box for update -->
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/cadmin/manage-ccm-status-lists/update" id="update-status-lists">
+            <div class="modal fade" id="modal-update-status-list" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Edit CCM Status List</h4>
+                        </div>
+
+                        <div class="modal-body" id="modal-body-contents">
+                            <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                        </div>
+                        <div class="modal-footer " id="update-button">
+                            <input class="btn btn-primary" type="submit" value="<?php echo $this->translate("Update"); ?>">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+<!-- // Content END -->

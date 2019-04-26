@@ -1,0 +1,358 @@
+<?php
+/**
+ *  Layout for Header.
+ */
+?>
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>    <html class="ie lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>    <html class="ie lt-ie9"> <![endif]-->
+<!--[if gt IE 8]> <html class="ie gt-ie8"> <![endif]-->
+<!--[if !IE]><!--><html><!-- <![endif]-->
+    <head>
+        <meta charset="UTF-8" />
+        <?php echo $this->headTitle('Pakistan Logistics Management Information System'); ?>
+
+        <!-- Meta -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="title" content="<?php echo Zend_Registry::get('pageTitle'); ?>">
+        <meta name="description" content="<?php echo Zend_Registry::get('metaDescription'); ?>">
+
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/global/css/fonts/custom.css" rel="stylesheet" type="text/css">
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/global/css/components.css" rel="stylesheet" type="text/css"/>
+
+        <!-- Glyphicons Font Icons -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/css/glyphicons.css" rel="stylesheet" />
+        <!--[if !IE]>
+        <!-- Column Filter Widgets Css -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/css/ColumnFilterWidgets.css" rel="stylesheet" />
+        <!-- PrettyPhoto -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/gallery/prettyphoto/css/prettyPhoto.css" rel="stylesheet" />
+        <!-- DateTimePicker Plugin -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/forms/bootstrap-datetimepicker/css/datetimepicker.css" rel="stylesheet" />
+        <!-- JQueryUI -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/system/jquery-ui/css/smoothness/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" />
+        <!--[endif]>
+        <!-- Main Theme Stylesheet :: CSS -->
+        <!-- Notyfy Notifications Plugin -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/notifications/notyfy/jquery.notyfy.css" rel="stylesheet" />
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/notifications/notyfy/themes/default.css" rel="stylesheet" />
+
+        <!-- BEGIN PAGE LEVEL STYLES -->
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/common/assets/plugins/select2/select2.css"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/common/assets/plugins/select2/select2-metronic.css"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/common/assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
+        <!-- END PAGE LEVEL STYLES -->
+
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/css/style-light.css?1369414385" rel="stylesheet" />
+        <!--        <link href="--><?php ////echo $this->baseUrl();                                                              ?><!--<!--/common/theme/css/style-green.css" rel="stylesheet" />-->
+        <!-- LESS.js Library
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/system/less.min.js"></script>-->
+        <!--[if !IE]>
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/css/google-fonts.css" rel="stylesheet" />
+
+        <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
+        <!--        <link href="--><?php //echo $this->baseUrl();                                                             ?><!--/common/assets/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" type="text/css"/>-->
+        <!--[endif]>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/plugins/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css"/>
+        <!--        <link href="--><?php //echo $this->baseUrl();                                                             ?><!--/common/assets/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css"/>-->
+        <!--        <link href="--><?php //echo $this->baseUrl();                                                             ?><!--/common/assets/plugins/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css"/>-->
+        <!-- END PAGE LEVEL PLUGIN STYLES -->
+
+        <!-- BEGIN THEME STYLES -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/css/style-metronic.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/css/style-responsive.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/css/plugins.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/css/pages/tasks.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/admin/layout/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/css/print.css" rel="stylesheet" type="text/css" media="print"/>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/common/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css"/>
+
+        <!-- BEGIN PAGE LEVEL STYLES -->
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/common/assets/global/plugins/jquery-notific8/jquery.notific8.min.css"/>
+        <!-- END PAGE LEVEL STYLES -->
+
+        <!--[if lt IE 9]>
+        <script src="<?php echo $this->baseUrl(); ?>/common/assets/global/plugins/respond.min.js"></script>
+        <script src="<?php echo $this->baseUrl(); ?>/common/assets/global/plugins/excanvas.min.js"></script>
+        <!--<link href="<?php echo $this->baseUrl(); ?>/common/assets/global/css/ie8.css" rel="stylesheet" type="text/css" />-->
+        <!--[endif]-->
+        <!-- Glyphicons Font Icons -->
+        <!-- Fusion Charts -->
+        <!-- JQuery-->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/system/jquery.min.js"></script>
+
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/FusionCharts/Charts/fusioncharts.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/FusionCharts/Charts/themes/fusioncharts.theme.fint.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/FusionCharts/Charts/themes/fusioncharts.theme.carbon.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/FusionCharts/Charts/themes/fusioncharts.theme.ocean.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/FusionCharts/Charts/themes/fusioncharts.theme.zune.js"></script>
+        <script type="text/javascript" language="Javascript" src="<?php echo $this->baseUrl(); ?>/FusionCharts/Code/assets/ui/js/lib.js"></script>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/common/assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js"></script>
+
+        <link href="<?php echo $this->baseUrl(); ?>/js/OpenLayers-2.13/theme/default/style.css" rel="stylesheet" />
+        <?php if ($this->layout()->user_role == 35 || $this->layout()->user_role == 36 || $this->layout()->user_record == 'SUPERUSER') { ?>
+            <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/all_level_combos_superuser.js"></script>
+        <?php } ?>
+
+        <?php echo $this->headLink(); ?>
+        <?php echo $this->headScript(); ?>
+    </head>
+    <?php $uri = $_SERVER['REQUEST_URI']; ?>
+    <body class="page-header-fixed <?php if ($uri == '/dashboard/index?office=1') { ?>page-sidebar-closed <?php } ?>" <?php if (isset($child) && $child == 1) { ?> onunload="window.opener.location.reload();" <?php } ?> onLoad="<?php if (isset($xgrid) && $xgrid == 1) : ?> doInitGrid(); <?php endif; ?> <?php if (isset($stkholder) && $stkholder == 1) : ?>showstkHolders(); <?php endif; ?><?php if (isset($_POST['go'])): ?> showProvinces(); showDistricts(); <?php endif; ?><?php if (isset($func) && $func == 1) : ?> func(); <?php endif; ?>">
+        <!-- Main Container Fluid -->
+        <div class="header navbar">
+            <!-- BEGIN TOP NAVIGATION BAR -->
+            <div class="header-inner">
+                <!-- BEGIN LOGO -->
+                <a class="navbar-brand" id="navbar-brand" href="#" style="margin-top: -7px;">
+                    <img src="<?php echo $this->baseUrl(); ?>/images/epi_logo_header.png" height="55" width="323" alt="EPI MIS" />
+                </a>
+                <a class="navbar-brand" href="<?php echo $this->baseUrl(); ?>/reports/dashlet/cold-chain-capacity" style="margin-top: -10px;">
+                    <img src="<?php echo $this->baseUrl(); ?>/common/assets/admin/layout/img/landing-images/vaccine_logo.png" height="55" width="323" alt="vaccine LMIS" />
+                </a>
+                <!-- END LOGO -->
+                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+                <a href="javascript:;" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <img src="<?php echo $this->baseUrl(); ?>/common/assets/img/menu-toggler.png" alt=""/>
+                </a>
+                <ul class="nav navbar-nav pull-right">
+
+                    <?php
+                    $acl = Zend_Registry::get('acl');
+                    //if ($acl->isAllowed($this->layout()->user_role_name, 'index/technical-documents')) {
+                    ?>
+                    <li>
+                        <a href="<?php echo $this->baseUrl(); ?>/index/technical-documents" class="ul-header">
+                            <img src="<?php echo $this->baseUrl(); ?>/common/assets/img/header-icon/technical_manuals.png" alt=""/>
+                        </a>
+
+                    </li>
+                    <?php //} ?>
+                    <li>
+                        <a target="_blank" href="<?php echo $this->baseUrl(); ?>/docs/epi_directory.pdf" class="ul-header">
+                            <img src="<?php echo $this->baseUrl(); ?>/common/assets/img/header-icon/epi_directory.png" alt=""/>
+                        </a>
+                    </li>
+                    <?php
+                    //if ($acl->isAllowed($this->layout()->user_role_name, 'index/training-manuals')) {
+                    ?>
+                    <!-- <?php //echo $this->baseUrl();
+                    ?>/index/training-manuals  -->
+                    <li>
+                        <a href="<?php echo $this->baseUrl(); ?>/index/training-manuals" class="ul-header">
+                            <img src="<?php echo $this->baseUrl(); ?>/common/assets/img/header-icon/training_manuals.png"
+                                 alt=""/>
+                        </a>
+                    </li>
+                    <?php
+                    //}
+                    ?>
+                </ul>
+                <!-- END RESPONSIVE MENU TOGGLER -->
+            </div>
+            <!-- END TOP NAVIGATION BAR -->
+        </div>
+        <?php
+        $session = new Zend_Session_Namespace('vlmis');
+        ?>
+        <div class="header-menu">
+            <!-- BEGIN TOP NAVIGATION BAR -->
+            <div class="row"  style="margin:0px !important; background:#f7f7f7 !important;">
+                <div class="col-md-12">
+                    <ul class="page-breadcrumb breadcrumb">
+
+
+
+                        <li class="btn-group pull-right">
+
+                            <button type="button" class="btn lightgrey dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+                                <span><?php echo $this->layout()->user_name; ?></span><i class="fa fa-angle-down"></i>
+                            </button>
+
+                            <ul class="dropdown-menu pull-right" role="menu">
+                                <li>
+
+                                    <a href="<?php echo $this->baseUrl(); ?>/index/change-password">
+                                        Change Password
+                                    </a>
+                                </li>
+                                <li class="divider">
+                                </li>
+                                <li>
+                                    <a href="<?php echo $this->baseUrl(); ?>/index/logout">
+                                        Sign Out
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="white breadcrumb-border-left"><img src="<?php echo $this->baseUrl(); ?>/common/assets/admin/layout/img/landing-images/paki-fla.png" alt=""/></li>
+                        <li>
+                            <a href="http://lmis.gov.pk/awstats.php" target="_blank"><img src="http://lmis.gov.pk/assets/img/stats2.png" alt="LMIS Statistics" height="25"/></a>
+                        </li>
+                        <?php
+                        $t = '';
+                        switch ($this->layout()->user_role) {
+                            case 17:
+                                $t = 'ZRi23781Sd' . base64_encode('guest|guest');
+                                break;
+                            case 57:
+                                $t = 'ZRi23781Sd' . base64_encode('mtariq|psmpakistan');
+                                break;
+                            default:
+                                $t = '';
+                                break;
+                        }
+                        $user_count = $this->layout()->user_count;
+                        if (isset($t) && !empty($t)) {
+                            ?>
+                            <li>
+                                <form method="POST" name="login" id="login" action="http://lmis.gov.pk/loginaction.php"><input type="hidden" name="t" value="<?php echo $t; ?>"><input style="position:  absolute;margin-top: -32px; cursor:pointer; margin-left:10px;" type="image" name="submit" src="http://lmis.gov.pk/assets/img/contraceptives.png" height="28" border="0" alt="Submit" /></form>
+                            </li> 
+                        <?php } ?>
+                        <li class="btn-group-vertical pull-right">
+                            &nbsp;&nbsp;&nbsp;<a style="cursor: pointer" onclick="window.open('<?php echo $this->baseUrl(); ?>/index/active-users', '_blank', 'scrollbars=1,width=600,height=500');">Active users</a>
+                            <span class="badge badge-sm badge-warning"><?= (isset($user_count) ? $user_count : '0') ?></span>
+                        </li>
+                        <!--                        <li class="btn-group pull-right">
+                        
+                                                    <button id="active-user-button" type="button" class="btn lightgrey dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+                                                        <span>Active users</span><i class="fa fa-angle-down"></i>
+                                                    </button>
+                        
+                                                    <ul class="dropdown-menu pull-right" role="menu">
+                                                        <li id="active-users">
+                                                        <center><img src="<?php echo $this->baseUrl(); ?>/images/ajax-loader.gif"></center>
+                                                </li>
+                                            </ul>
+                                            </li>-->
+
+                        <li class="pull-right">
+                            <?php if (in_array($this->layout()->user_role, array(4, 5, 6, 7, 8, 54))) { ?> 
+                                <a style="cursor: pointer; text-decoration:none;" onclick="window.open('<?php echo $this->baseUrl(); ?>/index/survey', '_blank', 'scrollbars=1,width=860,height=595');" >
+                                    <i class="fa fa-question"></i><span style="margin-right:10px; color: red;">Give us feedback!</span>
+                                </a>
+                            <?php }
+                            ?>
+
+                            <?php
+                            if ($acl->isAllowed($this->layout()->user_role_name, 'stock-batch/batch-summary-alerts')) {
+                                ?>
+                                <?php if (in_array($this->layout()->user_role, array(4, 5, 6, 7, 8))) { ?> 
+                                    <a style="cursor: pointer; text-decoration:none;" onclick="window.open('<?php echo $this->baseUrl(); ?>/stock-batch/batch-summary-alerts', '_blank', 'scrollbars=1,width=860,height=595');" >
+                                        <i class="fa fa-bell"></i>
+                                        Stock Outs <span class="badge badge-warning"> 
+                                            <?php
+                                            echo $this->layout()->stock_out;
+                                            // print_r($UserAlertHelper);
+                                            ?>
+
+                                        </span>
+                                    </a>
+                                    <?php
+                                }
+                            }
+                            ?>
+                            <?php
+                            if ($acl->isAllowed($this->layout()->user_role_name, 'stock/priority-vaccines-distribution-detail-alert')) {
+                                ?>
+                                <?php if ($this->layout()->expiry_alerts > 0) { ?>
+                                    <a style="cursor: pointer; text-decoration:none;" onclick="window.open('<?php echo $this->baseUrl(); ?>/stock/priority-vaccines-distribution-detail-alert', '_blank', 'scrollbars=1,width=860,height=595')">
+                                        <i class="fa fa-bell"></i>
+                                        Expiry Alerts <span class="badge badge-warning"> <?php echo $this->layout()->expiry_alerts; ?> </span>  
+                                    </a>
+                                    <a>&nbsp;</a>
+                                <?php } ?>
+                            </li> 
+                        <?php } ?>
+                        <?php
+                        if (Zend_Registry::get("lang_support") == 1) {
+                            $lang_array = array(
+                                'en' => array(
+                                    'url' => preg_replace("/\/lang\/[a-z]\w/", "", Zend_Controller_Front::getInstance()->getRequest()->getRequestUri()) . "/lang/en",
+                                    'image' => $this->baseUrl() . "/common/assets/img/flags/us.png",
+                                    'lang' => "English"
+                                ),
+                                'ur' => array(
+                                    'url' => preg_replace("/\/lang\/[a-z]\w/", "", Zend_Controller_Front::getInstance()->getRequest()->getRequestUri()) . "/lang/ur",
+                                    'image' => $this->baseUrl() . "/common/assets/img/flags/pk.png",
+                                    'lang' => "Urdu"
+                                )
+                            );
+
+                            if (!isset($session->lang) && empty($session->lang)) {
+                                $session->lang = 'en';
+                            }
+                            ?>
+                            <li class="dropdown dropdown-language">
+                                <!-- <i class="fa fa-language"></i> -->
+                                <a href="<?php echo $lang_array[$session->lang]['url']; ?>" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <img alt="" src="<?php echo $lang_array[$session->lang]['image']; ?>">
+                                    <span class="langname">
+                                        <?php echo $lang_array[$session->lang]['lang']; ?> </span>
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <?php
+                                    foreach ($lang_array as $key => $row) {
+                                        if ($key != $session->lang) {
+                                            ?>
+                                            <li>
+                                                <a href="<?php echo $row['url']; ?>">
+                                                    <img alt="" src="<?php echo $row['image']; ?>"> <?php echo $row['lang']; ?> </a>
+                                            </li>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </ul>
+                            </li>
+                        <?php } ?>   
+
+                        <?php if ($this->layout()->user_role == 35 || $this->layout()->user_role == 36 || $this->layout()->user_record == 'SUPERUSER') { ?>                            
+                            <li class="pull-right">
+                                <a href="<?php echo $this->baseUrl(); ?>/stock/change-store"><?php echo $this->layout()->user_store; ?></a>
+                            </li>
+                            <li class="pull-right"><i class="fa fa-refresh"></i>
+                                <b>Change Store:</b></li>                                               
+                        <?php } ?>                        
+                        <?php if ($this->layout()->user_record == 'SUPERUSER') { ?>                        
+                            <li class="pull-right">
+                                <select style="border:1px solid #d4d4d4; background-color: #F2F2F2; width: 160px;" id="changerole" name="changerole">
+                                    <?php
+                                    $em = Zend_Registry::get("doctrine");
+                                    $rolesList = $em->getRepository('Roles')->findAll();
+                                    foreach ($rolesList as $key => $value) {
+
+                                        $role_name = $value->getDescription();
+                                        $role_id = $value->getPkId();
+                                        if ($role_id == 40) {
+                                            continue;
+                                        }
+                                        ?>
+                                        <option value="<?php echo $role_id; ?>" <?php if ($role_id == $this->layout()->user_role) { ?>selected="selected"<?php } ?>><?php echo $role_name; ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </li>
+                            <li class="pull-right"><i class="fa fa-rocket"></i>
+                                <b>Change User Role:</b></li>
+                        <?php } ?>
+                    </ul>
+                </div>
+            </div>
+            <!-- END TOP NAVIGATION BAR -->
+        </div>
+        <div class="page-container">
+            <!-- Sidebar menu & content wrapper -->
+            <div class="page-sidebar-wrapper">

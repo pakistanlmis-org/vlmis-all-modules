@@ -1,0 +1,388 @@
+<?php
+/**
+ *  phtml for Index
+ */
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <?php if ($this->layout()->user_role == 34) { ?>
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <?php echo $this->translate("Change Store Filters"); ?>
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <?php $this->allLevelCombo(); ?>
+                        </div>
+                        <div class="col-md-1 right" style="padding-top: 29px;">
+                            <a onclick="javascript:location.reload(true);" class="btn btn-success">GO</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+        <div class="row">
+            <div class="col-md-12">
+                <form method="POST" name="batch_search" id="batch_search" action="" >
+                    <!-- Row -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="portlet box green">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <?php echo $this->translate("Search Filters"); ?> (In current stock)
+                                    </div>
+                                </div>
+                                <div class="portlet-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="control-group">
+                                                <label class="control-label" for="item_pack_size_id">
+                                                    <?php echo $this->translate("By Product"); ?>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->item_pack_size_id; ?>
+                                                </div>
+                                            </div>                                                        
+                                        </div>
+                                        <div class="col-md-4">
+                                            <!-- Group -->
+                                            <div class="control-group">
+                                                <label class="control-label" for="searchby">
+                                                    <?php echo $this->translate("Search By"); ?>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->searchby; ?>
+                                                </div>
+                                            </div>
+                                            <!-- // Group END -->
+                                        </div>
+                                        <div class="col-md-4">
+                                            <!-- Group -->
+                                            <div class="control-group">
+                                                <label class="control-label" for="searchinput">
+                                                    <?php echo $this->translate("Search Input"); ?>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->searchinput; ?>
+                                                </div>
+                                            </div>
+                                            <!-- // Group END -->
+                                        </div>
+                                    </div>                                    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="control-group">
+                                                <label class="control-label" for="status">
+                                                    &nbsp;
+                                                </label>                                                
+                                                <div class="controls">
+                                                    <?php echo $this->form->status; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="control-group">
+                                                <label class="control-label">
+                                                    &nbsp;
+                                                </label>
+                                                <div class="controls">
+                                                    <fieldset>
+                                                        <legend>Vaccine:</legend>
+                                                        <button type="button" class="btn btn-primary" onclick="window.open('<?php echo $this->baseUrl(); ?>/stock-batch/batch-summary', '_blank', 'scrollbars=1,width=860,height=595');">
+                                                            <?php echo $this->translate("Summary"); ?>
+                                                        </button>
+                                                        <button type="button" class="btn btn-primary" onclick="window.open('<?php echo $this->baseUrl(); ?>/stock/priority-vaccines-distribution-detail-print', '_blank', 'scrollbars=1,width=860,height=595')">
+                                                            <?php echo $this->translate("Priority Distribution"); ?>
+                                                        </button>
+                                                    </fieldset>
+                                                </div>
+                                            </div>                                                        
+                                        </div>                                                                             
+                                        <div class="col-md-4">
+                                            <div class="control-group">
+                                                <label class="control-label">
+                                                    &nbsp;
+                                                </label>
+                                                <div class="controls">
+                                                    <fieldset>
+                                                        <legend>Non Vaccine:</legend>                                                        
+                                                        <button type="button" class="btn btn-primary" onclick="window.open('<?php echo $this->baseUrl(); ?>/stock-batch/non-vaccine-batch-summary', '_blank', 'scrollbars=1,width=860,height=595');">
+                                                            <?php echo $this->translate("Summary"); ?>
+                                                        </button>
+                                                        <button type="button" class="btn btn-primary" onclick="window.open('<?php echo $this->baseUrl(); ?>/stock/priority-non-vaccines-distribution-detail-print', '_blank', 'scrollbars=1,width=860,height=595')">
+                                                            <?php echo $this->translate("Priority Distribution"); ?>
+                                                        </button>                                                        
+                                                    </fieldset>
+                                                </div>
+                                            </div>                                                        
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="control-group">
+                                                <label class="control-label">
+                                                    &nbsp;
+                                                </label>
+                                                <div class="controls">
+                                                    <fieldset>
+                                                        <legend>&nbsp;</legend>  
+                                                        <?php if ($this->role_id <= 4) { ?>
+                                                            <button type="button" class="btn btn-primary" onclick="window.open('<?php echo $this->baseUrl(); ?>/stock-batch/stakeholder-summary', '_blank', 'scrollbars=1,width=860,height=595');">
+                                                                <?php echo $this->translate("Manufacturers"); ?>
+                                                            </button>
+                                                        <?php } ?>
+                                                        <button class="btn btn-success pull-right" id="search" name="search" type="submit" >
+                                                            <?php echo $this->translate("Search"); ?>
+                                                        </button>
+                                                    </fieldset>
+                                                </div>
+                                            </div>                                                        
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="clear:both;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="vaccine-detail">
+                            <div id="batch_detail_ajax">                                
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row margin-top-10">
+            <div class="col-md-12">
+                <?php
+                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Batch List"); ?> (Based on filters)
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="batchManagement table table-striped table-bordered table-hover table-full-width" id="batch_management">
+                                    <!-- Table heading -->
+                                    <thead>
+                                        <tr>
+                                            <th><?php echo $this->translate("Sr No"); ?></th>
+                                            <th><?php echo $this->translate("Product"); ?></th>
+                                            <th><?php echo $this->translate("Batch No"); ?></th>
+                                            <th><?php echo $this->translate("Manufacturer"); ?></th>
+                                            <th><?php echo $this->translate("VVM Stage"); ?></th>
+                                            <th><?php echo $this->translate("Expiry Date"); ?></th>
+                                            <th><?php echo $this->translate("Quantity") . " (" . (!empty($this->data[0]['itemUnitName']) ? $this->data[0]['itemUnitName'] : '' ) . ")"; ?></th>
+                                            <th><?php echo $this->translate("Doses"); ?></th>
+                                            <th><?php echo $this->translate("Status"); ?></th>
+                                            <th><?php echo $this->translate("Action"); ?></th>
+                                        </tr>
+                                    </thead>
+                                    <!-- // Table heading END -->
+                                    <tfoot>
+                                        <tr>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th class="right">Page Total:</th>
+                                            <th class="right"></th>
+                                            <th class="right"></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                    <!-- Table body -->
+                                    <tbody>
+                                        <?php
+                                        if (!empty($this->data) && count($this->data) > 0) {
+                                            $i = 1;
+                                            foreach ($this->data as $row) {
+                                                $new_status = $row['status'];
+                                                if ($new_status == 'Stacked' || $new_status == 'Running') {
+                                                    $new_status = 'Priority 1';
+                                                }
+
+                                                $placement_history = $row['pkId'] . '|' . $row['itemName'] . '|' . $row['number'] . '|' . $row['expiryDate'];
+                                                if ($row['BatchQty'] < 0) {
+                                                    $row['BatchQty'] = 0;
+                                                }
+                                                ?>
+                                                <!-- Table row -->
+                                                <tr class="gradeX">
+                                                    <td><?php echo $i; ?></td>
+                                                    <td><?php echo $row['itemName']; ?></td>
+                                                    <td><?php echo $row['number']; ?></td>
+                                                    <td><?php $this->getManufacturer($row['pkId']); ?></td>
+                                                    <td>
+                                                        <a pkid="<?php echo $placement_history; ?>" class="placement-history"  data-toggle="modal" title="Placement Info" href="#modal-placement-history">
+                                                            <?php $this->batchVvmStage($row['pkId']); ?> 
+                                                        </a>
+                                                    </td>
+                                                    <td <?php /* if ($this->isExpiryEdit($row['pkId'])) { ?> class="editableSingle expiry id<?php echo $row['pkId']; ?>" <?php } */ ?> 
+                                                        style="<?php
+                                                        $current_date = date("y/m/d");
+                                                        $expiray_date = date("y/m/d", strtotime($row['expiryDate']));
+                                                        if ($expiray_date < $current_date) {
+                                                            echo 'color:red';
+                                                        } else {
+                                                            echo 'color:green';
+                                                        }
+                                                        ?>"><?php echo date("d/m/Y", strtotime($row['expiryDate'])); ?></td>
+                                                    <td class="right col-md-1"><?php echo number_format($row['BatchQty']); ?></td>
+                                                    <td class="right col-md-1"><?php echo number_format($row['BatchQty'] * $row['description']); ?></td>
+                                                    <td id="batch<?php echo $row['pkId']; ?>-status"> &nbsp; <?php echo ($this->status == 5 ? 'Expired' : $new_status ); ?></td>
+                                                    <td class="col-md-2">
+                                                        <input type="hidden" name="status" id="batch<?php echo $row['pkId']; ?>_status" value="<?php echo $new_status; ?>" />
+                                                        <input type="hidden" name="batch_id" id="batch<?php echo $row['pkId']; ?>_id" value="<?php echo $row['pkId']; ?>" />
+
+                                                        <?php
+                                                        if ($new_status == 'Finished') {
+                                                            echo '';
+                                                        } else {
+                                                            ?>
+                                                                                                                                                                                                                                                                                                                                                <!--<button class="btn <?php echo ($new_status == 'Stacked') ? "btn-success" : "btn-danger"; ?> input-sm" id="batch<?php echo $row['pkId']; ?>-makeit">
+                                                            <?php echo $this->translate("Make it"); ?>
+                                                                                                                                                                                                                                                                                                                                                    <span id="batch<?php echo $row['pkId']; ?>-button">
+                                                            <?php echo ($new_status == 'Stacked') ? "Running" : "Stacked"; ?>
+                                                                                                                                                                                                                                                                                                                                                    </span>
+                                                                                                                                                                                                                                                                                                                                                </button> -->
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                        <?php
+                                                        if ($new_status != 'Finished') { //Hide placement info in case of Finished batch
+                                                            ?>
+                                                            <div>
+                                                                <a pkid="<?php echo $placement_history; ?>" class="btn btn-info btn-sm placement-history white"  data-toggle="modal" title="Placement Info" href="#modal-placement-history">
+                                                                    <i class="fa fa-search">  </i>   </a>           
+                                                            </div>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                $i++;
+                                            }
+                                        }
+                                        ?>
+                                        <!-- // Table row END -->
+                                    </tbody>
+                                    <!-- // Table body END -->
+
+                                </table>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group pull-right">
+                                    <button id="print_vaccine_placement" type="button" class="btn btn-primary input-sm" >
+                                        <?php echo $this->translate("Print"); ?>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="vaccine_div">
+            <div class="col-md-12">
+                <table class="table table-striped table-bordered table-hover table-full-width">
+                    <tr>
+                        <th class="col-md-2 bg-priority-head2">Batch status</th>
+                        <th class="col-md-10 bg-priority-head2">Description</th>
+                    </tr>
+                    <tr>
+                        <td class="bg-priority1"><b>Priority 1</b></td>
+                        <td class="bg-priority1">If VVM stage is 2 or expiry is less than 3 months.</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-priority2"><b>Priority 2</b></td>
+                        <td class="bg-priority2">If VVM stage is 1 and expiry is more than 3 months and less than 12 months.</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-priority3"><b>Priority 3</b></td>
+                        <td class="bg-priority3">If VVM stage is 1 and expiry is more than 12 months.</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="red">Note: Non vaccine priority list quantities and placed quantities may be different due to incomplete placements of the dry store products in vLMIS.</td>                        
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row" id="non_vaccine_div" style="display:none">
+            <div class="col-md-12">
+                <table class="table table-striped table-bordered table-hover table-full-width">
+                    <tr>
+                        <th class="col-md-2 bg-priority-head2">Batch status</th>
+                        <th class="col-md-10 bg-priority-head2">Description</th>
+                    </tr>
+                    <tr>
+                        <td class="bg-priority1"><b>Priority 1</b></td>
+                        <td class="bg-priority1">If expiry is less then 3 months.</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-priority2"><b>Priority 2</b></td>
+                        <td class="bg-priority2">If expiry is more then 3 months and less then 12 months.</td>
+                    </tr>
+                    <tr>
+                        <td class="bg-priority3"><b>Priority 3</b></td>
+                        <td class="bg-priority3">If expiry is more the 12 months.</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="red">Note: Non vaccine priority list quantities and placed quantities may be different due to incomplete placements of the dry store products in vLMIS.</td>                        
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal-detail-batch" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3>Placement Location</h3>
+            </div>
+
+            <div class="modal-body" id="modal-body-contents-detail">
+                <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>                  
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-placement-history" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3>Batch Placements Detail</h3>
+            </div>
+            <div class="modal-body" id="modal-body-contents"></div>
+        </div>
+    </div>
+</div>

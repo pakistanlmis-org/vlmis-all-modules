@@ -1,0 +1,257 @@
+<?php
+/**
+ *  phtml for Routine Users
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Manage Routine Immunization Users ") ?> </h3>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Users Search") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="search" action="" id="locatins">
+                                    <!-- Row -->
+
+
+                                    <div class="row">
+                                        <div class="col-md-12 margin-bottom">
+                                            <?php echo $this->routineCombo($this->combos, $this->warehouse_id, $this->role_id); ?>
+                                            <?php echo $this->form->province_id; ?>
+                                            <?php echo $this->form->district_id; ?>
+                                            <?php echo $this->form->tehsil_id; ?>
+                                            <?php echo $this->form->parent_id; ?>
+                                            <input type="hidden" name="hdn_warehouse_id" id="hdn_warehouse_id" value="<?php echo $this->warehouse_id; ?>">
+                                            <input type="hidden" name="hdn_role_id" id="hdn_role_id" value="<?php echo $this->role_id; ?>">
+                                            <input type="hidden" name="location_name_hdn" id="location_name_hdn" value="">
+                                            <input type="hidden" name="location_name_edit_hdn" id="location_name_edit_hdn" value="">
+                                            <input type="hidden" name="action_hdn" id="action_hdn" value="">
+
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                        </div>
+                                        <div class="col-md-2">
+
+                                            <button data-loading-text="Searching"  class="btn btn-sm green btn-outline filter-submit" type="button" name="search" id="search" ><i class="fa fa-search"></i>
+                                                <?php echo $this->translate("Search") ?></button>
+                                            <button type="reset" class="btn btn-sm default btn-outline filter-cancel" id="reset"><i class="fa fa-times"></i>
+                                                Reset</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Users List") ?>
+                        </div>
+
+                        <div class="actions">
+                            <a  class="btn btn-default btn-sm"  data-toggle="modal" href="#add-store">
+                                <i class="fa fa-plus"></i> <?php echo $this->translate("Add User") ?> </a>
+
+                        </div>
+                        <div class="tools">
+
+                            <a href="javascript:;" class="reload" style="visibility: hidden"></a>
+
+                        </div>
+
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dataTables_wrapper form-inline" id="ajax-table">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <?php //$this->recordsPerPage($this->counter); ?>
+                                        </div>
+
+                                    </div>
+                                    </br>
+                                    <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_2">
+                                        <!-- Table heading -->
+                                        <?php
+                                        $fields = array(
+                                            's_no' => 'S.No',
+                                            'user_name' => 'User Name',
+                                            'Uc' => 'UC',
+                                            'district' => 'District',
+                                            'province' => 'Province'
+                                        );
+                                        $this->tableHeading($this->order, $this->sort, $fields);
+                                        ?>
+                                        <!-- // Table heading END -->
+                                        <!-- Table body -->
+
+                                        <!-- // Table body END -->
+                                        <tbody>
+                                            <?php
+                                            $m_res = array();
+                                            $i = $this->count;
+                                            if ($this->paginator && count($this->paginator) > 0) :
+                                                foreach ($this->paginator as $row):
+                                                    ?>
+                                                    <tr class="<?php if ($i % 2 == 0) { ?>gradeX even<?php } else { ?> gradeA odd<?php } ?>">
+                                                        <td class="center" width="25"><?php echo $i; ?></td>
+                                                        <td><?php echo $row->getUser()->getLoginId(); ?></td>
+                                                        <td><?php echo $row->getWarehouse()->getLocation()->getLocationName(); ?></td>
+                                                        <td><?php echo $row->getWarehouse()->getDistrict()->getLocationName(); ?></td>
+                                                        <td><?php echo $row->getWarehouse()->getProvince()->getLocationName(); ?></td>
+                                                        <td><a itemid="<?php echo $row->getUser()->getPkId(); ?>" class="update-stores btn btn-xs green" data-toggle="modal" href="#modal-update-stores"><i class="fa fa-edit"></i><?php echo $this->translate("Edit") ?></a>
+                                                            <?php // if ($this->userDelete($row['pkId'])) { ?>
+                                                            <?php //} else { ?>
+                                                            <!--  <a  data-toggle="notyfy" data-bind="<?php echo $row->getUser()->getPkId(); ?>" data-type="confirm" data-layout="top" class="btn-link btn-danger btn-mini"><?php echo $this->translate("Delete"); ?>
+                                                                </a> -!>
+                                                            <?php //} ?>
+                
+                                                        </td>
+                                                            <!-- // Table row END --><?php
+                                                            $i++;
+                                                        endforeach;
+                                                    endif;
+                                                    ?>
+                                        </tbody>
+                                    </table>
+                                    <?php // echo $this->paginationControl($this->paginator, 'Sliding', 'paginator.phtml'); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- // modal box for add -->
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/iadmin/manage-users/add-routine" id="add-stores">
+            <div class="modal fade" id="add-store" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">Ã—</button>
+                            <h3>Add User</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group ">
+                                            <label class="control-label" ><?php echo $this->translate("Username"); ?></label><span class="red">*</span>
+                                            <?php echo $this->form->user_name_add; ?>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <div class="control-group ">
+                                            <label class="control-label" ><?php echo $this->translate("Email"); ?></label><span class="red">*</span>
+                                            <div class="controls">
+                                                <?php echo $this->form->email; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="control-group ">
+                                            <label class="control-label" ><?php echo $this->translate("Phone"); ?></label><span class="red">*</span>
+                                            <div class="controls">
+                                                <?php echo $this->form->phone; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <div class="form-group ">
+                                            <label class="control-label" ><?php echo $this->translate("Password"); ?></label><span class="red">*</span>
+                                            <?php echo $this->form->password; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group ">
+                                            <label class="control-label" ><?php echo $this->translate("Confirm Password"); ?></label><span class="red">*</span>
+                                            <?php echo $this->form->confirm_password; ?>
+                                        </div>
+                                    </div> 
+                                </div> 
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php echo $this->routineAddCombo($this->combos, $this->warehouse_id, $this->role_id); ?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <div class="form-group ">
+                                            <label class="control-label" ><?php echo $this->translate("Default Store"); ?></label>
+                                            <?php echo $this->form->default_warehouse; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-loading-text="Adding" class="btn btn-primary" type="submit" id="add" ><?php echo $this->translate("Add"); ?></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+        <!-- // modal box for update -->
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/iadmin/manage-users/update-routine" id="update-stores">
+            <div class="modal fade" id="modal-update-stores">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">Ã—</button>
+                            <h3>Edit Users</h3>
+                        </div>
+                        <div class="modal-body" id="modal-body-contents">
+                            <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                        </div>
+                        <div class="modal-footer " id="update-button">
+                            <button data-loading-text="Updating" class="btn btn-primary" type="submit" id="update" ><?php echo $this->translate("Update"); ?></button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+<!-- // Content END -->

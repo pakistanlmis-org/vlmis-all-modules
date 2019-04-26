@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col-md-12">
+        <?php
+        FC_SetRenderer('javascript');
+        echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie3D.swf", "", $this->xml_stock_status_1, "coldchainCapacity20", '100%', 200, false, false);
+        ?>
+
+</div>
+        
+        <div class="col-md-12">
+            <?php
+            FC_SetRenderer('javascript');
+            echo renderChart($this->baseUrl() . "/FusionCharts/Charts/StackedColumn2DLine.swf", "", $this->xml_stock_status_3, "coldchainCapacity2012", '100%', 300, false, false);
+            ?>
+
+        </div>
+        
+    </div>
+</div>
+
+

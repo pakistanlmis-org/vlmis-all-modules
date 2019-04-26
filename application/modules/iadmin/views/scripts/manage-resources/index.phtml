@@ -1,0 +1,227 @@
+<?php
+/**
+*  phtml for Index
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Manage Resources"); ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Resource Search") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <form method="POST" name="resource_search" action="" >
+                            <!-- Row -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <div class="control-group ">
+                                            <label class="control-label" ><?php echo $this->translate("Resource name"); ?></label>
+                                            <div class="controls">
+                                                <?php echo $this->form->resource_name; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="control-group ">
+                                            <label class="control-label" ><?php echo $this->translate("Resource type"); ?></label>
+                                            <div class="controls">
+                                                <?php echo $this->form->resource_type; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3" style="margin-top: 25px;">
+                                        <label class="control-label" >&nbsp;</label>
+                                        <button class="btn btn-primary" type="submit" name="search"><?php echo $this->translate("Search") ?></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Resource List") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="dataTables_wrapper form-inline">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <?php  $this->recordsPerPage($this->counter); ?>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="dataTables_filter">
+                                        <label>
+                                            <a class="btn btn-primary" data-toggle="modal" href="#modal-add-resource"><?php echo $this->translate("Add Resource"); ?></a>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table table-striped table-bordered table-hover dataTable no-footer">
+                                <!-- Table heading -->
+                                <?php
+                                $fields = array(
+                                    'resource_name' => 'Resource name',
+                                    'description' => 'Description',
+                                    'resource_type' => 'Resource type',
+                                    'level' => 'Level'
+                                );
+                                $this->tableHeading($this->order, $this->sort, $fields);
+                                ?>
+                                <!-- // Table heading END -->
+                                <!-- Table body -->
+
+                                <!-- // Table body END -->
+                                <tbody>
+                                    <?php
+                                    $m_res = array();
+                                    $i = 1;
+                                    if ($this->paginator && count($this->paginator) > 0) :
+                                        foreach ($this->paginator as $row):
+                                            ?>
+                                            <tr class="<?php if ($i % 2 == 0) { ?>gradeX even<?php } else { ?> gradeA odd<?php } ?>">
+                                                <td><?php echo $row->getResourceName(); ?></td>
+                                                <td><?php echo $row->getDescription(); ?></td>
+                                                <td><?php echo $row->getResourceType()->getResourceType(); ?></td>
+                                                <td><?php echo $row->getLevel(); ?></td>
+                                                <td><a itemid="<?php echo $row->getPkId(); ?>" class="btn update-resource btn-link btn-success input-sm" data-toggle="modal" href="#modal-update-resource"><?php echo $this->translate("Edit") ?></a> <a data-bind="<?php echo $row->getPkId(); ?>" data-toggle="notyfy" data-type="confirm" data-layout="top" class="btn btn-danger btn-link input-sm"><?php echo $this->translate("Delete") ?></a>
+                                            </tr>
+                                            <!-- // Table row END --><?php
+                                            $i++;
+                                        endforeach;
+                                    endif;
+                                    ?>
+                                </tbody>
+                            </table>
+                            <?php echo $this->paginationControl($this->paginator, 'Sliding', 'paginator.phtml', array('params' => $this->pagination_params)); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/iadmin/manage-resources/add" id="add-resource">
+            <div class="modal fade" id="modal-add-resource" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3>Add Resource</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Resource Name"); ?></label>
+                                        <div class="controls"><?php echo $this->form_add->resource_name; ?></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Description"); ?></label>
+                                        <div class="controls"><?php echo $this->form_add->description; ?></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Resource Type Id"); ?></label>
+                                        <div class="controls"><?php echo $this->form_add->resource_type; ?></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Parent"); ?></label>
+                                        <div class="controls"><?php echo $this->form_add->parent_id; ?></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Rank"); ?></label>
+                                        <div class="controls"><?php echo $this->form_add->rank; ?></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Level"); ?></label>
+                                        <div class="controls"><?php echo $this->form_add->level; ?></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Page Title"); ?></label>
+                                        <div class="controls"><?php echo $this->form_add->page_title; ?></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Meta Title"); ?></label>
+                                        <div class="controls"><?php echo $this->form_add->meta_title; ?></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Meta Description"); ?></label>
+                                        <div class="controls"><?php echo $this->form_add->meta_desc; ?></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="clear:both;"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit"><?php echo $this->translate("Save"); ?></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/iadmin/manage-resources/update" id="update-resource" enctype="multipart/form-data">
+            <div class="modal fade" id="modal-update-resource" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3>Edit Resource</h3>
+                        </div>
+                        <div class="modal-body" id="modal-body-contents">
+                            <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                        </div>
+                        <div class="modal-footer" id="update-button">
+                            <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit"><?php echo $this->translate("Update"); ?></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- // Content END -->

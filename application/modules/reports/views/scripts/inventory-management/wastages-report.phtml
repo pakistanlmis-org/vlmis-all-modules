@@ -1,0 +1,201 @@
+<?php
+/**
+*  phtml for Wastages Report
+*/
+?>
+<?php
+$sel_month = $this->month_sel;
+$sel_year = $this->year_sel;
+$counter = 1;
+
+$sel_stk = $this->in_stk;
+$sel_prov = $this->province;
+$sel_dist = $this->district;
+$sel_tehsil = $this->tehsil;
+$wh_type = $this->wh_type;
+$sel_indicator = $this->sel_indicator;
+$in_col = $this->in_col;
+$in_rg = $this->in_rg;
+$sel_prod = $this->sel_prod;
+$in_type = $this->in_type;
+$stk_sel = $this->stk_sel;
+$start_date = $this->start_date;
+$end_date = $this->end_date;
+$period = $this->period;
+$str_indicator = $this->str_indicator;
+$sel_level = $this->sel_level;
+
+$data_arr = array();
+
+$num = count($this->location_id);
+
+foreach ($this->location_id as $row) {
+    $data_arr[$row['districtId']][] = $row['districtId'];
+    $data_arr[$row['districtId']][] = $row['districtName'];
+    $count = 2;
+    foreach ($period as $date) {
+        $data_arr[$row['districtId']][$count] = 0;
+        $count++;
+        $data_arr[$row['districtId']][$count] = 0;
+        $count++;
+    }
+}
+
+// Headers of the Grid
+$header = 'District ID, District';
+$header1 = '#rspan,#rspan';
+$cspan = '#cspan,#cspan';
+$width = '50,*';
+$ro = 'ro,ro';
+
+$count = 2;
+foreach ($period as $date) {
+    $cspan .= ',#cspan,#cspan';
+    $header .= ",<div style='text-align:center;'>" . $date->format('M-y') . "</div>,#cspan";
+    $monthArr[] = $date->format("m-Y") . '|Receive';
+    $monthArr[] = $date->format("m-Y") . '|Issue';
+    $width .= ',70,70';
+    $ro .= ',ro,ro';
+    $header1 .= ',<span>RR</span>, <span>Wastages</span>';
+    $str_date = $startDate = $endDate = $date->format("Y-m");
+
+    $query_vals = $this->reports()->getWastagesReport($wh_type, $str_date, $sel_prov, $sel_dist, $sel_prod, $sel_level);
+
+    foreach ($query_vals as $row) {
+        $data_arr[$row['districtId']][$count] = $row['RptPer'];
+        $count1 = $count + 1;
+        $data_arr[$row['districtId']][$count1] = $row['wastagePer'];
+    }
+    $count = $count + 2;
+}
+
+$query_vals_1 = $this->reports()->getItemPackSizesWastagesRateAllowed($sel_prod, $sel_level);
+$accpLimit = $query_vals_1[0]['wastage_rate_allowed'];
+$itemName = $query_vals_1[0]['item_name'];
+$xml_store = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+$xml_store .= "<rows>";
+
+$sum_arr = array();
+
+foreach ($data_arr as $dis_id => $sub_arr) {
+
+    $xml_store .= "<row>";
+    $xml_store .= "<cell>$sub_arr[0]</cell>";
+    $xml_store .= "<cell>$sub_arr[1]</cell>";
+    foreach ($sub_arr as $key => $value) {
+        if (!isset($sum_arr[$key])) {
+            $sum_arr[$key] = 0;
+        }
+        $sum_arr[$key] += $value;
+        if ($key > 1) {
+            if ($key % 2 == 1 && $value > $accpLimit) {
+                $xml_store .= "<cell style=\"text-align:right; color:red;\">$value %</cell>";
+            } else {
+                $xml_store .= "<cell style=\"text-align:right;\">$value %</cell>";
+            }
+        }
+    }
+    $xml_store .="</row>";
+}
+
+$xml_store .="</rows>";
+
+?>
+
+<?php
+$count1 = 1;
+foreach ($period as $date) {
+    if ($count1 == 1) {
+        $month_strt = $date->format('m');
+
+        $month_year = $date->format('Y');
+    }
+    $count1++;
+}
+
+
+$report_title = $this->report_title;
+if (!empty($month_strt)) {
+    $month_strt = date('F', mktime(0, 0, 0, $month_strt));
+} else {
+    $month_strt = "";
+}
+
+
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+$title = "Reporting and Wastage Rate";
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $report_title . ' ' . $report_month . ' ' . $sel_year; ?></h3>
+        <div class="innerLR">
+            <script>
+                var mygrid;
+                function doInitGrid() {
+                    mygrid = new dhtmlXGridObject('mygrid_container');
+                    mygrid.selMultiRows = true;
+                    mygrid.setImagePath("<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+                    //mygrid.setHeader("Province,Consumption,AMC,On Hand,MOS,#cspan");
+                    mygrid.setHeader(",<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'><?php echo "'$itemName' $title for '$this->loc_name' ($month_strt-$month_year to  " . date('F', mktime(0, 0, 0, $this->month_sel)) . '-' . $this->year_sel; ?>)</div>,<?php echo substr($cspan, 0, -14); ?>");
+                    mygrid.attachHeader("<?php echo $header; ?>");
+                    mygrid.attachHeader("<?php echo $header1; ?>");
+                    mygrid.setInitWidths("<?php echo $width; ?>");
+                    mygrid.setColTypes("<?php echo $ro; ?>");
+                    mygrid.setColumnHidden(0, true);
+                    mygrid.enableRowsHover(true, 'onMouseOver');
+                    mygrid.setSkin("light");
+                    mygrid.init();
+                    mygrid.clearAll();
+                    $('body').append('<textarea id="xml_string" style="display:none;"><?php echo addslashes($xml_store); ?></textarea>');
+                    mygrid.loadXMLString(document.getElementById('xml_string').value);
+                }
+            </script>
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php
+                        echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('inventory-management/reports-header.phtml') ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="padding-bottom:10px;">
+                        RR: Reporting Rate<br />
+                        Wastage Acceptance Limit: <?php echo $accpLimit; ?>%
+                    </td>
+
+                    <td style="text-align:right; padding-bottom:10px;">
+                        <img style="cursor:pointer;" src="<?php echo $this->baseUrl(); ?>/images/pdf-32.png" onClick="mygrid.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="<?php echo $this->translate("Export to PDF"); ?>"/>&nbsp;&nbsp;
+                        <img style="cursor:pointer; margin-left:-5px" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="mygrid.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');" title="<?php echo $this->translate("Export to Excel"); ?>" />
+                    </td>
+                </tr>
+
+            </table>
+
+            <table width="99%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <div id="mygrid_container" style="width:100%; height:500px;"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    var whType = <?php echo $wh_type; ?>;
+    var province = <?php echo $sel_prov; ?>;
+    var district = <?php echo $sel_dist; ?>;
+    var tehsil = <?php echo $sel_tehsil; ?>;
+</script>

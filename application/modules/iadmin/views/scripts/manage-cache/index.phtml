@@ -1,0 +1,47 @@
+<?php
+/**
+*  phtml for Index
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Manage Cache") ?>  </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Clear Cache") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="locations" action="" >
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <?php echo $this->files ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="control-label" >&nbsp;</label>
+                                            <button class="btn btn-primary" type="submit" name="clear" onclick="return confirm('Are you sure you want to clear the cache?');"><?php echo $this->translate("Delete Cache") ?></button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // Content END -->

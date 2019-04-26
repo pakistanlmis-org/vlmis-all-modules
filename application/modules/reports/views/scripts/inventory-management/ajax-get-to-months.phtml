@@ -1,0 +1,28 @@
+<?php
+/**
+*  phtml for Ajax Get to Months
+*/
+?>
+
+<?php
+if (!empty($this->to_year_id) && !empty($this->from_year_id)) {
+    if ($this->to_year_id == $this->from_year_id) {
+        $from_month = $this->from_month_id;
+    } else {
+        $from_month = 1;
+    }
+   
+    for ($i = $from_month; $i <= 12; $i++) {
+        ?>
+        <option value="<?php echo $i; ?>"><?php echo date('M', mktime(0, 0, 0, $i, 1)); ?></option>
+        <?php
+    }
+} else {
+    for ($i = $this->from_month_id; $i <= 12; $i++) {
+        ?>
+        <option value="<?php echo $i; ?>"><?php echo date('M', mktime(0, 0, 0, $i, 1)); ?></option>
+        <?php
+    }
+}
+?>
+

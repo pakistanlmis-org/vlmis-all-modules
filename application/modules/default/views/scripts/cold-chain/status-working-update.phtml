@@ -1,0 +1,40 @@
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- BEGIN SAMPLE TABLE PORTLET-->
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-arrow-down"></i>Data Entry
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-scrollable">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="vertical-align: top;">Reporting Months<br/><h5>Click month to add/view reported data</h5></th>
+                                        <th style="vertical-align: top;" >Last Update</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td><b>Cold Chain Status: </b><?php echo $this->loadLast3Months2()->loadColdChainMonths($this->user_id, 1); ?></br>
+
+                                        <td colspan="3"><?php
+                                            echo $this->loadLast3Months2()->getWarehouseNamesAssetTehsilStatusColdChain($this->cold_chain_warehouse_id);
+                                            ?> </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- END SAMPLE TABLE PORTLET-->
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,292 @@
+
+<?php
+/**
+ *  phtml for van/dashlet/van
+ */
+$selected_province = $this->selected_province;
+$selected_district = $this->selected_district;
+$selected_year = $this->selected_year;
+$selected_month = $this->selected_month;
+$display_date = $this->display_date;
+$selected_product = $this->selected_product;
+$vaccines = $this->all_vaccines;
+$uc_reporting_rate_array = $this->uc_reporting_rate_array;
+?>
+
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <!-- BEGIN PAGE HEADER-->
+
+        <div class="row">
+            <h3 class="col-md-8">
+                VAN <small>dashboard & statistics</small>
+            </h3>
+
+        </div>
+        <div class="row">&nbsp;</div>
+        <!-- END PAGE HEADER-->
+        <div class="row">
+            <!-- // Tabs START -->  
+            <div class="col-md-12">
+                <div class="widget widget-tabs">
+                    <div class="widget-head dashboard-widget">
+                        <ul>
+                            <li class="active">
+                                <a href="<?php echo $this->baseUrl(); ?>/van2/dashlet/van">
+                                    <div class="dashboard-stat_custom">
+                                        <div style="width: auto;" class="visual">
+                                            <i class="fa fa-routine-immunization"></i> 
+                                        </div>
+                                        <div style="float: left;" class="details">
+                                            <div class="dashboard-title-1"></div>
+                                            <div class="dashboard-title-2" style="padding-top: 20px">VAN Month</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="<?php echo $this->baseUrl(); ?>/van2/dashlet/van2">
+                                    <div class="dashboard-stat_custom">
+                                        <div style="width: auto;" class="visual">
+                                            <i class="fa fa-routine-immunization"></i> 
+                                        </div>
+                                        <div style="float: left;" class="details">
+                                            <div class="dashboard-title-1"></div>
+                                            <div class="dashboard-title-2" style="padding-top: 20px">VAN Trends</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <div class="widget-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active">
+                                <div class="row">
+                                    <form method="post" name="van-filters" id="van-filters" action="">
+                                        <div class="col-md-12 col-sm-12">
+                                            <div id="sample_2_filter" class="dataTables_filter">                                                        
+                                                <label><button class="btn btn-success" type="submit" id="go-btn" name="go-btn">GO</button></label>
+
+                                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                <label>Month:
+                                                    <select id="month" name="month" class="form-control input-inline input-xsmall">
+                                                        <option value = "">Select Month</option>
+                                                        <?php
+                                                        $months = $this->all_months;
+                                                        foreach ($months as $month) {
+                                                            ?>
+                                                            <option value = "<?php echo $month['month_code'] ?>" <?php
+                                                        if ($month['month_code'] == $this->selected_month) {
+                                                            echo "selected='selected'";
+                                                        }
+                                                            ?>><?php echo $month['month_name'] ?></option>
+                                                                    <?php
+                                                                }
+                                                                ?>  
+                                                    </select>
+                                                </label> 
+                                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                <label>Year:
+                                                    <select id="year" name="year" class="form-control input-inline input-xsmall">
+                                                        <option value = "">Select Year</option>
+                                                        <?php
+                                                        $years = $this->years;
+                                                        foreach ($years as $key => $value) {
+                                                            ?>
+                                                            <option value = "<?php echo $key ?>" <?php
+                                                        if ($key == $this->selected_year) {
+                                                            echo "selected='selected'";
+                                                        }
+                                                            ?>><?php echo $value ?></option>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                    </select>
+                                                </label> 
+                                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                <label>District:
+                                                    <select id="district" name="district" class="form-control input-inline input-xsmall">
+                                                        <option value = "">Select District</option>
+                                                        <?php
+                                                        $districts = $this->districts;
+                                                        foreach ($districts as $district) {
+                                                            ?>
+                                                            <option value = "<?php echo $district['district_id'] ?>" <?php
+                                                        if ($district['district_id'] == $this->selected_district) {
+                                                            echo "selected='selected'";
+                                                        }
+                                                            ?>><?php echo $district['district_name'] ?></option>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                    </select>
+                                                </label> 
+                                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                <label>Province:
+                                                    <select id="province" name="province" class="form-control input-inline input-xsmall">
+                                                        <option value = "">Select Province</option>
+                                                        <?php
+                                                        $provinces = $this->provinces;
+                                                        foreach ($provinces as $key => $value) {
+                                                            ?>
+                                                            <option value = "<?php echo $key ?>" selected = "selected"><?php echo $value ?></option>
+                                                            <?php
+                                                        }
+                                                        ?>
+
+                                                    </select>
+                                                </label> 
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div data-toggle="collapse-widget" class="widget">
+                                            <div class="widget-head">
+                                                <h4 class="heading "><i></i>Coverage <?php echo $display_date ?></h4>
+                                            </div>
+                                            <div class="widget-body dashlets" id="473" href="reports/dashlet/reported-wastages">
+                                                <?php
+                                                FC_SetRenderer('javascript');
+                                                echo renderChart($this->baseUrl() . "/FusionCharts/Charts/MSColumn2D.swf", "", $this->xmlstore5, "5", '100%', 350, false, false);
+                                                ?> 
+
+                                                <div style="clear:both;"></div>            
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div data-toggle="collapse-widget" class="widget">
+                                            <div class="widget-head">
+                                                <h4 class="heading "><i></i>Wastage <?php echo $display_date ?></h4>
+                                            </div>
+                                            <div class="widget-body dashlets" id="473" href="reports/dashlet/reported-wastages">
+                                                <?php
+                                                FC_SetRenderer('javascript');
+                                                echo renderChart($this->baseUrl() . "/FusionCharts/Charts/MSColumn2D.swf", "", $this->xmlstore8, "8", '100%', 350, false, false);
+                                                ?> 
+                                                <div style="clear:both;"></div>            
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div data-toggle="collapse-widget" class="widget">
+                                            <div class="widget-head">
+                                                <h4 class="heading "><i></i>Stock Status <?php echo $display_date; ?></h4>
+                                            </div>
+                                            <div class="widget-body dashlets" id="473" href="reports/dashlet/reported-wastages">
+                                                <div class="col-md-9" id="ss">
+                                                    <?php
+                                                    FC_SetRenderer('javascript');
+                                                    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/stackedcolumn2d.swf", "", $this->xmlstore7, "7", '100%', 350, false, false);
+                                                    ?>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <br><br>
+                                                    <select id="items" name="items" class="form-control">
+                                                        <?php
+                                                        foreach ($vaccines as $vaccine) {
+                                                            ?>
+                                                            <option value = "<?php echo $vaccine['item_id'] ?>" >
+                                                                <?php echo $vaccine['item_name'] ?>
+                                                            </option>
+                                                            <?php
+                                                        }
+                                                        ?>   
+                                                    </select>
+
+                                                </div>
+
+                                                <div style="clear:both;"></div>            
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div data-toggle="collapse-widget" class="widget">
+                                            <div class="widget-head">
+                                                <h4 class="heading "><i></i>UC Reporting Rate by District <?php echo $display_date ?></h4>
+                                            </div>
+                                            <div class="widget-body dashlets" id="473" href="reports/dashlet/reported-wastages">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <?php
+                                                            foreach ($uc_reporting_rate_array as $row) {
+                                                                ?>
+                                                                <th class='center'><?php echo $row['district_name'] ?></th>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <?php
+                                                            foreach ($uc_reporting_rate_array as $row) {
+                                                                ?>
+                                                                <td class='center'><?php echo $row['RR'] . "%" ?></td>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </tr>
+                                                    </tbody>
+
+                                                </table>
+
+                                                <div style="clear:both;"></div>            
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+<!--
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div data-toggle="collapse-widget" class="widget">
+                                            <div class="widget-head">
+                                                <h4 class="heading "><i></i>Cold Chain Equipment Functional Status</h4>
+                                            </div>
+                                            <div class="widget-body dashlets" id="473" href="reports/dashlet/reported-wastages">
+
+                                                <?php
+                                                //FC_SetRenderer('javascript');
+                                                //echo renderChart($this->baseUrl() . "/FusionCharts/Charts/stackedcolumn2d.swf", "", $this->xmlstore10, "10", '100%', 350, false, false);
+                                                ?>   
+                                                <div style="clear:both;"></div>            
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>-->
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- // Tabs END -->                
+        </div>
+    </div>
+</div>
+</div>

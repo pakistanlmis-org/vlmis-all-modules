@@ -1,0 +1,250 @@
+<?php
+/**
+*  phtml for Status Update
+*/
+?>
+<div class="page-content-wrapper">
+    <h3 class="page-title">Cold Chain</h3>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        Update Asset's Working Status
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row margin-top-10 margin-bottom-10">
+                        <div class="col-md-12">
+                            <?php
+                            echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                            ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form method="POST" name="ass_asset" action="coldchain_statusUpdate.php">
+                                <!-- Row -->
+                                <div class="row">
+                                    <?php if ($_SESSION['UserLvl'] == 5 or $_SESSION['UserLvl'] == 6) { ?>
+                                        <div class="col-md-12">
+                                            <div class="col-md-7">
+                                                <div class="col-md-6">
+                                                    <div class="control-group">
+                                                        <label class="control-label" for="firstname">
+                                                            Select UC
+                                                        </label>
+
+                                                        <div class="controls">
+                                                            <select name="uc" id="uc">
+                                                                <option value="">
+                                                                    Select
+                                                                </option>
+                                                                <?php
+                                                                if (!empty($uc_warehouses)) {
+                                                                    while ($row = mysql_fetch_object($uc_warehouses)) {
+                                                                        ?>
+                                                                        <option
+                                                                            value="<?php echo $row->PkLocID; ?>" <?php if ($row->PkLocID == $loc_id) { ?> selected="" <?php } ?>>
+                                                                                <?php echo $row->LocName; ?>
+                                                                        </option>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="control-group" id="uc_center_div"
+                                                         <?php if (empty($loc_id)) { ?>style="display: none;" <?php } ?>>
+                                                        <label class="control-label" for="firstname">
+                                                            Select UC Center
+                                                        </label>
+
+                                                        <div class="controls">
+                                                            <select name="uc_center" id="uc_center">
+                                                                <option value="">Select</option>
+                                                                <?php
+                                                                if (!empty($uc_centers)) {
+                                                                    while ($uc_center = mysql_fetch_object($uc_centers)) {
+                                                                        ?>
+                                                                        <option
+                                                                            value="<?php echo $uc_center->wh_id; ?>" <?php if ($uc_center->wh_id == $wh_id) { ?> selected="" <?php } ?>>
+                                                                                <?php echo $uc_center->wh_name; ?>
+                                                                        </option>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <span id="showMonths">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col-md-5">
+                                                         <div class="span8 well">
+                                                             <div class="control-group">
+                                                                 <label class="control-label" for="firstname">
+                                                                     View Monthly Status Report for:
+                                                                 </label>
+                    
+                                                                 <div class="controls">
+                                                                     <select name="monthly_status" id="monthly_status">
+                                                                         <option value="">
+                                                                             Month - Year
+                                                                         </option>
+                                            <?php
+                                            if ($stsReport != false) {
+                                                while ($row = mysql_fetch_object($stsReport)) {
+                                                    $do = 'Z' . base64_encode($wh_id . '|' . $row->locid . '|' . $row->status_year . '-' . $row->status_month . '-01' . '|2');
+                                                    ?>
+                                                                                                         <option value="<?php echo $do; ?>"
+                                                    <?php if ($previous_selected == $do) { ?>selected=""<?php } ?>>
+                                                    <?php echo $row->status_month . " - " . $row->status_year; ?>
+                                                                                                         </option>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
+                                                                     </select>
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+                                                     </div>-->
+                                        </div>
+                                        <?php
+                                    }
+                                    $no_of_rec = mysql_num_rows($asstetTypes);
+
+                                    if ($showStatusUpdate) {
+                                        ?>
+                                        <div class="col-md-8" id="StatusTable">
+                                            <!-- Group -->
+                                            <table class="dynamicTable table table-striped table-bordered table-condensed">
+
+                                                <!-- Table heading -->
+                                                <thead>
+                                                    <tr>
+                                                        <th width="20%">Asset Id</th>
+                                                        <th width="50%">Equipment</th>
+                                                        <th width="30%">Status</th>
+                                                        <th width="30%">History</th>
+                                                    </tr>
+
+                                                </thead>
+                                                <!-- // Table heading END -->
+
+                                                <!-- Table body -->
+                                                <tbody>
+                                                    <!-- Table row -->
+                                                    <?php
+                                                    $i = 1;
+
+                                                    $asset_t = '';
+                                                    while ($row2 = mysql_fetch_object($asstetTypes)) {
+                                                        $asset_t = $row2->asset_id;
+                                                        ?>
+
+                                                        <tr class="gradeX">
+                                                            <td><?php echo $row2->cc_asset_id; ?></td>
+                                                            <td><?php echo $row2->asset_type; ?></td>
+                                                            <td>
+                                                                <div class="control-group ">
+                                                                    <div class="col-md-6">
+                                                                        <div class="controls">
+                                                                            <input type="hidden" name="cc_asset_id[]"
+                                                                                   value="<?php echo $row2->cc_asset_id; ?>"/>
+                                                                            <input type="hidden" name="pk_asset_id[]"
+                                                                                   value="<?php echo $row2->pk_asset_id; ?>"/>
+                                                                            <input type="hidden" name="wh_id[]"
+                                                                                   value="<?php echo $row2->wh_id; ?>"/>
+                                                                                   <?php
+                                                                                   if ($stsview) {
+                                                                                       echo $row2->status_text;
+                                                                                   } else {
+                                                                                       echo '<select name="ccstatus[]" id="ccstatus">';
+                                                                                       if (count($ccstatus) > 0) {
+                                                                                           foreach ($ccstatus as $row) {
+                                                                                               $sel = '';
+                                                                                               if ($asset_t == $row->status_id) {
+                                                                                                   $sel = 'selected';
+                                                                                               }
+                                                                                               echo "<option value='" . $row->status_id . "' " . $sel . " >" . $row->status_text . "</option>";
+                                                                                           }
+                                                                                       }
+                                                                                       echo '</select>';
+                                                                                   }
+                                                                                   ?>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <a onclick="window.open('cc_hist_show.php?asset_id=<?php echo $row2->pk_asset_id; ?>', '_blank', 'width=600, height=500')"
+                                                                   href="">History</a></td>
+                                                        </tr>
+                                                        <?php
+                                                        $i++;
+                                                    }
+                                                    ?>
+                                                    <!-- // Table row END -->
+                                                </tbody>
+                                                <!-- // Table body END -->
+
+                                            </table>
+
+                                            <!-- // Group END -->
+
+                                            <div class="control-group">
+                                                <div class="col-md-6">
+                                                    <div id="show_error" style="color:#ff0000;"><?php echo $valid_error; ?></div>
+                                                    <div id="show_error" style="color:#48ba45;"><?php
+                                                if (isset($_GET['ok_msg'])) {
+                                                    echo base64_decode($_GET['ok_msg']);
+                                                }
+                                                    ?></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
+
+                                                <div class="col-md-6"></div>
+                                                <label class="control-label">&nbsp;</label>
+
+                                                <div class="controls">
+                                                    <input type="hidden" name="for_date" value="<?php echo $for_date; ?>"/>
+                                                    <?php if (!$stsview && $no_of_rec > 0) { ?>
+                                                        <button type="submit" name="save" value="1"
+                                                                onclick="return confirm('Are you Sure to Update Status for this month.')"
+                                                                class="btn btn-success">Save Record
+                                                        </button>
+                                                        <button type="reset" class="btn btn-info" id="reset">Reset</button>
+                                                    <?php } ?>
+
+                                                </div>
+                                                <!-- <input type="hidden" name="trans_no" id="trans_no" value="<?php echo $TranNo; ?>" />
+                                        <input type="hidden" name="stock_id" id="stock_id" value="<?php echo $PkStockID; ?>" />-->
+                                            </div>
+
+                                        </div>
+                                    <?php }
+                                    ?>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

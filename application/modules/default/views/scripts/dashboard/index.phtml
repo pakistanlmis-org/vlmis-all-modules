@@ -1,0 +1,263 @@
+<?php
+/**
+ *  phtml for Index
+ */
+
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <!-- BEGIN PAGE HEADER-->
+        <?php if ($this->user_role == 4 || $this->user_role == 5 || $this->user_role == 6 || $this->user_role == 7 || $this->user_role == 54) { ?>
+            <?php if (!empty($this->pending_receive1)) { ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <small style="font-weight: bold;color:red;"><?php
+                            echo "Pending Vouchers for " . $this->warehouse_name . " : ";
+                            foreach ($this->pending_receive1 as $pending_receive) {
+                                ?> 
+                                <a style="color:red" href="<?php echo $this->baseUrl(); ?>/stock/receive-warehouse?issue_no=<?php echo $pending_receive['transaction_number']; ?>&search=true"><?php echo $pending_receive['transaction_number'] ?></a>,
+                            <?php } ?>                        
+                        </small>
+                        <hr>
+                    </div>
+                </div>
+                <?php
+            }
+        }
+        ?>
+        <div class="row">
+            <h3 class="col-md-6">
+                Dashboard <small>dashboard & statistics</small>
+
+            </h3>
+            <div class="col-md-6">
+                <?php if ($this->user_role != 8 && $this->user_role != 37) { ?>
+                    <?php
+                    switch ($this->level) {
+                        case 1:
+                            ?>
+                            <input type="hidden" id="office" name="office" value='1' >
+                            <?php
+                            $role_id = 3;
+                            break;
+                        case 2:
+
+                            $this->allLevelAreaCombo(array("level" => $this->level, "province" => $this->province, "district" => ''));
+                            $role_id = 4;
+
+                            break;
+                        case 6:
+
+                            $this->allLevelAreaCombo(array("level" => $this->level, "province" => $this->province, "district" => $this->district));
+                            $role_id = 6;
+
+                            break;
+                        default :
+                            $role_id = 3;
+                            break;
+                    }
+                    ?>
+                <?php } ?>
+            </div>                
+        </div>
+        <div class="row">&nbsp;</div>
+        <!-- END PAGE HEADER-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="widget widget-tabs">
+                    <div class="widget-head dashboard-widget">
+                        <ul>
+                            <?php
+                            $count = 1;
+                            foreach ($this->dashboards as $dashboard) {
+                                $str = $dashboard->getResource()->getDescription();
+                                $split = explode(" ", $str);
+                                $last_word = $split[count($split) - 1];
+                                $first_word = str_replace($last_word, "", $str);
+                                ?>
+                                <li class="<?php echo ($dashboard->getResource()->getPkId() == $this->id) ? "active" : ""; ?>">
+                                    <a href="<?php echo $this->baseUrl(); ?>/dashboard/?id=<?php echo $dashboard->getResource()->getPkId(); ?>&office=<?php echo $this->level; ?>">
+                                        <div class="dashboard-stat_custom">
+                                            <div class="visual" style="width: auto;">
+                                                <i class="fa <?php echo $dashboard->getResource()->getIconClass(); ?>"></i>
+                                            </div>
+                                            <div class="details" style="float: left;">
+                                                <div class="dashboard-title-1"><?php echo $first_word; ?></div>
+                                                <div class="dashboard-title-2"><?php echo $last_word; ?></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <?php
+                                $count++;
+                            }
+                            ?>
+                        </ul>
+                    </div>
+                    <div class="widget-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active">
+                                <?php
+                                if ($this->id == $this->ri || $this->id == $this->im) {
+                                   
+                                    if ($this->id == $this->ri) {
+                                        $button = "ri_btn";
+                                        $button_val = "ri";
+                                    }
+                                    if ($this->id == $this->im) {
+                                        $button = "im_btn";
+                                        $button_val = "im";
+                                    }
+                                    ?>
+                                    <div class = "row">
+                                        <form method="post" name="<?php echo $button_val; ?>" id="<?php echo $button_val; ?>" action="">
+                                            <div class = "col-md-12 col-sm-12">
+                                                <div id = "sample_2_filter" class = "dataTables_filter">                                                        
+                                                    <label><button class="btn btn-success" type="button" id="<?php echo $button; ?>" name="<?php echo $button; ?>" value="<?php echo $button_val; ?>">GO</button></label>
+                                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                    <label>Vaccines:
+                                                        <select id = "items" name="items" class = "form-control input-inline">
+                                                            <?php foreach ($this->items as $item) {
+                                                                ?>
+                                                                <option value="<?php echo $item['pkId']; ?>" <?php if ($item['pkId'] == $this->item) { ?>selected="selected"<?php } ?>><?php echo $item['itemName']; ?></option>   
+                                                            <?php } ?>                    
+                                                        </select>
+                                                    </label>
+                                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                    <?php if ($this->level == 1) { ?>
+                                                        <label>Period:
+                                                            <select name="period" id="period" class="form-control input-inline">
+                                                                <optgroup label="Quarter">
+                                                                    <?php
+                                                                    foreach ($this->time_intervals as $key => $value) {
+                                                                        if ($value['monthCount'] == $this->quarter) {
+                                                                            ?>           
+                                                                            <option value="<?php echo $value['pkId']; ?>" <?php if ($this->period == $value['pkId']) { ?>selected="selected"<?php } ?>><?php echo $value['periodName']; ?></option>
+                                                                        <?php } ?>
+                                                                    <?php } ?>
+                                                                </optgroup>
+                                                                <optgroup label="Half"> 
+                                                                    <?php
+                                                                    foreach ($this->time_intervals as $key => $value) {
+                                                                        if ($value['monthCount'] == $this->halfyear) {
+                                                                            ?>           
+                                                                            <option value="<?php echo $value['pkId']; ?>" <?php if ($this->period == $value['pkId']) { ?>selected="selected"<?php } ?>><?php echo $value['periodName']; ?></option>
+                                                                        <?php } ?>
+                                                                    <?php } ?>
+                                                                </optgroup>
+                                                                <optgroup label="Annual"> 
+                                                                    <?php
+                                                                    foreach ($this->time_intervals as $key => $value) {
+                                                                        if ($value['monthCount'] == $this->annual) {
+                                                                            ?>           
+                                                                            <option value="<?php echo $value['pkId']; ?>" <?php if ($this->period == $value['pkId']) { ?>selected="selected"<?php } ?>><?php echo $value['periodName']; ?></option>
+                                                                        <?php } ?>
+                                                                    <?php } ?>
+                                                                </optgroup>
+                                                                <?php //}              ?>
+                                                            </select>
+                                                        </label>
+                                                    <?php } ?>
+                                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                    <?php if ($this->level == 1) { ?>
+                                                        <label>Year:
+                                                            <select id="date" name="date" class="form-control input-inline">
+                                                                <?php for ($i = 2013; $i <= date("Y"); $i++) { ?>
+                                                                    <option value="<?php echo $i; ?>" <?php if ($i == $this->date) { ?>selected="selected"<?php } ?>><?php echo $i; ?></option>   
+                                                                <?php } ?>                    
+                                                            </select>
+                                                        </label> 
+                                                    <?php } else { ?>
+                                                        <input type="hidden" value="<?php echo $this->date; ?>" id="sel_date">
+                                                        <label>Reporting Month:
+                                                            <select id="date" name="date" class="form-control input-inline">
+                                                                <?php
+                                                                $year_sel = explode("-", $this->date);
+                                                                if ($year_sel[0] < date('Y')) {
+                                                                    $y = $year_sel[0];
+                                                                } else {
+                                                                    $y = date('Y');
+                                                                }
+
+
+                                                                $year_diff = date('Y') - $year_sel[0];
+
+                                                                $fromyear = array();
+                                                                for ($i = 0; $i <= $year_diff; $i++) {
+
+                                                                    $fromyear[] = date('Y') - $i;
+                                                                }
+
+
+                                                                foreach ($fromyear as $toyear) {
+                                                                    for ($i = $toyear; $i <= $toyear; $i++) {
+                                                                        for ($j = 12; $j >= 1; $j--) {
+                                                                            if ($i == date("Y") && $j > date("m")) {
+                                                                                continue;
+                                                                            }
+                                                                            $date = $i . "-" . str_pad($j, 2, '0', STR_PAD_LEFT);
+                                                                            ?>
+
+                                                                            <option value="<?php echo $date; ?>" <?php if ($date == $this->date) { ?>selected="selected"<?php } ?>><?php echo str_pad($j, 2, '0', STR_PAD_LEFT) . " - " . $i; ?></option>   
+                                                                            <?php
+                                                                        }
+                                                                    }
+                                                                }
+                                                                ?> 
+
+                                                            </select>
+                                                        </label>
+                                                    <?php } ?>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <?php
+                                }
+                                if ($this->id == $this->campaign) {
+                                    ?>
+                                    <div class="row">
+                                        <form method="post" name="ri" id="ri" action="">
+                                            <div class="col-md-12 col-sm-12">
+                                                <div id="sample_2_filter" class="dataTables_filter">
+                                                    <label><button class="btn btn-success" type="button" id="camp_btn" name="camp_btn" value="camp">GO</button></label>
+                                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                    <label>Campaign: 
+                                                        <select id="camp" name="camp" class="form-control input-inline input-medium">
+                                                            <?php foreach ($this->campaigns as $camp) { ?>
+                                                                <option value="<?php echo $camp['pkId']; ?>" <?php if ($camp['pkId'] == $this->camp) { ?>selected="selected"<?php } ?>><?php echo $camp['campaignName']; ?></option>   
+                                                            <?php } ?>                    
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                <?php } ?>
+                                <div class="row">
+                                    <?php echo $this->dashlets($this->id, $role_id , $this->province); ?>
+                                </div>
+                                <input id="tabid" value="<?php echo $this->id; ?>" type="hidden"/>
+                            </div>
+                        </div>
+                    </div>
+                    <ul>
+                        <li>
+                            <b> Average Monthly Consumption(AMC):</b> Average Monthly Consumption is calculated as average of aggregated consumption of the last three non-zero consumption months of vaccines and related products.
+                        </li>
+                        <li>
+                            <b> Months of Stock(MOS):</b> Months of Stock is the estimate of number of months the stock will last. This obtains by dividing Stock of Hand by average monthly consumption.
+                        </li>
+                        <li>
+                            <b>Stock on Hand(SOH):</b> Stock on Hand is the amount of product on hand in order to monitor stock positions and anticipate stock outs in advance.
+                        </li>
+
+                        For more acronyms <a href="<?php echo $this->baseUrl() ?>/index/acronyms">Click Here</a>
+
+                    </ul>
+                </div>
+                <!-- // Tabs END -->                
+            </div>
+        </div>
+    </div>
+</div>

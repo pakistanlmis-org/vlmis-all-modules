@@ -1,0 +1,148 @@
+<?php
+/**
+ *  phtml for Add Generator
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            <?php echo $this->translate((Zend_Registry::get('pageTitle')) ? Zend_Registry::get('pageTitle') : "Add Generator"); ?>
+        </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Add Generator"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php if (!empty($this->arr_data['success']) && $this->arr_data['success'] == 1) { ?>
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                        <strong><?php echo $this->translate("Data"); ?></strong> <?php echo $this->translate("has been saved successfully"); ?>!
+                                    </div>
+                                <?php } ?>
+                                <form method="POST" name="add_generator" id="add_generator" action="<?php echo $this->action; ?>">
+                                    <!-- Row -->
+                                    <?php echo $this->render('cold-chain/add-main.phtml'); ?>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Make"); ?> <span class="red">*</span>
+                                                </label>
+                                                <?php echo $this->form->make; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Model"); ?> <span class="red">*</span>
+                                                </label>
+                                                <?php echo $this->form->ccm_model_id; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Serial Number"); ?> <span class="red">*</span>
+                                                </label>
+                                                <?php echo $this->form->serial_number; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="firstname">
+                                                <?php echo $this->translate("No of Phases"); ?>
+                                            </label>
+                                            <div class="widget-body uniformjs">
+                                                <?php echo $this->form->no_of_phases; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="firstname">
+                                                <?php echo $this->translate("Power Rating"); ?> <span class="red">*</span>
+                                            </label>
+                                            <div class="widget-body uniformjs">
+                                                <?php echo $this->form->power_rating; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Power Source"); ?> <span class="red">*</span>
+                                                </label>
+                                                <?php echo $this->form->power_source; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="firstname">
+                                                <?php echo $this->translate("Year of Supply"); ?>
+                                            </label>
+                                            <div class="controls">
+                                                <?php echo $this->form->working_since; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="firstname">
+                                                <?php echo $this->translate("Automatic Start Mechanism"); ?>
+                                            </label>
+                                            <div class="widget-body uniformjs">
+                                                <?php echo $this->form->automatic_start; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="firstname">
+                                                <?php echo $this->translate("Use For"); ?>
+                                            </label>
+                                            <div class="controls">
+                                                <?php echo $this->form->use_for; ?>
+                                                <!-- hidden field for update -->
+                                                <?php echo $this->form->ccm_id; ?>
+                                                <?php echo $this->form->model_hidden; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" >
+                                            <div class="form-group" id="coldroom_div" style="display: none">
+                                                <label class="control-label" for="coldroom_div">
+                                                    <?php echo $this->translate("Cold Room"); ?> <span class="red">*</span>
+                                                </label>
+                                                <?php echo $this->form->cold_room; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-11"></div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <button class="btn btn-primary" type="submit" id="add_issue" name="add"><?php echo $this->translate("Save"); ?></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

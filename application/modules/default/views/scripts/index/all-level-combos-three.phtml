@@ -1,0 +1,13 @@
+<?php
+/**
+*  phtml for All Level Combos Three 
+*/
+?>
+<?php if ($this->result != false) { ?>
+    <option value=""><?php echo $this->translate("Select"); ?></option>
+    <?php foreach ($this->result as $row) {
+        ?>
+        <option value="<?php echo $row['key']; ?>" <?php if (!empty($this->prov_id) && $row['key'] == $this->prov_id) echo 'selected'; ?>>
+            <?php echo $row['value']; ?></option>
+    <?php }
+} ?>

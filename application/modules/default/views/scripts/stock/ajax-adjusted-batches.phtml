@@ -1,0 +1,17 @@
+<?php
+/**
+*  phtml for Ajax Adjustment Batches
+*/
+?>
+<?php
+if ($this->adjusted_batches != false) {
+    ?>
+    <option value=""><?php echo $this->translate("Select"); ?></option>
+    <?php
+    foreach ($this->adjusted_batches as $row) {
+        ?>
+    <option value="<?php echo $row['pk_id']; ?>"><?php echo $row['number']; ?> | <?php echo number_format($row['quantity']); ?></option>
+        <?php
+    }
+}
+?>

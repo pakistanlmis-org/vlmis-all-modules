@@ -1,0 +1,10 @@
+<?php
+/**
+*  phtml for Ajax Stock Status Routine
+*/
+?>
+<?php
+
+FC_SetRenderer('javascript');
+echo renderChart($this->baseUrl() . "/FusionCharts/Charts/MSColumn3D.swf", "", $this->xmlstore, 'StockStatus', '100%', 350, false, false);
+?>

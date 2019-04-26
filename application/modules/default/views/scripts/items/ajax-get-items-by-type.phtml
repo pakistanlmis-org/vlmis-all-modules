@@ -1,0 +1,13 @@
+<?php
+/**
+ *  phtml for Ajax Product VVM Stages
+ */
+?>
+<?php if (count($this->products) > 0) { ?>
+    <option value="">Select</option>
+    <?php foreach ($this->products as $row) { ?>
+        <option value="<?php echo $row['pkId']; ?>"><?php echo $row['itemName']; ?></option>
+        <?php
+    }
+}
+?>

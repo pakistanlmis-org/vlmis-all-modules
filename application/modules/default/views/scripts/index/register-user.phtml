@@ -1,0 +1,133 @@
+<?php
+/**
+ *  phtml for Register User
+ */
+?>
+<!-- BEGIN CONTAINER -->
+<style>
+    .form-group{
+        padding-top:  5px;
+    }
+    textarea {
+        resize: none;
+    }
+    .col-md-offset-4_5 {
+        margin-left: 29.175%;
+    }
+    .col-sm-offset-4_5 {
+        margin-left: 29.175%;
+    }
+</style>
+<div class="page-container">
+    <!-- BEGIN CONTENT -->
+    <div class=" page-content-wrapper">
+        <div class="page-content landing-content">
+            <br/>
+
+            <div class="col-md-4 col-md-offset-4">
+                <?php if ($this->saved == true) { ?>
+                    <div class="alert alert-info" id="saved">
+                        <button data-dismiss="alert" class="close" type="button">
+                            ×
+                        </button>
+                        Your are registered successfully. <br>
+                        Please check your Email.
+                    </div>  
+                <?php } ?>
+            </div>
+
+
+
+            <div class="col-md-5 col-md-offset-4_5 col-sm-offset-4_5"> 
+
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-user"></i>Register
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <form name="register-user" id="register-user" method="post" action="">
+
+                            <div class="form-group">
+                                <label for="e_mail" class="col-md-3 control-label">
+                                    <?php echo $this->translate("Email"); ?><span class="red">*</span>
+                                </label>
+                                <div class="col-md-9">
+                                    <?php echo $this->form->e_mail; ?>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <label for="organization" class="col-md-3 control-label">
+                                    <?php echo $this->translate("Organization"); ?><span class="red">*</span>
+                                </label>
+                                <div class="col-md-9">
+                                    <?php echo $this->form->organization; ?>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <label for="country" class="col-md-3 control-label">
+                                    <?php echo $this->translate("Country"); ?><span class="red">*</span>
+                                </label>
+                                <div class="col-md-9">
+                                    <?php echo $this->form->country; ?>
+
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <label for="address" class="col-md-3 control-label">
+                                    <?php echo $this->translate("Address"); ?>
+                                </label>
+                                <div class="col-md-9">
+                                    <?php echo $this->form->address; ?>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <label for="captcha" class="col-md-3 control-label">
+                                    <?php echo $this->translate("Please enter the code"); ?><span class="red">*</span>
+                                </label>
+                                <div class="col-md-9">
+                                    <?php echo $this->form->captcha; ?>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <div class="pull-right" style="padding-top: 5px">
+                                    <div class="col-md-6">
+                                        <button type="reset" id="reset" value="Reset" class="btn btn-info">
+                                            <?php echo $this->translate("Reset"); ?>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button name="send_contact" id="send_contact" type="submit" class="form-control btn btn-success green">Register</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <br>
+
+                        </form>
+
+                        <div class="clearfix margin-bottom-20">
+                        </div>                       
+
+                    </div>
+                </div>
+
+                <p class="text-center">
+                    <a href="<?php echo $this->baseUrl(); ?>/index/login" class="">Login here</a>
+                </p>
+            </div>
+
+        </div>
+    </div>

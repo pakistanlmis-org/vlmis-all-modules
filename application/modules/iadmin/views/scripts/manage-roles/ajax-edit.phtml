@@ -1,0 +1,44 @@
+<?php
+/**
+*  phtml for Ajax Edit
+*/
+?>
+<div class="row">
+<div class="col-md-6">
+    <div class="control-group ">
+
+        <label class="control-label" ><?php echo $this->translate("Role Name"); ?></label>
+        <div class="controls">
+            <?php echo $this->form->role_name; ?>  
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="control-group ">
+        <label class="control-label" ><?php echo $this->translate("Description"); ?></label>
+        <div class="controls">
+            <?php echo $this->form->description; ?>      
+        </div>
+    </div>
+</div>
+    </div>
+<div class="row">
+<div class="col-md-3">
+    <div class="control-group ">
+        <label class="control-label" ><?php echo $this->translate("Category"); ?></label>
+        <div class="controls">
+            <?php echo $this->form->category_id; ?>      
+        </div>
+    </div>
+</div>
+<div class="col-md-3">
+    <div class="control-group ">
+        <label class="control-label" ><?php echo $this->translate("Status"); ?></label>
+        <div class="controls">
+            <?php echo $this->form->status; ?>      
+        </div>
+    </div>
+</div>
+    </div>
+<div style="clear:both;"></div>
+<?php echo $this->form->id; ?>

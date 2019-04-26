@@ -1,0 +1,105 @@
+<?php
+/**
+*  phtml for Ajax Edit Readiness
+*/
+?>
+<div class="row" >
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">Campaign</label>
+            <?php echo $this->form->campaign_edit_id; ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">UC</label>
+            <?php echo $this->form->uc_edit_id; ?>
+            <?php echo $this->form->uc_edit_id_hidden; ?> 
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">Targeted</label>
+            <input type="text" class="form-control" name="target" id="target_uc" readonly="readonly" />
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">Inaccessible Children</label>
+            <?php echo $this->form->inaccessible_children; ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">No. of mobile teams</label>
+            <?php echo $this->form->no_of_mobile_teams; ?>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">Inaccessible Area</label>
+            <?php echo $this->form->inaccessible_area; ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">No. of fixed teams</label>
+            <?php echo $this->form->no_of_fixed_teams; ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">Area In-charge</label>
+            <?php echo $this->form->area_in_charge; ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">No. of Transist Points</label>
+            <?php echo $this->form->no_of_transist_points; ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">AICs Trained</label>
+            <?php echo $this->form->aics_trained; ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">No. of Teams Trained</label>
+            <?php echo $this->form->no_of_teams_trained; ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">Areas with mobile population</label>
+            <?php echo $this->form->area_mobile_population; ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">Date of UPEC Meeting</label>
+            <?php echo $this->form->date_upec_meeting; ?>
+        </div>
+    </div>
+</div>
+
+<?php echo $this->form->readiness_uc_id; ?>
+

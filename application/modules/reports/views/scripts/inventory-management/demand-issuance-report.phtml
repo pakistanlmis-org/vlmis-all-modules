@@ -1,0 +1,525 @@
+<?php
+/**
+ *  phtml for demand vs issuance repport
+ */
+?>
+<?php
+$sel_month = $this->month_sel;
+$sel_year = $this->year_sel;
+$counter = 1;
+
+$sel_stk = $this->in_stk;
+$sel_prov = $this->prov_sel;
+$sel_dist = $this->in_dist;
+$sel_indicator = $this->sel_indicator;
+$in_col = $this->in_col;
+$in_rg = $this->in_rg;
+$in_type = $this->in_type;
+$stk_sel = $this->stk_sel;
+$start_date = $this->start_date;
+$end_date = $this->end_date;
+$period = $this->period;
+$str_indicator = $this->str_indicator;
+$wh_type = $this->wh_type;
+$warehouse_id = $this->warehouse_id;
+
+
+$getWHName = $this->reports()->getWarehousename($warehouse_id);
+$whName = $getWHName[0]['warehouse_name'];
+
+if ($sel_indicator == 1) {
+    $where = "stock_batch_warehouses.warehouse_id = $warehouse_id AND stock_master.transaction_type_id = 2 AND DATE_FORMAT(stock_master.transaction_date,'%Y-%m') = ";
+} else if ($sel_indicator == 2) {
+    $where = "stock_batch_warehouses.warehouse_id = $warehouse_id AND DATE_FORMAT(stock_master.transaction_date,'%Y-%m') <= ";
+} else if ($sel_indicator == 3) {
+    $where = "stock_batch_warehouses.warehouse_id = $warehouse_id AND stock_master.transaction_type_id = 1 AND DATE_FORMAT(stock_master.transaction_date,'%Y-%m') = ";
+}
+
+$data_arr = array();
+foreach ($this->item_id as $row) {
+    $data_arr[$row['pkId']][] = $row['itemName'];
+    $count = 1;
+    foreach ($period as $date) {
+        $data_arr[$row['pkId']][$count] = 0;
+        $count++;
+    }
+}
+// Headers of the Grid
+$header = 'Product';
+$width = '*';
+$ro = 'ro';
+
+$count = 1;
+foreach ($period as $date) {
+    $monthArr[] = $str_date = $date->format("Y-m");
+    $header .= ',<span>' . $date->format("M-y") . '</span>';
+    $width .= ',75';
+    $ro .= ',ro';
+
+    $cond = $where . " '" . $str_date . "'";
+    $query_vals = $this->reports()->getEPIStoresReport($cond);
+
+    foreach ($query_vals as $row) {
+        $date1 = new DateTime($str_date);
+        $date2 = new DateTime(date("Y-m"));
+        if ($date1 > $date2) {
+            $row['total'] = 0;
+        }
+        $data_arr[$row['item_id']][$count] = $row['total'];
+    }
+    $count++;
+}
+
+$xml_store = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+$xml_store .= "<rows>";
+
+$sum_arr = array();
+
+foreach ($data_arr as $dis_id => $sub_arr) {
+    $xml_store .= "<row>";
+    $xml_store .= "<cell>$sub_arr[0]</cell>";
+
+    foreach ($sub_arr as $key => $value) {
+        if (!isset($sum_arr[$key])) {
+            $sum_arr[$key] = 0;
+        } else {
+            $sum_arr[$key] += $value;
+        }
+
+        if ($key > 0) {
+            $xml_store .= "<cell style=\"text-align:right\">" . number_format($value) . "</cell>";
+        }
+    }
+    $xml_store .="</row>";
+}
+$xml_store .="</rows>";
+?>
+
+<?php
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+<style>
+    #content_print {
+        margin-left: 55px;
+        width: 624px;
+    }
+    table#mytable {
+        border: 1px solid #444;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table#mytable tr td {
+        border: 1px solid #444;
+    }
+    table#mytable tr th {
+        border: 1px solid #444;
+    }
+</style>
+
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="page-title"><?php echo $report_title; ?></h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Filters"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse"></a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <form name="search-pipeline" id="search-pipeline" method="post" action="">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <!-- Group Receive No-->
+                                    <div class="control-group">
+                                        <label class="control-label" for="from_warehouse_id">
+                                            <?php echo $this->translate("Province/Region"); ?>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->from_warehouse_id; ?>
+                                        </div>
+                                    </div>
+                                </div>                            
+                                <div class="col-md-3">
+                                    <label class="control-label" for="Year">
+                                        <?php echo $this->translate("Year"); ?>
+                                    </label>
+                                    <div class="controls">
+                                        <?php echo $this->form->status; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">                                                                  
+                                <div class="col-md- right">
+                                    <label class="control-label">&nbsp;</label>  
+                                    <div class="controls">
+                                        <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit">
+                                            <?php echo $this->translate("Search"); ?>
+                                        </button>
+                                        <button type="reset" class="btn btn-info" id="reset">
+                                            <?php echo $this->translate("Reset"); ?>
+                                        </button>
+                                        <label class="control-label">&nbsp;&nbsp;&nbsp;</label>  
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table style="width:100%;" class="dynamicTable table table-striped table-bordered table-hover dataTable no-footer" id="sample_2">
+                    <tr>
+                        <th colspan="3">Province/Region: <?php echo $this->province; ?></th>
+                        <th>Year : <?php echo $this->year; ?></th>
+                    </tr>
+                    <tr>
+                        <th class="center">Total Population</th>
+                        <th class="center">Target Population(0-11 Months)</th>
+                        <th class="center">Demand of Vaccine Calculated(at %age)</th>
+                        <th class="center">Coverage</th>
+                    </tr>                  
+                    <tr>
+                        <td class="right"><?php echo number_format($this->province_population);?></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Vaccine Allocation Quantity (Doses) for Routine Immunization</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table style="width:100%;" class="dynamicTable table table-striped table-bordered table-hover dataTable no-footer" id="sample_2">
+                    <tr>
+                        <th colspan="2">
+                        </th>                        
+                        <th colspan="3" align="center">
+                            Qtr-01
+                        </th>
+                        <th colspan="3" align="center">
+                            Qtr-02
+                        </th>
+                        <th colspan="3" align="center">
+                            Qtr-03
+                        </th>
+                        <th colspan="3" align="center">
+                            Qtr-04
+                        </th>                       
+                    </tr>
+                    <tr>
+                        <th align="center">
+                            Antigen /Device
+                        </th>
+                        <th align="center">
+                            Total Allocation (Doses)
+                        </th>
+                        <th align="center">
+                            Allocated
+                        </th>
+                        <th align="center">
+                            Issued
+                        </th>
+                        <th>
+                            Balance
+                        </th>
+                        <th align="center">
+                            Allocated
+                        </th>
+                        <th align="center">
+                            Issued
+                        </th>
+                        <th align="center">
+                            <b>Balance </b>
+                        </th>
+                        <th align="center">
+                            Allocated
+                        </th>
+                        <th align="center">
+                            Issued
+                        </th>
+                        <th class="center">
+                            Balance
+                        </th>
+                        <th class="center">
+                            Allocated
+                        </th>
+                        <th class="center">
+                            Issued
+                        </th>
+                        <th class="center">
+                            Balance
+                        </th>
+                    </tr>
+                    <?php foreach ($this->routine_item as $itm) { ?>
+                        <tr>
+                            <td align="left">
+                                <?php echo $itm['itemName'] ?>                               
+                            </td>
+                            <td align="right">
+                                <?php
+                                if (isset($this->total_allocation[$itm['pkId']])) {
+                                    echo number_format($this->total_allocation[$itm['pkId']]);
+                                } else {
+                                    echo '0';
+                                }
+                                ?>
+                            </td>
+
+                            <td align="right">
+                                <?php
+                                if (isset($this->total_allocation[$itm['pkId']])) {
+                                    echo number_format($this->total_allocation[$itm['pkId']] / 4);
+                                } else {
+                                    echo '0';
+                                }
+                                ?>
+                            </td>
+
+                            <td align="right">
+                                <?php
+                                if (isset($this->qtr1[$itm['pkId']])) {
+                                    echo number_format($this->qtr1[$itm['pkId']]);
+                                } else {
+                                    echo '0';
+                                }
+                                ?>
+                            </td>
+
+                            <td align="right">
+                                <?php
+                                if (isset($this->total_allocation[$itm['pkId']]) && isset($this->qtr1[$itm['pkId']])) {
+                                    echo number_format($this->total_allocation[$itm['pkId']] - $this->qtr1[$itm['pkId']]);
+                                } else {
+                                    echo '0';
+                                }
+                                ?>
+                            </td>
+
+                            <td align="right">
+                                <?php
+                                if (isset($this->total_allocation[$itm['pkId']])) {
+                                    echo number_format($this->total_allocation[$itm['pkId']] / 4);
+                                } else {
+                                    echo '0';
+                                }
+                                ?>
+                            </td>
+                            <td align="right">
+                                <?php
+                                if (isset($this->qtr2[$itm['pkId']])) {
+                                    echo number_format($this->qtr2[$itm['pkId']]);
+                                } else {
+                                    echo '0';
+                                }
+                                ?>
+                            </td>
+
+                            <td align="right">
+                                <?php
+                                if (isset($this->total_allocation[$itm['pkId']]) && isset($this->qtr2[$itm['pkId']])) {
+                                    echo number_format($this->total_allocation[$itm['pkId']] - $this->qtr2[$itm['pkId']]);
+                                } else {
+                                    echo '0';
+                                }
+                                ?>
+                            </td>
+                            <td align="right">
+                                <?php
+                                if (isset($this->total_allocation[$itm['pkId']])) {
+                                    echo number_format($this->total_allocation[$itm['pkId']] / 4);
+                                } else {
+                                    echo '0';
+                                }
+                                ?>
+                            </td>
+                            <td align="right">
+                                <?php
+                                if (isset($this->qtr3[$itm['pkId']])) {
+                                    echo number_format($this->qtr3[$itm['pkId']]);
+                                } else {
+                                    echo '0';
+                                }
+                                ?>
+                            </td>
+
+                            <td align="right">
+                                <?php
+                                if (isset($this->total_allocation[$itm['pkId']]) && isset($this->qtr3[$itm['pkId']])) {
+                                    echo number_format($this->total_allocation[$itm['pkId']] - $this->qtr3[$itm['pkId']]);
+                                } else {
+                                    echo '0';
+                                }
+                                ?>
+                            </td>
+                            <td align="right">
+                                <?php
+                                if (isset($this->total_allocation[$itm['pkId']])) {
+                                    echo number_format($this->total_allocation[$itm['pkId']] / 4);
+                                } else {
+                                    echo '0';
+                                }
+                                ?>
+                            </td>
+                            <td align="right">
+                                <?php
+                                if (isset($this->qtr4[$itm['pkId']])) {
+                                    echo number_format($this->qtr4[$itm['pkId']]);
+                                } else {
+                                    echo '0';
+                                }
+                                ?>
+                            </td>
+
+                            <td align="right">
+                                <?php
+                                if (isset($this->total_allocation[$itm['pkId']]) && isset($this->qtr4[$itm['pkId']])) {
+                                    echo number_format($this->total_allocation[$itm['pkId']] - $this->qtr4[$itm['pkId']]);
+                                } else {
+                                    echo '0';
+                                }
+                                ?>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                </table>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Vaccine Issue Details</h4>
+            </div>
+        </div>
+        <div  class="row">
+            <div class="col-md-12" style="overflow:auto;">
+                <table class="dynamicTable table table-striped table-bordered table-hover dataTable no-footer" id="sample_2" style="width:2000px;">
+                    <tr>
+                        <th align="center" rowspan="2">
+                            <b>Date</b>
+                        </th>
+                        <?php foreach ($this->routine_item as $itm) { ?>
+
+                            <th align="center" colspan="3">
+                                <b><?php echo $itm['itemName'] ?></b> 
+                            </th>                          
+
+                        <?php } ?>  
+                        <th align="center">
+                            Remarks
+                        </th>                         
+                    </tr>
+
+                    <tr>
+                        <?php foreach ($this->routine_item as $itm) { ?>
+                            <th align="center">
+                                Demand
+                            </th>
+                            <th align="center">
+                                Issued
+                            </th>
+                            <th align="center">
+                                Yearly Balance
+                            </th>
+                        <?php } ?>
+                        <th align="center">
+                            &nbsp;
+                        </th> 
+                    </tr>
+                    <?php
+                    if (!empty($this->demand_dates) > 0) {
+                        foreach ($this->demand_dates as $d) {
+                            ?>
+                            <tr>
+                                <td>
+                                    <?php echo $d['demand_date']; ?>
+                                </td>
+                                <?php
+                                foreach ($this->routine_item as $itm) {
+                                    $query_vals = $this->reports()->getDemandDetails($d['pk_id'], $itm['pkId']);
+                                    // var_dump($query_vals);
+                                    ?>
+
+                                    <td align="center">
+                                        <?php
+                                        if (isset($query_vals[0]['demand_quantity'])) {
+                                            echo $query_vals[0]['demand_quantity'];
+                                        } else {
+                                            echo '0';
+                                        }
+                                        ?>
+                                    </td>
+                                    <td align="center">
+                                        <?php
+                                        if (isset($query_vals[0]['approved_quantity'])) {
+                                            echo $query_vals[0]['approved_quantity'];
+                                        } else {
+                                            echo '0';
+                                        }
+                                        ?>
+                                    </td>
+                                    <td align="center">
+                                        <?php
+                                        if (isset($this->total_allocation[$itm['pkId']])) {
+                                            echo number_format($this->total_allocation[$itm['pkId']]);
+                                        } else {
+                                            echo '0';
+                                        }
+                                        ?>
+                                    </td>
+                                <?php } ?>   
+                                <td align="center">
+                                    &nbsp;
+                                </td> 
+                            </tr>
+                            <?php
+                        }
+                    }
+                    ?>     
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var mygrid;
+    function doInitGrid() {
+        mygrid = new dhtmlXGridObject('mygrid_container');
+        mygrid.selMultiRows = true;
+        mygrid.setImagePath("<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+        mygrid.setHeader("<div style='text-align:left; font-size:14px; font-weight:bold; font-family:Helvetica'><?php echo "Vaccine Issue Details"; ?></div>,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan");
+        mygrid.attachHeader("<?php echo $header; ?>");
+        mygrid.setInitWidths("<?php echo $width; ?>");
+        mygrid.setColTypes("<?php echo $ro; ?>");
+        mygrid.enableRowsHover(true, 'onMouseOver');
+        mygrid.setSkin("light");
+        mygrid.init();
+        mygrid.clearAll();
+        $('body').append('<textarea id="xml_string" style="display:none;"><?php echo addslashes($xml_store); ?></textarea>');
+        mygrid.loadXMLString(document.getElementById('xml_string').value);
+    }
+</script>

@@ -1,0 +1,240 @@
+<?php
+/**
+*  phtml for Receive Warehouse Scanner
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            <?php echo $this->translate("Stock Receive from Scanner"); ?>
+        </h3>
+        <!-- <p class="red"><b>Important!</b> Please use Ctrl + R before using this form.</p> -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Fill Form"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse"></a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="GET" name="batch_search" action="" >
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <!-- Group Receive No-->
+                                            <div class="control-group">
+                                                <label class="control-label" for="issue_no">
+                                                    <?php echo $this->translate("Issue No"); ?>
+                                                </label>
+                                                <?php echo $this->form->issue_no; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group form-btn-margin-top">
+                                                <button type="submit" class="btn btn-success" name="search" value="Search">
+                                                    <?php echo $this->translate("Search"); ?>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form name="receive_stock" id="receive_stock" action="receive-warehouse-via-scanner" method="POST">
+                                    <?php if ($this->result != False): ?>
+                                        <div class="widget">
+                                            <div class="widget-body">
+                                                <!-- Table -->
+                                                <table class="table table-bordered table-condensed table-striped table-vertical-center checkboxs js-table-sortable">
+                                                    <!-- Table heading -->
+                                                    <thead>
+                                                        <tr>
+                                                            <th nowrap>
+                                                                <?php echo $this->translate("Product "); ?>
+                                                            </th>
+                                                            <th nowrap>
+                                                                <?php echo $this->translate("Batch No"); ?>
+                                                            </th>
+                                                            <th>
+                                                                <?php echo $this->translate("Quantity"); ?>
+                                                            </th>                                                            
+                                                            <th>
+                                                                <?php echo $this->translate("VVM Stage 1"); ?>
+                                                            </th>
+                                                            <th>
+                                                                <?php echo $this->translate("VVM Stage 2"); ?>
+                                                            </th>
+                                                            <th>
+                                                                <?php echo $this->translate("VVM Stage 3 & 4"); ?>
+                                                            </th>
+                                                            <th nowrap>
+                                                                <?php echo $this->translate("Received Quantity"); ?>
+                                                            </th>
+                                                            <th>
+                                                                <?php echo $this->translate("Adjusted Quantity"); ?>
+                                                            </th>
+                                                            <th>
+                                                                <?php echo $this->translate("Adjustment"); ?>
+                                                            </th>
+                                                            <th style="width: 1%;" class="uniformjs">
+                                                                <input type="checkbox" id="checkall"/>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <!-- // Table heading END -->
+                                                    <!-- Table body -->
+                                                    <tbody>
+                                                        <!-- Table row -->
+                                                        <?php
+                                                        $i = 1;
+                                                        foreach ($this->result as $row):
+                                                            $quantity = $row['quantity'];
+                                                            $rec_quantity = $this->receivedQuantity($row['detailId']);
+                                                            list($d1, $m1, $y1) = explode("/", $row['transactionDate']);
+
+                                                            $vvm_stage = $row['vvmStage'];
+                                                            
+                                                            ?> <tr>
+                                                                <td nowrap>
+                                                                    <?php echo $row['itemName'] ?>
+                                                                </td>
+                                                                <td>
+                                                                    <?php echo $row['number'] ?>
+                                                                </td>
+                                                                <td class="right">
+                                                                    <?php echo $quantity ?>
+                                                                    <input type="hidden" id="<?php echo $i; ?>-qty" value="<?php echo abs($quantity); ?>" />
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control right" name="vvmstage[<?php echo $row['detailId']; ?>][1]" id="<?php echo $i; ?>-stage1" value="<?php echo $rec_quantity['vvmstage'][1]; ?>" placeholder="Quantity in Vials"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control right" name="vvmstage[<?php echo $row['detailId']; ?>][2]" id="<?php echo $i; ?>-stage2" value="<?php echo $rec_quantity['vvmstage'][2]; ?>" placeholder="Quantity in Vials"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control right" name="vvmstage[<?php echo $row['detailId']; ?>][3]" id="<?php echo $i; ?>-stage3" value="<?php echo $rec_quantity['vvmstage'][3] + $rec_quantity['vvmstage'][4]; ?>" placeholder="Quantity in Vials"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control right" readonly="readonly" id="<?php echo $i; ?>-received" name="received_qty[]" value="<?php echo abs($rec_quantity['total']); ?>" />
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" name="missing[<?php echo $i - 1; ?>]" id="<?php echo $i; ?>-missing" value="" class="form-control" />
+                                                                </td>
+                                                                <td>
+                                                                    <select name="types[<?php echo $i - 1; ?>]" id="<?php echo $i; ?>-types" class="form-control">
+                                                                        <?php
+                                                                        if (!empty($this->trans_type)) {
+                                                                            foreach ($this->trans_type as $type) {
+                                                                                echo "<option value=" . $type['pkId'] . ">" . $type['transactionTypeName'] . "</option>";
+                                                                            }
+                                                                        }
+                                                                        ?>
+                                                                    </select>
+                                                                </td>
+                                                                <td class="center uniformjs">
+                                                                    <input type="checkbox" name="stockid[<?php echo $i - 1; ?>]" value="<?php echo $row['detailId']; ?>" />
+                                                                </td>
+                                                            </tr>
+                                                            <?php
+                                                            $i++;
+                                                        endforeach;
+                                                        ?>
+                                                        <!-- // Table row END -->
+                                                    </tbody>
+                                                    <!-- // Table body END -->
+                                                </table>
+                                                <!-- // Table END -->
+                                            </div>
+                                        </div>
+                                        <!-- Widget -->
+                                        <div class="widget">
+                                            <div class="widget-body">
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <div class="control-group">
+                                                            <label class="control-label" for="remarks">
+                                                                <?php echo $this->translate("Remarks"); ?>
+                                                            </label>
+                                                            <div class="controls">
+                                                                <input name="remarks" id="remarks" type="text" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="control-group">
+                                                            <label class="control-label" for="rec_ref">
+                                                                <?php echo $this->translate("Receive Reference"); ?>
+                                                            </label>
+                                                            <div class="controls">
+                                                                <input name="rec_ref" id="rec_ref" type="text" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="control-group">
+                                                            <label class="control-label" for="rec_date">
+                                                                <?php echo $this->translate("Received Date"); ?>
+                                                            </label>
+                                                            <div class="controls">
+                                                                <input name="rec_date" id="rec_date" value="<?php echo date("d/m/Y h:i A"); ?>" type="text" class="form-control" readonly="" />
+                                                                <input id="issue_year" value="<?php echo $y1; ?>" type="hidden" />
+                                                                <input id="issue_month" value="<?php echo $m1; ?>" type="hidden" />
+                                                                <input id="issue_day" value="<?php echo $d1; ?>" type="hidden" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 right">
+                                                        <label class="control-label">
+                                                            &nbsp;
+                                                        </label>
+                                                        <div class="controls">
+                                                            <button type="submit" id="save" name="save" class="btn btn-primary">
+                                                                <?php echo $this->translate("Save"); ?>
+                                                            </button>
+                                                            <input class="form-control" type="hidden" name="stock_id" id="stock_id" value="<?php echo $row['pkId']; ?>"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php elseif (!empty($this->issue_no)): ?>
+                                        <div class="widget">
+                                            <div class="widget-body red">
+                                                <?php echo $this->translate("Voucher not found"); ?>
+                                            </div>
+                                        </div>
+                                    <?php elseif (isset($_GET['msg']) && !empty($_GET['msg'])): ?>
+                                        <div class="widget">
+                                            <div class="widget-body green">
+                                                <?php echo $_GET['msg']; ?>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+                                    <input id="issue_no" value="<?php echo $this->issue_no; ?>" name="issue_no" type="hidden"/>
+                                    <input id="count" value="<?php echo count($this->result); ?>" name="count" type="hidden"/>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // Content END -->

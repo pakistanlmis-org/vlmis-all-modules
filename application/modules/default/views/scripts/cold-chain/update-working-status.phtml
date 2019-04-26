@@ -1,0 +1,292 @@
+<?php
+/**
+ *  phtml for Update Working Status
+ */
+/**
+ *  Update Working Status
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            <?php echo $this->translate("Update Working Status");
+            ?>
+        </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button"> Ã—</button>
+                                        <strong>Data</strong> has been saved successfully!
+                                    </div>
+                                <?php } ?>
+                                <form method="POST" name="working_status_form" id="working_status_form" action="">
+                                    <input type='hidden' id="wh_id" name="wh_id" value="<?php echo $this->warehouse_id; ?>">
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+                                            <table class="workingStatus table table-striped table-bordered table-condensed">
+                                                <!-- Table heading -->
+                                                <thead>
+                                                    <tr>
+                                                        <th><?php echo $this->translate("Facility Name"); ?></th>
+                                                        <th><?php echo $this->translate("Asset ID"); ?></th>
+                                                        <th><?php echo $this->translate("Assets"); ?></th>
+                                                        <th><?php echo $this->translate("Working Status") ?></th>
+                                                        <th ><?php echo $this->translate("Reasons") ?></th>
+                                                        <th ><?php echo $this->translate("Utilizations") ?></th>
+                                                        <th  width="10%"><?php echo $this->translate("Freeze Alarm") ?></th>
+                                                        <th  width="10%"><?php echo $this->translate("Heat Alarm") ?></th>
+                                                    </tr>
+                                                </thead>
+                                                <!-- // Table heading END -->
+
+                                                <tbody>
+                                                    <!-- Table row -->
+                                                    <?php
+                                                    $i = 0;
+
+                                                    if ($this->getAssets()->getAssetsNonQuanity($this->user_id, $this->rpt_date) && count($this->getAssets()->getAssetsNonQuanity($this->user_id, $this->rpt_date)) > 0) {
+
+                                                        foreach ($this->getAssets()->getAssetsNonQuanity($this->user_id, $this->rpt_date) as $row):
+                                                            ?>
+                                                            <tr class="gradeX">
+                                                        <input type="hidden" name="asset_id[]" value="<?= $row['ccmAssetId'] ?>" >
+                                                        <input type="hidden" name="ccm_id[]" value="<?= $row['pkId'] ?>" >
+                                                        <td><?php echo $row['warehouse_name'] . "</br>";
+                                                            ?></td>
+                                                        <td><?php echo $row['generateAssetId'] . "</br>";
+                                                            ?></td>
+                                                        <td><?php echo $row['assetTypeName']; ?></td>
+                                                        <td>
+                                                            <input type="hidden" name="placed_qunatity[<?= $i ?>]" id="<?= $i ?>-placed_quantity" value="<?= $row['qty'] ?>">
+                                                            <select class="working_status form-control" id="<?= $i ?>-working_status" name="working_status[<?= $i ?>]" >
+                                                                <option value="">Select Status</option>
+                                                                <?php
+                                                                if (!empty($this->working_list)) {
+
+                                                                    foreach ($this->working_list as $type) {
+                                                                        ?>
+                                                                        <option value="<?= $type['pkId'] ?>" <?php if ($type['pkId'] == $row['ccmStatusListId']) echo 'selected'; ?> > <?= $type['ccmStatusListName'] ?></option>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="reason form-control" id="<?= $i ?>-reason" name="reason[<?= $i ?>]"  <?php if ($row['reason_type'] != 1) echo "disabled='disabled' "; ?> >
+                                                                <option value="">Select Reason</option>
+                                                                <?php
+                                                                if (!empty($this->reason_list)) {
+                                                                    foreach ($this->reason_list as $type) {
+                                                                        ?>
+                                                                        <option value="<?= $type['pkId'] ?>" <?php if ($type['pkId'] == $row['reasonId']) echo 'selected'; ?>  ><?= $type['ccmStatusListName'] ?></option>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </select>
+
+                                                        </td>
+                                                        <td>
+                                                            <select class="utilization form-control" id="<?= $i ?>-utilization" name="utilization[<?= $i ?>]"   >
+                                                                <option value="">Select Utilization</option>
+                                                                <?php
+                                                                if (!empty($this->utilization_list)) {
+                                                                    foreach ($this->utilization_list as $type) {
+                                                                        ?>
+                                                                        <option value="<?= $type['pkId'] ?>" <?php if ($type['pkId'] == $row['utilizationId']) echo 'selected'; ?>  ><?= $type['ccmStatusListName'] ?></option>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </select>
+
+                                                        </td>
+                                                        <?php if ($row['parent_id'] == 1 || $row['parent_id'] == 3) { ?>
+                                                            <td>
+                                                                <input class="temperature_alarm form-control"  type="text" name="freeze[<?= $i ?>]" value="<?= $row['freezeAlarm'] ?>">
+                                                            </td>
+                                                            <td>
+                                                                <input class="temperature_alarm form-control"  type="text" name="heat[<?= $i ?>]" value="<?= $row['heatAlarm'] ?>">
+                                                            </td>
+                                                        <?php } else { ?>
+                                                            <td>
+                                                            </td>
+                                                            <td>
+                                                            </td>
+                                                        <?php } ?>
+                                                        </tr>
+                                                        <?php
+                                                        $i++;
+                                                    endforeach;
+                                                } else {
+                                                    ?>
+                                                    <tr class="gradeX">
+                                                        <td colspan="6" class="center">
+                                                            No Data Found
+                                                        </td>
+
+                                                    </tr>
+                                                <?php } ?>
+                                                <!-- // Table row END -->
+                                                </tbody>
+
+                                                <!-- // Table body END -->
+                                            </table>
+                                        </div>
+
+                                        <!-- // Table END -->
+                                        <?php if ($this->geo_level_id < 5) { ?>
+                                            <div class="col-md-12 form-btn-margin-top">
+                                                <table class="vaccineCarrier table table-striped table-bordered table-condensed">
+                                                    <!-- Table heading -->
+                                                    <thead>
+                                                        <tr>
+                                                            <th rowspan="2" width="30%"><?php echo $this->translate("Assets") ?></th>
+                                                            <th rowspan="2" width="30%"><?php echo $this->translate("Model") ?></th>
+                                                            <th rowspan="2" ><?php echo $this->translate("Total") ?></th>
+                                                            <th rowspan="2"><?php echo $this->translate("Working Quantity") ?></th>
+                                                            <th rowspan="2"><?php echo $this->translate("Comments") ?></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <!-- // Table heading END -->
+                                                        <?php if ($this->getAssets()->getAssetsQuanity($this->warehouse_id) && count($this->getAssets()->getAssetsQuanity($this->warehouse_id)) > 0) { ?>
+                                                            <!-- Table row -->
+                                                            <?php
+                                                            $i = 0;
+                                                            if ($this->getAssets()->getAssetsQuanity($this->warehouse_id) && count($this->getAssets()->getAssetsQuanity($this->warehouse_id)) > 0) {
+                                                                foreach ($this->getAssets()->getAssetsQuanity($this->warehouse_id) as $row):
+                                                                    ?>
+
+                                                                    <tr class="gradeX">
+
+                                                                <input type="hidden" name="asset_id_q[]" value="<?= $row['ccmAssetId'] ?>" >
+                                                                <input type="hidden" name="ccm_id_q[]" value="<?= $row['pkId'] ?>" >
+                                                                <input class="total_quantity" type="hidden" id="<?= $i ?>-total_quantity" name="total_quantity[<?= $i ?>]" value="<?= $row['quantity'] ?>" >
+                                                                <td><?= $row['assetTypeName']; ?></td>
+                                                                <td><?= $row['ccmModelName']; ?></td>
+                                                                <td><?php
+                                                                    if ($row['quantity'] == "") {
+                                                                        $qu = 0;
+                                                                    } else {
+                                                                        $qu = $row['quantity'];
+                                                                    }
+
+                                                                    echo $qu;
+                                                                    ?></td>
+                                                                <td>
+                                                                    <input class="working_quantity form-control"  type="text" id="<?= $i ?>-work_quantity" name="work_quantity[<?= $i ?>]"  value="<?= $qu ?>">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="comments form-control"  type="text" name="comments[<?= $i ?>]" value="<?php echo $row['comments']; ?>">
+                                                                </td>
+                                                                </tr>
+
+                                                                <?php
+                                                                $i++;
+                                                            endforeach;
+                                                        }
+                                                        ?>
+                                                        <!-- // Table row END -->
+                                                        </tbody>
+                                                        <!-- Table body -->
+                                                        <?php
+                                                    } else if ($this->getAssets()->getAssetsQuanity($this->warehouse_id) && count($this->getAssets()->getAssetsQuanity($this->warehouse_id)) > 0) {
+                                                        ?>
+
+                                                        <!-- Table row -->
+                                                        <?php
+                                                        $i = 0;
+                                                        if ($this->getAssets()->getAssetsQuanity($this->warehouse_id) && count($this->getAssets()->getAssetsQuanity($this->warehouse_id)) > 0) :
+
+                                                            foreach ($this->getAssets()->getAssetsQuanity($this->warehouse_id) as $row):
+                                                                ?>
+                                                                <tr class="gradeX">
+
+                                                                <input type="hidden" name="asset_id_q[]" value="<?= $row['ccmAssetId'] ?>" >
+                                                                <input type="hidden" name="ccm_id_q[]" value="<?= $row['pkId'] ?>" >
+                                                                <input class="total_quantity" type="hidden" id="<?= $i ?>-total_quantity" name="total_quantity[<?= $i ?>]" value="<?= $row['quantity'] ?>" >
+                                                                <td><?= $row['assetTypeName']; ?></td>
+                                                                <td><?= $row['ccmModelName']; ?></td>
+                                                                <td><?php
+                                                                    if ($row['quantity'] == "") {
+                                                                        $qu = 0;
+                                                                    } else {
+                                                                        $qu = $row['quantity'];
+                                                                    }
+
+                                                                    echo $qu;
+                                                                    ?></td>
+                                                                <td>
+                                                                    <input class="working_quantity form-control" type="text" id="<?= $i ?>-work_quantity" name="work_quantity[<?= $i ?>]"  value="<?= $qu ?>">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="comments form-control" type="text" name="comments[<?= $i ?>]" value="<?php echo $row['comments']; ?>">
+                                                                </td>
+                                                                </tr>
+
+                                                                <?php
+                                                                $i++;
+                                                            endforeach;
+                                                        endif;
+                                                        ?>
+                                                        <!-- // Table row END -->
+                                                        </tbody>
+                                                        <!-- // Table body END -->
+                                                        <?php
+                                                    } else {
+                                                        ?>    
+                                                        <tr class="gradeX">
+                                                            <td colspan="4" class="center">No Data Found</td>
+
+                                                        </tr>
+
+                                                        <?php
+                                                    }
+                                                    ?>
+
+                                                </table>
+
+                                            </div>                                
+                                        <?php } ?>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group pull-right form-btn-margin-top" >
+                                                <button class="btn btn-primary input-sm" type="Submit" id="update" name="Update"><?php echo $this->translate("Update") ?></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+<?php
+/**
+*  phtml for Stock Status by Item
+*/
+?>
+<div class="col-md-6">
+    <?php
+    FC_SetRenderer('javascript');
+    echo renderChart("FusionCharts/Charts/Pie2D.swf", "", $this->xmlstore, 'stockStatusItem', '100%', 395, false, false);
+    ?>
+</div>
+<div class="col-md-6" id="data14">
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-picture"></i>Received From (Store Names)
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="table-scrollable">
+                <table class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                S.No
+                            </th>
+                            <th>
+                                Warehouse Name
+                            </th>
+                            <th>
+                                Quantity
+                            </th>
+                            <th>
+                                Batch Name
+                            </th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <?php
+                        $count = 1;
+                        foreach ($this->data as $row) {
+                            ?>
+                            <tr>
+                                <td><?php echo $count; ?></td>
+                                <td><?php echo $row['warehouse_name']; ?></td>
+                                <td><?php echo $row['Qty']; ?></td>
+                                <td><?php echo $row['number']; ?></td>
+                            </tr>
+                            <?php
+                            $count++;
+                        }
+                        ?>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,14 @@
+<?php
+/**
+*  phtml for Ajax Get Products Issue by Stakeholder Activity
+*/
+?>
+
+<?php
+foreach ($this->result as $row) {
+    ?>
+    <option value="<?php echo $row['item_pack_size_id']; ?>"><?php echo $row['item_name']; ?></option>
+    <?php
+}
+?>
+      

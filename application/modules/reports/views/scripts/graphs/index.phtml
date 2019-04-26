@@ -1,0 +1,30 @@
+<?php
+/**
+*  phtml for Index
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="heading-mosaic"><?php echo $this->translate("CCEM Graphs") ?> </h3>
+        <div class="innerLR">
+            <div class="widget">
+                <!-- Widget Heading -->
+                <div class="widget-head">
+                    <h3 class="heading"><?php echo $this->translate($this->main_heading) ?></h3>
+                </div>
+                <!-- // Widget Heading END -->
+                <div class="widget-body">
+                    <div class="gen-chart-render form-btn-margin-top">
+                        <?php
+                        FC_SetRenderer('javascript');
+                        echo renderChart($this->baseUrl() . "/FusionCharts/Charts/" . $this->chart_type . ".swf", "", $this->xmlstore, 'chartContainer', $this->width, $this->height, false, false);
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <!-- // Row END --> 
+        </div>
+    </div>
+</div>
+<!-- // Content END -->

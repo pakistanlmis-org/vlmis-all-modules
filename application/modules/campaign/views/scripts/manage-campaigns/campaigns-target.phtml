@@ -1,0 +1,355 @@
+<?php
+/**
+ *  phtml for Campaigns Target
+ */
+?>
+<?php echo $this->show_add_edit?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Target Management") ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Filters") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form name="search_form" id="search_form" action="<?php echo $this->baseUrl(); ?>/campaign/manage-campaigns/campaigns-target" method="post">
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Search Target For"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->campaign_id; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="clear:both;"></div>
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Province"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->province_id; ?>
+                                                        <?php echo $this->form->province_id_hidden; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("District"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->district_id; ?>
+                                                        <?php echo $this->form->district_id_hidden; ?>   
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Vaccine"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->item_id; ?>
+                                                        <?php echo $this->form->item_id_hidden; ?>   
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="control-group">
+                                                    <label class="control-label" >&nbsp;</label>
+                                                    <button class="btn btn-primary" type="submit" name="search" id="search" ><?php echo $this->translate("Search") ?></button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="control-group">
+                                                    <label class="control-label" >&nbsp;</label>
+                                                    <button type="reset" class="btn btn-info" id="reset">Reset</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Campaigns Target") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                            <div class="alert alert-success">
+                                <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                <strong>Data</strong> has been Imported successfully!
+                            </div>
+                        <?php } ?>
+                        <?php if (isset($_GET['success']) && $_GET['success'] == 0) { ?>
+                            <div class="alert alert-success">
+                                <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                <strong>Import</strong> with  Errors!
+                            </div>
+                        <?php } ?>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 form-btn-margin-top">
+                                <table class="dynamicTable table table-striped table-bordered table-hover dataTable no-footer" id="sample_2">
+                                    <!-- Table heading -->
+                                    <thead>
+                                        <tr>
+                                            <th><?php echo $this->translate("Sr No"); ?></th>
+                                            <th><?php echo $this->translate("Province"); ?></th>
+                                            <th><?php echo $this->translate("District"); ?></th>
+                                            <th><?php echo $this->translate("UC"); ?></th>
+                                            <th><?php echo $this->translate("Target"); ?></th>
+                                        </tr>
+                                    </thead>
+                                    <!-- // Table heading END -->
+
+                                    <!-- Table body -->
+                                    <tbody>
+                                        <?php
+                                        $i = 1;
+                                        if ($this->paginator && count($this->paginator) > 0) :
+                                            foreach ($this->paginator as $campaign) {
+                                                ?>
+                                                <!-- Table row -->
+                                                <tr class="gradeX">
+                                                    <td class="center"><?php echo $i++; ?></td>
+                                                    <td  class="left"><?php echo $campaign['provinceName'] ?></td>
+                                                    <td class="left"><?php echo $campaign['districtName']; ?></td>
+                                                    <td class="left"><?php echo $campaign['warehouseName']; ?></td>
+                                                    <td class="right"><?php echo number_format($campaign['dailyTarget']); ?></td>
+                                                </tr>
+                                                <?php
+                                            }
+                                        endif;
+                                        ?>
+                                    </tbody>
+                                </table>
+
+
+
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- // Row END -->
+                                <?php
+                                ?>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        <div class="widget-body">
+                                            <div class="control-group " style="<?php
+                                            if ($this->cam_closed == '0') {
+                                                echo "visibility:visible;";
+                                            } else {
+                                                echo "visibility:hidden;";
+                                            }
+                                            ?>"     >
+                                                <div class="controls" id="add-edit">
+                                                    <a class="btn update-target btn-primary" data-toggle="modal" href="#modal-target"><?php echo $this->translate("Add/Edit") ?></a>
+                                                    <a class="btn import btn-primary" data-toggle="modal" href="#modal-import"><?php echo $this->translate("Import") ?></a>
+                                                    <a class="btn export btn-primary" download="<?php echo $this->district_name; ?>_ucs_target.csv" href="#" onclick="return ExcellentExport.csv(this, 'table_export');"><?php echo $this->translate("Export") ?></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--<div class="col-md-1">
+                                        <div class="control-group " style="<?php
+                                    if ($this->cam_closed == '0') {
+                                        echo "visibility:visible;";
+                                    } else {
+                                        echo "visibility:hidden;";
+                                    }
+                                    ?>" >
+                                            <div class="controls">
+                                                <a class="btn close-campaigns-target btn-primary" ><?php echo $this->translate("Close") ?></a>
+                                            </div>
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <table cellspacing="0" cellpadding="0"  style="display:none" id="table_export">
+                                    <!-- Table heading -->
+                                    <thead>
+                                        <tr>
+<!--                                            <th>Sr No.</th>-->
+                                            <th>Union Council(UC)</th>
+                                            <th>Target</th>
+
+                                        </tr>
+                                    </thead>
+                                    <!-- // Table heading END -->
+
+                                    <!-- Table body -->
+                                    <tbody>
+                                        <?php
+                                        $i = 1;
+                                        if ($this->export && count($this->export) > 0) :
+                                            foreach ($this->export as $rs) {
+                                                ?>
+                                                <!-- Table row -->
+                                                <tr >
+        <!--                                                    <td class="center"><?php echo $i++; ?></td>-->
+                                                    <td><?php echo $rs['warehouse_name']; ?></td>
+                                                    <td><?php echo $rs['daily_target']; ?></td>
+
+                                                </tr>
+                                                <?php
+                                            }
+                                        endif;
+                                        ?>
+                                    </tbody>
+                                </table>
+                                <?php
+                                /* } if ($this->cam_closed == '1') { 
+                                  ?>
+                                  <div class="col-md-10"></div>
+                                  <div class="col-md-1"></div>
+                                  <div class="col-md-1 ">
+                                  <div class="control-group " style="<?php
+                                  if ($this->cam_closed == '1') {
+                                  echo "visibility:visible;";
+                                  } else {
+                                  echo "visibility:hidden;";
+                                  }
+                                  ?>" >
+                                  <div class="controls">
+                                  <a class="btn open-campaigns-target btn-primary" ><?php echo $this->translate("Open") ?></a>
+                                  </div>
+                                  </div>
+                                  </div>
+                                  <?php
+                                 */
+                                //}
+                                ?>
+                                <form method="post" action="<?php echo $this->baseUrl(); ?>/campaign/manage-campaigns/add-campaign-target" id="enter-target"  name="enter-target">
+                                    <div class="modal fade" id="modal-target" tabindex="-1" role="basic" aria-hidden="true" >
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h4 class="modal-title" id="camp_name"></h4>
+                                                </div>
+
+                                                <div class="modal-body" id="modal-body-contents">
+                                                    <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+
+                                                </div>
+                                                <div class="modal-footer " id="update-button">
+                                                    <input class="btn btn-primary" type="submit" id="save-target" value="<?php echo $this->translate("Save"); ?>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!-- // modal box for add -->
+                                <form method="post" id="import_form" action="<?php echo $this->baseUrl(); ?>/campaign/manage-campaigns/campaign-target-import"  enctype="multipart/form-data">
+                                    <div class="modal fade" id="modal-import" tabindex="-1" role="basic" aria-hidden="true" >
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h4 class="modal-title">Import data</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-6">
+                                                                <label class="radio">
+                                                                    <input type="radio" name="import_option" id="import_csv" value="csv" /> Import from csv
+                                                                </label><br/>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label class="radio">
+                                                                    <input type="radio" name="import_option" id="import_campaign" value="campaign" /> Import from previous campaign
+                                                                </label><br/>
+                                                                <label for="import_option" style="display:none;" class="error">This field is required.</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4" id="file_import" style="display:none;">
+                                                            <div class="fileupload fileupload-new" data-provides="fileupload">
+                                                                <div class="input-append">
+                                                                    <span class="btn btn-default btn-file"><input type="file" id="cvs_import" name="cvs_import" /></span>
+                                                                </div>
+                                                            </div>
+                                                            <label for="cvs_import" class="error" style="display:none;">Please select file with valid extension.</label>
+                                                        </div>
+
+                                                        <div class="col-md-4" id="campaign_import" style="display:none;">
+                                                            <div class="control-group">
+                                                                <label class="control-label">Select Campaign</label>
+                                                                <div class="controls">
+                                                                    <?php echo $this->form->campaign_import_id; ?>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group ">
+                                                        <div class="controls">
+                                                            <?php echo $this->form->campaign_import_hidden; ?>
+                                                            <?php echo $this->form->province_import_hidden; ?>
+                                                            <?php echo $this->form->district_import_hidden; ?>
+                                                            <?php echo $this->form->item_import_hidden; ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <input class="btn btn-primary" type="submit" value="<?php echo $this->translate("Save"); ?>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+    </div>
+</div>
+
+<input type="hidden" name="show-add-edit"id="show-add-edit" value="<?php echo $this->show_add_edit?>">
+<!-- // Content END -->

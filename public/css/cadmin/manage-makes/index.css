@@ -1,0 +1,8 @@
+.controls label {
+    float: left;
+    margin-right: 20px;
+}
+
+#div_status > label {
+    padding-left: 20px;
+}

@@ -1,0 +1,131 @@
+<?php
+/**
+ *  phtml for Ajax Product Edit
+ */
+?>
+<div class="row">
+    <div class="col-md-12 margin-bottom">
+        <div class="col-md-4">
+            <div class="control-group ">
+                <label class="control-label" ><?php echo $this->translate("Product"); ?> <span class="red">*</span></label>
+                <div class="controls">
+                    <?php echo $this->form->item_name; ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="control-group ">
+                <label class="control-label" ><?php echo $this->translate("Category"); ?> <span class="red">*</span></label>
+                <div class="controls">
+                    <?php echo $this->form->item_category; ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="control-group ">
+                <label class="control-label" ><?php echo $this->translate("Product Unit"); ?> <span class="red">*</span></label>
+                <div class="controls">
+                    <?php echo $this->form->item_unit; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 margin-bottom">
+        <div class="col-md-4">
+            <div class="control-group ">
+                <label class="control-label" ><?php echo $this->translate("Description"); ?> <span class="red">*</span></label>
+                <div class="controls">
+                    <?php echo $this->form->description; ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="control-group ">
+                <label class="control-label" ><?php echo $this->translate("Status"); ?> <span class="red">*</span></label>
+                <div class="controls">
+                    <?php echo $this->form->status; ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="control-group ">
+                <label class="control-label" ><?php echo $this->translate("List Rank"); ?> <span class="red">*</span></label>
+                <div class="controls">
+                    <?php echo $this->form->list_rank; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 margin-bottom">
+
+        <div class="col-md-4">
+            <div class="control-group ">
+                <label class="control-label" ><?php echo $this->translate("Group"); ?> <span class="red">*</span></label>
+                <div class="controls">
+                    <?php echo $this->form->item; ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="control-group ">
+                <label class="control-label" ><?php echo $this->translate("Purpose"); ?> <span class="red">*</span></label>
+                <div class="controls">
+                    <?php echo $this->form->purpose; ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="control-group ">
+                <label class="control-label" ><?php echo $this->translate("Province"); ?> <span class="red">*</span></label>
+                <div class="controls">
+                    <?php echo $this->form->province; ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="control-group ">
+                <label class="control-label" id="lbl_no_of_doses" ><?php echo $this->translate("Number of Doses"); ?> <span class="red">*</span></label>
+                <div class="controls">
+                    <?php echo $this->form->number_of_doses; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-4">
+            <div class="control-group ">
+                <label class="control-label" ><?php echo $this->translate("% Population Covered"); ?></label>
+                <div class="controls">
+                    <?php echo $this->form->percent_population_covered; ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="control-group ">
+                <label class="control-label" ><?php echo $this->translate("Total Doses"); ?></label>
+                <div class="controls">
+                    <?php echo $this->form->total_doses; ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="control-group ">
+                <label class="control-label" ><?php echo $this->translate("Starting Dose"); ?></label>
+                <div class="controls">
+                    <?php echo $this->form->starting_dose; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+echo $this->form->item_id;
+echo $this->form->item_name_hidden;
+?>

@@ -1,0 +1,15 @@
+<?php
+/**
+*  phtml for Ajax Get Districts by province
+*/
+?>
+<option value=""><?php echo $this->translate("All"); ?></option>
+<?php
+if ($this->result != false) {
+    foreach ($this->result as $row) {
+        ?>
+        <option value="<?php echo $row['pkId']; ?> "><?php echo $row['locationName']; ?></option>
+        <?php
+    }
+}
+?>

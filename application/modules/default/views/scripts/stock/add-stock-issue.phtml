@@ -1,0 +1,194 @@
+<?php
+/**
+*  phtml for Add Stock Issue
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12 right">
+            </div>
+        </div>
+        <br>
+        <?php if ($this->error == "P") { ?>
+            <div class="alert alert-danger alert-dismissable">
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button"></button>
+                <?php
+                foreach ($this->msg as $res) {
+                    ?>
+                    <?php $item_name = $this->monthlyConsumtion2()->getItemName($res) ?>
+                    <strong>Error!</strong> <?php echo $item_name . ": Incorrect Batch"; ?><br>
+                <?php } ?>
+            </div>
+        <?php } else if (!empty($this->msg)) { ?>
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <button data-dismiss="alert" class="close" type="button">
+                        ×
+                    </button>
+                    <?php echo $this->msg; ?>
+                    <a id="issue-print" onclick="window.open('print-issue?id=<?php echo $this->master_id; ?>', '_blank', 'scrollbars=1,width=840,height=595');" href="javascript:void(0);"><strong><?php echo $this->voucher; ?></strong></a>
+                </div>
+            </div>
+        <?php } ?>
+        <h3 class="page-title">
+            Stock Issue/Dispatch To "<b><?php echo $this->warehouse_name; ?></b>"
+        </h3>
+        <form method="POST" name="add-stock-issue" id="add-stock-issue" action="" >
+            <div class="row">
+                <div class="col-md-12">
+                    <?php
+                    echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                    ?>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label" for="transaction_date">
+                            <?php echo $this->translate("Date"); ?>
+                        </label>
+
+                        <?php echo $this->form->transaction_date; ?>
+                        <?php echo $this->form->hdn_activity_id; ?>
+                        <?php echo $this->form->hdn_receive_warehouse_id; ?>
+                        <?php echo $this->form->hdn_stock_master_id; ?>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label" for="transaction_reference">
+                            <?php echo $this->translate("Issue Reference"); ?>
+                        </label>
+
+                        <?php echo $this->form->transaction_reference; ?>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <a style="color:#fff;" href="<?php echo $this->baseUrl(); ?>/stock/stock-issue?month=<?php echo $this->month; ?>&year=<?php echo $this->year; ?>">Back to Stock/Issue Dispatch </a>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-striped table-bordered table-condensed">
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th class="serial">
+                                                    <?php echo $this->translate("S.No"); ?>
+                                                </th>
+                                                <th class="col-md-3">
+                                                    <?php echo $this->translate("Product"); ?>
+                                                </th>
+                                                <th class="col-md-3">
+                                                    <?php echo $this->translate("Batch|Quantity|Priority "); ?>
+                                                </th>
+
+                                                <th class="col-md-2">
+                                                    <?php echo $this->translate("Expiry Date"); ?>
+                                                </th>
+
+                                                <th class="quantity">
+                                                    <?php echo $this->translate("Quantity"); ?>
+                                                    <i data-container="body" data-original-title="Quantity in Vials" class="fa fa-info-circle tooltips"></i>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <!-- // Table heading END -->
+
+                                        <!-- Table body -->
+                                        <tbody>
+                                            <!-- Table row -->
+                                            <?php
+                                            $j = 1;
+                                            for ($i = $this->start; $i < $this->end; $i++) {
+                                                $rows = "rows" . $i;
+                                                $j = $i + 1;
+                                                ?>
+                                                <tr class="dynamic-rows">
+                                                    <td class="serial">
+                                                        <?php echo $j; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->item_pack_size_id; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->number; ?>
+                                                    </td>
+
+                                                    <td>
+                                                        <?php echo $this->form->$rows->hdn_available_quantity; ?>
+                                                        <?php echo $this->form->$rows->hdn_vvm_stage; ?>
+                                                        <?php echo $this->form->$rows->expiry_date; ?>
+
+                                                    </td>
+
+                                                    <td>
+                                                        <?php echo $this->form->$rows->quantity; ?>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                            }
+                                            ?>
+                                            <!-- // Table row END -->
+                                        </tbody>
+                                        <!-- // Table body END -->
+
+                                    </table>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="control-label" for="comments">
+                                        <?php echo $this->translate("Comments Max 300 Char"); ?>
+                                    </label>
+                                    <div class="controls">
+                                        <?php echo $this->form->comments; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-md-1 left">
+                                    <input type="text" value="5" id="default_counter" class="form-control" />
+                                </div>
+                                <div class="col-md-10">
+                                    <button id="add_more" type="button" class="btn blue">
+                                        <?php echo $this->translate("Add rows"); ?>
+                                    </button>
+                                </div>
+                                <div class="col-md-1">
+                                    <button id="add_stock_issue" type="submit" class="btn btn-primary">
+                                        <?php echo $this->translate("Save"); ?>
+                                    </button>
+                                    <input type="hidden" value="<?php echo $this->end; ?>" name="counter" id="counter" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<a id="notific8_show" href="javascript:;" class="hide"></a>
+<div id="notific8_heading" class="hide">Your Data</div>
+<div id="notific8_life" class="hide">5000</div>
+<div id="notific8_text" class="hide">has been saved as draft.</div>
+
+

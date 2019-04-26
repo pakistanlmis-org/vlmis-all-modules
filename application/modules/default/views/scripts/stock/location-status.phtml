@@ -1,0 +1,165 @@
+<?php
+/**
+ *  phtml for Location Status
+ */
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Location Status"); ?></h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="widget widget-tabs widget-tabs-double" style=" border-bottom: 1px solid #77e588; border-right: 1px solid #77e588; border-top: 1px solid #77e588; margin-bottom: -2px;  ">
+                    <div class="widget-head">
+                        <ul>
+                            <li class="active"><a  class="glyphicons table" href="<?php echo $this->baseUrl(); ?>/stock/location-status"><i></i><span class="strong"><?php echo $this->translate("Dry Store"); ?></span><span>Locations</span></a></li>
+                            <li class=""><a class="glyphicons table" href="<?php echo $this->baseUrl(); ?>/stock/location-status-vaccines"><i></i><span class="strong"><?php echo $this->translate("Cold Store"); ?></span><span>Locations</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row margin-top-10 margin-bottom-10">
+            <div class="col-md-12">
+                <?php
+                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-body" style="border-top: 1px solid #77e588;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button"> Ã—</button>
+                                        <strong>Data</strong> has been saved successfully!
+                                    </div>
+                                <?php } ?>
+                                <form method="POST" name="location_status" id="location_status" action="" >
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="area"><?php echo $this->translate("Store"); ?><span class="red">*</span></label>
+                                            <div class="controls">
+                                                <?php echo $this->form->area; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="level"><?php echo $this->translate("Row"); ?><span class="red">*</span></label>
+                                            <div class="controls">
+                                                <?php echo $this->form->level; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group pull-right">
+                                                <button class="btn btn-primary" type="submit" id="showstatus" name="showstatus"><?php echo $this->translate("Show Status"); ?></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-12">
+                                <table style="border: none; width: 100%;">
+                                    <?php
+                                    $Rowcounter = 0;
+                                    $Rackcounter = 0;
+                                    $locationFound = 1;
+                                    $hit = 0;
+                                    $data_arr = $this->result;
+
+                                    $maxRows = $this->max_value_shelf;
+                                    $maxCols = $this->max_value_rack;
+
+
+                                    for ($rr = 1; $rr <= $maxRows; $rr++) {
+                                        for ($cc = 1; $cc <= $maxCols; $cc++) {
+
+                                            for ($pp = 1; $pp < 6; $pp++) {
+                                                if ($hit == 0) {
+                                                    $rowStatus = array();
+                                                    $rowStatus = $data_arr[$Rowcounter];
+
+                                                    $locid = $rowStatus['pk_id'];
+                                                    $plc_locid = $rowStatus['placement_locationsid'];
+                                                    $locname = $rowStatus['location_name'];
+                                                    $row1 = (int) $rowStatus['myrow'];
+                                                    $rack = (int) $rowStatus['myrack'];
+                                                    $pallet = (int) $rowStatus['mypallet'];
+                                                }
+
+                                                if ($rr == $row1 && $cc == $rack && $pallet == $pp) {
+                                                    $locArray[$rr][$cc][$pp] = $locname . "|" . $plc_locid;
+
+                                                    $hit = 0;
+                                                } else {
+                                                    $locArray[$rr][$cc][$pp] = "&nbsp;";
+                                                    $hit = 5;
+                                                }
+
+                                                if ($hit == 0) {
+                                                    $Rowcounter++;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    for ($a = 1; $a <= $maxRows; $a++):
+                                        ?>
+                                        <tr style="border: 3px solid #d3d3d3;" >
+                                            <?php
+                                            for ($x = 1; $x <= $maxCols; $x++):
+                                                ?>
+                                                <td
+                                                    style="width:<?php echo round(100 / $maxCols, 2) . '%'; ?>;height: 86px; padding: 4px; border-right: 4px solid #d3d3d3; border-left: 4px solid #d3d3d3;">
+                                                        <?php
+                                                        if ($locArray[$a][$x][1] != "&nbsp;" || $locArray[$a][$x][2] != "&nbsp;" ||
+                                                                $locArray[$a][$x][3] != "&nbsp;" || $locArray[$a][$x][4] != "&nbsp;" || $locArray[$a][$x][5] != "&nbsp;") {
+                                                            ?>
+                                                        <table style="border: 2px solid green; width:100%;">
+                                                            <tr>
+                                                                <td style="width:50%;border: 2px solid white; background-color: green;"><?php list($l1, $loc1) = explode('|', $locArray[$a][$x][1]); ?>
+                                                                    <a itemid="<?php echo $loc1; ?>" class="btn product-location  btn-link btn-mini" style="color:#fff;" href="<?php echo $this->baseUrl(); ?>/stock/stock-in-bin?id=<?php echo $loc1 . "&area=" . $this->getarea . "&level=" . $this->getlevel; ?>">
+                                                                        <?php echo $l1; ?></a>
+                                                                </td>
+                                                                <td style="width:50%;border: 2px solid white; background-color: green;"><?php list($l1, $loc1) = explode('|', $locArray[$a][$x][2]); ?>
+                                                                    <a itemid="<?php echo $loc1; ?>" class="btn product-location  btn-link btn-mini" style="color:#fff;" href="<?php echo $this->baseUrl(); ?>/stock/stock-in-bin?id=<?php echo $loc1 . "&area=" . $this->getarea . "&level=" . $this->getlevel; ?>">
+                                                                        <?php echo $l1; ?></a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr >
+                                                                <td style=" border: 2px solid white; background-color: green;"><?php list($l1, $loc1) = explode('|', $locArray[$a][$x][3]); ?>
+                                                                    <a itemid="<?php echo $loc1; ?>" class="btn product-location  btn-link btn-mini" style="color:#fff;" href="<?php echo $this->baseUrl(); ?>/stock/stock-in-bin?id=<?php echo $loc1 . "&area=" . $this->getarea . "&level=" . $this->getlevel; ?>">
+                                                                        <?php echo $l1; ?></a>
+                                                                </td>
+                                                                <td style=" border: 2px solid white; background-color: green;"><?php list($l1, $loc1) = explode('|', $locArray[$a][$x][4]); ?>
+                                                                    <a itemid="<?php echo $loc1; ?>" class="btn product-location  btn-link btn-mini" style="color:#fff;" href="<?php echo $this->baseUrl(); ?>/stock/stock-in-bin?id=<?php echo $loc1 . "&area=" . $this->getarea . "&level=" . $this->getlevel; ?>">
+                                                                        <?php echo $l1; ?></a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style=" border: 2px solid white; background-color: green;"><?php list($l1, $loc1) = explode('|', $locArray[$a][$x][5]); ?>
+                                                                    <a itemid="<?php echo $loc1; ?>" class="btn product-location  btn-link btn-mini" style="color:#fff;" href="<?php echo $this->baseUrl(); ?>/stock/stock-in-bin?id=<?php echo $loc1 . "&area=" . $this->getarea . "&level=" . $this->getlevel; ?>">
+                                                                        <?php echo $l1; ?></a>
+                                                                </td>
+                                                                <td style=" border: 2px solid white;"></td>
+                                                            </tr>
+                                                        </table>
+                                                    <?php } ?></td>
+                                            <?php endfor; ?>
+                                        </tr>
+                                        <?php
+                                    endfor;
+                                    ?>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

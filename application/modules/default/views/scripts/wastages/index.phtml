@@ -1,0 +1,534 @@
+<?php
+/**
+ *  phtml for Cold Chain Capacity
+ */
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <!-- BEGIN PAGE HEADER-->
+        <h2 style="color:red">Beta version</h2>
+
+
+        <table width="99%">
+            <tr>
+                <td colspan="2">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="portlet box green">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        Filter By
+                                    </div>
+
+                                </div>
+                                <div class="portlet-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <form method="POST" name="form" action="" >
+
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <label class="control-label" >Province</label>
+
+
+
+
+                                                        <select class="form-control input-sm" id="province" name="province">
+                                                            <option value="all">All</option>
+                                                            <?php
+                                                            foreach ($this->province as $rowprov) {
+
+                                                                if ($this->prov_sel == $rowprov['pkId'])
+                                                                    $sel = "selected='selected'";
+                                                                else
+                                                                    $sel = "";
+                                                                ?>
+                                                                <option value="<?php echo $rowprov['pkId']; ?>" <?php echo $sel; ?>><?php echo $rowprov['locationName']; ?></option>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="control-label" >Antigen</label>
+                                                        <select  class="form-control input-sm" id="item" name="item">
+
+                                                            <?php
+                                                            foreach ($this->items as $rowitem) {
+
+                                                                if ($this->item_sel == $rowitem['pkId'])
+                                                                    $sel = "selected='selected'";
+                                                                else
+                                                                    $sel = "";
+                                                                ?>
+                                                                <option value="<?php echo $rowitem['pkId']; ?>" <?php echo $sel; ?>><?php echo $rowitem['itemName']; ?></option>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <label class="control-label" >Year</label>
+                                                        <select  class="form-control input-sm" id="year" name="year">
+                                                            <option value="all">All</option>
+                                                            <option value="2018" <?php if ($this->year_sel == 2018) echo 'selected'; ?>>2018</option>
+                                                            <option value="2017" <?php if ($this->year_sel == 2017) echo 'selected'; ?>>2017</option>
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-1" id="div_month">
+                                                        <label class="control-label" >Month</label>
+                                                        <select name="ending_month" id="ending_month"  class="form-control input-sm">
+                                                            <option value="" >Select</option>
+                                                            <?php
+                                                            for ($i = 1; $i <= 12; $i++) {
+                                                                if ($this->month_sel == $i) {
+                                                                    $sel = "selected='selected'";
+                                                                } else {
+                                                                    $sel = "";
+                                                                }
+                                                                ?>
+                                                                <option value="<?php echo $i; ?>"<?php echo $sel; ?> ><?php echo date('M', mktime(0, 0, 0, $i, 1)); ?></option>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-1" id="div_c">
+                                                        <label class="control-label" >Currency</label>
+                                                        <select  class="form-control input-sm" class="" id="currency" name="currency">
+
+                                                            <option value="1" <?php if ($this->currency == 1) echo 'selected'; ?>>PKR</option>
+
+                                                            <option value="2"  <?php if ($this->currency == 2) echo 'selected'; ?>>USD</option>
+
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-1" id="div_currency" style="display: none;">
+                                                        <label class="control-label" >USD Rate</label>
+                                                        <input class="form-control input-sm" type="text" name="usd" id="usd" value="<?php
+                                                        if ($this->usd == 1) {
+                                                            echo 100;
+                                                        } else {
+                                                            echo $this->usd;
+                                                        }
+                                                        ?>" >
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label class="control-label" >Cost Type</label>
+                                                        <select  class="form-control input-sm" class="" id="cost_type" name="cost_type">
+                                                            <?php if ($this->item_sel != 'all') { ?>
+                                                                <option value="1" <?php if ($this->cost_type == 1) echo 'selected'; ?>>Actual</option>
+                                                            <?php } ?>
+                                                            <option value="2"  <?php if ($this->cost_type == 2) echo 'selected'; ?>>Average Cost Price</option>
+                                                            <?php if ($this->item_sel != 'all') { ?>
+                                                                <option value="3"  <?php if ($this->cost_type == 3) echo 'selected'; ?>>Manual Price</option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2" id="div_manual" style="display: none;">
+                                                        <label class="control-label" >Manual Price</label>
+                                                        <input class="form-control input-sm" type="text" name="manual_price" id="manual_price" value="<?php echo $this->manual_price; ?>" >
+                                                    </div>
+                                                    <div class="col-md-1" id="div_cost" style="display: none;">
+                                                        <label class="control-label" >Cost Price</label>
+                                                        <select  class="form-control input-sm" class="" id="funding_source" name="funding_source">
+                                                            <?php
+                                                            foreach ($this->funding_source as $rowfund) {
+                                                                if ($this->funding_source_sel == $rowfund['pk_id'])
+                                                                    $sel = "selected='selected'";
+                                                                else
+                                                                    $sel = "";
+                                                                ?>
+
+
+                                                                <option value="<?php echo $rowfund['pk_id']; ?>" <?php echo $sel; ?>><?php echo $rowfund['warehouse_name'] . '|' . $rowfund['unit_price']; ?></option>
+
+                                                            <?php } ?>
+
+                                                        </select>
+                                                        <input type="hidden" id="un_price" name="un_price" value="">
+                                                    </div>
+
+                                                    <div class="col-md-1">
+                                                        <label class="control-label" >&nbsp;</label>
+                                                        <div class="controls" >
+                                                            <button type="submit" id="go" name="go" value="GO" class="btn btn-sm green">Go</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+        <div class="row">&nbsp;</div>
+        <!-- END PAGE HEADER-->
+
+        <div class="row">
+            <div class="widget-body">
+                <div class="col-md-12">
+
+                    <div class="row">
+                        <div class="col-md-6" >
+                            <div class="widget widget-tabs">
+                                <div class="widget-body" style="height:307px;">
+                                    <div class="btn-group" data-toggle="buttons">
+
+                                        <label class="btn btn-default active">
+                                            <input class="toggle" id="w_c" name="w_c" value="1" type="radio"> Cost
+                                        </label>
+                                        <label class="btn btn-default ">
+                                            <input class="toggle" id="w_c" name="w_c" value="2" type="radio"> Doses
+                                        </label>
+
+                                    </div>
+                                    <?php
+                                    $base_url = Zend_Registry::get("baseurl");
+                                    ?>
+                                    <center><img style="margin-top:60px;" id="spinner13" src="<?php echo $base_url; ?>/images/ajax-loader.gif"/></center>
+                                    <div id="after-filter13">
+
+                                        <?php
+                                        if ($this->item_sel == 'all') {
+
+                                            FC_SetRenderer('javascript');
+                                            echo renderChart($this->baseUrl() . "/FusionCharts/Charts/StackedColumn2DLine.swf ", "", $this->xmlstore1, "coldchainCapacity281", '100%', 250, false, false);
+                                        } else {
+                                            FC_SetRenderer('javascript');
+                                            echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie3d.swf", "", $this->xmlstore1, "coldchainCapacity281", '100%', 250, false, false);
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6" >
+                            <div class="widget widget-tabs">
+                                <div class="widget-body" style="height: 307px;">
+                                    <div class="btn-group" data-toggle="buttons">
+
+                                        <label class="btn btn-default active">
+                                            <input class="toggle" id="wastages1" name="w_b" value="1" type="radio"> Cost
+                                        </label>
+                                        <label class="btn btn-default ">
+                                            <input class="toggle" id="wastages" name="w_b" value="2" type="radio"> Doses
+                                        </label>
+
+                                    </div>
+                                    <center><img style="margin-top:60px;" id="spinner14" src="<?php echo $base_url; ?>/images/ajax-loader.gif"/></center>
+                                    <div id="after-filter14">
+                                        <?php
+                                        if ($this->item_sel == 'all') {
+
+                                            FC_SetRenderer('javascript');
+                                            echo renderChart($this->baseUrl() . "/FusionCharts/Charts/StackedColumn2DLine.swf ", "", $this->xmlstore2, "coldchainCapacity28", '100%', 250, false, false);
+                                        } else {
+                                            FC_SetRenderer('javascript');
+                                            echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie3d.swf", "", $this->xmlstore2, "coldchainCapacity28", '100%', 250, false, false);
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="row">
+
+
+                        <?php
+                        if ($this->item_sel == 'all') {
+                            ?>
+
+                            <div class="col-md-6" >
+                                <div class="widget widget-tabs">
+                                    <div class="widget-body">
+                                        <?php
+                                        FC_SetRenderer('javascript');
+                                        echo renderChart($this->baseUrl() . "/FusionCharts/Charts/StackedColumn2DLine.swf ", "", $this->xml_sdpcount, "coldchainCapacity283", '100%', 250, false, false);
+                                        ?> </div>
+                                </div>
+
+                            </div>
+                            <?php
+                        } else {
+                            ?>
+                            <div class="col-md-3" >
+                                <div class="widget widget-tabs">
+                                    <div class="widget-body">
+
+                                        <?php
+                                        FC_SetRenderer('javascript');
+                                        echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Doughnut2D.swf", "", $this->xml_sdpcount, "coldchainCapacity283", '100%', 350, false, false);
+                                        ?>
+
+                                        <p id="pulsate-regular" style="font-size: 10px; color: #666666;" >   Click on the graph to see the drill down </p>
+
+
+                                         <p style="color: #666666; font-size: 10px;"><b style="font-size: 10px; color:black" >Wastage Permissible:</b>SDPs wastage within allowed percentage</p>
+                                        <p style="color: #666666; font-size: 10px;"><b style="font-size: 10px; color:black"> Over Wastage:</b>Wastage above allowed percentage </p>
+                                        <p style="color: #666666; font-size: 10px;"><b style="font-size: 10px; color:black"> Wastage Rate:</b>(Wastages/Wastages+Consumption)*100 </p>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-3" >
+                                <div class="widget widget-tabs">
+                                    <div class="widget-body" style="height: 473px;">
+                                        <div class="btn-group" data-toggle="buttons">
+
+                                            <label class="btn btn-default active">
+                                                <input class="toggle" id="e_u" name="e_u" value="1" type="radio"> Cost
+                                            </label>
+                                            <label class="btn btn-default ">
+                                                <input class="toggle" id="e_u" name="e_u" value="2" type="radio"> Doses
+                                            </label>
+
+                                        </div>
+                                        <center><img style="margin-top:160px;" id="spinner15" src="<?php echo $base_url; ?>/images/ajax-loader.gif"/></center>
+                                        <div id="after-filter15">
+
+                                            <?php
+                                            FC_SetRenderer('javascript');
+                                            echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Doughnut2D.swf", "", $this->xml_wastages_type, "coldchainCapacity28d3", '100%', 350, false, false);
+                                            ?>
+                                            <b style="font-size: 10px;">Closed Vials Wastage (Expired):</b> <p style="color: #666666; font-size: 10px;">Stock wasted due to expiry date</p>
+                                            <b style="font-size: 10px;">Closed Vials Wastage (Unusable):</b><p style="color: #666666; font-size: 10px;">Stock wasted due to VVM </p>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        <?php }
+                        ?>
+
+
+                        <div class="col-md-6">
+                            <img class="right" style="float: right;margin-bottom: 10px;" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="tableToExcel('export', 'sheet 1', 'Wastages')" alt="Excel" style="cursor:pointer;" />
+
+                            <div id="export">
+                                <?php if ($this->item_sel == 'all') { ?>
+                                    <table class="table table-striped table-bordered table-advance table-hover" style="font-size: 11px;" id="tbl">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align:left;">Product</th>
+                                                <th style="text-align:left;">Description</th>
+                                                <th style="text-align:right;">Doses</th>
+                                                <th style="text-align:right;">Cost Rate</th>
+                                                <th style="text-align:right;">Amount<?php
+                                                    if ($this->cost_type != 3) {
+                                                        if ($this->currency == 1) {
+                                                            ?> (PKR) <?php } else { ?> (USD) <?php
+                                                        }
+                                                    }
+                                                    ?></th>
+                                                <th style="text-align:right;">Amount(Millions)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($this->conusmption as $res) { ?>
+                                                <tr>
+                                                    <td style="text-align:left;"><?php echo $res['item_name'] ?></td>
+                                                    <td style="text-align:left;">Consumed</td>
+                                                    <td style="text-align:right;"><?php echo number_format($res['consumption']); ?>
+                                                    </td>
+                                                    <td style="text-align:right;"><?php echo Round($res['unit_price'], 2); ?></td>
+                                                    <td style="text-align:right;"><?php echo $c_cost = number_format(Round($res['consumption'] * Round($res['unit_price'], 2))); ?></td>
+                                                    <td style="text-align:right;"><?php echo Round(Round($res['consumption'] * Round($res['unit_price'], 2)) / 1000000, 2); ?></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align:left;"><?php echo $res['item_name'] ?></td>
+                                                    <td style="text-align:left;">Wastage<?php
+                                                        $toal = $res['consumption'] + $res['wastage'];
+                                                        if ($res['wastage'] > 0) {
+                                                            ?>(<?php
+                                                            if (Round(($res['wastage'] / $toal * 100)) == 0) {
+                                                                echo Round(($res['wastage'] / $toal * 100));
+                                                            } else {
+                                                                echo Round(($res['wastage'] / $toal * 100));
+                                                            }
+                                                            ?>%)<?php } ?></td>
+                                                    <td style="text-align:right;"><?php echo number_format($res['wastage']); ?>
+                                                    </td>
+                                                    <td style="text-align:right;"><?php echo Round($res['unit_price'], 2); ?></td>
+                                                    <td style="text-align:right;"><?php echo number_format(Round($res['wastage'] * Round($res['unit_price'], 2))); ?></td>
+                                                    <td style="text-align:right;"><?php echo Round(Round($res['wastage'] * Round($res['unit_price'], 2)) / 1000000, 2); ?></td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align:left;"><?php echo $res['item_name'] ?></td>
+                                                    <td style="text-align:left;"><?php echo $res['allowed'] . '% '; ?>Permissible<?php
+                                                        if ($res['w_perc'] < $res['allowed']) {
+                                                            echo ' (Actual ' . $res['w_perc'] . '%)';
+                                                        }
+                                                        ?></td>
+                                                    <td style="text-align:right;"><?php echo number_format($res['a_w']); ?>
+                                                    </td>
+                                                    <td style="text-align:right;"><?php echo Round($res['unit_price'], 2); ?></td>
+                                                    <td style="text-align:right;"><?php echo number_format(Round($res['a_w'] * Round($res['unit_price'], 2))); ?></td>
+                                                    <td style="text-align:right;"><?php echo Round(Round($res['a_w'] * Round($res['unit_price'], 2)) / 1000000, 2); ?></td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align:left;"><?php echo $res['item_name'] ?></td>
+                                                    <td style="text-align:left;">Over Wastage<?php
+                                                        if ($res['w_n_perc'] > 0) {
+                                                            echo ' (' . $res['w_n_perc'] . '%)';
+                                                        }
+                                                        ?></td>
+                                                    <td style="text-align:right;"><?php echo number_format($res['n_w']); ?>
+                                                    </td>
+                                                    <td style="text-align:right;"><?php echo Round($res['unit_price'], 2); ?></td>
+                                                    <td style="text-align:right;"><?php echo number_format(Round($res['n_w'] * Round($res['unit_price'], 2))); ?></td>
+                                                    <td style="text-align:right;"><?php echo Round(Round($res['n_w'] * Round($res['unit_price'], 2)) / 1000000, 2); ?></td>
+
+                                                </tr>
+                                            <?php } ?>
+                                        </tbody>
+                                    </table>
+                                <?php } else { ?>
+                                    <table class="table table-striped table-bordered table-advance table-hover" style="font-size: 11px;" id="tbl">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align:left;">Description</th>
+                                                <th style="text-align:right;">Doses</th>
+                                                <th style="text-align:right;">Cost Rate</th>
+                                                <th style="text-align:right;">Amount<?php
+                                                    if ($this->cost_type != 3) {
+                                                        if ($this->currency == 1) {
+                                                            ?> (PKR) <?php } else { ?> (USD) <?php
+                                                        }
+                                                    }
+                                                    ?></th>
+                                                <th style="text-align:right;">Amount(Millions)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td style="text-align:left;">Consumed</td>
+                                                <td style="text-align:right;"><?php echo number_format($this->conusmption); ?>
+                                                </td>
+                                                <td style="text-align:right;"><?php echo Round($this->unit_price, 2); ?></td>
+                                                <td style="text-align:right;"><?php echo $c_cost = number_format(Round($this->conusmption * Round($this->unit_price, 2))); ?></td>
+                                                <td style="text-align:right;"><?php echo Round(Round($this->conusmption * Round($this->unit_price, 2)) / 1000000, 2); ?></td>
+                                            </tr>
+                                           
+                                            <tr>
+                                                <td style="text-align:left;"><?php echo $this->allowed . '% '; ?>Permissible<?php
+                                                    if ($this->a_perc < $this->allowed) {
+                                                        echo ' (Actual ' . $this->a_perc . '%)';
+                                                    }
+                                                    ?></td>
+                                                <td style="text-align:right;"><?php echo number_format($this->permissible); ?>
+                                                </td>
+                                                <td style="text-align:right;"><?php echo Round($this->unit_price, 2); ?></td>
+                                                <td style="text-align:right;"><?php echo number_format(Round($this->permissible * Round($this->unit_price, 2))); ?></td>
+                                                <td style="text-align:right;"><?php echo Round(Round($this->permissible * Round($this->unit_price, 2)) / 1000000, 2); ?></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align:left;">Over Wastage<?php
+                                                    if ($this->n_perc > 0) {
+                                                        echo ' (' . $this->n_perc . '%)';
+                                                    }
+                                                    ?></td>
+                                                <td style="text-align:right;"><?php echo number_format($this->over_wastage); ?>
+                                                </td>
+                                                <td style="text-align:right;"><?php echo Round($this->unit_price, 2); ?></td>
+                                                <td style="text-align:right;"><?php echo number_format(Round($this->over_wastage * Round($this->unit_price, 2))); ?></td>
+                                                <td style="text-align:right;"><?php echo Round(Round($this->over_wastage * Round($this->unit_price, 2)) / 1000000, 2); ?></td>
+
+                                            </tr>
+                                             <tr>
+                                                <td style="text-align:left;">Total Wastage <?php
+                                                    $toal = $this->conusmption + $this->wastage;
+                                                    if ($this->wastage > 0) {
+                                                        ?>(<?php
+                                                        if (Round(($this->wastage / $toal * 100)) == 0) {
+                                                            echo Round(($this->wastage / $toal * 100));
+                                                        } else {
+                                                            echo Round(($this->wastage / $toal * 100));
+                                                        }
+                                                        ?>%)<?php } ?></td>
+                                                <td style="text-align:right;"><?php echo number_format($this->wastage); ?>
+                                                </td>
+                                                <td style="text-align:right;"><?php echo Round($this->unit_price, 2); ?></td>
+                                                <td style="text-align:right;"><?php echo number_format(Round($this->wastage * Round($this->unit_price, 2))); ?></td>
+                                                <td style="text-align:right;"><?php echo Round(Round($this->wastage * Round($this->unit_price, 2)) / 1000000, 2); ?></td>
+
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                <?php } ?>
+                                
+                                <b>Permissible Wastage</b> = Percentage set * Total Wastage <br>
+                                <b>Over Wastage</b> = Total Wastage – Permissible Wastage<br> 
+                                <b>Total Wastage</b> = Issue – consumed <br>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- // Tabs END -->
+
+
+            </div>
+            <div style=" text-align: justify; text-justify: inter-word;">
+                <ul>
+                    <li>
+                        <p style="font-size: 12px; color: #666666;" > Unit cost for GAVI supported products is based on EXW (Ex-Works).</p>
+                    </li>
+                    <li>
+                        <p style="font-size: 12px; color: #666666;" > Unit cost for GoP procured products is based on DAP (Delivered at Place).</p>
+                    </li>
+                    <p style="font-size: 10px; color: #666666;" > For more <a  href='javascript:;' style="color:blue;  cursor: pointer" onclick="detailInformation();">Click Here</a></p>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $(".sidebar-toggler").trigger("click");
+        $('#pulsate-regular').pulsate({
+            color: "#bf1c56"
+        });
+    });
+    function detailInformation() {
+        var param = 1;
+        var width = 1002;
+        var height = 595;
+        var x = (screen.width / 2) - (width / 2);
+        var y = (screen.height / 2) - (height / 2);
+        window.open('detail-information?param=' + param, '_blank', 'scrollbars=1,width=' + width + ',height=' + height + ',left=' + x + ',top=' + y);
+    }
+    function functionCall(param) {
+
+        var width = 1002;
+        var height = 595;
+        var x = (screen.width / 2) - (width / 2);
+        var y = (screen.height / 2) - (height / 2);
+        window.open('epi-centers?param=' + param, '_blank', 'scrollbars=1,width=' + width + ',height=' + height + ',left=' + x + ',top=' + y);
+    }
+
+
+
+</script>

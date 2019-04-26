@@ -1,0 +1,1838 @@
+
+<style>
+    table#myTable{margin-top:20px;border-collapse: collapse;border-spacing: 0; border:1px solid #999;}
+    table#myTable tr td{font-size:11px;padding:3px; text-align:left; border:1px solid #999;}
+    table#myTable tr th{font-size:11px;padding:3px; text-align:center; border:1px solid #999;}
+    table#myTable tr td.TAR{text-align:right; padding:5px;width:50px !important;}
+    .sb1NormalFont {
+        color: #444444;
+        font-size: 11px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    p{margin-bottom:5px; font-size:11px !important; line-height:1 !important; padding:0 !important;}
+    table#headerTable tr td{ font-size:11px;}
+
+    /* Print styles */
+    @media only print
+    {
+        table#myTable tr th{font-size:8px;padding:3px !important; text-align:center; border:1px solid #999;}
+        table#myTable tr td{font-size:8px;padding:3px !important; text-align:left; border:1px solid #999;}
+        #doNotPrint{display: none !important;}
+    }
+</style>
+
+<?php
+/**
+ *  phtml for shipment scenario
+ */
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <?php echo $this->translate("Vaccine Arrival Report"); ?>
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form method="POST" name="search" action="" >
+                            <!-- Row -->
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <!-- Group Receive No-->
+                                    <div class="control-group">
+                                        <label class="control-label" for="issue_no">
+                                            <?php echo $this->translate("Receive No"); ?>
+                                        </label>
+                                        <input id="receive_no" class="form-control" name="receive_no" value="<?php echo $this->receive_num; ?>" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group form-btn-margin-top">
+                                        <button type="submit" class="btn btn-success" name="search" value="Search">
+                                            <?php echo $this->translate("Search"); ?>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php if (!empty($this->receive_no)) { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <?php echo $this->translate("Vaccine Arrival Report"); ?>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse">
+                                </a>
+
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <form   method="POST" name="var" id="var" action="">
+
+                                <?php if (empty($this->var_data)) { ?>
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+
+
+
+                                            <table  width="50%" id="myTable" cellspacing="0" align="left" >
+
+
+                                                <tr>
+                                                    <td>
+                                                        Country
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" readonly="readonly" style="height:35px !important;" type="text" name="country" id="country" value="Pakistan">
+                                                    </td>
+
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Report No.
+                                                    </td>
+                                                    <td >
+                                                        <input class="form-control" style="height:35px !important;" type="text" name="report_no" id="report_no">
+                                                    </td>
+
+
+
+                                                </tr>
+
+
+
+                                            </table>
+                                            <table  width="20%" id="myTable" cellspacing="0" align="right" >
+
+
+                                                <tr>
+
+
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Date of Report
+                                                    </td>
+                                                    <td >
+                                                        <input class="form-control" style="height:35px !important;" type="text" name="report_date" id="report_date" value="<?php echo date("d/m/Y"); ?>">
+                                                    </td>
+
+
+
+                                                </tr>
+
+                                            </table>
+                                            </br>
+                                            </br>
+                                            </br>
+                                            </br>
+                                            <table width="100%" id="myTable" cellspacing="0" align="center">
+                                                <thead>
+                                                    <tr>
+                                                        <td>
+                                                            Place of Inspection
+                                                        </td>
+                                                        <td>
+                                                            Date and time of Inspection
+                                                        </td>
+                                                        <td>
+                                                            Name of Cold Store
+                                                        </td>
+                                                        <td>
+                                                            Date and time vaccines entered into cold store
+                                                        </td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="place_of_inspection" id="place_of_inspection"></td><td> <input class="form-control" style="height:35px !important;" type="text" name="date_of_inspection" id="date_of_inspection">
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="cold_store" id="cold_store"></td>
+                                                        <td><input class="form-control" style="height:35px !important;" type="text" name="date_entered_cold_store" id="date_entered_cold_store">
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+
+                                            </table>
+                                            </br>
+
+                                            <b> PART I - ADVANCE NOTICE </b>
+
+                                            <table width="100%" id="myTable" cellspacing="0" align="center">
+                                                <thead>
+                                                    <tr>
+                                                        <td>
+                                                            Main Documents
+                                                        </td>
+                                                        <td>
+                                                            Date received by consignee
+                                                        </td>
+                                                        <td>
+                                                            Copy airway bill
+                                                            (AWB)
+                                                        </td>
+                                                        <td>
+                                                            Copy of packing list
+                                                        </td>
+                                                        <td>
+                                                            Copy of Invoice
+                                                        </td>
+                                                        <td>
+                                                            Copy of release certificate
+                                                        </td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            Pre-advice
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="pre_advice_date" id="pre_advice_date">
+                                                        </td>
+
+                                                        <td colspan="4" style="background-color: grey">
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Shipping notification
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="shipping_notification_date" id="shipping_notification_date">
+                                                        </td>
+                                                        <td>
+                                                            Yes <input type="radio" value="1" name="awb">
+                                                            No <input type="radio" value="0" name="awb">
+                                                        </td>
+                                                        <td>
+                                                            Yes <input type="radio" value="1" name="packing_list">
+                                                            No <input type="radio" value="0" name="packing_list">
+                                                        </td>
+                                                        <td>
+                                                            Yes <input type="radio" value="1" name="invoice">
+                                                            No <input type="radio" value="0" name="invoice">
+                                                        </td>
+                                                        <td>
+                                                            Yes <input type="radio" value="1" name="release_certificate">
+                                                            No <input type="radio" value="0" name="release_certificate">
+                                                        </td>
+                                                    </tr>
+
+
+                                                    <tr>
+                                                        <td>
+                                                            List of other documents(if Requested)
+                                                        </td>
+                                                        <td colspan="5">
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="other_document" id="other_document">
+
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+
+                                            </table>
+
+                                            </br>
+
+                                            <b>  PART II - FLIGHT ARRIVAL DETAILS </b>
+
+                                            <table width="100%" id="myTable" cellspacing="0" align="center">
+                                                <thead>
+                                                    <tr>
+                                                        <td rowspan="2" class="center">
+                                                            AWB Number
+                                                        </td>
+                                                        <td rowspan="2" class="center">
+                                                            Airport of destination
+                                                        </td>
+                                                        <td rowspan="2" class="center">
+                                                            Flight No
+                                                        </td>
+                                                        <td colspan="1" class="center">
+                                                            ETA as per notification
+                                                        </td>
+                                                        <td colspan="1" class="center">
+                                                            Actual time of arrival
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="center">
+                                                            Date/Time
+                                                        </td>  
+
+                                                        <td class="center">
+                                                            Date/Time
+                                                        </td>  
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+
+
+                                                        <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="awb_number" id="awb_number">
+
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="airport_of_destination" id="airport_of_destination">
+
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="flight_no" id="flight_no">
+
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="eta_date" id="eta_date">
+
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="actual_time_arrival" id="actual_time_arrival">
+
+                                                        </td>
+
+
+
+
+                                                    </tr>
+
+
+
+
+                                                </tbody>
+
+                                            </table>
+                                            <table width="100%">
+                                                <tr>
+                                                    <td colspan="2">&nbsp;</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td style="text-align:right;" width="9%" class="sb1NormalFont">Name of Clearing Agent:</td>
+                                                    <td width="30%"> <input class="form-control" style="height:35px !important;" type="text" name="name_of_clearing_agent" id="name_of_clearing_agent">
+                                                    </td>
+                                                    <td width="17%" style="text-align:right;" class="sb1NormalFont">On Behalf of:</td>
+                                                    <td width="30%"> <input class="form-control" style="height:35px !important;" type="text" name="on_behalf" id="on_behalf">
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+                                            </br>
+                                            <b>  PART III - DETAILS OF VACCINE SHIPMENT </b>
+
+                                            <table width="100%" id="myTable" cellspacing="0" align="center">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="center" >
+                                                            Purchase Order No.
+                                                        </td>
+                                                        <td class="center" >
+                                                            Consignee
+                                                        </td>
+                                                        <td class="center" >
+                                                            Vaccine Description</br>
+                                                            (Type and doses/val)
+                                                        </td>
+                                                        <td class="center" >
+                                                            Manufacturer
+                                                        </td>
+                                                        <td class="center" >
+                                                            Country
+                                                        </td>
+
+                                                    </tr>
+
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+
+
+                                                        <td width="10%"> <input class="form-control" style="height:35px !important;" type="text" name="purchase_order_no" id="purchase_order_no">
+                                                        </td>
+
+                                                        <td width="20%"> <input class="form-control" style="height:35px !important;" type="text" name="consignee" id="consignee">
+                                                        </td>
+
+                                                        <td width="30%"> <input class="form-control" style="height:35px !important;" type="text" name="vaccine_description" id="vaccine_description">
+                                                        </td>
+
+                                                        <td width="20%"> <input class="form-control" style="height:35px !important;" type="text" name="manufacturer" id="manufacturer">
+                                                        </td>
+
+                                                        <td width="20%"> <input class="form-control" style="height:35px !important;" type="text" name="country_part3" id="country_part3">
+                                                        </td>
+
+
+
+
+
+                                                    </tr>
+
+
+
+
+                                                </tbody>
+
+                                            </table>
+                                            <table width="100%" id="myTable" cellspacing="0" align="center">
+                                                <thead>
+                                                    <tr>
+                                                        <td colspan="4" class="center" >
+                                                            Vaccine
+                                                        </td>
+                                                        <td colspan="4" class="center" >
+                                                            Diluent/droppers
+                                                        </td>
+
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td  class="center" >
+                                                            Lot Number
+                                                        </td>
+                                                        <td  class="center" >
+                                                            Number of boxes
+                                                        </td>
+                                                        <td  class="center" >
+                                                            Number of vials
+                                                        </td>
+                                                        <td  class="center" >
+                                                            Expiry date
+                                                        </td>
+
+                                                        <td  class="center" >
+                                                            Lot Number
+                                                        </td>
+                                                        <td  class="center" >
+                                                            Number of boxes
+                                                        </td>
+                                                        <td  class="center" >
+                                                            Number of units
+                                                        </td>
+                                                        <td  class="center" >
+                                                            Expiry date
+                                                        </td>
+
+                                                    </tr>
+
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    foreach ($this->shipment_vaccines as $sv) {
+                                                        ?>
+                                                        <?php if ($sv['item_category_id'] == 1) { ?>
+                                                   
+                                                            <tr>
+
+                                                                <td class="center">
+                                                                     
+                                                                    <?php echo $sv['number']; ?>
+                                                                </td>
+                                                                <td style="text-align: right">
+                                                                    <?php echo $sv['carton']; ?>
+                                                                </td>
+
+                                                                <td style="text-align: right">
+                                                                    <?php echo number_format($sv['quantity']); ?>
+                                                                </td>
+                                                                <td class="center"><?php echo date("d/m/Y", strtotime($sv['expiry_date'])); ?></td>
+
+                                                                <td class="center">
+
+                                                                </td>
+                                                                <td style="text-align: right">
+
+                                                                </td>
+
+                                                                <td style="text-align: right">
+
+                                                                </td>
+                                                                <td class="center"></td>
+                                                            </tr>
+
+
+
+
+
+
+
+                                                        <?php } else {
+                                                            ?>
+                                                            <tr>
+                                                                <td class="center">
+
+                                                                </td>
+                                                                <td style="text-align: right">
+
+                                                                </td>
+
+                                                                <td style="text-align: right">
+
+                                                                </td>
+                                                                <td class="center"></td>
+                                                                <td class="center">
+                                                                    <?php echo $sv['number']; ?>
+                                                                </td>
+                                                                <td style="text-align: right">
+                                                                    <?php echo $sv['carton']; ?>
+                                                                </td>
+
+                                                                <td style="text-align: right">
+                                                                    <?php echo number_format($sv['quantity']); ?>
+                                                                </td>
+                                                                <td class="center"><?php echo date("d/m/Y", strtotime($sv['expiry_date'])); ?></td>
+
+
+                                                            </tr>
+
+                                                            <?php } } ?>
+
+                                                </tbody>
+
+                                            </table>
+                                            <table width="100%" id="myTable" cellspacing="0" align="center">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="center" >
+                                                            Vaccine
+                                                        </td>
+                                                        <td >
+                                                            yes
+                                                        </td>
+                                                        <td >
+                                                            No
+                                                        </td>
+                                                        <td >
+                                                            Comments
+                                                        </td>
+
+
+                                                    </tr>
+
+
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+
+                                                        <td>
+                                                            Was quantity received as per shipping notification?
+                                                        </td>
+
+                                                        <td>
+                                                            <input type="radio" value="1" name="quantity_received">
+
+                                                        </td>
+                                                        <td>
+                                                            <input type="radio" value="0" name="quantity_received">
+                                                        </td> <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="quantity_received_comments" id="quantity_received_comments">
+
+
+                                                    </tr>
+
+                                                    <tr>
+
+
+                                                        <td>
+                                                            If not,were details of short-shipment provided prior to vaccine arrival?
+                                                        </td>
+                                                        <td>
+                                                            <input type="radio" value="1" name="detail_short_shipment">
+                                                        </td>
+                                                        <td>
+                                                            <input type="radio" value="0" name="detail_short_shipment">
+                                                        </td> <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="detail_short_shipment_comments" id="detail_short_shipment_comments">
+
+                                                        </td>
+
+
+                                                    </tr>
+
+
+
+
+                                                </tbody>
+
+                                            </table>
+                                            </br>
+                                            <b> PART IV - DOCUMENTS ACCOMPANYING THE SHIPMENT </b>
+                                            <table width="100%" id="myTable" cellspacing="0" align="center">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="center" >
+                                                            Invoice
+                                                        </td>
+                                                        <td >
+                                                            Paking list
+                                                        </td>
+                                                        <td >
+                                                            Release certicate 
+                                                        </td>
+                                                        <td >
+                                                            Vaccine Arrival Report
+                                                        </td>
+                                                        <td >
+                                                            Other
+                                                        </td>
+
+
+                                                    </tr>
+
+
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+
+                                                        <td>
+                                                            Yes  <input type="radio" value="1" name="documents_invoice">
+                                                            No   <input type="radio" value="0" name="documents_invoice">
+                                                        </td>
+                                                        <td>
+                                                            Yes  <input type="radio" value="1" name="documents_packing_list">
+                                                            No   <input type="radio" value="0" name="documents_packing_list">
+                                                        </td>
+                                                        <td>
+                                                            Yes  <input type="radio" value="1" name="documents_release_certificate">
+                                                            No   <input type="radio" value="0" name="documents_release_certificate">
+                                                        </td> 
+                                                        <td>
+                                                            Yes  <input type="radio" value="1" name="documents_var">
+                                                            No   <input type="radio" value="0" name="documents_var">
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="document_other" id="document_other">
+
+                                                        </td>
+
+
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>
+                                                            Comments
+                                                        </td>
+                                                        <td colspan="4">
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="part4_comments" id="part4_comments">
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+
+
+
+
+                                                </tbody>
+
+                                            </table>
+
+                                            </br>
+                                            <b> PART V - STATUS OF SHIPPING INDICATORS</b>
+                                            <table width="100%" id="myTable" cellspacing="0" align="center">
+
+                                                <tbody>
+                                                    <tr>
+
+                                                        <td>
+                                                            Total number of boxes Inspected:
+                                                        </td>
+                                                        <td colspan="5">
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="total_number_boxes_inspected" id="total_number_boxes_inspected">
+                                                        </td>
+
+
+
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td>
+                                                            Coolant type
+                                                        </td>
+                                                        <td>
+                                                            <input type="checkbox" name="dry_ice" id="dry_ice"> Dry Ice
+                                                            <input type="checkbox" name="ice_packs" id="ice_packs"> Ice Packs
+                                                            <input type="checkbox" name="no_coolant" id="no_coolant"> No coolant
+                                                            <input type="checkbox" name="coolant_type_empty" id="coolant_type_empty">
+
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                    <tr>
+
+                                                        <td>
+                                                            Temperature monitors present
+                                                        </td>
+                                                        <td>
+                                                            <input type="checkbox"  name="vvm" id="vvm"> VVM
+                                                            <input type="checkbox"  name="cold_chain_card" id="cold_chain_card"> Cold-chain card 
+                                                            <input type="checkbox"  name="electronic_device" id="electronic_device"> Electronic device
+                                                            <input type="checkbox"  name="temperature_monitors_empty" id="temperature_monitors_empty">
+
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+
+
+                                                </tbody>
+
+                                            </table>
+
+
+                                            Provide below details of status only when problems are observed
+                                            <table width="100%" id="myTable" cellspacing="0" align="center">
+                                                <thead>
+                                                    <tr>
+                                                        <td rowspan="2" class="center" >
+                                                            Box number
+                                                        </td>
+                                                        <td rowspan="2" class="center">
+                                                            Lot No
+                                                        </td>
+                                                        <td colspan="4" class="center">
+                                                            Alarm in electronic device
+                                                        </td>
+                                                        <td colspan="4" class="center">
+                                                            Cold-chain monitor
+                                                        </td>
+                                                        <td rowspan="2" class="center">
+                                                            Day of Inspection
+                                                        </td>
+                                                        <td rowspan="2" class="center">
+                                                            Time of Inspection
+                                                        </td>
+
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td  >
+                                                            >=45c
+                                                        </td>
+                                                        <td  >
+                                                            >=30c
+                                                        </td>
+                                                        <td  >
+                                                            >=10c
+                                                        </td>
+                                                        <td  >
+                                                            >=0.5c
+                                                        </td>
+                                                        <td  >
+                                                            A
+                                                        </td>
+                                                        <td  >
+                                                            B
+                                                        </td>
+                                                        <td  >
+                                                            C
+                                                        </td>
+                                                        <td  >
+                                                            D
+                                                        </td>
+
+
+
+                                                    </tr>
+
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="0-box_number" id="box_number">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="0-lot_no" id="lot_no">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="0-less_45" id="less_45">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="0-less_30" id="less_30">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="0-less_10" id="less_10">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="0-less_5" id="less_5">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="0-cold_chain_a" id="cold_chain_a">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="0-cold_chain_b" id="cold_chain_b">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="0-cold_chain_c" id="cold_chain_c">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="0-cold_chain_d" id="cold_chain_d">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="0-day_of_inspection" id="day_of_inspection">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="0-date_of_inspection1" id="0-date_of_inspection1">
+                                                        </td>
+
+
+
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="1-box_number" id="box_number">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="1-lot_no" id="lot_no">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="1-less_45" id="less_45">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="1-less_30" id="less_30">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="1-less_10" id="less_10">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="1-less_5" id="less_5">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="1-cold_chain_a" id="cold_chain_a">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="1-cold_chain_b" id="cold_chain_b">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="1-cold_chain_c" id="cold_chain_c">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="1-cold_chain_d" id="cold_chain_d">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="1-day_of_inspection" id="day_of_inspection">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="1-date_of_inspection1" id="1-date_of_inspection1">
+                                                        </td>
+
+
+
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="2-box_number" id="box_number">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="2-lot_no" id="lot_no">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="2-less_45" id="less_45">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="2-less_30" id="less_30">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="2-less_10" id="less_10">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="2-less_5" id="less_5">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="2-cold_chain_a" id="cold_chain_a">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="2-cold_chain_b" id="cold_chain_b">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="2-cold_chain_c" id="cold_chain_c">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="2-cold_chain_d" id="cold_chain_d">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="2-day_of_inspection" id="day_of_inspection">
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="2-date_of_inspection1" id="2-date_of_inspection1">
+                                                        </td>
+
+
+
+                                                    </tr>
+
+
+
+                                                </tbody>
+
+                                            </table>
+
+                                            </br>
+                                            <b>  PART VI - GENERAL CONDITIONS OF SHIPMENT </b>
+                                            <table width="100%" id="myTable" cellspacing="0" align="center">
+
+                                                <tbody>
+                                                    <tr>
+
+                                                        <td >
+                                                            What was the condition of boxes on arrival?
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="condition_of_boxes_arrival" id="condition_of_boxes_arrival">
+                                                        </td>
+
+
+
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td >
+                                                            Where necessary labels attached to shipping boxes?
+                                                        </td>
+                                                        <td >
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="labels_attached" id="labels_attached">
+                                                        </td>
+
+
+
+                                                    </tr>
+                                                    <tr>
+
+                                                        <td >
+                                                            Other comments including description of alarms in electronic devices:</br>
+                                                            (continue on seperate sheet if necessary).
+                                                        </td>
+                                                        <td >
+                                                            <textarea id="other_comments_electronic_device" class="form-control" name="other_comments_electronic_device" rows="2" maxlength="300" cols="80"></textarea>    
+
+                                                        </td>
+
+
+
+                                                    </tr>
+
+
+
+
+
+                                                </tbody>
+
+                                            </table>
+
+                                            </br>
+                                            </br>
+                                            <div class="col-md-12 right">
+
+                                                <input type="hidden" id="shipment_id" name="shipment_id" value="<?php echo $this->shipment_id; ?>">
+    <input type="hidden" id="hdn_rec_no" name="hdn_rec_no" value="<?php echo $this->receive_num; ?>">
+                                                <button type="submit" class="btn btn-primary"
+                                                        onclick="return confirm('Are you sure you want to save the list?');">
+                                                            <?php echo $this->translate("Save"); ?>
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <?php
+                                } else {
+                                    $row = $this->var_data;
+                                    ?>
+
+
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+
+
+
+                                            <table  width="50%" id="myTable" cellspacing="0" align="left" >
+
+
+                                                <tr>
+                                                    <td>
+                                                        Country
+                                                    </td>
+                                                    <td>
+                                                        <input class="form-control" readonly="readonly" style="height:35px !important;" type="text" name="country" id="country" value="<?php echo $row[0]['country']; ?>">
+                                                    </td>
+
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Report No.
+                                                    </td>
+                                                    <td >
+                                                        <input class="form-control" style="height:35px !important;" type="text" name="report_no" id="report_no" value="<?php echo $row[0]['report_no']; ?>">
+                                                    </td>
+
+
+
+                                                </tr>
+
+
+
+                                            </table>
+                                            <table  width="20%" id="myTable" cellspacing="0" align="right" >
+
+
+                                                <tr>
+
+
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Date of Report
+                                                    </td>
+                                                    <td >
+                                                        <input class="form-control" style="height:35px !important;" type="text" name="report_date" id="report_date" value="<?php echo date("d/m/Y", strtotime($row[0]['report_date'])); ?>">
+                                                    </td>
+
+
+
+                                                </tr>
+
+                                            </table>
+                                            </br>
+                                            </br>
+                                            </br>
+                                            </br>
+                                            <table width="100%" id="myTable" cellspacing="0" align="center">
+                                                <thead>
+                                                    <tr>
+                                                        <td>
+                                                            Place of Inspection
+                                                        </td>
+                                                        <td>
+                                                            Date and time of Inspection
+                                                        </td>
+                                                        <td>
+                                                            Name of Cold Store
+                                                        </td>
+                                                        <td>
+                                                            Date and time vaccines entered into cold store
+                                                        </td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="place_of_inspection" id="place_of_inspection" value="<?php echo $row[0]['place_of_inspection']; ?>"></td><td> <input class="form-control" style="height:35px !important;" type="text" name="date_of_inspection" id="date_of_inspection" value="<?php echo date("d/m/Y", strtotime($row[0]['date_of_inspection'])); ?>">
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="cold_store" id="cold_store" value="<?php echo $row[0]['cold_store']; ?>"></td>
+                                                        <td><input class="form-control" style="height:35px !important;" type="text" name="date_entered_cold_store" id="date_entered_cold_store" value="<?php echo date("d/m/Y", strtotime($row[0]['date_of_vaccines_entered_cold_store'])); ?>">
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+
+                                            </table>
+                                            </br>
+
+                                            <b> PART I - ADVANCE NOTICE </b>
+
+                                            <table width="100%" id="myTable" cellspacing="0" align="center">
+                                                <thead>
+                                                    <tr>
+                                                        <td>
+                                                            Main Documents
+                                                        </td>
+                                                        <td>
+                                                            Date received by consignee
+                                                        </td>
+                                                        <td>
+                                                            Copy airway bill
+                                                            (AWB)
+                                                        </td>
+                                                        <td>
+                                                            Copy of packing list
+                                                        </td>
+                                                        <td>
+                                                            Copy of Invoice
+                                                        </td>
+                                                        <td>
+                                                            Copy of release certificate
+                                                        </td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            Pre-advice
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="pre_advice_date" id="pre_advice_date" value="<?php echo date("d/m/Y", strtotime($row[0]['pre_advice_date'])); ?>">
+                                                        </td>
+
+                                                        <td colspan="4" style="background-color: grey">
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            Shipping notification
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="shipping_notification_date" id="shipping_notification_date" value="<?php echo date("d/m/Y", strtotime($row[0]['shipping_notification_date'])); ?>">
+                                                        </td>
+                                                        <td>
+                                                            Yes <input type="radio" value="1" name="awb" <?php echo ($row[0]['awb'] == '1') ? "checked" : ""; ?>>
+                                                            No <input type="radio" value="0" name="awb" <?php echo ($row[0]['awb'] == '0') ? "checked" : ""; ?>>
+                                                        </td>
+                                                        <td>
+                                                            Yes <input type="radio" value="1" name="packing_list" <?php echo ($row[0]['packing_list'] == '1') ? "checked" : ""; ?>>
+                                                            No <input type="radio" value="0" name="packing_list" <?php echo ($row[0]['packing_list'] == '0') ? "checked" : ""; ?>>
+                                                        </td>
+                                                        <td>
+                                                            Yes <input type="radio" value="1" name="invoice" <?php echo ($row[0]['invoice'] == '1') ? "checked" : ""; ?>>
+                                                            No <input type="radio" value="0" name="invoice" <?php echo ($row[0]['invoice'] == '0') ? "checked" : ""; ?>>
+                                                        </td>
+                                                        <td>
+                                                            Yes <input type="radio" value="1" name="release_certificate" <?php echo ($row[0]['release_certificate'] == '1') ? "checked" : ""; ?>>
+                                                            No <input type="radio" value="0" name="release_certificate" <?php echo ($row[0]['release_certificate'] == '0') ? "checked" : ""; ?>>
+                                                        </td>
+                                                    </tr>
+
+
+                                                    <tr>
+                                                        <td>
+                                                            List of other documents(if Requested)
+                                                        </td>
+                                                        <td colspan="5">
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="other_document" id="other_document" value="<?php echo $row[0]['advance_note_other_document']; ?>">
+
+                                                        </td>
+
+                                                    </tr>
+                                                </tbody>
+
+                                            </table>
+
+                                            </br>
+
+                                            <b>  PART II - FLIGHT ARRIVAL DETAILS </b>
+
+                                            <table width="100%" id="myTable" cellspacing="0" align="center">
+                                                <thead>
+                                                    <tr>
+                                                        <td rowspan="2" class="center">
+                                                            AWB Number
+                                                        </td>
+                                                        <td rowspan="2" class="center">
+                                                            Airport of destination
+                                                        </td>
+                                                        <td rowspan="2" class="center">
+                                                            Flight No
+                                                        </td>
+                                                        <td colspan="1" class="center">
+                                                            ETA as per notification
+                                                        </td>
+                                                        <td colspan="1" class="center">
+                                                            Actual time of arrival
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="center">
+                                                            Date/Time
+                                                        </td>  
+
+                                                        <td class="center">
+                                                            Date/Time
+                                                        </td>  
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+
+
+                                                        <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="awb_number" id="awb_number" value="<?php echo $row[0]['awb_number']; ?>">
+
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="airport_of_destination" id="airport_of_destination" value="<?php echo $row[0]['airport_of_destination']; ?>">
+
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="flight_no" id="flight_no" value="<?php echo $row[0]['flight_no']; ?>">
+
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="eta_date" id="eta_date" value="<?php echo date("d/m/Y", strtotime($row[0]['eta_date'])); ?>">
+
+                                                        </td>
+                                                        <td>
+                                                            <input class="form-control" style="height:35px !important;" type="text" name="actual_time_arrival" id="actual_time_arrival" value="<?php echo date("d/m/Y", strtotime($row[0]['actual_time_arrival'])); ?>">
+
+                                                        </td>
+
+
+
+
+                                                    </tr>
+
+
+
+
+                                                </tbody>
+
+                                            </table>
+                                            <table width="100%">
+                                                <tr>
+                                                    <td colspan="2">&nbsp;</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td style="text-align:right;" width="9%" class="sb1NormalFont">Name of Clearing Agent:</td>
+                                                    <td width="30%"> <input class="form-control" style="height:35px !important;" type="text" name="name_of_clearing_agent" id="name_of_clearing_agent" value="<?php echo $row[0]['name_of_clearing_agent']; ?>"> 
+                                                    </td>
+                                                    <td width="17%" style="text-align:right;" class="sb1NormalFont">On Behalf of:</td>
+                                                    <td width="30%"> <input class="form-control" style="height:35px !important;" type="text" name="on_behalf" id="on_behalf" value="<?php echo $row[0]['on_behalf']; ?>">
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+                                            </br>
+                                            <b>  PART III - DETAILS OF VACCINE SHIPMENT </b>
+
+                                            <table width="100%" id="myTable" cellspacing="0" align="center">
+                                                <thead>
+                                                    <tr>
+                                                        <td class="center" >
+                                                            Purchase Order No.
+                                                        </td>
+                                                        <td class="center" >
+                                                            Consignee
+                                                        </td>
+                                                        <td class="center" >
+                                                            Vaccine Description</br>
+                                                            (Type and doses/val)
+                                                        </td>
+                                                        <td class="center" >
+                                                            Manufacturer
+                                                        </td>
+                                                        <td class="center" >
+                                                            Country
+                                                        </td>
+
+                                                    </tr>
+
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+
+
+                                                        <td width="10%"> <input class="form-control" style="height:35px !important;" type="text" name="purchase_order_no" id="purchase_order_no" value="<?php echo $row[0]['purchase_order_no']; ?>">
+                                                        </td>
+
+                                                        <td width="20%"> <input class="form-control" style="height:35px !important;" type="text" name="consignee" id="consignee" value="<?php echo $row[0]['consignee']; ?>">
+                                                        </td>
+
+                                                        <td width="30%"> <input class="form-control" style="height:35px !important;" type="text" name="vaccine_description" id="vaccine_description" value="<?php echo $row[0]['vaccine_description']; ?>">
+                                                        </td>
+
+                                                        <td width="20%"> <input class="form-control" style="height:35px !important;" type="text" name="manufacturer" id="manufacturer" value="<?php echo $row[0]['manufacturer']; ?>">
+                                                        </td>
+
+                                                        <td width="20%"> <input class="form-control" style="height:35px !important;" type="text" name="country_part3" id="country_part3" value="<?php echo $row[0]['country_part3']; ?>">
+                                                        </td>
+
+
+
+
+
+                                                    </tr>
+
+
+
+
+                                                </tbody>
+
+                                            </table>
+                                            <table width="100%" id="myTable" cellspacing="0" align="center">
+                                                <thead>
+                                                    <tr>
+                                                        <td colspan="4" class="center" >
+                                                            Vaccine
+                                                        </td>
+                                                        <td colspan="4" class="center" >
+                                                            Diluent/droppers
+                                                        </td>
+
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td  class="center" >
+                                                            Lot Number
+                                                        </td>
+                                                        <td  class="center" >
+                                                            Number of boxes
+                                                        </td>
+                                                        <td  class="center" >
+                                                            Number of vials
+                                                        </td>
+                                                        <td  class="center" >
+                                                            Expiry date
+                                                        </td>
+
+                                                        <td  class="center" >
+                                                            Lot Number
+                                                        </td>
+                                                        <td  class="center" >
+                                                            Number of boxes
+                                                        </td>
+                                                        <td  class="center" >
+                                                            Number of units
+                                                        </td>
+                                                        <td  class="center" >
+                                                            Expiry date
+                                                        </td>
+
+                                                    </tr>
+
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    foreach ($this->shipment_vaccines as $sv) {
+                                                        ?>
+                                                   
+                                                        <?php if ($sv['item_category_id'] == 1) { ?>
+                                                   
+                                                            <tr>
+
+                                                                <td class="center">
+                                                                     
+                                                                    <?php echo $sv['number']; ?>
+                                                                </td>
+                                                                <td style="text-align: right">
+                                                                    <?php echo $sv['carton']; ?>
+                                                                </td>
+
+                                                                <td style="text-align: right">
+                                                                    <?php echo number_format($sv['quantity']); ?>
+                                                                </td>
+                                                                <td class="center"><?php echo date("d/m/Y", strtotime($sv['expiry_date'])); ?></td>
+
+                                                                <td class="center">
+
+                                                                </td>
+                                                                <td style="text-align: right">
+
+                                                                </td>
+
+                                                                <td style="text-align: right">
+
+                                                                </td>
+                                                                <td class="center"></td>
+                                                            </tr>
+
+
+
+
+
+
+
+                                                        <?php } else {
+                                                            ?>
+                                                            <tr>
+                                                                <td class="center">
+
+                                                                </td>
+                                                                <td style="text-align: right">
+
+                                                                </td>
+
+                                                                <td style="text-align: right">
+
+                                                                </td>
+                                                                <td class="center"></td>
+                                                                <td class="center">
+                                                                    <?php echo $sv['number']; ?>
+                                                                </td>
+                                                                <td style="text-align: right">
+                                                                    <?php echo $sv['carton']; ?>
+                                                                </td>
+
+                                                                <td style="text-align: right">
+                                                                    <?php echo number_format($sv['quantity']); ?>
+                                                                </td>
+                                                                <td class="center"><?php echo date("d/m/Y", strtotime($sv['expiry_date'])); ?></td>
+
+
+                                                            </tr>
+
+                                                            <?php } } ?>
+
+
+
+                                                        </tbody>
+
+                                                    </table>
+                                                    <table width="100%" id="myTable" cellspacing="0" align="center">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="center" >
+                                                                    Vaccine
+                                                                </td>
+                                                                <td >
+                                                                    yes
+                                                                </td>
+                                                                <td >
+                                                                    No
+                                                                </td>
+                                                                <td >
+                                                                    Comments
+                                                                </td>
+
+
+                                                            </tr>
+
+
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+
+                                                                <td>
+                                                                    Was quantity received as per shipping notification?
+                                                                </td>
+
+                                                                <td>
+                                                                    <input type="radio" value="1" name="quantity_received" <?php echo ($row[0]['quantity_received'] == '1') ? "checked" : ""; ?>>
+
+                                                                </td>
+                                                                <td>
+                                                                    <input type="radio" value="0" name="quantity_received" <?php echo ($row[0]['quantity_received'] == '0') ? "checked" : ""; ?>>
+                                                                </td> <td>
+                                                                    <input class="form-control" style="height:35px !important;" type="text" name="quantity_received_comments" id="quantity_received_comments" value="<?php echo $row[0]['quantity_received_comments']; ?>">
+
+
+                                                            </tr>
+
+                                                            <tr>
+
+
+                                                                <td>
+                                                                    If not,were details of short-shipment provided prior to vaccine arrival?
+                                                                </td>
+                                                                <td>
+                                                                    <input type="radio" value="1" name="detail_short_shipment" <?php echo ($row[0]['detail_short_shipment'] == '1') ? "checked" : ""; ?>>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="radio" value="0" name="detail_short_shipment" <?php echo ($row[0]['detail_short_shipment'] == '0') ? "checked" : ""; ?>>
+                                                                </td> <td>
+                                                                    <input class="form-control" style="height:35px !important;" type="text" name="detail_short_shipment_comments" id="detail_short_shipment_comments" value="<?php echo $row[0]['detail_short_shipment_comments']; ?>">
+
+                                                                </td>
+
+
+                                                            </tr>
+
+
+
+
+                                                        </tbody>
+
+                                                    </table>
+                                                    </br>
+                                                    <b> PART IV - DOCUMENTS ACCOMPANYING THE SHIPMENT </b>
+                                                    <table width="100%" id="myTable" cellspacing="0" align="center">
+                                                        <thead>
+                                                            <tr>
+                                                                <td class="center" >
+                                                                    Invoice
+                                                                </td>
+                                                                <td >
+                                                                    Paking list
+                                                                </td>
+                                                                <td >
+                                                                    Release certicate 
+                                                                </td>
+                                                                <td >
+                                                                    Vaccine Arrival Report
+                                                                </td>
+                                                                <td >
+                                                                    Other
+                                                                </td>
+
+
+                                                            </tr>
+
+
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+
+                                                                <td>
+                                                                    Yes  <input type="radio" value="1" name="documents_invoice" <?php echo ($row[0]['documents_invoice'] == '1') ? "checked" : ""; ?>>
+                                                                    No   <input type="radio" value="0" name="documents_invoice" <?php echo ($row[0]['documents_invoice'] == '0') ? "checked" : ""; ?>>
+                                                                </td>
+                                                                <td>
+                                                                    Yes  <input type="radio" value="1" name="documents_packing_list" <?php echo ($row[0]['documents_packing_list'] == '1') ? "checked" : ""; ?>>
+                                                                    No   <input type="radio" value="0" name="documents_packing_list" <?php echo ($row[0]['documents_packing_list'] == '0') ? "checked" : ""; ?>>
+                                                                </td>
+                                                                <td>
+                                                                    Yes  <input type="radio" value="1" name="documents_release_certificate" <?php echo ($row[0]['documents_release_certificate'] == '1') ? "checked" : ""; ?>>
+                                                                    No   <input type="radio" value="0" name="documents_release_certificate" <?php echo ($row[0]['documents_release_certificate'] == '0') ? "checked" : ""; ?>>
+                                                                </td> 
+                                                                <td>
+                                                                    Yes  <input type="radio" value="1" name="documents_var"  <?php echo ($row[0]['documents_var'] == '1') ? "checked" : ""; ?>>
+                                                                    No   <input type="radio" value="0" name="documents_var"  <?php echo ($row[0]['documents_var'] == '0') ? "checked" : ""; ?>>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control" style="height:35px !important;" type="text" name="document_other" id="document_other" value="<?php echo $row[0]['document_other']; ?>">
+
+                                                                </td>
+
+
+                                                            </tr>
+                                                            <tr>
+
+                                                                <td>
+                                                                    Comments
+                                                                </td>
+                                                                <td colspan="4">
+                                                                    <input class="form-control" style="height:35px !important;" type="text" name="part4_comments" id="part4_comments" value="<?php echo $row[0]['part4_comments']; ?>">
+
+                                                                </td>
+
+
+
+                                                            </tr>
+
+
+
+
+
+                                                        </tbody>
+
+                                                    </table>
+
+                                                    </br>
+                                                    <b> PART V - STATUS OF SHIPPING INDICATORS</b>
+                                                    <table width="100%" id="myTable" cellspacing="0" align="center">
+
+                                                        <tbody>
+                                                            <tr>
+
+                                                                <td>
+                                                                    Total number of boxes Inspected:
+                                                                </td>
+                                                                <td colspan="5">
+                                                                    <input class="form-control" style="height:35px !important;" type="text" name="total_number_boxes_inspected" id="total_number_boxes_inspected" value="<?php echo $row[0]['total_number_boxes_inspected']; ?>">
+                                                                </td>
+
+
+
+                                                            </tr>
+                                                            <tr>
+
+                                                                <td>
+                                                                    Coolant type
+                                                                </td>
+                                                                <td>
+                                                                    <input type="checkbox" name="dry_ice" id="dry_ice" <?php echo ($row[0]['dry_ice'] == '1') ? "checked" : ""; ?>> Dry Ice
+                                                                    <input type="checkbox" name="ice_packs" id="ice_packs" <?php echo ($row[0]['ice_packs'] == '1') ? "checked" : ""; ?>> Ice Packs
+                                                                    <input type="checkbox" name="no_coolant" id="no_coolant" <?php echo ($row[0]['no_coolant'] == '1') ? "checked" : ""; ?>> No coolant
+                                                                    <input type="checkbox" name="coolant_type_empty" id="coolant_type_empty" <?php echo ($row[0]['coolant_type_empty'] == '1') ? "checked" : ""; ?>>
+
+
+                                                                </td>
+
+
+
+                                                            </tr>
+
+                                                            <tr>
+
+                                                                <td>
+                                                                    Temperature monitors present
+                                                                </td>
+                                                                <td>
+                                                                    <input type="checkbox"  name="vvm" id="vvm" <?php echo ($row[0]['vvm'] == '1') ? "checked" : ""; ?>> VVM
+                                                                    <input type="checkbox"  name="cold_chain_card" id="cold_chain_card"  <?php echo ($row[0]['cold_chain_card'] == '1') ? "checked" : ""; ?> > Cold-chain card 
+                                                                    <input type="checkbox"  name="electronic_device" id="electronic_device" <?php echo ($row[0]['electronic_device'] == '1') ? "checked" : ""; ?>> Electronic device
+                                                                    <input type="checkbox"  name="temperature_monitors_empty" id="temperature_monitors_empty" <?php echo ($row[0]['temperature_monitors_empty'] == '1') ? "checked" : ""; ?>>
+
+
+                                                                </td>
+
+
+
+                                                            </tr>
+
+
+
+                                                        </tbody>
+
+                                                    </table>
+
+
+                                                    Provide below details of status only when problems are observed
+                                                    <table width="100%" id="myTable" cellspacing="0" align="center">
+                                                        <thead>
+                                                            <tr>
+                                                                <td rowspan="2" class="center" >
+                                                                    Box number
+                                                                </td>
+                                                                <td rowspan="2" class="center">
+                                                                    Lot No
+                                                                </td>
+                                                                <td colspan="4" class="center">
+                                                                    Alarm in electronic device
+                                                                </td>
+                                                                <td colspan="4" class="center">
+                                                                    Cold-chain monitor
+                                                                </td>
+                                                                <td rowspan="2" class="center">
+                                                                    Day of Inspection
+                                                                </td>
+                                                                <td rowspan="2" class="center">
+                                                                    Time of Inspection
+                                                                </td>
+
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td  >
+                                                                    >=45c
+                                                                </td>
+                                                                <td  >
+                                                                    >=30c
+                                                                </td>
+                                                                <td  >
+                                                                    >=10c
+                                                                </td>
+                                                                <td  >
+                                                                    >=0.5c
+                                                                </td>
+                                                                <td  >
+                                                                    A
+                                                                </td>
+                                                                <td  >
+                                                                    B
+                                                                </td>
+                                                                <td  >
+                                                                    C
+                                                                </td>
+                                                                <td  >
+                                                                    D
+                                                                </td>
+
+
+
+                                                            </tr>
+
+                                                        </thead>
+                                                        <tbody>
+
+                                                            <?php
+                                                            $i = 0;
+                                                            foreach ($this->var_electronic_data as $row1) {
+                                                                ?>
+                                                                <tr>
+
+                                                                    <td >
+                                                                        <input class="form-control" style="height:35px !important;" type="text" name="<?php echo $i; ?>-box_number" id="box_number" value="<?php echo $row1['box_number']; ?>">
+                                                                    </td>
+                                                                    <td >
+                                                                        <input class="form-control" style="height:35px !important;" type="text" name="<?php echo $i; ?>-lot_no" id="lot_no" value="<?php echo $row1['lot_no']; ?>">
+                                                                    </td>
+                                                                    <td >
+                                                                        <input class="form-control" style="height:35px !important;" type="text" name="<?php echo $i; ?>-less_45" id="less_45" value="<?php echo $row1['less_45']; ?>">
+                                                                    </td>
+                                                                    <td >
+                                                                        <input class="form-control" style="height:35px !important;" type="text" name="<?php echo $i; ?>-less_30" id="less_30" value="<?php echo $row1['less_30']; ?>">
+                                                                    </td>
+                                                                    <td >
+                                                                        <input class="form-control" style="height:35px !important;" type="text" name="<?php echo $i; ?>-less_10" id="less_10" value="<?php echo $row1['less_10']; ?>">
+                                                                    </td>
+                                                                    <td >
+                                                                        <input class="form-control" style="height:35px !important;" type="text" name="<?php echo $i; ?>-less_5" id="less_5" value="<?php echo $row1['less_5']; ?>">
+                                                                    </td>
+                                                                    <td >
+                                                                        <input class="form-control" style="height:35px !important;" type="text" name="<?php echo $i; ?>-cold_chain_a" id="cold_chain_a" value="<?php echo $row1['cold_chain_a']; ?>">
+                                                                    </td>
+                                                                    <td >
+                                                                        <input class="form-control" style="height:35px !important;" type="text" name="<?php echo $i; ?>-cold_chain_b" id="cold_chain_b" value="<?php echo $row1['cold_chain_b']; ?>">
+                                                                    </td>
+                                                                    <td >
+                                                                        <input class="form-control" style="height:35px !important;" type="text" name="<?php echo $i; ?>-cold_chain_c" id="cold_chain_c" value="<?php echo $row1['cold_chain_c']; ?>">
+                                                                    </td>
+                                                                    <td >
+                                                                        <input class="form-control" style="height:35px !important;" type="text" name="<?php echo $i; ?>-cold_chain_d" id="cold_chain_d" value="<?php echo $row1['cold_chain_d']; ?>">
+                                                                    </td>
+                                                                    <td >
+                                                                        <input class="form-control" style="height:35px !important;" type="text" name="<?php echo $i; ?>-day_of_inspection" id="day_of_inspection"  value="<?php echo $row1['day_of_inspection']; ?>">
+                                                                    </td>
+                                                                    <td >
+                                                                        <input class="form-control" style="height:35px !important;" type="text" name="<?php echo $i; ?>-date_of_inspection1" id="<?php echo $i; ?>-date_of_inspection1" value="<?php echo date("d/m/Y", strtotime($row1['date_of_inspection'])); ?>">
+                                                                    </td>
+
+
+
+                                                                </tr>
+
+
+                                                                <?php
+                                                                $i++;
+                                                            }
+                                                            ?>
+
+
+
+
+
+                                                        </tbody>
+
+                                                    </table>
+
+                                                    </br>
+                                                    <b>  PART VI - GENERAL CONDITIONS OF SHIPMENT </b>
+                                                    <table width="100%" id="myTable" cellspacing="0" align="center">
+
+                                                        <tbody>
+                                                            <tr>
+
+                                                                <td >
+                                                                    What was the condition of boxes on arrival?
+                                                                </td>
+                                                                <td >
+                                                                    <input class="form-control" style="height:35px !important;" type="text" name="condition_of_boxes_arrival" id="condition_of_boxes_arrival" value="<?php echo $row[0]['condition_of_boxes_arrival']; ?>">
+                                                                </td>
+
+
+
+                                                            </tr>
+                                                            <tr>
+
+                                                                <td >
+                                                                    Where necessary labels attached to shipping boxes?
+                                                                </td>
+                                                                <td >
+                                                                    <input class="form-control" style="height:35px !important;" type="text" name="labels_attached" id="labels_attached" value="<?php echo $row[0]['labels_attached']; ?>">
+                                                                </td>
+
+
+
+                                                            </tr>
+                                                            <tr>
+
+                                                                <td >
+                                                                    Other comments including description of alarms in electronic devices:</br>
+                                                                    (continue on seperate sheet if necessary).
+                                                                </td>
+                                                                <td >
+                                                                    <textarea class="form-control" rows="4" cols="100" name="other_comments_electronic_device"     ><?php echo $row[0]['other_comments_electronic_device']; ?> </textarea>  
+                                                                </td>
+
+
+
+                                                            </tr>
+
+
+
+
+
+                                                        </tbody>
+
+                                                    </table>
+
+                                                    </br>
+                                                    </br>
+                                                    <div class="col-md-12 right">
+                                                        <button id="print_var" type="button" class="btn btn-success">
+                                                            <?php echo $this->translate("Print"); ?>
+                                                        </button>
+                                                        <input type="hidden" id="shipment_id" name="shipment_id" value="<?php echo $this->shipment_id; ?>">
+                                                          <input type="hidden" id="hdn_rec_no" name="hdn_rec_no" value="<?php echo $this->receive_num; ?>">
+
+                                                        <input type="hidden" name="var_id" id="var_id" value="<?php echo $row[0]['pk_id']; ?>">
+                                                        <button type="submit" class="btn btn-primary"
+                                                                onclick="return confirm('Are you sure you want to update the list?');">
+                                                                    <?php echo $this->translate("Update"); ?>
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <?php
+                                    }
+                                    ?>
+
+
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                <?php } else if (empty($this->rec_no)) {
+                    ?>
+
+                    <?php
+                }
+                if (!empty($this->receive_num) && empty($this->receive_no)) {
+                    ?>
+                    <div class="widget">
+                        <div class="widget-body red">
+                            <?php echo $this->translate("Voucher not found"); ?>
+                        </div>
+                    </div>
+                    <?php
+                }
+                if (!empty($this->msg)) {
+                    ?>
+                    <div class="widget">
+                        <div class="widget-body red">
+                            <?php echo $this->msg; ?>
+                        </div>
+                    </div>
+                <?php } ?>
+    </div>

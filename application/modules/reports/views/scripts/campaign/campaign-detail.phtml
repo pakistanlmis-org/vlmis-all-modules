@@ -1,0 +1,123 @@
+<?php
+/**
+*  phtml for Campaign Detail
+*/
+?>
+<?php
+$campaign_data = $this->campaign_data;
+$campaign = $this->campaign;
+?>
+
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate($this->main_heading) ?></h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate($this->report_title) ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="search" action="" >
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="province" class="col-md-3">
+                                                <?php echo $this->translate("Province"); ?> 
+                                            </label>
+                                            <div class="controls">
+                                                <?php echo $this->search_form->combo1_add ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" id="div_combo2_add">
+                                            <label class="control-label" id="lblcombo2_add"><?php echo $this->translate("District"); ?> </label>
+                                            <div class="controls">
+                                                <?php echo $this->search_form->combo2_add ?>
+                                                <?php echo $this->search_form->district_id_hidden ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" >
+                                            <label class="control-label">Campaigns</label>
+                                            <div class="controls">
+                                                <select name="campaign" id="campaign" class="form-control input-small">
+                                                    <?php if (count($campaign_data) > 0) { ?>
+                                                        <option value=""><?php echo $this->translate("All"); ?></option>
+                                                        <?php foreach ($campaign_data as $row) { ?>
+                                                            <option value="<?php echo $row['pkId']; ?>" <?php if (!empty($campaign) && $row['pkId'] == $campaign) echo 'selected'; ?>>
+                                                                <?php echo $row['campaignName']; ?></option>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" style="padding-top:24px;">
+                                            <label class="control-label" >&nbsp;</label>
+                                            <button class="btn btn-primary" type="submit" name="search"><?php echo $this->translate("Search") ?></button>
+                                        </div>
+                                        <div class="col-md-1" id="loader" style="display:none;"><img src="<?php echo Zend_Registry::get('baseurl'); ?>/images/loader.gif" style="margin-top:8px; float:left" alt="" /></div>
+                                    </div>
+                                </form>
+
+                                <table width="99%" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td style="padding-top: 10px;">
+                                            <?php
+                                            echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:right; padding-bottom:10px;">
+                                            <img style="cursor:pointer;" src="<?php echo $this->baseUrl(); ?>/images/pdf-32.png" onClick="mygrid.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="<?php echo $this->translate("Export to PDF") ?>"/>&nbsp;&nbsp;
+                                            <img style="cursor:pointer; margin-left:-5px" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="mygrid.setColumnHidden(0, false);
+                                                    mygrid.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');
+                                                 " title="<?php echo $this->translate("Export to Excel") ?>" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div id="mygrid_container" style="width:100%; height:500px;"></div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var mygrid;
+    function doInitGrid() {
+        mygrid = new dhtmlXGridObject('mygrid_container');
+        mygrid.selMultiRows = true;
+        mygrid.enableMultiline(true);
+        mygrid.setImagePath("<?php echo $this->baseUrl(); ?>'/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+        mygrid.setHeader("<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'><?php echo $this->report_title ?></div>,<?php echo $this->cspan ?>");
+        mygrid.attachHeader("<?php echo $this->headers; ?>");
+        mygrid.setInitWidths("<?php echo $this->width; ?>");
+        mygrid.setColAlign("left,left,right,right,right,right,right,right,right,right,right,right");
+        //mygrid.setColSorting("str,int");
+        mygrid.setColTypes("<?php echo $this->ro; ?>");
+        mygrid.setSkin("light");
+        // mygrid.enablePaging(true, 50, 3, "infoArea");
+        //  mygrid.setPagingSkin("toolbar", "dhx_skyblue");
+        mygrid.init();
+        mygrid.clearAll();
+        $('body').append('<textarea id="xml_string" style="display:none;"><?php echo addslashes($this->xmlstore); ?></textarea>');
+        mygrid.loadXMLString(document.getElementById('xml_string').value);
+    }
+</script>  

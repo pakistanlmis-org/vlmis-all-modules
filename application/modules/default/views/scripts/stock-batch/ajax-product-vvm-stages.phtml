@@ -1,0 +1,19 @@
+<?php
+/**
+*  phtml for Ajax Product VVM Stages
+*/
+?>
+<?php
+if (count($this->item_vvm) > 0) {
+    foreach ($this->item_vvm as $row) {
+        if ($this->group == 1) {
+            $value = $row->getVvmStage()->getPkId();
+        } else {
+            $value = $row->getVvmStage()->getVvmStageValue();
+        }
+        ?>
+        <option value="<?php echo $row->getVvmStage()->getPkId(); ?>"><?php echo $value; ?></option>
+        <?php
+    }
+}
+?>

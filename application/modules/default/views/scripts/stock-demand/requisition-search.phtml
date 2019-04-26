@@ -1,0 +1,260 @@
+<?php
+/**
+ *  phtml for Requisition search and approval
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            <?php echo $this->translate("Requisition Search"); ?>
+        </h3>
+        <div class="row">
+            <?php if (!empty($this->voucher)) { ?>
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        <button data-dismiss="alert" class="close" type="button">×</button>
+                        Data saved successfully.
+                    </div>                                
+                </div>
+            <?php } ?>
+            <?php if (!empty($this->msg)) { ?>
+                <div class="col-md-12">
+                    <div class="alert alert-success">
+                        <button data-dismiss="alert" class="close" type="button">
+                            ×
+                        </button>
+                        Requisition voucher has been deleted successfully.
+                    </div>                                
+                </div>
+            <?php } ?>
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Filters"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse"></a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <form name="search-pipeline" id="search-pipeline" method="post" action="">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <!-- Group Receive No-->
+                                    <div class="control-group">
+                                        <label class="control-label" for="from_warehouse_id">
+                                            <?php echo $this->translate("Store"); ?>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->from_warehouse_id; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label class="control-label" for="from_date">
+                                            <?php echo $this->translate("From Date"); ?>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->from_date; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label class="control-label" for="to_date">
+                                            <?php echo $this->translate("To Date"); ?>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->to_date; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label" for="status">
+                                        <?php echo $this->translate("Status"); ?>
+                                    </label>
+                                    <div class="controls">
+                                        <?php echo $this->form->status; ?>
+                                    </div>
+                                </div>    
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-12 right">
+                                    <label class="control-label">&nbsp;</label>  
+                                    <div class="controls">
+                                        <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit">
+                                            <?php echo $this->translate("Search"); ?>
+                                        </button>
+                                        <button type="reset" class="btn btn-info" id="reset">
+                                            <?php echo $this->translate("Reset"); ?>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php if ($this->arr_data && count($this->arr_data) > 0) { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <?php echo $this->translate("Requisitions List"); ?>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php
+                                    echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-striped table-bordered table-condensed">
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <?php echo $this->translate("S.No"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Req.No"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Ref. No."); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("To Store"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Period"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Purpose"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Pickup/Delivery Date"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Status"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Action"); ?>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <!-- // Table heading END -->
+
+                                        <!-- Table body -->
+                                        <tbody>
+                                            <!-- Table row -->
+                                            <?php
+                                            $i = 1;
+                                            foreach ($this->arr_data as $row) {
+                                                ?>
+                                                <tr class="gradeX">
+                                                    <td>
+                                                        <?php echo $i; ?>
+                                                    </td>
+                                                    <td nowrap>
+                                                        <a class="future_arrival_details cursor-hand" id="<?php echo $row['pkId']; ?>"><?php echo $row['requisitionNumber']; ?></a>
+                                                        <input type="hidden" id="<?php echo $row['requisitionNumber']; ?>"/>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $row['requisitionReference']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $row['warehouseName']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php
+                                                        $month = date("m", strtotime($row['fromDate']));
+                                                        $year = date("Y", strtotime($row['fromDate']));
+                                                        if ($month <= 3) {
+                                                            $requsitionPeriod = "1st Quarter of " . $year;
+                                                        } else if ($month <= 6) {
+                                                            $requsitionPeriod = "2nd Quarter of " . $year;
+                                                        } else if ($month <= 9) {
+                                                            $requsitionPeriod = "3rd Quarter of " . $year;
+                                                        } else if ($month <= 9) {
+                                                            $requsitionPeriod = "4th Quarter of " . $year;
+                                                        }
+                                                        echo $requsitionPeriod;
+                                                        ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $row['activity']; ?>
+                                                    </td>
+                                                    <td align="center">
+                                                        <?php echo App_Controller_Functions::dateToUserFormat($row['suggestedDate']); ?>
+                                                    </td>
+
+                                                    <td> 
+                                                        <?php
+                                                        if ($row['draft'] == '1') {
+                                                            echo 'Draft';
+                                                        } else if ($row['draft'] == '0') {
+                                                            echo 'Submitted';
+                                                        } else if ($row['draft'] == '2' || $row['draft'] == '3') {
+                                                            echo 'Approved';
+                                                        } elseif ($row['draft'] == '4') {
+                                                            echo 'UnApproved';
+                                                        }
+                                                        ?>                                                       
+                                                    </td>
+                                                    <td align="center">                                                       
+                                                        <a class="fa fa-print cursor-hand" onclick="window.open('<?php
+                                                        echo $this->baseUrl();
+                                                        echo "/stock-demand/print-requisition";
+                                                        ?>?id=<?php echo $row['pkId']; ?>', '_blank', 'scrollbars=1,width=840,height=595');" href="javascript:void(0);"></a>
+
+                                                        <?php
+                                                        if ($row['draft'] == '1' || $row['draft'] == '0') {
+                                                            echo " | "
+                                                            ?>
+
+                                                            <span data-toggle="notyfy" id="<?php echo $row['pkId']; ?>" data-type="confirm"
+                                                                  data-layout="top" class="fa fa-times cursor-hand"></span>
+                                                              <?php } ?>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                $i++;
+                                            }
+                                            ?>
+                                            <!-- // Table row END -->
+                                        </tbody>
+                                        <!-- // Table body END -->
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+        } else {
+            ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>No requisitions found.</h4>
+                </div>
+            </div>
+        <?php } ?>
+        <div id="future_arrival_details"></div>
+    </div>
+</div>
+

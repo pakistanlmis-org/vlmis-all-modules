@@ -1,0 +1,66 @@
+StockBatchWarehouses:
+  type: entity
+  table: stock_batch_warehouses
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    quantity:
+      type: bigint
+      nullable: true
+    status:
+      type: string
+      length: null
+      fixed: false
+      nullable: true
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: false
+      column: modified_date
+  oneToOne:
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    warehouse:
+      targetEntity: Warehouses
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        warehouse_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    stockBatch:
+      targetEntity: StockBatch
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        stock_batch_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

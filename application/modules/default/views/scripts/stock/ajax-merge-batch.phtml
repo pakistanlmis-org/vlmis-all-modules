@@ -1,0 +1,64 @@
+<?php
+/**
+*  phtml for Ajax Merge Batch
+*/
+?>
+<?php if (!empty($this->result) && count($this->result) > 0) { ?>
+    <div class="row">
+        <div class="col-md-12">
+            <form name="ajax-batches" id="ajax-batches" method="post">
+                <table class="table table-striped table-bordered table-condensed">
+                    <tr>
+                        <th rowspan="2" class="center" style="width:4%;">S.No</th>
+                        <th rowspan="2" style="width:3%;">Check</th>
+                        <th rowspan="2" style="width:3%;">Merge into</th>
+                        <th rowspan="2" class="col-md-1">Batch Id</th>
+                        <th rowspan="2" class="col-md-2">Batch Number</th>                        
+                        <th rowspan="2" class="col-md-1">Status</th>
+                        <th rowspan="2" class="col-md-1">Expiry</th>
+                        <th colspan="2" class="center col-md-2">Quantity</th>
+                        <th rowspan="2" class="col-md-1">Master batch id</th>
+                        <th rowspan="2" class="col-md-1" nowrap>Master batch number</th>
+                        <th rowspan="2" class="col-md-1">Geo level</th>
+                    </tr>
+                    <tr>
+                        <th>Vials</th>
+                        <th>Doses</th>
+                    </tr>                
+                    <?php
+                    $count = 1;
+                    foreach ($this->result as $row) {
+                        $master_batch = $this->getBatchMasterId($row->getStockBatch()->getNumber(),$row->getStockBatch()->getPackInfo()->getStakeholderItemPackSize()->getItemPackSize()->getPkId(),$row->getWarehouse()->getStakeholderOffice()->getGeoLevel()->getPkId());
+                        ?>
+                        <tr>
+                            <td class="center"><?php echo $count; ?></td>
+                            <td><input type="checkbox" class="mergecheck" value="<?php echo $row->getPkId(); ?>" /></td>
+                            <td><input type="radio" name="mergeinto" class="mergeinto" value="<?php echo $row->getPkId(); ?>" /></td>
+                            <td><?php echo $row->getPkId(); ?></td>
+                            <td><?php echo $row->getStockBatch()->getNumber(); ?></td>
+                            <td><?php echo $row->getStatus(); ?></td>
+                            <td><?php echo $row->getStockBatch()->getExpiryDate()->format("d/m/Y"); ?></td>
+                            <td class="right"><?php echo number_format($row->getQuantity()); ?></td>
+                            <td class="right"><?php echo number_format($row->getQuantity() * $row->getStockBatch()->getPackInfo()->getStakeholderItemPackSize()->getItemPackSize()->getNumberOfDoses()); ?></td>
+                            <td><?php if($row->getStockBatch()->getPkId() !== null) { echo $row->getStockBatch()->getPkId(); } else { ?> <a data-toggle="notyfy" id="<?php echo $row->getPkId()."|".$master_batch->getPkId(); ?>" data-type="confirm" data-layout="top" class="btn btn-warning btn-sm">Update to <?php echo $master_batch->getPkId(); ?></a><?php } ?></td>
+                            <td><?php echo $master_batch->getStockBatch()->getNumber(); ?></td>
+                            <td><?php echo $master_batch->getWarehouse()->getStakeholderOffice()->getGeoLevel()->getGeoLevelName(); ?></td>
+                        </tr>
+                        <?php
+                        $count++;
+                    }
+                    ?>
+                </table>
+                <br>
+                <div class="right"><input type="button" class="btn btn-success" name="merge" id="merge" value="Merge" /></div>
+            </form>
+        </div>
+    </div>
+<?php } else { ?>
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Product batch not found</h4>
+        </div>
+    </div>
+
+<?php } ?>

@@ -1,0 +1,91 @@
+<?php
+/**
+*  phtml for Ajax Edit
+*/
+?>
+<div class="row">
+    <div class="col-md-6">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Resource Name"); ?></label>
+            <div class="controls">
+                <?php echo $this->form->resource_name; ?>  
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Description"); ?></label>
+            <div class="controls">
+                <?php echo $this->form->description; ?>      
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Resource Type Id"); ?></label>
+            <div class="controls">
+                <?php echo $this->form->resource_type; ?>      
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Parent"); ?></label>
+            <div class="controls">
+                <?php echo $this->form->parent_id; ?>      
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Rank"); ?></label>
+            <div class="controls">
+                <?php echo $this->form->rank; ?>      
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Level"); ?></label>
+            <div class="controls">
+                <?php echo $this->form->level; ?>      
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Page Title"); ?></label>
+            <div class="controls">
+                <?php echo $this->form->page_title; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Meta Title"); ?></label>
+            <div class="controls">
+                <?php echo $this->form->meta_title; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Meta Description"); ?></label>
+            <div class="controls">
+                <?php echo $this->form->meta_desc; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php echo $this->form->id; ?>

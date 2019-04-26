@@ -1,0 +1,132 @@
+<?php
+/**
+ *  phtml for Reported Warehouse List
+ */
+?>
+<?php
+$param = $this->param;
+
+$wh_type = $param[0];
+$districtId = $param[1];
+$month = $param[2];
+$year = $param[3];
+$allUcs = $this->reports()->getReportedWarehouseList($wh_type, $districtId);
+
+$ucInfo = array();
+foreach ($allUcs as $row) {
+    array_push($ucInfo, $row);
+    $districtName = $row['District'];
+}
+$reportedUcs = $this->reports()->getReportedWarehouseList1($wh_type, $districtId, $month, $year);
+
+$reportedUcArr = array();
+foreach ($reportedUcs as $row) {
+    array_push($reportedUcArr, $row['wh_id']);
+    $reportedUcDate[$row['wh_id']] = $row['reported_date'];
+}
+
+$title = "Consumption Data Reporting Status For $districtName ($month/$year)";
+?>
+
+<style>
+    table#myTable{margin-top:20px;border-collapse: collapse;border-spacing: 0;}
+    table#myTable tr th{font-family:Arial,Helvetica,sans-serif; font-size:11px;padding-left:5px; border:1px solid #999;}
+    table#myTable tr td{font-family:Arial,Helvetica,sans-serif; font-size:11px;padding-left:5px; border:1px solid #999;}
+    table#myTable tr td.TAR{text-align:right; padding:5px;font-family:Arial,Helvetica,sans-serif; width:50px !important;}
+    .sb1NormalFont {
+        color: #444444;
+        font-family: Verdana,Arial,Helvetica,sans-serif;
+        font-size: 12px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+</style>
+
+
+<!-- Content -->
+<div id="content" style="margin-left:0;min-height:560px !important;">
+    <div class="innerLR">
+        <table width="100%">
+            <tr>
+                <td style="text-align:right; padding-bottom:10px;">
+                    <img style="cursor:pointer;" src="../../images/pdf-32.png" onClick="mygrid.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="Export to PDF"/>&nbsp;&nbsp;
+                    <img style="cursor:pointer; margin-left:-5px" src="../../images/excel-32.png" onClick="mygrid.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');" title="Export to Excel" />
+                </td>
+            </tr>
+        </table>
+        <?php
+        $xml_store = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+        $xml_store .="<rows>";
+
+        for ($i = 0; $i < sizeof($ucInfo); $i++) {
+            $r_date = $reportedUcDate[$ucInfo[$i]['WHId']];
+            $r_date_exploded = explode('/', $r_date);
+            $day = $r_date_exploded[0];
+
+            $color = (in_array($ucInfo[$i]['WHId'], $reportedUcArr)) ? 'color:#008000;' : 'color:#FF0000;';
+            $reported = (in_array($ucInfo[$i]['WHId'], $reportedUcArr)) ? '--' : 'NR';
+
+            $do = 'Z' . base64_encode($ucInfo[$i]['WHId'] . '|' . $ucInfo[$i]['locid'] . '|' . $year . '-' . $month . '-01' . '|2');
+
+            $xml_store .="<row>";
+            $xml_store .="<cell style=\"text-align:center;$color\">" . ($i + 1) . "</cell>";
+            $xml_store .="<cell style=\"$color\"><![CDATA[" . $ucInfo[$i]['UCName'] . "]]></cell>";
+
+            if (in_array($ucInfo[$i]['WHId'], $reportedUcArr)) {
+                $xml_store .= "<cell style=\"text-align:left;$color\"><![CDATA[<a style=\"text-decoration: underline;\" href=javascript:showPopup('$do')>" . $ucInfo[$i]['WHName'] . "</a>]]>^_self</cell>";
+            } else {
+                $xml_store .="<cell style=\"$color\"><![CDATA[" . $ucInfo[$i]['WHName'] . "]]></cell>";
+            }
+            $xml_store .="<cell style=\"$color\"><![CDATA[" . $ucInfo[$i]['FullName'] . "]]></cell>";
+            $xml_store .="<cell style=\"$color\"><![CDATA[" . $ucInfo[$i]['Address'] . "]]></cell>";
+            $xml_store .="<cell style=\"$color\"><![CDATA[" . $ucInfo[$i]['Phone'] . "]]></cell>";
+            $xml_store .="<cell style=\"text-align:center;$color\">" . $reported . "</cell>";
+            $xml_store .="<cell style=\"$color\">$r_date</cell>";
+            if ($day > 10) {
+                $xml_store .="<cell style=\"$color\">Late</cell>";
+            }
+
+            $xml_store .="</row>";
+        }
+        $xml_store .="</rows>";
+        ?>
+
+    </div>
+    <div id="mygrid_container" style="width:auto;height:500px;"></div>
+</div>
+
+<script>
+
+    var mygrid;
+    function doInitGrid() {
+
+        mygrid = new dhtmlXGridObject('mygrid_container');
+        mygrid.selMultiRows = true;
+        mygrid.selMultiRows = true;
+        mygrid.setImagePath("../operations/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+        mygrid.setHeader("<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'><?php echo $title; ?> </div>,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan");
+        mygrid.attachHeader("S.No.,UC Name,Health Facility,Operator,Address,Phone,Status,Reported Date,Reporting Status");
+        mygrid.setInitWidths("40,150,180,150,*,150,50,*,*");
+        mygrid.setColTypes("ro,ro,ro,ro,ro,ro,ro,ro,ro");
+        mygrid.enableRowsHover(true, 'onMouseOver');
+        mygrid.setSkin("light");
+        mygrid.init();
+        mygrid.clearAll();
+        $('body').append('<textarea id="xml_string" style="display:none;"><?php echo addslashes($xml_store); ?></textarea>');
+        mygrid.loadXMLString(document.getElementById('xml_string').value);
+
+
+    }
+    window.onload = function () {
+        doInitGrid();
+    }
+
+    function showPopup(param) {
+        var width = 1002;
+        var height = 595;
+        var x = (screen.width / 2) - (width / 2);
+        var y = (screen.height / 2) - (height / 2);
+
+        window.open('popup-data-entry-facility?param=' + param + '&popup=1', '_blank', 'scrollbars=1,width=' + width + ',height=' + height + ',left=' + x + ',top=' + y);
+    }
+</script>

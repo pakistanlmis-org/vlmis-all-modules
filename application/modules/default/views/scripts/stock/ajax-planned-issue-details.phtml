@@ -1,0 +1,173 @@
+<?php
+/**
+*  phtml for Ajax Planned Issue Details
+*/
+?>
+<script>
+    $(function () {
+        $("input[id$='-received']").keydown(function (e) {
+            
+            if (e.shiftKey || e.ctrlKey || e.altKey) { // if shift, ctrl or alt keys held down
+                e.preventDefault();         // Prevent character input
+            } else {
+                var n = e.keyCode;
+                if (!((n == 8)              // backspace
+                        || (n == 9)                // Tab
+                        || (n == 46)                // delete
+                        || (n >= 35 && n <= 40)     // arrow keys/home/end
+                        || (n >= 48 && n <= 57)     // numbers on keyboard
+                        || (n >= 96 && n <= 105))   // number on keypad
+                        ) {
+                    e.preventDefault();     // Prevent character input
+                }
+            }
+        });
+        
+    });
+</script>
+
+<?php if ($this->arr_data && count($this->arr_data) > 0) { ?>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <?php echo $this->translate("Issue Detail - Voucher # ") . $this->voucher_number; ?>
+                    </div>                    
+                </div>                
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12 right">
+                            <a href="<?php echo $this->baseUrl(); ?>/stock/planned-issue/voucher/<?php echo $this->voucher_number; ?>" class="btn btn-danger btn-sm">Add new in <?php echo $this->voucher_number; ?></a>                       
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form name="pipeline-form" id="pipeline-form" method="post" action="<?php echo $this->baseUrl(); ?>/stock/upload-pipeline-consignments">
+                                <table class="table table-striped table-bordered table-condensed">
+                                    <!-- Table heading -->
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <?php echo $this->translate("S.No"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Product"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Lot/Batch No."); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Production Date"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Expiry"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Manufacturer"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Quantity"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Picked Quantity"); ?>
+                                            </th>                                            
+                                            <th>
+                                                <?php echo $this->translate("Vvm Stage"); ?>
+                                            </th>
+                                            <th style="text-align: center;">
+                                                <?php echo $this->translate("Action"); ?>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <!-- // Table heading END -->
+
+                                    <!-- Table body -->
+                                    <tbody>
+                                        <!-- Table row -->
+                                        <?php
+                                        $i = 1;
+                                        $barcode_products = Zend_Registry::get("barcode_products");
+                                        foreach ($this->arr_data as $row) {
+                                            ?>
+                                            <tr class="gradeX">
+                                                <td class="center">
+                                                    <?php echo $i; ?>
+                                                </td>
+                                                <td nowrap>
+                                                    <?php echo $row->getItemPackSize()->getItemName(); ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $row->getBatchNumber(); ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo ($row->getProductionDate() != null) ? $row->getProductionDate()->format("d/m/Y") : ''; ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $row->getExpiryDate()->format("d/m/Y"); ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $row->getManufacturer()->getStakeholderItemPackSize()->getStakeholder()->getStakeholderName(); ?>
+                                                </td>
+                                                <td class="right">
+                                                    <?php echo number_format($row->getQuantity()); ?>
+                                                </td>
+                                                <?php if (!in_array($row->getItemPackSize()->getPkId(), explode(",", $barcode_products)) && $row->getStatus() != 'Received') { ?>
+                                                    <td class="col-md-2">
+                                                        <input type="text" name="receivedqty[<?php echo $i - 1; ?>]" id="<?php echo $i - 1; ?>-received" class="form-control" value="<?php echo ABS($row->getReceivedQuantity()); ?>" />
+                                                    </td>
+                                                <?php } else { ?>
+                                                    <td id="<?php echo $row->getPkId(); ?>-editable" class="col-md-2 right">
+                                                        <?php echo number_format(ABS($row->getReceivedQuantity())); ?>
+                                                    </td>
+                                                <?php } ?>
+                                                <td class="col-md-1">
+                                                    <?php if (!in_array($row->getItemPackSize()->getPkId(), explode(",", $barcode_products)) && $row->getStatus() != 'Received') { ?>
+                                                        <select name="vvmstage[<?php echo $i - 1; ?>]" id="<?php echo $i - 1; ?>-vvmstage" class="form-control">
+                                                            <option value="">NA</option>
+                                                            <option value="1">Stage 1</option>
+                                                            <option value="2">Stage 2</option>
+                                                            <option value="3">Stage 3</option>
+                                                            <option value="4">Stage 4</option>
+                                                        </select>
+                                                    <?php } ?>
+                                                </td>
+                                                <td align="center">
+                                                    <?php if ($row->getStatus() != 'Received') { ?>
+                                                        <span data-toggle="notyfy" id="<?php echo $row->getPkId(); ?>" data-type="confirm" data-layout="top" class="fa fa-times cursor-hand"></span>
+                                                    <?php } ?>
+                                                    <input type="hidden" name="pipeline[<?php echo $i - 1; ?>]" value="<?php echo $row->getPkId(); ?>"/>
+                                                    <?php if (in_array($row->getItemPackSize()->getPkId(), explode(",", $barcode_products))) { ?>
+                                                        <input type="hidden" id="<?php echo $row->getPkId(); ?>-received" name="receivedqty[<?php echo $i - 1; ?>]" value="<?php echo $row->getReceivedQuantity(); ?>"/>
+                                                    <?php } ?>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                            $status = $row->getStatus();
+                                            $i++;
+                                        }
+                                        ?>
+                                        <!-- // Table row END -->
+                                    </tbody>
+                                    <!-- // Table body END -->
+                                    <?php if ($status != 'Received') { ?>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="11" class="left">
+                                                    <input type="button" class="btn btn-success" name="issued" id="issued" value="Issue" />
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    <?php } ?>
+                                </table>
+                                <input type="hidden" id="type" name="type" value="2"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+?>

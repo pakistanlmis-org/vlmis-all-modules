@@ -1,0 +1,167 @@
+<?php
+/**
+*  phtml for Print Monthly Consumption
+*/
+?>
+
+<script>
+    function printContents() {
+        var dispSetting = "toolbar=yes,location=no,directories=yes,menubar=yes,scrollbars=yes, left=100, top=25";
+        var printingContents = document.getElementById("dataEntryfrm").innerHTML;
+
+        var docprint = window.open("", "", dataEntryfrm);
+        docprint.document.open();
+        docprint.document.write('<html><head><title>CLR6</title>');
+        docprint.document.write('</head><body onLoad="self.print(); self.close()"><center>');
+        docprint.document.write(printingContents);
+        docprint.document.write('</center></body></html>');
+        docprint.document.close();
+        docprint.focus();
+    }
+</script>
+<!-- Content -->
+<div id="content_print">
+
+    <style>
+        #content_print {
+            margin-left: 50px;
+            width: 624px;
+        }
+        table#mytable {
+            border: 1px solid #e5e5e5;
+            font-size: 9pt;
+            width: 100%;
+        }
+        table#mytable tr td {
+            border: 1px solid #e5e5e5;
+        }
+        table#mytable tr th {
+            border: 1px solid #e5e5e5;
+        }
+    </style>
+    <!-- Content -->
+
+    <style type="text/css" media="print">
+        .page
+        {
+            -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+            filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+        }
+        @media print
+        {    
+            #printButt
+            {
+                display: none !important;
+            }
+        }
+    </style>
+
+
+    <div class="innerLR">
+        <!-- // Row END -->
+        <div style="clear:both"></div>
+
+        <p style="text-align:left;">
+            <?php $dt = new DateTime($this->rpt_date); ?>
+            <b>Reporting Month:</b> <?php echo $dt->format("F, Y"); ?>
+            <b>Health Facility / EPI Centre Name:</b> <?php echo $this->warehouse_name; ?><br />
+            <b>UC:</b> <?php echo $this->uc_name; ?> <b>Tehsil:</b> <?php echo $this->tehsil_name; ?>
+            <b>District:</b> <?php echo $this->district_name; ?> <b>Province:</b> <?php echo $this->provinc_name; ?>
+        </p>
+
+        <!-- Table -->
+        <table width="100%" cellpadding="3" id="mytable">
+            <!-- Table heading -->
+            <thead>
+                <tr>
+                    <th rowspan="2">Product</th>
+                    <th>Opening Balance</th>
+                    <th>Received</th>
+                    <th>Dispensed</th>
+                    <th>Vials Used</th>
+                    <th>Unusable Vials</th>
+                    <th>Closing Balance</th>
+                    <th rowspan="2">Nearest Expiry</th>
+                </tr>
+                <tr>
+                    <td>Doses/Pcs</td>
+                    <td>Doses/Pcs</td>
+                    <td>Doses/Pcs</td>
+                    <td>Vials/Pcs</td>
+                    <td>Vials/Pcs</td>
+                    <td>Doses/Pcs</td>
+                </tr>
+            </thead>
+            <!-- // Table heading END -->
+            <!-- Table body -->
+            <tbody>
+                <?php
+                foreach ($this->items as $row1) {
+                    if ($this->is_new_report == 1) {
+                        $row2 = $this->monthlyConsumtion($this->wh_id, $this->prev_month_date, $row1['pk_id']);
+                    } else {
+                        $row2 = $this->monthlyConsumtion($this->wh_id, $this->rpt_date, $row1['pk_id']);
+                    }
+
+                    $itemid = $row1['pk_id'];
+                    if ($row1['item_category_id'] == 2) {
+                        $vialsFunc = "onblur=\"getValue(this.value, '$row1[pk_id]')\"";
+                        $style = 'readonly="readonly"';
+                    } else {
+                        $vialsFunc = '';
+                        $style = '';
+                    }
+
+                    if (!empty($row2['nearestExpiry'])) {
+                        $n_expiry = App_Controller_Functions::dateToUserFormat($row2['nearestExpiry']);
+                    } else {
+                        $n_expiry = '';
+                    }
+
+                    if ($this->is_new_report == 2) {
+                        ?>
+                        <tr class="gradeX">
+                            <td class="col-md-1">
+                                <?php echo $row1['item_name']; ?>
+                            </td>
+                            <td>
+                                <?php echo (!empty($row2['openingBalance'])) ? $row2['openingBalance'] : '0'; ?>
+                            </td>
+                            <td class="col-md-1">
+                                <?php echo (!empty($row2['receivedBalance'])) ? number_format($row2['receivedBalance']) : '0'; ?>
+                            </td>
+                            <td class="col-md-1">
+                                <?php echo (!empty($row2['issueBalance'])) ? $row2['issueBalance'] : '0'; ?>
+                            </td>
+                            <td class="col-md-1">
+                                <?php echo (!empty($row2['vialsUsed'])) ? $row2['vialsUsed'] : '0'; ?>
+                            </td>
+                            <td class="col-md-1">
+                                <?php echo (!empty($row2['adjustments'])) ? abs($row2['adjustments']) / $row1['description'] : '0'; ?>
+                            </td>
+                            <td class="col-md-1">
+                                <?php echo (!empty($row2['closingBalance'])) ? $row2['closingBalance'] : '0'; ?>
+                            </td>
+                            <td class="col-md-1">
+                                <?php echo (!empty($n_expiry)) ? $n_expiry : '&nbsp;'; ?>
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                }
+                ?>
+                <!-- // Table row END -->
+            </tbody>
+        </table>
+
+        <p style="text-align:left;margin-top:30px;">
+            <b>Prepared By: _________________________</b><br /><br />
+            <b>Medical Officer / In-charge (Signature): _________________________</b>
+            <b style="float:right;">Date: __________________</b>
+        </p>
+
+    </div>
+    <div style="clear:both;"></div>
+    <div style="width:100%;text-align:right; margin-bottom:10px;"><button type="button" id="printButt" class="btn btn-primary" onclick="printCont()">Print</button></div>
+    <div style="clear:both;"></div>
+</div>

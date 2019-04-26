@@ -1,0 +1,126 @@
+<?php
+/**
+ *  phtml for Add Ice Pack
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            <?php echo $this->translate("Add Ice Packs") ?>
+        </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                        <strong>Data</strong> has been saved successfully!
+                                    </div>
+                                <?php } ?>
+                                <form method="POST" name="ice_pack_form" id="ice_pack_form" action="">
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-6">
+                                                <div class="control-group" id="placed_at_radio">
+                                                    <label class="control-label" for="warehouse"> Placed At </label>
+                                                    <div class="widget-body uniformjs">
+                                                        <?php echo $this->form->placed_at; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <?php $this->allLevelCombo(); ?>
+
+                                    <div class="row">
+                                        &nbsp;
+                                        &nbsp;</br>
+
+                                    </div>
+
+                                    <div class="row" id="show_data">
+                                    </div>
+                                    <div id="hide_data" style="visibility: hidden;">
+                                        <div class="row" >
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+
+                                                    <div class="col-md-12">
+                                                        <table class="receiveSearch table table-striped table-bordered table-condensed"  >
+                                                            <!-- Table heading -->
+                                                            <thead>
+                                                                <tr>
+                                                                    <th rowspan="2"><?php echo $this->translate("Ice Pack Sizes") ?></th>
+                                                                    <th rowspan="2"><?php echo $this->translate("Quantity") ?></th>
+
+                                                                </tr>
+                                                            </thead>                                     
+                                                            <tbody>				
+
+                                                                <?php
+                                                                $i = 0;
+                                                                if ($this->icePackSizes && count($this->icePackSizes) > 0) :
+                                                                    foreach ($this->icePackSizes as $row):
+                                                                        ?>
+                                                                        <tr class="gradeX">
+                                                                            <td><?php echo $row['ccmModelName']; ?></td>
+                                                                            <td> <input type="hidden" name="ccm_model_id[]" id="ccm_model_id" value="<?= $row['pkId'] ?>" >
+                                                                                <input class="quantity form-control inpput-small input-sm"  type="text" name="quantity[<?= $i ?>]"  ><br/>
+                                                                            </td>
+
+
+                                                                        </tr>
+                                                                        <?php
+                                                                        $i++;
+                                                                    endforeach;
+                                                                endif;
+                                                                ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                        <div class="row" id="submit_button">
+                                            <div class="col-md-1 pull-right">
+                                                <button type="submit" class="btn btn-primary" id="add-carriers"><?php echo $this->translate("Save") ?></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // Content END -->
+    </div>
+</div>

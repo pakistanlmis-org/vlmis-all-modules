@@ -1,0 +1,74 @@
+<?php
+/**
+*  phtml for Expiry Schedule
+*/
+?>
+<div class="col-md-6">
+    <?php
+    FC_SetRenderer('javascript');
+    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie2D.swf", "", $this->xmlstore, 'ExpirySchedule', '100%', 350, false, false);
+    ?>
+</div>
+<div class="col-md-6" id="data16">
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-picture"></i><?php echo $this->title; ?>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="table-scrollable">
+                <table class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                S.No
+                            </th>
+                            <th>
+                                Batch Number
+                            </th>
+                            <th>
+                                Batch Expiry
+                            </th>
+                            <th>
+                                Status
+                            </th> 
+                            <th>
+                                Quantity
+                            </th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <?php
+                        $count = 1;
+                        foreach ($this->data as $row) {
+                            ?>
+                            <tr>
+                                <td>
+                                    <?php echo $count; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['number']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['batch_expiry']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['status']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['quantity']; ?>
+                                </td>
+                            </tr>
+                            <?php
+                            $count++;
+                        }
+                        ?>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

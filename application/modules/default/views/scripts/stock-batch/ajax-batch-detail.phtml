@@ -1,0 +1,78 @@
+<?php
+/**
+*  phtml for Ajax Batch Detail
+*/
+?>
+<?php
+$result = $this->result;
+$data = $this->data;
+
+if (!empty($result)) {
+    ?>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <span id="name">Current Stock Summary*: <?php echo $result[0]['itemName']; ?></span>
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="batchManagement table table-striped table-bordered table-hover table-full-width">
+                                <tr>
+                                    <th class="bg-priority-head">Priority</th>
+                                    <th class="bg-priority-head center">No. of Batches</th>
+                                    <th class="bg-priority-head center">Quantity <?php echo "(".$result[0]['itemUnitName'].")"; ?></th>
+                                    <th class="bg-priority-head center">No.of Doses/Pcs</th>
+                                    <th class="bg-priority-head center">Total</th>
+                                </tr>
+                                <?php $total_no_batch = 0; 
+                                $total_vials = 0;
+                                $total_doses = 0; 
+                                
+                                foreach ($result as $row) {
+                                    $total_no_batch = $total_no_batch + $row['cnt'];
+                                    $total_vials = $total_vials + $row['BatchQty'];
+                                    $total_doses = $total_doses + ($row['BatchQty']*$row['description']);
+                                    switch ($row['status']){
+                                        case 'Priority 1':
+                                            $class = 'bg-priority1';
+                                            break;
+                                        case 'Priority 2':
+                                            $class = 'bg-priority2';
+                                            break;
+                                        case 'Priority 3':
+                                            $class = 'bg-priority3';
+                                            break;                                        
+                                    }
+                                    ?>
+                                    <tr>
+                                        <td class="<?php echo $class; ?>"><b><?php echo $row['status']; ?></b></td>
+                                        <td class="center <?php echo $class; ?>"><?php echo $row['cnt']; ?></td>
+                                        <td class="right <?php echo $class; ?>"><?php echo number_format($row['BatchQty']); ?></td>
+                                        <td class="right <?php echo $class; ?>"><?php echo $row['description']; ?></td>
+                                        <td class="right <?php echo $class; ?>"><?php echo number_format($row['BatchQty'] * $row['description']); ?></td>
+                                    </tr>
+                                <?php } ?>
+                                <tr>
+                                    <th class="bg-priority-head">Total</th>
+                                    <th class="bg-priority-head center"><?php echo $total_no_batch; ?></th>
+                                    <th class="bg-priority-head right"><?php echo number_format($total_vials); ?></th>
+                                    <th class="bg-priority-head right"></th>
+                                    <th class="bg-priority-head right"><?php echo number_format($total_doses); ?></th>
+                                </tr>                                
+                            </table>
+                            <span class="red">*</span> This is overall stock summary and not based on search filters.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } ?>

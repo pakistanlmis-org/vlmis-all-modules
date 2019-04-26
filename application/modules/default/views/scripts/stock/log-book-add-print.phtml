@@ -1,0 +1,126 @@
+<?php
+/**
+*  phtml for Log Book Add
+*/
+?>
+<!-- Content -->
+<style>
+    #content_print {
+        margin-left: 50px;
+        width: 1200px;
+    }
+    table#mytable {
+        border: 1px solid #333;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table#mytable tr td {
+        border: 1px solid #333;
+    }
+    table#mytable tr th {
+        border: 1px solid #333;
+    }
+</style>
+<!-- Content -->
+
+<style type="text/css" media="print">
+    .page
+    {
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print
+    {    
+        #printButt
+        {
+            display: none !important;
+        }
+    }
+</style>
+
+
+<div class="row">
+    <div class="col-md-12" id="log_book_result">
+
+        <table class="table table-striped table-bordered table-condensed" id="mytable">
+            <!-- Table heading -->
+            <thead>
+                <tr>
+                    <th rowspan="2" style="font-size:12px">
+                        S.No                                                </th>
+                    <th rowspan="2" style="font-size:12px">
+                        Name                                                </th>
+                    <th rowspan="2" style="font-size:12px">
+                        Father Name                                                </th>
+                    <th rowspan="2" style="font-size:12px">
+                        Age (months)                                                </th>
+                    <th rowspan="2" style="font-size:12px">
+                        Contact (Phone No.)                                             </th>
+
+                    <th rowspan="2" style="font-size:12px">
+                        District                                                </th>
+
+                    <th rowspan="2" style="font-size:12px" nowrap>
+                        Union Council                                                </th>
+                    <th rowspan="2" style="font-size:12px">
+                        Vaccination Date                                                </th>
+
+                    <th class="center" colspan="5" style="font-size:12px" >
+                        Dose No.                                                </th>
+                    <th rowspan="2" style="font-size:12px" nowrap>
+                        Address                                                </th>
+                    <th rowspan="2" style="font-size:12px" nowrap>
+                        Remarks                                                </th>
+
+                </tr>
+
+                <tr>
+                    <?php foreach ($this->items as $row) { ?>
+                        <th style="font-size:12px"><?php echo $row['description'] ?></th>
+                    <?php } ?>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php
+                $serial_num = 1;
+                foreach ($this->query as $row) {
+                    ?>
+                    <tr>
+                        <td><?php echo $serial_num ?></td>
+                        <td><?php echo $row['name']; ?></td>
+                        <td><?php echo $row['father_name']; ?></td>
+                        <td><?php echo $row['age']; ?></td>
+                        <td><?php echo $row['contact']; ?></td>
+                        <td><?php echo $row['district']; ?></td>
+                        <td><?php echo $row['uc']; ?></td>
+                        <td><?php echo date("d/m/Y", strtotime($row['vaccination_date'])); ?></td>
+                        <?php foreach ($this->monthlyConsumtion2()->logBook($row['pk_id']) as $row1) { ?>
+                            <td style="font-size:12px" class="right">
+
+                                <?php echo (strlen($row1['doses']) > 0) ? $row1['doses'] : ''; ?>
+                            </td>
+                            <?php
+                        }
+                        ?>
+
+                        <td nowrap><?php echo $row['address']; ?></td>
+                        <td nowrap><?php echo $row['remarks']; ?></td>
+
+                    </tr>
+                    <?php
+                    $serial_num++;
+                }
+                ?>
+            </tbody>
+        </table>
+
+    </div>
+    <br>
+     <b>Print Date:</b> <?php echo date('d/m/y') . ' <b>by</b> ' . $this->username; ?>
+    <div>
+        <div class="widget-body right">
+            <button name="print" id="print" value="1" type="button" class="btn btn-primary"><?php echo $this->translate("Print"); ?></button> 
+        </div>
+    </div>  

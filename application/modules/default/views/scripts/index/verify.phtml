@@ -1,0 +1,36 @@
+<?php
+/**
+*  phtml for Verify
+*/
+?>
+<!-- BEGIN CONTAINER -->
+<style>
+    .form-group{
+        padding-top:  5px;
+    }
+    textarea {
+        resize: none;
+    }
+</style>
+<div class="page-container">
+    <!-- BEGIN CONTENT -->
+    <div class=" page-content-wrapper">
+        <div class="page-content landing-content">
+            <br/>
+
+            <div class="col-md-4 col-md-offset-4">
+                <?php if ($this->active == true) { ?>
+                    <div class="alert alert-info" id="saved">
+                        <button data-dismiss="alert" class="close" type="button">
+                            ×
+                        </button>
+                        Your account has been activated successfully. <br>
+                        Please click the button to login.
+                        <a href="<?php echo $this->baseUrl(); ?>/index/login" class="btn btn-info">Login
+                        </a>
+                    </div>  
+                <?php } ?>
+            </div>
+
+        </div>
+    </div>

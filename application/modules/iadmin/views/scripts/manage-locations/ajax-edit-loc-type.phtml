@@ -1,0 +1,20 @@
+<?php
+/**
+*  phtml for Ajax Edit Loc Type
+*/
+?>
+<div class="row">
+<div class="col-md-5">
+    <div class="form-group ">
+        <label class="control-label" ><?php echo $this->translate("Location Type Name"); ?> <span class="red">*</span></label>
+        <?php echo $this->form->location_type_name; ?>
+    </div>
+</div>
+    <div class="col-md-5">
+    <div class="form-group ">
+        <label class="control-label" ><?php echo $this->translate("Geo Level"); ?> <span class="red">*</span></label>
+        <?php echo $this->form->geo_level_id; ?>
+    </div>
+</div>
+</div>
+<?php echo $this->form->location_type_id; ?>

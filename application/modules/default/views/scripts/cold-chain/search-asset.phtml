@@ -1,0 +1,271 @@
+<?php
+/**
+*  phtml for Search Asset
+*/
+
+/**
+* Search Asset
+*/
+?>
+<div class="page-content-wrapper">
+    <h3 class="page-title">Cold Chain</h3>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        New/Add Asset
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row margin-top-10 margin-bottom-10">
+                        <div class="col-md-12">
+                            <?php
+                            echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                            ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form method="POST" name="ass_asset" id="ass_asset" action="new_coldchain.php" >
+                                <!-- Row -->
+                                <div class="row">
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-12">
+                                        <!-- Group -->
+                                        <div class="col-md-3">
+                                            <label class="control-label" >Asset ID <span class="red">*</span></label>
+                                            <div class="controls">
+                                                <input class="col-md-10" id="asset_id" name="asset_id" value="" type="text" required="" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" >Asset Type <span class="red">*</span></label>
+                                            <div class="controls">
+                                                <select name="ccm_asset_type_id" id="ccm_asset_type_id" required="" class="col-md-8">
+                                                    <option value="">Select Asset Types</option>
+                                                    <option value="">Test 1</option>
+                                                    <option value="">Test 2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" >Working Status <span class="red">*</span></label>
+                                            <div  class="controls">
+                                                <select name="ccm_status_list_id" id="ccm_status_list_id" class="col-md-10" required="">
+                                                    <option value="">Select Working Status</option>
+                                                    <option value="">Test 1</option>
+                                                    <option value="">Test 2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" >Serial Number</label>
+                                            <div class="controls">
+                                                <input class="col-md-10" id="serial_number" name="serial_number" value="" type="text" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <label class="control-label" >Make</label>
+                                            <div class="controls">
+                                                <select name="ccm_make_id" id="ccm_make_id" class="col-md-8">
+                                                    <option value="">Select Make</option>
+                                                    <option value="">Test 1</option>
+                                                    <option value="">Test 2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label">Model</label>
+                                            <div class="controls">
+                                                <select name="ccm_model_id" id="ccm_model_id" class="col-md-8">
+                                                    <option value="">Select Model</option>
+                                                    <option value="">Test 1</option>
+                                                    <option value="">Test 2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" >Estimated Life (years)</label>
+                                            <div class="controls">
+                                                <input class="col-md-10" id="estimate_life" name="estimate_life" type="text" value="" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" >Working Since (Year)</label>
+                                            <div class="controls">
+                                                <input class="col-md-10" id="working_since" name="working_since" type="text" value="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <label class="control-label" >Net Capacity (Litres)</label>
+                                            <div class="controls">
+                                                <input class="col-md-10" id="capacity" name="capacity" type="text" value="" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9">
+
+                                            <div class="controls">
+                                                <div class="col-md-2">
+                                                    <input type="radio" id="" name="" value="">Detail
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="radio" id="" name="" value="">Summary (Quantity based on store, Working status of asset)
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <label class="control-label">Office</label>
+                                            <div class="controls">
+                                                <select name="" id="" class="">
+                                                    <option value="">Select Office</option>
+                                                    <option value="">Test 1</option>
+                                                    <option value="">Test 2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-11">
+                                            <label class="control-label">Warehouse</label>
+                                            <div class="controls">
+                                                <select name="" id="" class="">
+                                                    <option value="">Select Warehouse</option>
+                                                    <option value="">Test 1</option>
+                                                    <option value="">Test 2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <div class="col-md-6"></div>
+                                        <label class="control-label" >&nbsp;</label>
+                                        <div class="controls">
+                                            <button type="submit" name="search_record" id="search_record" class="btn btn-success">Search Record</button>
+                                            <button type="reset" class="btn btn-info" id="reset4">Reset</button>
+                                        </div>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        Search Results
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="dynamicTable table table-striped table-bordered table-hover dataTable no-footer">
+                                <thead>
+                                    <tr>
+                                        <th>Asset ID</th>
+                                        <th>Asset Type</th>
+                                        <th>Working Status & History</th>
+                                        <th>Placed at</th>
+                                        <th>Make/Model</th>
+                                        <th>Capacity</th>
+                                        <th>Working Since</th>
+                                        <th>Est. Life</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <!-- // Table heading END -->
+
+                                <!-- Table body -->
+                                <tbody>
+                                    <!-- Table row -->
+                                    <tr class="gradeX">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <!-- // Table row END -->
+                                </tbody>
+                                <!-- // Table body END -->
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <form name="receive_stock" id="receive_stock" action="new_receive_action.php" method="POST">
+                        <?PHP IF ($print) { ?>
+                            <button type="button" id="print_coldchain"  class="btn btn-success">Print</button>
+                        <?PHP } ?>
+                        <input type="hidden" name="stockid" id="stockid" value="<?php
+                               if (isset($stock_id)) {
+                                   echo $stock_id;
+                               }
+                               ?>" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- // Content END -->
+<?php
+$_SESSION['coldchain_list'] = $make_row;
+
+include('../template/footer-top.php');
+?>
+<script src="<?php echo SITE_DOMAIN; ?>common/theme/scripts/plugins/forms/jquery-validation/dist/jquery.validate.js"></script>
+<script src="<?php echo SITE_DOMAIN; ?>plmis_js/dataentry/coldchain_list.js"></script>
+<script src="<?php echo SITE_DOMAIN; ?>plmis_js/dataentry/levelcombos_all_levels.js"></script>
+<script>
+    $('#reset2').click(function() {
+        window.location.href = basePath + 'plmis_admin/coldchain_list.php';
+    });
+</script>
+<?php include('../template/footer-bottom.php'); ?>
+</div>
+<?php include('../template/footer-top.php'); ?>
+<script src="<?php echo SITE_DOMAIN; ?>common/theme/scripts/plugins/forms/jquery-validation/dist/jquery.validate.js"></script>
+<script src="<?php echo SITE_DOMAIN; ?>plmis_js/dataentry/newcoldchain.js"></script>
+<script src="<?php echo SITE_DOMAIN; ?>plmis_js/dataentry/add_modals.js"></script>
+<script src="<?php echo SITE_DOMAIN; ?>plmis_js/dataentry/levelcombos_all_levels.js"></script>
+<script>
+    $('#reset4').click(function() {
+        window.location.href = basePath + 'plmis_admin/new_coldchain.php';
+    });
+</script>

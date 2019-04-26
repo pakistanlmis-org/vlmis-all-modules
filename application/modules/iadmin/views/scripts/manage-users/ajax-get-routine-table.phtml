@@ -1,0 +1,56 @@
+<table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_2">
+    <!-- Table heading -->
+    <?php
+    $fields = array(
+        's_no' => 'S.No',
+        'user_name' => 'User Name',
+        'Uc' => 'UC',
+        'district' => 'District',
+        'province' => 'Province'
+    );
+    $this->tableHeading($this->order, $this->sort, $fields);
+    ?>
+    <!-- // Table heading END -->
+    <!-- Table body -->
+
+    <!-- // Table body END -->
+    <tbody>
+        <?php
+        $m_res = array();
+        $i = 1;
+        if ($this->paginator && count($this->paginator) > 0) :
+            foreach ($this->paginator as $row):
+                ?>
+                <tr class="<?php
+                if ($row->getUser()->getLoginId() == $this->locations_add && $this->action == 1) {
+                    echo 'danger';
+                } else if ($row->getUser()->getLoginId() == $this->locations_edit && $this->action == 2) {
+                    echo 'danger';
+                }
+                ?>">
+                    <td class="center" width="25"> <?php
+                        if ($row->getUser()->getLoginId() == $this->locations_add && $this->action == '1') {
+                            echo "<span class='label label-sm label-info'>New</span>";
+                        } else if ($row->getUser()->getLoginId() == $this->locations_edit && $this->action == '2') {
+                            echo "<span class='label label-sm label-info'>Edited</span>";
+                        }
+                        ?> <?php echo $i; ?></td>
+                    <td><?php echo $row->getUser()->getLoginId(); ?></td>
+                    <td><?php echo $row->getWarehouse()->getLocation()->getLocationName(); ?></td>
+                    <td><?php echo $row->getWarehouse()->getDistrict()->getLocationName(); ?></td>
+                    <td><?php echo $row->getWarehouse()->getProvince()->getLocationName(); ?></td>
+                    <td><a itemid="<?php echo $row->getUser()->getPkId(); ?>" class="update-stores btn btn-xs green" data-toggle="modal" href="#modal-update-stores"><i class="fa fa-edit"></i><?php echo $this->translate("Edit") ?></a>
+                            <?php // if ($this->userDelete($row['pkId'])) { ?>
+                            <?php //} else { ?>
+                        <!--  <a  data-toggle="notyfy" data-bind="<?php echo $row->getUser()->getPkId(); ?>" data-type="confirm" data-layout="top" class="btn-link btn-danger btn-mini"><?php echo $this->translate("Delete"); ?>
+                            </a> -!>
+                        <?php //} ?>
+
+                    </td>
+                        <!-- // Table row END --><?php
+                        $i++;
+                    endforeach;
+                endif;
+                ?>
+    </tbody>
+</table>

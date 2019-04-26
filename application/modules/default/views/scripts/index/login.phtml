@@ -1,0 +1,104 @@
+<?php
+/**
+*  phtml for Login
+*/
+?>
+<!-- BEGIN CONTAINER -->
+<style>
+    .form-group{
+        padding-top:  5px;
+    }
+    textarea {
+        resize: none;
+    }
+</style>
+<div class="page-container">
+    <!-- BEGIN CONTENT -->
+    <div class=" page-content-wrapper">
+        <div class="page-content landing-content">
+            <br/>
+
+            <div class="col-md-4 col-md-offset-4">
+                <?php if ($this->saved == true) { ?>
+                    <div class="alert alert-info" id="saved">
+                        <button data-dismiss="alert" class="close" type="button">
+                            ×
+                        </button>
+                        Your are registered successfully. <br>
+                        Your password is <?php echo $this->pswd ?> <br>
+                        Your id is <?php echo $this->id ?>
+                    </div>  
+                <?php } ?>
+            </div>
+
+
+
+            <div class="col-md-4 col-md-offset-4"> 
+
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-user"></i>Login
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <form name="register-user" id="register-user" method="post" action="">
+
+                            <div class="form-group">
+                                <label for="e_mail" class="col-md-3 control-label">
+                                    <?php echo $this->translate("Email"); ?><span class="red">*</span>
+                                </label>
+                                <div class="col-md-9">
+                                    <?php echo $this->form->login_id; ?>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <label for="organization" class="col-md-3 control-label">
+                                    <?php echo $this->translate("Password"); ?><span class="red">*</span>
+                                </label>
+                                <div class="col-md-9">
+                                    <?php echo $this->form->password; ?>
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div class="form-group">
+                                <div class="pull-right" style="padding-top: 5px">
+                                    <div class="col-md-6">
+                                        <button type="reset" id="reset" value="Reset" class="btn btn-info">
+                                            <?php echo $this->translate("Reset"); ?>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button name="send_contact" id="send_contact" type="submit" class="form-control btn btn-success green">Login</button>
+                                    </div>
+                                </div>
+                                <p class="col-md-12" style="text-align: center; margin-left: -90px; color: #c40040;"><?php echo $this->error; ?></p>
+                            </div>
+
+                            <br>
+                            <p class="pull-left" style="margin-left: 12px;">
+                                <a href="<?php echo $this->baseUrl() ?>/index/forget-password-doc" class="text-center">Forget password</a>
+                            </p>
+
+                        </form>
+
+                        <div class="clearfix margin-bottom-20">
+                        </div>                       
+
+                    </div>
+                </div>
+                <p class="text-center">
+                    <a href="<?php echo $this->baseUrl(); ?>/index/register-user" class="">Create new Account</a> to access LMIS documents.
+                </p>
+                <p class="text-center" style="text-align: center; color: #c40040;">
+                    Note: This is not an LMIS (Vaccines, Contraceptive, Tuberculosis) Account.
+                </p>
+               
+            </div>
+
+        </div>
+    </div>

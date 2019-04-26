@@ -1,0 +1,201 @@
+<?php
+/**
+*  phtml for Batch Summary
+*/
+?>
+<!-- Content -->
+<style>
+    #content_print {
+        margin-left: 50px;
+        width: 624px;
+    }
+    table#mytable {
+        border: 1px solid #e5e5e5;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table#mytable tr td {
+        border: 1px solid #e5e5e5;
+    }
+    table#mytable tr th {
+        border: 1px solid #e5e5e5;
+    }
+</style>
+<!-- Content -->
+
+<style type="text/css" media="print">
+    .page
+    {
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print
+    {    
+        #printButt
+        {
+            display: none !important;
+        }
+    }
+</style>
+
+<?php if (!empty($this->data) && count($this->data) > 0) { ?>  
+    <table style="width:100%;">
+        <tr>
+            <td class="left"><b style="font-size: 16px;">Batch wise stock summary</b></td>
+            <?php $this->headTitle("Batch wise stock summary"); ?>
+        </tr>        
+    </table>
+    <table id="mytable">
+
+        <!-- Table heading -->
+        <thead>
+            <tr>
+                <th rowspan="2"><?php echo $this->translate("Sr No"); ?></th>
+                <th rowspan="2"><?php echo $this->translate("Product"); ?></th>
+                <th rowspan="2"><?php echo $this->translate("Batch No"); ?></th>
+                <th rowspan="2"><?php echo $this->translate("Expiry Date"); ?></th>
+                <th colspan="3" width="18%" align="center"><?php echo $this->translate("Quantity"); ?></th>
+                <th rowspan="2"><?php echo $this->translate("Status"); ?></th>
+            </tr>
+            <tr style="background-color: #F8F8F8;">
+                <th ><?php echo $this->translate("Vials/Pcs"); ?></th>
+                <th ><?php echo $this->translate("Doses Per Vial"); ?></th>
+                <th ><?php echo $this->translate("Total Doses"); ?></th>
+            </tr>
+        </thead>
+        <!-- // Table heading END -->
+
+        <!-- Table body -->
+        <tbody>
+            <?php
+            $i = 1;
+            foreach ($this->data as $row) {
+                $new_status = $row['status'];
+                if ($new_status == 'Stacked' || $new_status == 'Running') {
+                    $new_status = 'Priority 1';
+                }
+                ?>
+                <!-- Table row -->
+                <tr class="gradeX">
+                    <td align="center"><?php echo $i; ?></td>
+                    <td align="left"><?php echo $row['itemName']; ?></td>
+                    <td align="left"> <?php echo $row['number']; ?></td>
+                    <td align="center"><?php echo date("d/m/Y", strtotime($row['expiryDate'])); ?></td>
+                    <td align="right" nowrap><?php echo number_format($row['BatchQty']) . ' ' . $row['itemUnitName']; ?></td>
+                    <td align="right"><?php echo number_format($row['description']); ?></td>
+                    <td align="right"><?php echo number_format($row['BatchQty'] * $row['description']); ?></td>
+                    <td align="left" id="batch<?php echo $row['pkId']; ?>-status"> &nbsp; <?php echo ($this->status == 5 ? 'Expired' : $new_status ); ?></td>
+                </tr>
+                <?php
+                $i++;
+            }
+            ?>
+            <!-- // Table row END -->
+        </tbody>
+        <!-- // Table body END -->
+
+    </table>
+    <!-- // Table END -->
+<?php } ?>
+<?php if (!empty($this->summary) && count($this->summary) > 0) { ?>
+    <table style="width:100%;">
+        <tr>
+            <td class="left"><b style="font-size: 16px;">Product wise usable stock summary</b></td>
+            <?php $this->headTitle("Product wise stock summary"); ?>
+        </tr>        
+    </table>
+    <table id="mytable">
+        <thead>
+            <tr>
+                <th rowspan="2">S. No.</th>
+                <th rowspan="2">Product</th>
+                <th colspan="3">Quantity</th>
+            </tr>
+            <tr style="background-color: #F8F8F8;">
+                <th width="10%">Vials/Pcs</th>
+                <th width="15%">Doses Per Vial</th>
+                <th width="15%">Total Doses</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $i = 1;
+            foreach ($this->summary as $summary) {
+                ?>
+                <!-- Table row -->
+                <tr>
+                    <td align="center"><?php echo $i; ?></td>
+                    <td align="left"><?php echo $summary['itemName']; ?></td>
+                    <td align="right"><?php echo number_format($summary['Vials']); ?></td>
+                    <td align="right"><?php echo $summary['description']; ?></td>
+
+                    <td align="right"><?php echo number_format($summary['Doses']); ?></td>
+
+                </tr>
+                <?php
+                $i++;
+            }
+            ?>
+            <!-- // Table row END -->
+        </tbody>
+    </table>
+    <br>
+
+<?php } ?>   
+
+<?php //if (!empty($this->expired_summary) && count($this->expired_summary) > 0) { ?>
+    <!-- <table style="width:100%;">
+        <tr>
+            <td class="left"><b style="font-size: 16px; color: red">Product wise expired stock summary</b></td>
+        </tr>        
+    </table>
+    <table id="mytable">
+        <thead>
+            <tr>
+                <th rowspan="2">S. No.</th>
+                <th rowspan="2">Product</th>
+                <th colspan="3">Quantity</th>
+            </tr>
+            <tr style="background-color: #F8F8F8;">
+                <th width="10%">Vials/Pcs</th>
+                <th width="15%">Doses Per Vial</th>
+                <th width="15%">Total Doses</th>
+            </tr>
+        </thead>
+        <tbody>
+<?php
+//$i = 1;
+//foreach ($this->expired_summary as $exp_summary) {
+?>
+<!-- Table row -->
+<!-- <tr>
+    <td align="center"><?php //echo $i;   ?></td>
+    <td align="left"><?php //echo $exp_summary['itemName'];   ?></td>
+    <td align="right"><?php //echo number_format($exp_summary['Vials']);   ?></td>
+    <td align="right"><?php //echo $exp_summary['description'];   ?></td>
+
+    <td align="right"><?php //echo number_format($exp_summary['Doses']);   ?></td>
+
+</tr>
+<?php
+// $i++;
+//}
+?>
+<!-- // Table row END -->
+<!--</tbody>
+</table>
+<br>    -->
+<?php //} ?>          
+<div style="float:left;">
+    <div class="col-md-12 left">
+        <b>Printed By:</b> <?php echo $this->username ?><br> 
+        <b>Print Date:</b> <?php echo date("d/m/Y"); ?>
+    </div>
+</div
+<div>
+    <div class="widget-body right">
+        <button name="print" id="print" value="1" type="button" class="btn btn-primary"><?php echo $this->translate("Print"); ?></button> 
+    </div>
+</div>        
+
+<!-- // Content END -->

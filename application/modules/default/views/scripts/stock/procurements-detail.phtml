@@ -1,0 +1,312 @@
+<?php
+/**
+ *  phtml for Receive Supplier
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <?php echo $this->form->hdn_shipment_id; ?>
+
+        <h3 class="page-title">
+
+               <?php echo  $this->translate('Add Shipment Detail'); ?>
+        </h3>
+        <!-- <p class="red"><b>Important!</b> Please use Ctrl + R before using this form.</p> -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            
+                          <a style="color:#fff;" href="<?php echo $this->baseUrl()?>/stock/search-procurements" >Back to Search Procurements  </a>  
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php if (!empty($this->msg)) { ?>
+                                    <div class="alert alert-info">
+                                        <button data-dismiss="alert" class="close" type="button">
+                                            ×
+                                        </button>
+                                        <?php echo $this->msg; ?>                                        
+                                        <a id="receive-print" onclick="window.open('print-receive?id=<?php echo $this->master_id; ?>', '_blank', 'scrollbars=1,width=840,height=595');" href="javascript:void(0);"><strong><?php echo $this->voucher; ?></strong></a>
+                                    </div>    
+                                <?php } ?>
+                                <form method="POST" name="new_receive" id="new_receive" action="" >
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <!-- Group Receive No-->
+                                            <div class="control-group">
+                                                <label class="control-label" for="receive_no">
+                                                    <?php echo $this->translate("Shipment No."); ?>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->transaction_number; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- // Group END Receive No-->
+
+
+
+
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="product">
+                                                <?php echo $this->translate("Product"); ?> <span class="red">*</span>
+                                            </label>
+                                            <div class="controls">
+                                                <?php echo $this->form->item_id; ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="manufacturer_id" >
+                                                <?php echo $this->translate("Manufacturer"); ?> <span class="red">*</span>
+                                            </label>
+                                            <div class="controls">
+                                                <?php echo $this->form->manufacturer_id; ?>
+                                                <!--&nbsp;
+                                                <a class="btn btn-primary btn-small" onclick="javascript:void(0);" data-toggle="modal" href="#modal-new-manufacturer" title="<?php echo $this->translate("Add New Manufacturer"); ?>">
+                                                <?php //echo $this->translate("Add"); ?>
+                                                </a> -->
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="batch">
+                                                <?php echo $this->translate("Batch No"); ?> <span class="red">*</span>
+                                            </label>
+                                            <div class="controls">
+                                                <?php echo $this->form->number; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Production Date"); ?>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->production_date; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" id="expiry_div">
+                                            <label class="control-label" for="expiry_date">
+                                                <?php echo $this->translate("Expiry Date"); ?> <span class="red">*</span>
+                                            </label>
+                                            <div class="controls">
+                                                <?php echo $this->form->expiry_date; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="unit_price">
+                                                    <?php echo $this->translate("Unit Price"); ?> <span class="red">*</span>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->unit_price; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="qty">
+                                                <?php echo $this->translate("Quantity"); ?> <span class="red">*</span>
+                                            </label>
+                                            <div class="controls">
+                                                <?php echo $this->form->quantity; ?>
+                                                <span id="product-unit">
+                                                    Vials<input type="hidden" name="item_unit_id" id="item_unit_id" value="2" />
+                                                </span>
+                                                <span id="product-doses"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="available_quantity" class="control-label"><?php echo $this->translate("Total available quantity"); ?></label>
+
+                                                <?php echo $this->form->available_quantity; ?>
+                                                <?php echo $this->form->hdn_available_quantity; ?>
+                                            </div>
+                                        </div>
+                                        <?php if ($this->prod_cat != 2) { ?>
+                                            <div class="col-md-3" id="vvmtype_div">
+                                                <label class="control-label" for="vvmtype">
+                                                    <?php echo $this->translate("VVM Type"); ?> <span class="red">*</span>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->vvm_type_id; ?>
+                                                </div>
+                                            </div>
+
+                                        <?php } ?>                                        
+                                    </div>
+
+                                    <div class="row">                                        
+                                        <div class="col-md-12">
+                                            <div class="form-group pull-right form-btn-margin-top">
+                                                <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit">
+                                                    <?php echo $this->translate('Add'); ?>
+                                                </button>
+
+                                                <?php echo $this->form->hdn_master_id; ?>
+                                                <input type="hidden" name="temp" id="temp" value="0">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <?php
+        if ($this->type != 's') {
+            if (!empty($this->arr_data['tempstocks']) && count($this->arr_data['tempstocks']) > 0) {
+                ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <?php echo $this->translate("Shipment List"); ?>
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <table class="table table-striped table-bordered table-condensed">
+                                            <!-- Table heading -->
+                                            <thead>
+                                                <tr>
+
+                                                    <th>
+                                                        <?php echo $this->translate("Product"); ?>
+                                                    </th>
+                                                    <th class="col-md-2">
+                                                        <?php echo $this->translate("Batch"); ?>
+                                                    </th>
+                                                    <th class="col-md-2">
+                                                        <?php echo $this->translate("Received"); ?>
+                                                    </th>
+                                                    <th>
+                                                        <?php echo $this->translate("Unit"); ?>
+                                                    </th>
+                                                    <th>
+                                                        <?php echo $this->translate("Manufacturer"); ?>
+                                                    </th>                                                  
+
+                                                    <th nowrap>
+                                                        <?php echo $this->translate("Expiry Date"); ?>
+                                                    </th>                                                    
+                                                    <th>
+                                                        <?php echo $this->translate("Action"); ?>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <!-- // Table heading END -->
+
+                                            <!-- Table body -->
+                                            <tbody>
+                                                <!-- Table row -->
+                                                <?php
+                                                $i = 1;
+                                                $checksum_vials = array();
+                                                $checksum_doses = array();
+                                                foreach ($this->arr_data['tempstocks'] as $currRow) {
+                                                    ?>
+                                                    <tr class="gradeX">
+
+                                                        <td>
+                                                            <?php echo $currRow['item_name']; ?>
+                                                        </td>
+                                                        <td class="id<?php echo $currRow['stock_detail_id']; ?>" >
+                                                            <?php echo $currRow['number']; ?>
+                                                        </td>
+                                                        <td class="id<?php echo $currRow['stock_detail_id']; ?>" >
+                                                            <?php echo number_format(abs($currRow['quantity'])); ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php echo $currRow['item_unit_name']; ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php echo $currRow['manufacturer']; ?>
+                                                        </td>
+
+
+                                                        <td>
+                                                            <?php echo App_Controller_Functions::dateToUserFormat($currRow['expiry_date']); ?>
+                                                        </td>
+                                                        <td>
+                                                            <span data-toggle="notyfy" id="<?php echo $currRow['pk_id']; ?>" data-type="confirm" data-layout="top" class="fa fa-times cursor-hand"></span>
+                                                            <!-- <span class="fa fa-edit cursor-hand" id="<?php //echo $currRow['stock_detail_id'];                                            ?>-stockedit">
+                                                            </span> -->
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                    $i++;
+                                                }
+                                                ?>
+                                                <!-- // Table row END -->
+                                            </tbody>
+                                            <!-- // Table body END -->
+                                            <!-- // Table body END -->
+
+
+                                        </table>
+                                    </div>
+                                </div>
+                                <form name="receive_stock" id="receive_stock" action="" method="POST">
+                                    <div class="row">
+                                        <div>&nbsp;</div>
+                                        
+                                        <div>&nbsp;</div>
+                                        <div class="col-md-12 right">
+
+                                            <button id="print_shipment_detail" type="button" class="btn btn-success">
+                                                <?php echo $this->translate("Print"); ?>
+                                            </button>
+<!--                                            <button type="submit" class="btn btn-primary"
+                                                    onclick="return confirm('Are you sure you want to save the list?');">
+                                                        <?php //echo $this->translate("Save"); ?>
+                                            </button>-->
+                                            <?php echo $this->form->hdn_master_id; ?>
+                                            <input type="hidden" name="temp" id="temp" value="1">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php
+            }
+        }
+        ?>
+
+    </div>
+</div>
+

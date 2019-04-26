@@ -1,0 +1,23 @@
+<?php
+/**
+*  phtml for Ajax Edit
+*/
+?>
+<div class="row">
+    <div class="col-md-5">
+        <div class="form-group ">
+            <label class="control-label" ><?php echo $this->translate("VVM Type Name"); ?> <span class="red">*</span></label>
+            <?php echo $this->form->vvm_type_name; ?>
+        </div>
+    </div>
+<!--    <div class="col-md-5">
+        <div class="form-group ">
+            <label class="control-label" ><?php echo $this->translate("Item"); ?> <span class="red">*</span></label>
+            <?php echo $this->form->item_pack_size_id; ?>
+        </div>
+    </div>-->
+</div>
+<?php 
+echo $this->form->vvm_type_id;
+echo $this->form->vvm_type_name_hidden; 
+?>

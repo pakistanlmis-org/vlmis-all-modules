@@ -1,0 +1,340 @@
+<?php
+/**
+ *  phtml for Pentavalent Coverage Detail
+ */
+?>
+<?php
+$from_sel_month = $this->from_month_sel;
+$from_sel_year = $this->from_year_sel;
+
+$month = $this->month_sel;
+$sel_prov = $this->prov_sel;
+$sel_dist = $this->dist_id;
+$sel_teh = $this->sel_teh;
+$sel_uc = $this->uc_id;
+
+$report_type = $this->report_type;
+// Headers of the Grid
+?>
+
+<?php
+//echo $year = $this->year_sel;
+//exit;
+?>
+
+
+
+<?php
+$sum_arr = array();
+
+
+$query5 = $this->reports()->getVpd($month, $from_sel_month, $from_sel_year, $sel_dist, $sel_teh, $sel_uc, $report_type);
+
+
+foreach ($query5 as $row5) {
+
+    $location_id5 = $row5['pk_id'];
+
+    $data_arr[$location_id5][] = $row5['week'];//0
+    $data_arr[$location_id5][] = $row5['uc'];//1
+    $data_arr[$location_id5][] = $row5['rp_district'];//2
+    $data_arr[$location_id5][] = $row5['type_case'];//3
+    $data_arr[$location_id5][] = $row5['epid_number'];//4
+    $data_arr[$location_id5][] = $row5['child_name'];//5
+    $data_arr[$location_id5][] = $row5['district'];//6
+    $data_arr[$location_id5][] = $row5['tehsil'];//7
+    $data_arr[$location_id5][] = $row5['uc'];//8
+    $data_arr[$location_id5][] = $row5['complete_address'];//9
+    $data_arr[$location_id5][] = $row5['age_in_month']; //10
+    $data_arr[$location_id5][] = $row5['gender'];//11
+    $data_arr[$location_id5][] = $row5['date_onset'];//12
+
+    $data_arr[$location_id5][] = $row5['date_notification'];//13
+    $data_arr[$location_id5][] = $row5['date_investigation'];//14
+    $data_arr[$location_id5][] = $row5['specific_dose_received'];//15
+    $data_arr[$location_id5][] = $row5['date_last_dose_received'];//16
+    
+    $data_arr[$location_id5][] = $row5['specimen_collection_date'];//17
+    $data_arr[$location_id5][] = $row5['date_specimen_sent'];//18
+    $data_arr[$location_id5][] = $row5['date_specimen_sent1'];//19
+    $data_arr[$location_id5][] = $row5['sign_symptoms'];//20
+    $data_arr[$location_id5][] = $row5['outcome'];//21
+    $data_arr[$location_id5][] = $row5['lab_result'];//22
+    $data_arr[$location_id5][] = $row5['final_classification'];//23
+}
+?>
+<?php
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $report_title; ?></h3>
+
+
+        <div class="row">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('surveillance/reports-header.phtml') ?>
+                    </td>
+                </tr>
+            </table>
+            <div class="col-md-12 right">
+
+                <img src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="tableToExcel('export', 'sheet 1', '<?php echo $report_title; ?>')" alt="Excel" style="cursor:pointer;" />
+            </div>
+        </div>
+        <div>
+            &nbsp; &nbsp; &nbsp;
+        </div>
+        <div class="row" id="export">
+            <style>
+                table#myTable{margin-top:0px !important; color: #000;}
+                table#myTable{margin-top:20px;border-collapse: collapse;border-spacing: 0; border:1px solid #999;}
+                table#myTable tr td{font-size:11px;padding:3px; text-align:left; border:1px solid #999; color: #000;}
+                table#myTable tr th{font-size:11px;padding:3px; text-align:center; border:1px solid #999; color: #000;}
+                table#myTable tr td.TAR{text-align:right; padding:5px;width:50px !important;}
+                .sb1NormalFont {color: #444444; font-size: 11px; font-weight: bold; text-decoration: none;}
+                p{margin-bottom:5px; font-size:11px !important; line-height:1 !important; padding:0 !important; color: #000;}
+                table#headerTable tr td{ font-size:11px; color: #000;}
+                h4{margin:0; color: #000; font-size:14px;}
+                h5{margin:15px 0 5px 0; color: #000;}
+                h6{margin:0; color: #000; font-size:12px;}
+                .right{text-align:right !important;}
+                .center{text-align:center !important;}
+
+                /* Print styles */
+                @media only print
+                {
+                    table#myTable{margin-top:0px !important;}
+                    table#myTable tr th{font-size:8px;padding:3px !important; text-align:center; border:1px solid #999; color: #000;}
+                    table#myTable tr td{font-size:8px;padding:3px !important; text-align:left; border:1px solid #999; color: #000;}
+                    #doNotPrint{display: none !important;}
+                    h4{margin:0; color: #000;}
+                    h5{margin:0; color: #000;}
+                    h6{margin:0; color: #000;}
+                    p{margin-bottom:5px; font-size:11px !important; line-height:1 !important; padding:0 !important; color: #000;}    
+                }
+            </style>
+
+
+            <script>
+                function printContents() {
+                    var w = 900;
+                    var h = screen.height;
+                    var left = Number((screen.width / 2) - (w / 2));
+                    var top = Number((screen.height / 2) - (h / 2));
+                    var dispSetting = "toolbar=yes,location=no,directories=yes,menubar=yes,scrollbars=yes,left=" + left + ",top=" + top + ",width=" + w + ",height=" + h;
+                    var printingContents = document.getElementById("export").innerHTML;
+                    var docprint = window.open("", "", dispSetting);
+                    docprint.document.open();
+                    docprint.document.write('<html><head>');
+                    docprint.document.write('</head><body onLoad="self.print();self.close();"><center>');
+                    docprint.document.write(printingContents);
+                    docprint.document.write('</center></body></html>');
+                    docprint.document.close();
+                    docprint.focus();
+                }
+
+            </script>
+
+            <div class="innerLR" style="overflow:auto;">
+                <table width="100%" >
+
+                    <td align="center"><h4 class="center"> 
+                            <?php echo "'$report_title at  $this->loc_name'" . '<br>' . " for (Week" . $this->from_month_sel . '-' . $this->from_year_sel . ') to (Week' . $this->month_sel . '-' . $this->from_year_sel; ?>)  
+                        </h4></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 10px;"><table id="myTable" cellspacing="0" align="center">
+                                <thead>
+                                    <tr>
+
+                                        <th rowspan="2" width="50" style="  background: #ebf3fa;"><p style="text-align:center;
+                                                                                                     white-space:nowrap;
+                                                                                                     transform-origin:50% 50%;
+                                                                                                     transform: rotate(270deg);  font-size: 9px;">Sr.No.</p></th>
+                                        <th rowspan="2"  style="  background: #ebf3fa;"><p style="text-align:center;
+                                                                                           white-space:nowrap;
+                                                                                           transform-origin:50% 50%;
+                                                                                           transform: rotate(270deg);  font-size: 9px;">Week:</p></th>   
+                                        <th  colspan="2" width="200" style="font-size: 8px; background: #D9D9D9">Case reported from (Reporting)</th>
+                                        <th rowspan="2" width="50" style="font-size: 9px; background: #ebf3fa;">Type of Case</th>  
+                                        <th rowspan="2" width="50" style="font-size: 9px; background: #ebf3fa;">Case EPID Number</th> 
+                                        <th colspan="5" width="150" style="font-size: 8px; background: #D9D9D9">Name and address of the case</th>
+                                        <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Age <br>(months)</th>
+                                        <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Sex</th>
+                                        <th rowspan="2" width="110" style="font-size: 9px; background: #ebf3fa;">Date of Onset</th>
+                                        <th rowspan="2" width="110" style="font-size: 9px; background: #ebf3fa;">Date of Notification</th>
+                                        <th rowspan="2" width="110" style="font-size: 9px; background: #ebf3fa;">Date of Investigation</th>
+
+                                        <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Number of Case specific Vaccine doses received</th>
+                                        <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Date of Last Vaccine dose received</th>
+                                        <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Date of specimen collection</th>
+                                        <?php if ($report_type == 246) { ?>
+                                            <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Date of specimen spent1</th>
+                                            <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Date of specimen spent2</th>
+                                        <?php } else if ($report_type == 247) { ?>
+                                            <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Date of Sputum Sample Sent1</th>
+                                            <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Date of Sputum Sample Sent2</th>
+
+                                        <?php } else if ($report_type == 248) { ?>
+
+                                            <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Date of Throat-Swab Sample Sent1</th>
+                                            <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Date of Throat-Swab Sample Sent2</th>
+                                        <?php } else if ($report_type == 249) { ?>
+                                            <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Date of Blood Sample Sent1</th>
+                                            <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Date of Blood Sample Sent2</th>
+
+                                        <?php } else if ($report_type == 250) { ?>
+                                            <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Date of Throat-Swab Sent1</th>
+                                            <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Date of Throat-Swab Sent2</th>
+                                        <?php } else if ($report_type == 251) { ?>
+                                            <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Date of Throat-Swab Sample Sent1</th>
+                                            <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Date of Naso-Pharyngeal Sent2</th>
+                                        <?php } ?>
+                                        <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Child Presentation of the case (sign & symptoms)</th>
+                                        <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">outcome</th>
+                                        <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Lab result of the test</th>
+                                        <th rowspan="2" width="80" style="font-size: 9px; background: #ebf3fa;">Final Outcome</th>
+
+                                    </tr>
+                                    <tr>
+                                        <th tyle='text-align:center;' colspan="1" style="font-size: 9px; background: #ebf3fa;">Name of Health Facility & Town/Taluka </th>
+                                        <th tyle='text-align:center;' colspan="1" style="font-size: 9px; background: #ebf3fa;">Name  District/Town</th>
+
+                                        <th tyle='text-align:center;' colspan="1" style="font-size: 9px; background: #ebf3fa;">Name of the case</th>
+                                        <th tyle='text-align:center;' colspan="1" style="font-size: 9px; background:#BDD7EE ">District</th>
+                                        <th tyle='text-align:center;' colspan="1" style="font-size: 9px; background: #ebf3fa;">Taluka/Town</th>
+                                        <th tyle='text-align:center;' colspan="1" style="font-size: 9px; background: #ebf3fa;">UC</th>
+                                        <th tyle='text-align:center;'  colspan="1" style="font-size: 9px; background: #ebf3fa;">Address</th>
+
+                                    </tr>
+
+
+
+
+
+
+                                    <tr>
+
+
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $i = 1;
+                                    if (!empty($data_arr)) {
+                                        foreach ($data_arr as $dis_id => $sub_arr) {
+                                            ?>
+                                            <tr>
+
+                                                <td style="text-align: center;"><?php echo $i; ?></td>
+                                                <td style="text-align: center;"><?php echo $sub_arr[0]; ?></td>
+                                                <td style="text-align: center;"><?php echo $sub_arr[1]; ?></td>
+                                                <td style="text-align: center;"><?php echo $sub_arr[2]; ?></td>
+                                                <td style="text-align: center;"><?php echo $sub_arr[3]; ?></td>
+                                                <td style="text-align: center;"><?php echo $sub_arr[4]; ?></td>
+                                                <td style="text-align: center;"><?php echo $sub_arr[5]; ?></td>
+                                                <td style="text-align: center;"><?php echo $sub_arr[6]; ?></td>
+                                                <td style="text-align: center;"><?php echo $sub_arr[7]; ?></td>
+                                                <td style="text-align: center;"><?php echo $sub_arr[8]; ?></td>
+                                                <td style="text-align: center;"><?php echo $sub_arr[9]; ?></td>
+                                                <td style="text-align: center;"><?php echo $sub_arr[10]; ?></td>
+                                                <td style="text-align: center;"><?php
+                                                    if ($sub_arr[11] == '1') {
+                                                        echo 'Male';
+                                                    } else {
+                                                        echo 'Female';
+                                                    };
+                                                    ?></td>
+                                                <td style="text-align: center;"> 
+                                                    <!--  Date of Specimen Sent1 -->
+                                                    <?php echo date("d-M-y", strtotime($sub_arr[12])); ?>
+
+                                                </td>
+                                                <!--  Date of Specimen Sent2 -->
+                                                <td style="text-align: center;"> 
+                                                    <?php echo date("d-M-y", strtotime($sub_arr[13])); ?>
+
+                                                </td>
+                                                <td style="text-align: center;"> <?php echo date("d-M-y", strtotime($sub_arr[14])); ?></td>
+                                                <td style="text-align: center;"><?php echo $sub_arr[15]; ?></td>
+                                                <td style="text-align: center;"><?php  
+                                                if (!empty($sub_arr[16])){
+                                                    echo date("d-M-y", strtotime($sub_arr[16]));
+                                                }else {
+                                                    echo '';
+                                                }
+                                                ?></td>
+                                                
+
+                                                <td style="text-align: center;"><?php  
+                                                echo $sub_arr[17];
+                                                if (!empty($sub_arr[17])){
+                                                    echo date("d-M-y", strtotime($sub_arr[17]));
+                                                }else {
+                                                    echo '';
+                                                }
+                                                ?></td>
+                                               <td style="text-align: center;"><?php  
+                                                if (!empty($sub_arr[18])){
+                                                    echo date("d-M-y", strtotime($sub_arr[18]));
+                                                }else {
+                                                    echo '';
+                                                }
+                                                ?></td>
+                                                <td style="text-align: center;"><?php  
+                                                if (!empty($sub_arr[19])){
+                                                    echo date("d-M-y", strtotime($sub_arr[19]));
+                                                }else {
+                                                    echo '';
+                                                }
+                                                ?></td>
+                                                
+                                               <td style="text-align: center;"><?php echo $sub_arr[20]; ?></td>
+                                                <td style="text-align: center;"><?php echo $sub_arr[21]; ?></td>
+                                                <td style="text-align: center;"><?php echo $sub_arr[22]; ?></td>
+                                                <td style="text-align: center;"> <?php echo $sub_arr[23]; ?></td>
+
+
+                                            </tr>
+
+                                            <?php
+                                            $i++;
+                                        }
+                                    } else {
+
+// To show Total
+                                        ?>
+                                        <tr>
+
+                                            <td colspan="25"  style="text-align: center;">No Data found</td>
+
+
+
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table></td>
+                    </tr>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        var whType = <?php echo $wh_type; ?>;
+        var province = <?php echo $sel_prov; ?>;
+        var district = <?php echo $sel_dist; ?>;
+        var tehsil = <?php echo $sel_tehsil; ?>;
+    </script>

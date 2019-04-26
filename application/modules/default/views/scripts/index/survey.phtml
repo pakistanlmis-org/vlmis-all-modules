@@ -1,0 +1,270 @@
+<?php
+/**
+ *  phtml for Change Password
+ */
+?>
+
+<!-- Content -->
+
+
+<div class="page-content-wrapper">
+    <div class="page-content">
+        
+        <?php
+if (isset($_GET['e']) && $_GET['e'] == 1) {
+    ?>
+    <div class="note note-danger">
+
+        <p style="color:red">
+            Thanks for your Feedback! 
+        </p>
+        
+      
+    </div>
+<?php }
+?>
+        
+                <?php
+if (isset($_GET['e']) && $_GET['e'] == 2) {
+    ?>
+    <div class="note note-danger">
+
+        <p style="color:red">
+            Thanks for updating your contact information!
+        </p>
+        
+      
+    </div>
+<?php }
+?>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-cogs"></i>Please update your contact information
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+
+                        <form action="#" method="post" id="register-form">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="name">
+                                            Name
+                                        </label>
+                                        <input class="form-control"  type="text" name="name"  id="name" value="<?php
+                                        echo $this->user->getUserName();
+                                        ?>" >
+                                               <?php if (!empty($this->result[0])) { ?>
+                                            <input class="form-control"  type="hidden" name="feedback_id"  id="feedback_id" value="<?php
+                                            if (!empty($this->result)) {
+                                                echo $this->result[0]['pk_id'];
+                                            }
+                                            ?>">
+
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="CELL NUMBER">
+                                            Cell number
+                                        </label>
+                                        <input class="form-control" type="text"  name="cellnumber"  value="<?php
+                                        echo $this->user->getCellNumber();
+                                        ?>">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="cnic">
+                                            Designation 
+                                        </label>
+                                        <input class="form-control" type="text"  name="office" value="<?php
+                                        echo $this->user->getDesignation();
+                                        ?>">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="cnic">
+                                            Department  
+                                        </label>
+                                        <input class="form-control" type="text"  name="department" value="<?php
+                                        echo $this->user->getDepartment();
+                                        ?>">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="email">
+                                            Email 
+                                        </label>
+                                        <input class="form-control" type="email" name="email" id="email"  value="<?php
+                                        echo $this->user->getEmail();
+                                        ?>">
+
+                                    </div>
+                                </div>
+                                <!--            <div class="col-md-5">
+                                                <div class="form-group">
+                                                      
+                                                    
+                                
+                                                </div>
+                                            </div>
+                                -->
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <button value="contact" data-loading-text="Please Wait" type ="submit" name="btn-loading" id="btn-loading"  class="btn btn-primary"> <?php if (!empty($this->result[0])) { ?>Update<?php } else { ?>SAVE<?php } ?></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-cogs"></i>Please give us your valuable feedback
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+
+                        <form action="#" method="post" id="register-form">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <?php
+                                        if (!empty($this->result)) {
+                                            if ($this->result[0]['q1_y_n'] == 1) {
+                                                $q1_checked1 = 'checked="checked"';
+                                                $q1_checked2 = "";
+                                                $q1_checked = "";
+                                            } else if ($this->result[0]['q1_y_n'] == 0) {
+                                                $q1_checked2 = 'checked="checked"';
+                                                $q1_checked1 = "";
+                                                $q1_checked = "";
+                                            }
+                                        } else {
+                                            $q1_checked = 'checked="checked"';
+                                            $q1_checked1 = "";
+                                            $q1_checked2 = "";
+                                        }
+                                        ?>
+                                        <label class="control-label" for="y_n_data_difficulty">
+                                            Do you have any difficultly in data entry?<br>
+                                            <input type="radio" name="y_n_data_difficulty" value="1" id="dyes" <?php echo $q1_checked1; ?> ><label class="control-label" for="dyes">Yes</label>
+                                            <input type="radio" name="y_n_data_difficulty" value="0" id="dno" <?php
+                                            echo $q1_checked;
+                                            echo $q1_checked2;
+                                            ?>> <label class="control-label" for="dno">No</label><br>
+                                        </label>
+                                        <br>
+                                        <textarea style="display:none;" class="form-control" name="data_difficulty"id="data_difficulty"cols="80" rows="3"><?php
+                                            if (!empty($this->result)) {
+                                                echo $this->result[0]['q1_data_difficulty'];
+                                            }
+                                            ?> </textarea>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+
+                                        <?php
+                                        if (!empty($this->result)) {
+                                            if ($this->result[0]['q2_y_n'] == 1) {
+                                                $q2_checked1 = 'checked="checked"';
+                                                $q2_checked2 = "";
+                                                $q2_checked = "";
+                                            } else if ($this->result[0]['q2_y_n'] == 0) {
+                                                $q2_checked2 = 'checked="checked"';
+                                                $q2_checked1 = "";
+                                                $q2_checked = "";
+                                            }
+                                        } else {
+                                            $q2_checked = 'checked="checked"';
+                                            $q2_checked1 = "";
+                                            $q2_checked2 = "";
+                                        }
+                                        ?>
+                                        <label class="control-label" for="report">
+                                            Do you use any report?<br>
+                                            <input type="radio" name="y_n_report" value="1" id="yes"  <?php echo $q2_checked1; ?>> <label class="control-label" for="yes">Yes</label>
+                                            <input type="radio" name="y_n_report" value="0" id="no" <?php
+                                            echo $q2_checked;
+                                            echo $q2_checked2;
+                                            ?>> <label class="control-label" for="no">No</label><br>
+                                        </label>
+
+                                        <textarea style="display:none;" class="form-control" name="report" id="report" cols="80" rows="3"><?php
+                                            if (!empty($this->result)) {
+                                                echo $this->result[0]['q2_report'];
+                                            }
+                                            ?> </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="comment">
+                                            Any Comment / Improvement / Problems
+                                        </label>
+                                        <textarea class="form-control" name="comment" cols="80" rows="3"> <?php
+                                            if (!empty($this->result)) {
+                                                echo $this->result[0]['comment'];
+                                            }
+                                            ?> </textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <button value="feedback" data-loading-text="Please Wait" type ="submit" name="btn-loading" id="btn-loading"  class="btn btn-primary"> <?php if (!empty($this->result[0])) { ?>Update<?php } else { ?>SAVE<?php } ?></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+

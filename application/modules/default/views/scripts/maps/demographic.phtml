@@ -1,0 +1,117 @@
+<?php
+/**
+*  phtml for Demographic
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <!--        <h3 class="page-title">Demographic Map</h3>-->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="map-buttons-download">
+                    <img id="image"  src="<?php echo $this->baseUrl(); ?>/images/image.png"  align="right" title="Download Map" />
+                    <img id="excelSheet"  src="<?php echo $this->baseUrl(); ?>/images/excel-32.png"  align="right" title="Download Excel" />
+                </div>
+            </div>
+        </div>
+        <div class="row">           
+            <div class="col-md-9">
+                <div class="widget" data-toggle="collapse-widget">
+                    <div class="widget-head">
+                        <h3 class="heading"></h3>
+                    </div>
+                    <div class="widget-body">
+                        <div id="capture" style="width:auto;height:auto">
+
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td width="100%">
+                                        <div id="mapped">
+                                            <div id="customZoom">
+                                                <a href="#customZoomIn" id="customZoomIn">in</a>
+                                                <a href="#customZoomOut" id="customZoomOut">out</a>
+                                            </div>
+                                            <img id="loader" src="<?php echo $this->baseUrl(); ?>/images/ajax-loader.gif" />
+                                            <div id="pilot" class="CSSTableGenerator">
+                                                <table>
+                                                    <tr>
+                                                        <td colspan="2">Pakistan Demographic</td>
+                                                    </tr>
+                                                    <tr class="">
+                                                        <td><b>Pilot Districts <br/>Population(2015)</b></td>
+                                                        <td style='width:100px;' id="pilot_population"></td>
+                                                    </tr>
+                                                    <tr class="">
+                                                        <td><b>Pilot Provinces</b></td>
+                                                        <td style='width:100px;' id="pilot_province"></td>
+                                                    </tr>
+                                                    <tr class="">
+                                                        <td><b>Pilot Districts</b></td>
+                                                        <td style='width:100px;' id="pilot_district"></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div id="info" class="CSSTableGenerator">
+                                                <table>
+                                                    <tr>
+                                                        <td colspan="2">District Information</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Province</b></td>
+                                                        <td style='width:100px;' id="prov"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>District</b></td>
+                                                        <td style='width:100px;' id="dist"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Tehsils</b></td>
+                                                        <td style='width:100px;' id="tehsils"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>UCs</b></td>
+                                                        <td style='width:100px;' id="ucs"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Users</b></td>
+                                                        <td style='width:100px;' id="users"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Facility</b></td>
+                                                        <td style='width:100px;' id="facility"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>Population (2015)</b></td>
+                                                        <td style='width:100px;' id="pop"></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div id="mapTitle"></div>
+                                            <div id="printedDate"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="widget" data-toggle="collapse-widget">
+                    <div class="widget-head">
+                        <h3 class="heading">District Information Details</h3>
+                    </div>
+                    <div class="widget-body">
+                        <div id="detailInfo"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- // Content END -->

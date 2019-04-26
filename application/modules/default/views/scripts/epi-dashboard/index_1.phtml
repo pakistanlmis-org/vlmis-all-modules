@@ -1,0 +1,158 @@
+<?php
+/**
+ *  phtml for Cold Chain Capacity 
+ */
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <!-- BEGIN PAGE HEADER-->
+
+        <div class="row">
+            <h3 class="col-md-8">
+                Situation of EPI Procurement & Supply Management
+                <small>dashboard <?php
+                    echo date('d') . date('F', mktime(0, 0, 0, date('m'))) . ', ' . date('Y');
+                    ?></small>
+            </h3>
+
+        </div>
+        <div class="row">&nbsp;</div>
+        <!-- END PAGE HEADER-->
+        <div class="row">
+            <div class="widget-body">
+                <div class="col-md-9">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?php
+                            FC_SetRenderer('javascript');
+                            echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie2d.swf", "", $this->xmlstore_cold_store_stock, "coldchainCapacity28", '100%', 350, false, false);
+                            ?>
+
+                        </div>
+                        <div class="col-md-6">
+                            <?php
+                            FC_SetRenderer('javascript');
+                            echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie2d.swf", "", $this->xmlstore_dry_store_stock, "coldchainCapacity20", '100%', 350, false, false);
+                            ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?php
+                            FC_SetRenderer('javascript');
+                            echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Bar2D.swf", "", $this->xmlstore_cold_store_mos, "coldchainCapacity281", '100%', 350, false, false);
+                            ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?php
+                            FC_SetRenderer('javascript');
+                            echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Bar2D.swf", "", $this->xmlstore_dry_store_mos, "coldchainCapacity201", '100%', 350, false, false);
+                            ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="text-align: center"> Incoming Shipment Details</p>
+                            <table class="dynamicTable table table-striped table-bordered table-hover dataTable no-footer" >
+                                <thead>
+                                    <tr>
+                                        <th>Sr. No.</th>
+                                        <th>Item</th>
+                                        <th class="right">Order</th>
+                                        <th alass="right">Pending</th>
+                                        <th alass="right">Purpose</th>
+                                        <th alass="right">Quantity</th>
+                                        <th alass="right">Cartons</th>
+                                        <th alass="right">Airline</th>
+                                        <th alass="right">EDA</th>
+                                        <th alass="right">ETA</th>
+                                        <th alass="right">Status</th>
+
+                                        <th class="right">Storate Requirement <br>(In Litres)</th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+
+                                    <?php
+                                    $i = 1;
+                                    $q = 1;
+                                    foreach ($this->data as $row) {
+                                        if ($i <= 5) {
+                                            ?>
+                                            <tr>
+                                                <td class="center"><?php echo $i; ?></td>
+                                                <td><?php echo $row['item_name']; ?></td>
+                                                <td class="right"><?php echo $row['reference_number']; ?></td>
+                                                <td class="right"><?php echo $row['warehouse_name']; ?></td>
+                                                <td class="right"><?php echo $row['activity']; ?></td>
+                                                <td class="right"><?php echo number_format($row['received_quantity']); ?></td>
+                                                <td class="center"><?php echo $i; ?></td>
+                                                <td><?php echo 'test'; ?></td>
+                                                <td class="right"><?php echo $row['eta']; ?></td>
+                                                <td class="right"><?php echo $row['eta']; ?></td>
+                                                <td class="right"><?php echo $row['status']; ?></td>
+                                                <td class="right">33</td>
+
+                                            </tr>
+                                            <?php
+                                        }
+                                        $i++;
+                                    }
+                                    ?>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+                <!-- // Tabs END -->    
+                <div class="col-md-3">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <?php
+                            FC_SetRenderer('javascript');
+                            echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie2d.swf", "", $this->xmlstore_summary, "coldchainCapacity2021", '100%', 280, false, false);
+                            ?>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <?php
+                            FC_SetRenderer('javascript');
+                            echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie2d.swf", "", $this->xmlstore_crCapacity, "coldchainCapacity2022", '100%', 280, false, false);
+                            ?>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <?php
+                            FC_SetRenderer('javascript');
+                            echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie2d.swf", "", $this->xmlstore_frCapacity, "coldchainCapacity2023", '100%', 280, false, false);
+                            ?>
+                        </div>
+                    </div>
+
+
+
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $(".sidebar-toggler").trigger("click");
+    });
+</script>

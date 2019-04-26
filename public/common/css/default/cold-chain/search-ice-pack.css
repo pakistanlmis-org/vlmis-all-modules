@@ -1,0 +1,8 @@
+.widget-body.uniformjs > label {
+    float: left;
+    margin-right: 10px;
+}
+
+#ccm_make_id{
+    float: left;
+}

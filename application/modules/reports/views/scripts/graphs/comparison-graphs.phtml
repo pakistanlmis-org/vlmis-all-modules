@@ -1,0 +1,224 @@
+<?php
+/**
+ *  phtml for Comparison Graphs
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("IM Graphs - Comparison Graphs") ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate($this->main_heading) ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <label>Select Indicators and press Submit button to see the Graphs</label>                        
+                        <div class="row">
+                            <div class="col-md-3">
+                                <form role="form" method="post" name="comparison" id="comparison" action="">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <label for="indicators">Indicators</label>
+                                            <select name="indicators" id="indicators" class="form-control">
+                                                <optgroup label="Dispensed">        
+                                                    <option value="GISSUES" <?php if ($this->sel_indicator == 'GISSUES') { ?>selected=""<?php } ?>>Vaccination</option>
+                                                    <option value="GAMC" <?php if ($this->sel_indicator == 'GAMC') { ?>selected=""<?php } ?>>Avg Monthly Consumption</option>
+                                                </optgroup>
+
+                                                <optgroup label="MOS">
+                                                    <option value="GMOS" <?php if ($this->sel_indicator == 'GMOS') { ?>selected=""<?php } ?>>Months of Stock</option>
+                                                </optgroup>
+                                                <optgroup label="OnHand">
+                                                    <option value="GCLOSINGFLD" <?php if ($this->sel_indicator == 'GCLOSINGFLD') { ?>selected=""<?php } ?>>Stock On Hand - UC</option>
+                                                    <option value="GCLOSING" <?php if ($this->sel_indicator == 'GCLOSING') { ?>selected=""<?php } ?>>Stock On Hand - District</option>
+                                                    <!--<option value="GCLOSINGTOTAL" <?php if ($this->sel_indicator == 'GCLOSINGTOTAL') { ?>selected=""<?php } ?>>Stock On Hand - Total</option>-->
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Compare Options</label>
+                                            <select name="optvals" id="optvals" class="form-control">
+                                                <?php foreach ($this->compare_option as $key => $value) { ?>
+                                                    <optgroup label="<?php echo $key; ?>"> 
+                                                        <?php foreach ($value as $key2 => $value2) { ?>
+                                                            <option value="<?php echo $key2; ?>" <?php if ($this->sel_optvals == $key2) { ?>selected=""<?php } ?>><?php echo $value2; ?></option>
+                                                        <?php } ?>
+                                                    </optgroup>
+                                                <?php } ?>                          
+                                            </select>
+                                        </div>
+                                        <div class="form-group" style="display: <?php echo ($this->sel_optvals == 7 || $this->sel_optvals == 8 || $this->sel_optvals == 2 || $this->sel_optvals == 3) ? "block" : "none"; ?>" id="prov_combo">
+                                            <label>Provinces</label>
+                                            <?php $prov_combo_name = ($this->sel_optvals == 7) ? "all_provinces[]" : "all_provinces"; ?>
+                                            <select name="<?php echo $prov_combo_name; ?>" id="all_provinces" class="form-control" <?php if ($this->sel_optvals == 7) { ?>multiple=""<?php } ?>>
+                                                <?php if ($this->combo_provinces != false) { ?>
+                                                    <option value=""><?php echo $this->translate("Select"); ?></option>
+                                                    <?php
+                                                    foreach ($this->combo_provinces as $row) {
+                                                        $selected = '';
+                                                        if ($this->sel_optvals == 7) {
+                                                            if (in_array($row['key'], $this->sel_province)) {
+                                                                $selected = 'selected=""';
+                                                            }
+                                                        } else {
+                                                            if ($row['key'] == $this->sel_province) {
+                                                                $selected = 'selected=""';
+                                                            }
+                                                        }
+                                                        ?>
+                                                        <option value="<?php echo $row['key']; ?>" <?php echo $selected; ?>>
+                                                            <?php echo $row['value']; ?></option>
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>                       
+                                            </select>
+                                        </div>
+                                        <div class="form-group" style="display: <?php echo ($this->sel_optvals == 8 || $this->sel_optvals == 3) ? "block" : "none"; ?>;" id="dist_combo">
+                                            <label>Districts</label>
+                                            <?php $dist_combo_name = ($this->sel_optvals == 8) ? "all_districts[]" : "all_districts"; ?>
+                                            <select name="<?php echo $dist_combo_name; ?>" id="all_districts" class="form-control" <?php if ($this->sel_optvals == 8) { ?>multiple=""<?php } ?>>
+                                                <?php if ($this->combo_districts != false) { ?>
+                                                    <option value=""><?php echo $this->translate("Select"); ?></option>
+                                                    <?php
+                                                    foreach ($this->combo_districts as $row) {
+                                                        $selected = '';
+                                                        if ($this->sel_optvals == 8) {
+                                                            if (in_array($row['key'], $this->sel_district)) {
+                                                                $selected = 'selected=""';
+                                                            }
+                                                        } else {
+                                                            if ($row['key'] == $this->sel_district) {
+                                                                $selected = 'selected=""';
+                                                            }
+                                                        }
+                                                        ?>
+                                                        <option value="<?php echo $row['key']; ?>" <?php echo $selected; ?>>
+                                                            <?php echo $row['value']; ?></option>
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>                       
+                                            </select>
+                                        </div>
+                                        <label>Products</label>
+                                        <div class="controls form-group" id="product_multi_div" style="border: 1px solid #F2F2F2; padding-left:25px; height:120px; overflow:auto;">
+                                            <?php
+                                            foreach ($this->product as $item) {
+                                                ?>
+                                                <label class="checkbox">
+                                                    <input  type="checkbox" name="products[]" id="products" value="<?php echo $item['pkId'] ?>" <?php if (in_array($item['pkId'], $this->sel_product)) { ?> checked <?php } ?> />  <?php echo $item['itemName']; ?> 
+                                                </label>
+                                                <?php
+                                            }
+                                            ?>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Time Interval</label>
+                                            <select name="period" id="period" class="form-control">
+                                                <optgroup label="Quarter">
+                                                    <?php
+                                                    foreach ($this->time_intervals as $key => $value) {
+                                                        if ($value['monthCount'] == $this->quarter) {
+                                                            ?>           
+                                                            <option value="<?php echo $value['pkId']; ?>" <?php if ($this->sel_period == $value['pkId']) { ?>selected=""<?php } ?>><?php echo $value['periodName']; ?></option>
+                                                        <?php } ?>
+                                                    <?php } ?>
+                                                </optgroup>
+                                                <optgroup label="Half"> 
+                                                    <?php
+                                                    foreach ($this->time_intervals as $key => $value) {
+                                                        if ($value['monthCount'] == $this->halfyear) {
+                                                            ?>           
+                                                            <option value="<?php echo $value['pkId']; ?>" <?php if ($this->sel_period == $value['pkId']) { ?>selected=""<?php } ?>><?php echo $value['periodName']; ?></option>
+                                                        <?php } ?>
+
+                                                    <?php } ?>
+                                                </optgroup>
+                                                <optgroup label="Annual"> 
+                                                    <?php
+                                                    foreach ($this->time_intervals as $key => $value) {
+                                                        if ($value['monthCount'] == $this->annual) {
+                                                            ?>           
+                                                            <option value="<?php echo $value['pkId']; ?>" <?php if ($this->sel_period == $value['pkId']) { ?>selected=""<?php } ?>><?php echo $value['periodName']; ?></option>
+                                                        <?php } ?>
+
+                                                    <?php } ?>
+                                                </optgroup>
+                                                <?php //}         ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Years</label>
+                                            <?php $year_combo_name = ($this->sel_optvals == 1 || $this->sel_optvals == 2 || $this->sel_optvals == 3) ? "yearcomp[]" : "yearcomp"; ?>
+                                            <select name="<?php echo $year_combo_name; ?>" id="yearcomp" class="form-control" <?php if ($this->sel_optvals == 1 || $this->sel_optvals == 2 || $this->sel_optvals == 3) { ?>multiple=""<?php } ?>>
+                                                <?php
+                                                foreach ($this->years as $value3) {
+                                                    $selected = '';
+                                                    if ($this->sel_optvals == 1 || $this->sel_optvals == 2 || $this->sel_optvals == 3) {
+                                                        if (in_array($value3, $this->sel_year)) {
+                                                            $selected = 'selected=""';
+                                                        }
+                                                    } else {
+                                                        if ($value3 == $this->sel_year) {
+                                                            $selected = 'selected=""';
+                                                        }
+                                                    }
+                                                    ?>
+                                                    <option value="<?php echo $value3; ?>" <?php echo $selected; ?>><?php echo $value3; ?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Chart Type</label>
+                                            <select name="ctype" id="ctype" class="form-control">
+                                                <?php foreach ($this->chart_types as $key4 => $value4) { ?>
+                                                    <option value="<?php echo $key4; ?>" <?php if ($this->chart_type == $key4) { ?>selected=""<?php } ?>><?php echo $value4; ?></option>
+                                                <?php } ?>
+                                            </select> 
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button class="btn blue" type="submit" name="submit_button" id="submit_button">Submit</button>                            
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-9">
+                                <br/><br/>
+                                <?php
+                                if (!empty($this->xmlstore)) {
+                                    foreach ($this->xmlstore as $key => $graphs) {
+                                        FC_SetRenderer('javascript');
+                                        $type = $this->chart_type;
+                                        echo renderChart($this->baseUrl() . "/FusionCharts/Charts/MS$type.swf", "", $graphs, "chartContainer$key", '100%', 350, false, false);
+                                    }
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

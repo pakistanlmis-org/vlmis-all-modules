@@ -1,0 +1,80 @@
+<?php
+/**
+*  phtml for Reporting Rate
+*/
+?>
+<div class="row">
+    <div class="col-md-12" id="after-filter">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet">
+            <div class="portlet-body">
+                <div>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Health Facility
+                                </th>
+                                <?php foreach($this->months as $month_head) { ?>
+                                <th>
+                                    <?php
+                                    list($yy, $mm) = explode("-", $month_head);
+                                    echo date("M - Y", mktime(0, 0, 0, $mm, 1, $yy));
+                                    ?>
+                                </th>
+                                <?php } ?>                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $counter = 1;
+                            if (!empty($this->result)) {
+                                foreach ($this->result as $warehouse_name => $row) {
+                                    ?>
+                                    <tr class="<?php
+                                    if ($counter % 2 == 0) {
+                                        echo "active";
+                                    } else {
+                                        echo "success";
+                                    }
+                                    ?>">
+                                        <td>
+                                            <?php echo explode("|", $warehouse_name)[1]; ?>
+                                        </td>
+                                        <?php foreach ($row as $warehouse_id => $rep_month) { 
+                                            foreach ($rep_month as $month => $value) {
+                                            ?>
+                                            <td class="right">
+                                                <?php
+                                                list($yy, $mm) = explode("-", $month);
+                                                $do = 'Z' . base64_encode($warehouse_id . '|' . $yy . '-' . $mm . '-01' . '|2');
+                                                if($value == "R"){
+                                                ?>
+                                                <?php if (strtotime($yy . "-" . $mm) >= strtotime('2018-01')) {?>
+                                                 <a href="<?php echo $this->baseUrl(); ?>/stock/monthly-consumption2?do=<?php echo $do; ?>" style="color:#3c763d">  <?php echo $value; ?> </a>
+                                               
+                                                <?php } else {?>
+                                                <a href="<?php echo $this->baseUrl(); ?>/stock/monthly-consumption?do=<?php echo $do; ?>" style="color:#3c763d">  <?php echo $value; ?> </a>
+                                                <?php } } else {
+                                                    echo $value;
+                                                } ?>
+                                            </td>
+                                        <?php } } ?>                                        
+                                    </tr>
+                                    <?php
+                                    $counter++;
+                                }
+                            } else {
+                                ?>
+                                <tr>
+                                    <td colspan="7"> No data Found!</td>
+                                </tr>                       
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>

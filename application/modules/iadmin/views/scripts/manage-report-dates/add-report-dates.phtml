@@ -1,0 +1,180 @@
+<?php
+/**
+*  phtml for Add Report Dates
+*/
+?>
+
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"> Add Consumption Report Date </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+
+                        <form name="frm" id="frm" action="" method="post" onsubmit="">
+
+                            <!-- Row -->
+                            <div class="row">
+
+                                <div class="col-md-12  margin-bottom">
+
+                                    <div class="col-md-3">
+                                        <div class="control-group ">
+                                            <label class="control-label" ><?php echo $this->translate("Province"); ?></label>
+                                            <div class="controls">
+                                                <?php echo $this->form->province; ?>
+                                                <?php echo $this->form->province_hidden; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="control-group ">
+                                            <label class="control-label" ><?php echo $this->translate("District"); ?></label>
+                                            <div class="controls">
+                                                <?php echo $this->form->district; ?>
+                                                <?php echo $this->form->district_hidden; ?> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="control-group ">
+                                            <label class="control-label" ><?php echo $this->translate("User"); ?></label>
+                                            <div class="controls">
+                                                <?php echo $this->form->user; ?>
+                                                <?php echo $this->form->user_hidden; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-12 ">
+                                    <div class="col-md-3">
+                                        <label class="control-label" >&nbsp;</label>
+                                        <button class="btn btn-primary" type="submit" value="search" name="search"><?php echo $this->translate("Search") ?></button>
+                                        <button type="reset" class="btn btn-info" id="reset">Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <?php if ($this->data && count($this->data) > 0) { ?>    
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+
+                            <form name="report-dates" id="report-dates" action="" method="post" >
+
+                                <!-- Row -->
+                                <div class="row">
+
+                                    <div class="col-md-12  margin-bottom">
+
+                                        <div class="col-md-3"> From Edit
+                                            <?php echo $this->form->from_edit; ?>
+                                        </div>
+                                        <div class="col-md-3"> Starting On
+                                            <?php echo $this->form->starting_on; ?>
+                                        </div>
+                                        <div class="col-md-3"> Working Uptill
+                                            <?php echo $this->form->working_uptil; ?>
+                                        </div>
+                                        <br>
+                                        <div class="form-group" id="div_status">
+                                            <label class="control-label" ><?php echo $this->translate("Status"); ?></label>
+                                            <?php echo $this->form->status; ?>
+                                        </div>
+                                        <br>
+                                        <table class="table table-striped table-bordered table-hover dataTable no-footer">
+                                            <!-- Table heading -->
+                                            <thead>
+                                                <tr>
+                                                    <th rowspan="2"><?php echo $this->translate("Warehouse Name") ?></th>
+                                                    <th rowspan="2"><?php echo $this->translate("Last Edit Date") ?></th>
+
+                                                    <th  class="uniformjs">
+                                                        <input class="checkbox" type="checkbox" id="selecctall"/>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <!-- // Table heading END -->
+                                            <!-- Table body -->
+
+
+                                            <tbody>
+                                                <?php
+                                                $m_res = array();
+                                                $i = 1;
+                                                if ($this->data && count($this->data) > 0) :
+                                                    ?>
+
+                                                    <?php
+                                                    foreach ($this->data as $row):
+                                                        ?>
+                                                        <tr class="<?php if ($i % 2 == 0) { ?>gradeX even<?php } else { ?> gradeA odd<?php } ?>">
+
+                                                            <td><?php echo $row['warehouse_name']; ?></td>
+                                                            <td><?php
+                                                                if ($row['from_edit'] == " " || $row['from_edit'] == "0000-00-00 00:00:00") {
+                                                                    echo "  - ";
+                                                                } else {
+                                                                    echo date("m/d/y", strtotime($row['from_edit']));
+                                                                }
+                                                                ?></td>
+
+                                                            <td colspan="2" class="uniformjs">
+                                                                <input class="checkbox1" type="checkbox" id="check_<?= $i ?>" name="check[]" value="<?= $row['pk_id'] ?>">
+                                                            </td>
+                                                        </tr>
+                                                        <!-- // Table row END --><?php
+                                                        $i++;
+                                                    endforeach;
+                                                endif;
+                                                ?>
+                                            </tbody>
+                                        </table>    
+
+                                    </div>
+                                    <div class="col-md-12 ">
+                                        <div class="col-md-3">
+                                            <label class="control-label" >&nbsp;</label>
+                                            <button class="btn btn-primary" type="submit" value="submit" id="submit1"  name="submit1"><?php echo $this->translate("Submit") ?></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>      
+        <?php } ?>  
+    </div>
+

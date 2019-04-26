@@ -1,0 +1,329 @@
+<?php
+/**
+ *  phtml for Priority Vaccines Distribution Detail Print
+ */
+?>
+<!-- Content -->
+<style>
+    #content_print {
+        margin-left: 50px;
+        width: 624px;
+    }
+    table.mytable {
+        border: 1px solid #444;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table.mytable tr td {
+        border: 1px solid #444;
+    }
+    table.mytable tr th {
+        border: 1px solid #444;
+    }
+</style>
+<!-- Content -->
+
+<style type="text/css" media="print">
+    .page{
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print{
+        #printButt{
+            display: none !important;
+        }
+    }
+</style>
+
+<h5 class="page-title">
+    Priority Vaccines Distribution (Detail)
+</h5>
+<div class="row">
+    <div class="col-md-12">
+        <table class="mytable" cellpadding="2">
+            <tr>
+                <th class="col-md-2 bg-priority-head2">Batch status</th>
+                <th class="col-md-10 bg-priority-head2">Description</th>
+            </tr>
+
+            <tr>
+                <td class="bg-priority1"><b>Priority 1</b></td>
+                <td class="bg-priority1">If VVM stage is 2 or expiry is less than 3 Months.</td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <?php if ($this->detail_summary == 1) { ?>
+            <table class="mytable" cellpadding="2">
+                <thead>
+                    <tr class="bg-priority-head2">
+                        <th>
+                        </th>
+                        <th class="right">
+                            Quantity (Vials)
+                        </th>
+                        <th class="right">
+                            Quantity (Doses)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if ($this->products != false) {
+                        $count = 1;
+                        foreach ($this->products as $row) {
+                            $unusabletotal = 0;
+                            $unusabledoses = 0;
+                            $priority1total = 0;
+                            $priority1doses = 0;
+                            $priority2total = 0;
+                            $priority2doses = 0;
+                            $priority3total = 0;
+                            $priority3doses = 0;
+
+                            $data4 = $this->priorityVaccinesDistributionAlertSummaryAlertsAlerts($row['pkId'], 4);
+                            $data1 = $this->priorityVaccinesDistributionAlertSummaryAlertsAlerts($row['pkId'], 1);
+                            $data2 = $this->priorityVaccinesDistributionAlertSummaryAlertsAlerts($row['pkId'], 2);
+                            $data3 = $this->priorityVaccinesDistributionAlertSummaryAlertsAlerts($row['pkId'], 3);
+                            $items = array();
+                            if ($data4 != false) {
+                                foreach ($data4 as $row4) {
+                                    if (!in_array($row4['item_name'], $items)) {
+                                        $items[] = $row4['item_name'];
+                                    }
+                                }
+                            }
+                            if ($data1 != false) {
+                                foreach ($data1 as $row1) {
+                                    if (!in_array($row1['item_name'], $items)) {
+                                        $items[] = $row1['item_name'];
+                                    }
+                                }
+                            }
+                            if ($data2 != false) {
+                                foreach ($data2 as $row2) {
+                                    if (!in_array($row2['item_name'], $items)) {
+                                        $items[] = $row2['item_name'];
+                                    }
+                                }
+                            }
+                            if ($data3 != false) {
+                                foreach ($data3 as $row3) {
+                                    if (!in_array($row3['item_name'], $items)) {
+                                        $items[] = $row3['item_name'];
+                                    }
+                                }
+                            }
+                            if ($items != false) {
+                                ?>
+
+                                <tr >
+                                    <td colspan="4">
+                                        <?php foreach ($items as $item) { ?>
+                                            <b><?php echo $item; ?></b>
+                                        <?php } ?>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+
+
+
+                            <?php
+                            $data1 = $this->priorityVaccinesDistributionAlertSummaryAlerts($row['pkId'], 1);
+                            if ($data1 != false) {
+                                ?>
+
+                                <?php
+                                foreach ($data1 as $row1) {
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            Priority 1
+                                        </td>
+
+
+                                        <td class="right">
+                                            <?php echo number_format($row1['quantity']); ?>
+                                        </td>
+                                        <td class="right">
+                                            <?php echo number_format($row1['doses']); ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                    $priority1total += $row1['quantity'];
+                                    $priority1doses += $row1['doses'];
+                                }
+                                ?>
+
+                                <?php
+                            }
+                        }
+                    }
+                    ?>
+                </tbody>
+            </table>
+            <br>
+            <div class="right">
+                <button type="button" id="print" class="btn btn-warning input-sm"><?php echo $this->translate("Print") ?></button>
+            </div>
+        <?php } else { ?>
+            <table class="mytable" id="priority-vaccine-distribution" cellpadding="2">
+                <thead>
+                    <tr class="bg-priority-head2">
+                        <th>
+                            Product
+                        </th>
+                        <th>
+                            Batch Number
+                        </th>
+                        <th>
+                            Expiry Date
+                        </th>
+                        <th>
+                            VVM
+                        </th>
+                        <th>
+                            Cold room
+                        </th>
+                        <th class="right">
+                            Quantity (Vials)
+                        </th>
+                        <th class="right">
+                            Quantity (Doses)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if ($this->products != false) {
+                        foreach ($this->products as $row) {
+                           // $row = $this->products;
+                            // $row['pkId'] = 1;
+                            $unusabletotal = 0;
+                            $unusabledoses = 0;
+                            $priority1total = 0;
+                            $priority1doses = 0;
+                            $priority2total = 0;
+                            $priority2doses = 0;
+                            $priority3total = 0;
+                            $priority3doses = 0;
+                            ?>
+
+
+                            <?php
+                            $data1 = $this->priorityVaccinesDistributionAlert($row['pkId'], 1);
+                            $item_id1 = array();
+                            $count = 1;
+                            if ($data1 != false) {
+                                ?>
+                                <tr>
+                                    <td colspan="7">
+                                        <b>Priority 1</b>
+                                    </td>
+                                </tr>
+                                <?php
+                                foreach ($data1 as $row1) {
+                                    if ($count == 1) {
+                                        $item_id1[] = $row1['item_id'];
+                                    }
+                                    ?>
+
+                                    <?php
+                                    if (!in_array($row1['item_id'], $item_id1)) {
+
+                                        $item_id1[] = $row1['item_id'];
+                                        ?>
+                                        <?php
+                                        $data1_tot1 = $this->priorityVaccinesDistributionTotal($row1['item_id'], 1);
+                                        ?>
+                                        <tr>
+                                            <th colspan="5" class="right">
+                                                Total:
+                                            </th>
+
+                                            <th class="right">
+                                                <?php echo number_format($data1_tot1[0]['quantity']); ?>
+                                            </th>
+                                            <th class="right">
+                                                <?php echo number_format($data1_tot1[0]['doses']); ?>
+                                            </th>
+                                        </tr>
+                                        <?php
+                                    }
+                                    ?>
+                                    <tr class="bg-priority1">
+                                        <td>
+                                            <?php echo $row1['item_name']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $row1['number']; ?>
+                                        </td>
+                                        <td nowrap>
+                                            <?php echo $row1['expiry_date']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $row1['vvm']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $row1['coldroom']; ?>
+                                        </td>
+                                        <td class="right">
+                                            <?php echo number_format($row1['quantity']); ?>
+                                        </td>
+                                        <td class="right">
+                                            <?php echo number_format($row1['doses']); ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                    $count++;
+                                    $priority1total += $row1['quantity'];
+                                    $priority1doses += $row1['doses'];
+                                }
+                                ?>
+                                <tr>
+                                    <th colspan="5" class="right">
+                                        Total:
+                                    </th>
+                                    <?php
+                                    $data1_tot2 = $this->priorityVaccinesDistributionTotal($row1['item_id'], 1);
+                                    ?>
+                                    <th class="right">
+                                        <?php echo number_format($data1_tot2[0]['quantity']); ?>
+                                    </th>
+                                    <th class="right">
+                                        <?php echo number_format($data1_tot2[0]['doses']); ?>
+                                    </th>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+                            <?php
+                        }
+                    }
+                    ?>
+                </tbody>
+            </table>
+
+        <?php } ?>
+
+    </div>
+</div>
+<a style="margin-left:556px; cursor: pointer;" onclick="window.open('<?php echo $this->baseUrl(); ?>/stock/priority-vaccines-distribution-detail-print', '_blank', 'scrollbars=1,width=860,height=595');" href="">view more</a>
+</br>
+</br>
+<div style="float:left;">
+    <div class="col-md-12 left">
+        <b>Printed By:</b> <?php echo $this->username ?><br>
+        <b>Print Date:</b> <?php echo date("d/m/Y"); ?>
+    </div>
+</div>
+</br></br>
+<div class="col-md-12" class="widget">
+    <div class="widget-body right">
+        <button id="print" name="print" value="1" type="button" class="btn btn-primary" ><?php echo $this->translate("Print") ?></button>
+    </div>
+</div>

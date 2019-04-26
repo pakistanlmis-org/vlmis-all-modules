@@ -1,0 +1,72 @@
+WarehouseStorageTypes:
+  type: entity
+  table: warehouse_storage_types
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    storageTemperature:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: storage_temperature
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: false
+      column: modified_date
+  oneToOne:
+    stakeholderActivity:
+      targetEntity: StakeholderActivities
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        stakeholder_activity_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    stakeholderItemPackSize:
+      targetEntity: StakeholderItemPackSizes
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        stakeholder_item_pack_size_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    warehouseType:
+      targetEntity: WarehouseTypes
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        warehouse_type_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

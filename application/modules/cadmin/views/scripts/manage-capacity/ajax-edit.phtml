@@ -1,0 +1,48 @@
+<?php
+/**
+ * @package phtml for Ajax Edit
+ */
+?>
+<div class="row">
+
+    <div class="col-md-6">
+        <div class="form-group ">
+            <label class="control-label" for="asset"><?php echo $this->translate("Asset"); ?></label>
+            <?php echo $this->form->asset; ?>
+        </div>                                
+    </div>
+<!--    <div class="col-md-6">
+        <div class="form-group ">
+            <label class="control-label" for="ccm_asset_type_id_add"><?php //echo $this->translate("Asset Type"); ?></label>
+            <?php //echo $this->form->ccm_asset_type_id_add; ?>
+        </div>
+    </div>-->
+
+<div class="col-md-6">
+        <div class="form-group ">
+            <label class="control-label" for="ccm_asset_sub_type"><?php echo $this->translate("Asset Sub Type"); ?></label>
+            <?php echo $this->form->ccm_asset_sub_type; ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+
+    
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group ">
+            <label class="control-label" for="gross"><?php echo $this->translate("Gross Capacity"); ?></label>
+            <?php echo $this->form->gross; ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group ">
+            <label class="control-label" for="net"><?php echo $this->translate("Net Capacity"); ?></label>
+            <?php echo $this->form->net; ?>
+        </div>
+    </div>
+<?php echo $this->form->id; ?>
+</div>
+

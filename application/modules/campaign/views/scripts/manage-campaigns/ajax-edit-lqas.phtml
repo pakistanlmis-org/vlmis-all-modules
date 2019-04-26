@@ -1,0 +1,67 @@
+<?php
+/**
+*  phtml for Ajax Edit LQAS
+*/
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label"><?php echo $this->translate("Campaign"); ?></label>
+                <?php echo $this->form->campaign_edit_id; ?>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label"><?php echo $this->translate("Province"); ?></label>
+                <?php echo $this->form->province_edit_id; ?>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label"><?php echo $this->translate("District"); ?></label>
+                <?php echo $this->form->district_edit_id; ?>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label"><?php echo $this->translate("Uc"); ?></label>
+                <?php echo $this->form->uc_edit_id; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label"><?php echo $this->translate("Surveyor"); ?></label>
+                <?php echo $this->form->surveyor; ?>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label"><?php echo $this->translate("Checked"); ?></label>
+                <?php echo $this->form->checked; ?>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label"><?php echo $this->translate("Unvaccinated"); ?></label>
+                <?php echo $this->form->unvaccinted; ?>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label"><?php echo $this->translate("Remarks"); ?></label>
+                <?php echo $this->form->remarks; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<?php echo $this->form->province_id_hidden; ?>
+<?php echo $this->form->district_id_hidden; ?>
+<?php echo $this->form->uc_id_hidden; ?>
+<?php echo $this->form->lqas_id; ?>

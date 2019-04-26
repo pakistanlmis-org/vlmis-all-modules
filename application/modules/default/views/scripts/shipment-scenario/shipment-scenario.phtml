@@ -1,0 +1,285 @@
+<?php
+/**
+ *  phtml for shipment scenario
+ */
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Shipment Scenario"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="tab1-2" class="tab-pane active">
+                                    <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                                        <div class="alert alert-success">
+                                            <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                            <strong>Data</strong> has been saved successfully!
+                                        </div>
+                                    <?php } ?>
+                                    <?php if (isset($_GET['error']) && $_GET['error'] == 1) { ?>
+                                        <div class="alert alert-error">
+                                            <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                            <strong>Location name</strong> has already exist, Please add another location name.
+                                        </div>
+                                    <?php } ?>
+                                    <form method="POST" name="placement" id="placement" action="" >
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <label class="control-label" for="rack"><?php echo $this->translate("Shipment"); ?><span class="red">*</span></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->shipment_id; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label class="control-label" for="rack"><?php echo $this->translate("Quantity"); ?><span class="red">*</span></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->quantity; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label class="control-label" for="area"><?php echo $this->translate("Action"); ?><span class="red">*</span></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->action; ?>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-2">
+                                                <label class="control-label" for="level"><?php echo $this->translate("CR/FR"); ?><span class="red">*</span></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->cold_chain; ?>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <label class="control-label">&nbsp;</label>
+                                                <div class="controls">
+                                                    <button class="btn btn-primary" type="submit" id="add" name="add">Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Tasks"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Lump Sum"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="portlet-body" style="height: 168px">
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="col-md-2">
+
+                                    <div class="capacity">
+                                        <table width="100%" height="120">
+                                            <tbody>
+
+                                                <tr>
+                                                    <td style="background-color: green;" height="70%"></td>
+                                                </tr>
+                                                <tr><td style="background-color: #DD8521;" height="30%"></td>
+
+                                                </tr>
+                                            </tbody></table>
+                                    </div>
+
+                                    <div class="details">
+                                        <div class="number">
+
+                                            Received
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-md-2">
+                                    <div class="capacity">
+                                        <table width="100%" height="120">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="background-color: green;" height="50%"></td>
+                                                </tr>
+                                                <tr><td style="background-color: #DD8521;" height="50%">
+                                                    </td></td>
+                                                </tr>
+                                            </tbody></table>
+                                    </div>
+                                    <div class="dashboard-stat blue-madison">
+                                        <div class="visual">
+
+                                        </div>
+                                        <div class="details">
+                                            <div class="number">
+
+                                                Stored
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="capacity">
+                                        <table width="100%" height="120">
+                                            <tbody>
+                                                <tr>
+
+                                                    <td style="background-color: green;" height="30%"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="background-color: #DD8521;" height="70%"></td>
+
+                                                </tr>
+                                            </tbody></table>
+                                    </div>
+                                    <div class="dashboard-stat blue-madison">
+                                        <div class="visual">
+
+                                        </div>
+                                        <div class="details">
+                                            <div class="number">
+
+                                                Demand
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="capacity">
+                                        <table width="100%" height="120">
+                                            <tbody>
+                                                <tr>
+                                                    <td style="background-color: green;" height="100%"></td></tr>
+
+                                                <tr><td style="background-color: #DD8521;" height="0%"></td>
+                                                </tr>
+                                            </tbody></table>
+                                    </div>
+                                    <div class="dashboard-stat blue-madison">
+                                        <div class="visual">
+
+                                        </div>
+                                        <div class="details">
+                                            <div class="number">
+
+                                                Issue
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="col-md-2">Receive</div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Detail"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                FC_SetRenderer('javascript');
+                                echo renderChart($this->baseUrl() . "/FusionCharts/Charts/StackedColumn2DLine.swf", "", $this->xmlstore2, "coldchainCapacity28", '100%', 350, false, false);
+                                ?>
+                            </div>
+                            <div class="col-md-12">
+                                <?php
+                                FC_SetRenderer('javascript');
+                                echo renderChart($this->baseUrl() . "/FusionCharts/Charts/StackedColumn2DLine.swf", "", $this->xmlstore1, "coldchainCapacity20", '100%', 350, false, false);
+                                ?>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

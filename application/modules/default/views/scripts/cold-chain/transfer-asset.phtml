@@ -1,0 +1,84 @@
+<?php
+/**
+*  phtml for Transfer Asset
+*/
+
+/**
+*  Transfer Asset
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            <?php echo $this->translate("Transfer Asset"); ?>
+        </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php if (!empty($this->arr_data['success']) && $this->arr_data['success'] == 1) { ?>
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                        <strong><?php echo $this->translate("Data"); ?></strong> <?php echo $this->translate("has been saved successfully"); ?>!
+                                    </div>
+                                <?php } ?>
+                                <form method="POST" name="transfer_asset_form" id="transfer_asset_form" action="">
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <?php $this->allLevelUserCombo($this->translate("From Office")); ?>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">&nbsp;</div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-12" id="transfer-asset-ajax-data"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">&nbsp;</div>
+                                    </div>
+                                    <div class="row">
+                                        <div id="to_office" style="display: none;">
+                                            <?php $this->allLevelTransferAssetToOffice($this->translate("To Office"), 2); ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-9">&nbsp;</div>
+                                        <div class="col-md-3 margin-top-25" id="transfer_button" style="display: none;">
+                                            <div class="controls">
+                                                <button type="submit" class="btn btn-primary" id="transfer_asset" style="display: none;">
+                                                    <?php echo $this->translate("Transfer"); ?>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="user_province_id" name="user_province_id" value="<?php echo $this->user_province_id?>">
+    </div>
+</div>
+<!-- // Content END -->

@@ -1,0 +1,427 @@
+<?php
+/**
+*  phtml for Search
+*/
+
+/**
+* Search
+*/
+?>
+
+<div class="page-content-wrapper">
+    <h3 class="page-title">Cold Chain </h3>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        Assets Search
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form method="POST" name="batch_search" id="batch_search" action="coldchain_list.php" >
+                                <!-- Row -->
+                                <div class="row">
+                                    <div class="col-md-12">&nbsp;</div>
+                                    <div class="col-md-12">
+                                        <!-- Group -->
+                                        <div class="col-md-3">
+                                            <label class="control-label" >Asset ID</label>
+                                            <div class="controls">
+                                                <input class="col-md-10" id="asset_id" name="asset_id" value="<?php if ($_POST) {
+                                                    echo $_POST['asset_id'];
+                                                } ?>" type="text" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" >Working Status</label>
+                                            <div class="controls">
+                                                <select name="ccstatus" id="ccstatus" class="col-md-10">
+                                                    <option value="">Select</option>
+                                                    <?php
+                                                    if (count($ccstatus) > 1) {
+                                                        foreach ($ccstatus as $row) {
+                                                            $sel = '';
+                                                            if (isset($_POST['ccstatus'])) {
+                                                                if ($_POST['ccstatus'] == $row->status_id) {
+                                                                    $sel = 'selected';
+                                                                }
+                                                            }
+                                                            echo '<option value="' . $row->status_id . '" ' . $sel . ' >' . $row->status_text . '</option>';
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" >Asset Type</label>
+                                            <div class="controls">
+                                                <select name="asset_type" id="asset_type" class="col-md-10">
+                                                    <option value="">Select</option>
+                                                    <?php
+                                                    if (count($assTypes) > 0) {
+                                                        foreach ($assTypes as $row) {
+                                                            $sel = '';
+                                                            if ($_POST['asset_type']) {
+                                                                if ($_POST['asset_type'] == $row->pk_asset_id) {
+                                                                    $sel = 'selected';
+                                                                }
+                                                            }
+                                                            echo "<option value=" . $row->pk_asset_id . " $sel >" . $row->asset_type . "</option>";
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" >Serial Number</label>
+                                            <div class="controls">
+                                                <input class="col-md-10" id="serial_number" name="serial_number" type="text" value="<?php
+                                                if ($_POST) {
+                                                    echo $_POST['serial_number'];
+                                                }
+                                                ?>" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <label class="control-label" >Make</label>
+                                            <div class="controls">
+                                                <select name="ccMake" id="ccMake" class="col-md-10">
+                                                    <option value="">Select</option>
+                                                    <?php
+                                                    if (count($makes) > 0) {
+                                                        foreach ($makes as $row) {
+                                                            $sel = '';
+                                                            if ($_POST['ccMake']) {
+                                                                if ($_POST['ccMake'] == $row->pkmake_id) {
+                                                                    $sel = 'selected';
+                                                                }
+                                                            }
+                                                            echo "<option value=" . $row->pkmake_id . " $sel >" . $row->make . "</option>";
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label">Model</label>
+                                            <div class="controls">
+                                                <select name="ccModel" id="ccModel" class="col-md-10">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" >Estimated Life (years)</label>
+                                            <div class="controls">
+                                                <input class="col-md-10" id="estimated_life" name="estimated_life" type="text" value="<?php
+                                                if (!empty($_POST['estimated_life'])) {
+                                                    echo $_POST['estimated_life'];
+                                                }
+                                                ?>" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" >Working Since</label>
+                                            <div class="controls">
+                                                <input class="col-md-10" id="working_since" name="working_since" type="text" value="<?php
+                                                if (!empty($_POST['working_since'])) {
+                                                    echo $_POST['working_since'];
+                                                }
+                                                ?>" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <label class="control-label" >Capacity</label>
+                                            <div class="controls">
+                                                <input class="col-md-10" id="cc_capacity" name="cc_capacity" type="text" value="<?php
+                                                if (!empty($_POST['cc_capacity'])) {
+                                                    echo $_POST['cc_capacity'];
+                                                }
+                                                ?>" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <br />
+                                            <?php
+                                            $sel1 = '';
+                                            $sel2 = '';
+                                            if (isset($_POST['det_summery']) and $_POST['det_summery'] == 0) {
+                                                $sel1 = 'checked="checked"';
+                                            }
+                                            if (isset($_POST['det_summery']) and $_POST['det_summery'] == 1) {
+                                                $sel2 = 'checked="checked"';
+                                            }
+                                            // 0= Detail
+                                            // 1= Summary
+                                            ?>
+                                            <div class="col-md-1">
+                                                <label><input class="col-md-3" name="det_summery" <?php echo $sel1; ?> type="radio" value="0" /> Details</label>
+                                            </div>
+                                            <div class="col-md-7">
+                                                <label><input class="col-md-2" name="det_summery"  <?php echo $sel2; ?> type="radio" value="1" />Summary (Quantity based on store, Working status of assest)</label>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <?php
+                                    $warehouseCaption = "Placed:";
+                                    include("levelcombos_all_levels.php");
+                                    ?>
+                                    <div class="col-md-6">
+                                        <div id="show_error" style="color:#ff0000;"><?php
+                                            if (isset($valid_error)) {
+                                                echo $valid_error;
+                                            }
+                                            ?></div>
+                                        <div id="show_error" style="color:#48ba45;"><?php
+                                            if (isset($_GET['ok_msg'])) {
+                                                echo base64_decode($_GET['ok_msg']);
+                                            }
+                                            ?></div>
+                                    </div>
+
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <button type="submit" name="search" value="1" class="btn btn-success">Search</button>
+                                            <button type="reset" class="btn btn-info" id="reset2">Reset</button>
+                                        </div>
+                                        <!-- <input type="hidden" name="trans_no" id="trans_no" value="<?php echo $TranNo; ?>" />
+            <input type="hidden" name="stock_id" id="stock_id" value="<?php echo $PkStockID; ?>" />-->
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        Search Results
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="dynamicTable table table-striped table-bordered table-hover dataTable no-footer">
+                                <?php if (isset($_POST['det_summery']) and $_POST['det_summery'] == 1) { ?>
+                                <thead>
+                                <tr>
+                                    <th>Store</th>
+                                    <th>ColdChain</th>
+                                    <th>Working Status</th>
+                                    <th>Qty</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!-- Table row -->
+                                    <?php
+                                    $make_row = array();
+                                    $_SESSION['summary'] = 1;
+                                    $i = 1;
+                                    if (mysql_num_rows($assetSummery) > 0) :
+                                        $print = TRUE;
+                                        while ($row = mysql_fetch_object($assetSummery)) :
+                                            $make_row[] = $row;
+                                            if (!empty($row->make) and !empty($row->model)) {
+                                                $makeModel = $row->make . '/' . $row->model;
+                                            } else {
+                                                $makeModel = '';
+                                            }
+                                            ?>
+                                        <tr class="gradeX">
+                                            <td><?php echo $row->wh_name; ?>&nbsp;</td>
+                                            <td><?php echo $row->asset_type; ?>&nbsp;</td>
+                                            <td><?php echo $row->status_text; ?></td>
+                                            <td><?php echo $row->qty; ?>&nbsp;</td>
+                                        </tr>
+                                            <?php
+                                            $i++;
+                                        endwhile;
+                                    endif;
+                                    ?>
+                                <!-- // Table row END -->
+                                </tbody>
+                                <?php
+                            } else {
+                                unset($_SESSION['summary']);
+                                ?>
+
+                                <thead>
+                                <tr>
+                                    <th>Asset ID</th>
+                                    <th>Asset Type</th>
+                                    <th>Working Status & History</th>
+                                    <th>Placed at</th>
+                                    <th>Make/Model</th>
+                                    <th>Capacity</th>
+                                    <th>Working Since</th>
+                                    <th>Est. Life</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <!-- // Table heading END -->
+
+                                <!-- Table body -->
+                                <tbody>
+                                <!-- Table row -->
+                                    <?php
+                                    $make_row = array();
+                                    $i = 1;
+                                    if (mysql_num_rows($assetsListing) > 0) :
+                                        $print = TRUE;
+                                        while ($row = mysql_fetch_object($assetsListing)) :
+                                            $make_row[] = $row;
+                                            if (!empty($row->make) and !empty($row->model)) {
+                                                $makeModel = $row->make . '/' . $row->model;
+                                            } else {
+                                                $makeModel = $row->make . '' . $row->model;
+                                            }
+                                            ?>
+                                        <tr class="gradeX">
+                                            <td><?php echo $row->cc_asset_id; ?></td>
+                                            <td><?php echo $row->asset_type; ?>&nbsp;</td>
+                                            <td><?php echo $row->status_text; ?>| <a onclick="window.open('cc_hist_show.php?asset_id=<?php echo $row->pk_asset_id; ?>', '_blank', 'width=500, height=300')" href="">History</a></td>
+                                            <td><?php
+                                                if (empty($row->wh_name)) {
+                                                    echo ' ----------------------';
+                                                } else {
+                                                    echo $row->wh_name;
+                                                }
+                                                ?>&nbsp;</td>
+                                            <td><?php echo $makeModel; ?>&nbsp;</td>
+                                            <td><?php echo $row->cc_capacity; ?>&nbsp;</td>
+                                            <td><?php
+                                                if ($row->cc_working_since) {
+                                                    echo date("d M,Y", strtotime($row->cc_working_since));
+                                                }
+                                                ?></td>
+                                            <td><?php echo $row->cc_estimate_life; ?>&nbsp;</td>
+                                            <td>
+
+                                                <?php
+                                                $user_lvl = $_SESSION['UserLvl'];
+
+                                                if ($wh_id === $row->wh_id) { // if login user wh and asset wh is same
+                                                    ?>
+                                                    <a href="new_coldchain.php?pk_asset_id=<?php echo base64_encode($row->pk_asset_id); ?>&wh_id=<?php echo base64_encode($row->wh_id); ?>">Edit 0</a> |
+                                                    <a href="coldchain_transfer.php?pk_asset_id=<?php echo base64_encode($row->pk_asset_id); ?>">Transfer 0</a>
+                                                    <?php
+                                                } else {
+                                                    if ($row->cc_created_by === $_SESSION['userid'] && empty($row->wh_id)) { // if login created an asset unallocated
+                                                        ?>
+                                                        <a href="new_coldchain.php?pk_asset_id=<?php echo base64_encode($row->pk_asset_id); ?>&wh_id=<?php echo base64_encode($row->wh_id); ?>">Edit 1</a> |
+                                                        <a href="coldchain_transfer.php?pk_asset_id=<?php echo base64_encode($row->pk_asset_id); ?>">Transfer 1</a>
+                                                        <?php
+                                                    } elseif (!empty($row->wh_id)) {
+
+                                                        $asset_wh_lvl = $objwarehouse->GetWarehouseLevelById($row->wh_id);
+
+                                                        switch ($asset_wh_lvl) {
+                                                            case 3:
+                                                                if ($user_lvl == 2) { // if login user is of provincial level and asset is at div level
+                                                                    if ($objwarehouse->IsDivWHofProvWH($row->wh_id, $wh_id) === 1) {
+                                                                        ?>
+                                                                        <a href="new_coldchain.php?pk_asset_id=<?php echo base64_encode($row->pk_asset_id); ?>&wh_id=<?php echo base64_encode($row->wh_id); ?>">Edit 2</a> |
+                                                                        <a href="coldchain_transfer.php?pk_asset_id=<?php echo base64_encode($row->pk_asset_id); ?>">Transfer 2</a>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                                break;
+                                                            case 5:
+
+                                                                if ($user_lvl == 4) { // if login user is of distict level and asset is at tehsil level
+                                                                    if ($objwarehouse->IsSubWHofDistWH($row->wh_id, $wh_id) === 1) {
+                                                                        ?>
+                                                                        <a href="new_coldchain.php?pk_asset_id=<?php echo base64_encode($row->pk_asset_id); ?>&wh_id=<?php echo base64_encode($row->wh_id); ?>">Edit 5</a> |
+                                                                        <a href="coldchain_transfer.php?pk_asset_id=<?php echo base64_encode($row->pk_asset_id); ?>">Transfer 5</a>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                                break;
+                                                            case 6:
+
+                                                                if ($user_lvl == 4) {// if login user is of distict level and asset is at UC level
+                                                                    if ($objwarehouse->IsSubWHofDistWH($row->wh_id, $wh_id) === 1) {
+                                                                        ?>
+                                                                        <a href="new_coldchain.php?pk_asset_id=<?php echo base64_encode($row->pk_asset_id); ?>&wh_id=<?php echo base64_encode($row->wh_id); ?>">Edit 6</a> |
+                                                                        <a href="coldchain_transfer.php?pk_asset_id=<?php echo base64_encode($row->pk_asset_id); ?>">Transfer 6</a>
+                                                                        <?php
+                                                                    }
+                                                                }
+                                                        }
+                                                    }
+                                                }
+                                                ?>
+                                            </td>
+
+                                        </tr>
+                                            <?php
+                                            $i++;
+                                        endwhile;
+                                    endif;
+                                    ?>
+                                <!-- // Table row END -->
+                                </tbody>
+                                <!-- // Table body END -->
+                                <?php } ?>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <form name="receive_stock" id="receive_stock" action="new_receive_action.php" method="POST">
+                        <?PHP IF ($print) { ?>
+                        <button type="button" id="print_coldchain"  class="btn btn-success">Print</button>
+                        <?PHP } ?>
+                        <input type="hidden" name="stockid" id="stockid" value="<?php
+                        if (isset($stock_id)) {
+                            echo $stock_id;
+                        }
+                        ?>" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

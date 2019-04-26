@@ -1,0 +1,20 @@
+<?php
+/**
+*  phtml for Ajax Edit
+*/
+?>
+<div class="row">
+<div class="col-md-4">
+    <div class="form-group ">
+        <label class="control-label" ><?php echo $this->translate("CCM Status List Type"); ?> <span class="red">*</span></label>
+        <?php echo $this->form->type; ?>
+    </div>
+</div>
+    <div class="col-md-5">
+    <div class="form-group ">
+        <label class="control-label" ><?php echo $this->translate("CCM Status List Name"); ?> <span class="red">*</span></label>
+        <?php echo $this->form->ccm_status_list_name; ?>
+    </div>
+</div>
+</div>
+<?php echo $this->form->status_list_id; ?>

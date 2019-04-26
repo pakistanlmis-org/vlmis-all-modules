@@ -1,0 +1,7 @@
+
+<?php
+require_once 'FusionCharts/Code/PHP/Includes/FusionCharts.php';
+FC_SetRenderer('javascript');
+echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie3D.swf", "", $this->xmlstore2, 'PagesForRole', '100%', 300, false, false);
+?>
+        

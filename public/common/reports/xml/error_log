@@ -1,0 +1,430 @@
+[07-Oct-2015 03:47:15 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[07-Oct-2015 03:47:15 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[07-Oct-2015 03:47:15 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[07-Oct-2015 03:47:15 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[07-Oct-2015 03:47:15 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[07-Oct-2015 03:47:16 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[07-Oct-2015 03:47:16 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[07-Oct-2015 03:47:16 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[07-Oct-2015 03:47:16 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[07-Oct-2015 03:47:16 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 04:59:46 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 04:59:46 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 04:59:46 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 04:59:46 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 04:59:46 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 04:59:46 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 04:59:46 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 04:59:46 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 04:59:46 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 04:59:46 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 04:59:55 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 04:59:55 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 04:59:55 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 04:59:55 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 04:59:55 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 04:59:56 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 04:59:56 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 04:59:56 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 04:59:56 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 04:59:56 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 04:59:58 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 04:59:58 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 04:59:58 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 04:59:58 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 04:59:58 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 04:59:58 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 04:59:58 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 04:59:58 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 04:59:58 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 04:59:58 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:19 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:19 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:19 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:19 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:19 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:20 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:21 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:22 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:23 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:24 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:24 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:24 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:24 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:24 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:25 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:25 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:25 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:25 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:25 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:25 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:25 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:25 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:25 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:25 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:26 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:26 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:26 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:26 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:26 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:27 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:27 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:27 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:27 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:27 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:28 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:29 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:29 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:29 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:29 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:29 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:29 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:29 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:29 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:29 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:29 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:29 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:29 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:29 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:29 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:29 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:30 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:31 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:31 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:31 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:31 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:31 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:31 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:31 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:31 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:31 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:31 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:31 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:31 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 05:44:31 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 05:44:31 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 05:44:31 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 05:44:32 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:32 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:32 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:32 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:32 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:34 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:34 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:34 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:34 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:34 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:35 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:35 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:35 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:35 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:35 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:37 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:37 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:37 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:37 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:37 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:39 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:39 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:39 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:39 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:39 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 05:44:39 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:39 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 05:44:39 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 05:44:39 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 05:44:39 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 09:22:41 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 09:22:41 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 09:22:41 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 09:22:41 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 09:22:41 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 09:22:41 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 09:22:41 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 09:22:41 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 09:22:41 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 09:22:41 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 10:05:42 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 10:05:42 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 10:05:42 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 10:05:42 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 10:05:42 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 10:05:42 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 10:05:42 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 10:05:42 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 10:05:42 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 10:05:42 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 10:10:33 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 13:21:22 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 13:21:22 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 13:21:22 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 13:21:22 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 13:21:22 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 13:21:22 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 13:21:22 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 13:21:22 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 13:21:22 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 13:21:22 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 17:19:57 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 17:19:57 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 17:19:57 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 17:19:57 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 17:19:57 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 17:19:57 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 17:19:57 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 17:19:57 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 17:19:57 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 17:19:57 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 17:19:58 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 17:19:58 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 17:19:58 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 17:19:58 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 17:19:58 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 17:19:58 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 17:19:58 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 17:19:58 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 17:19:58 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 17:19:58 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 17:19:59 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 17:19:59 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 17:19:59 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 17:19:59 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 17:19:59 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 17:19:59 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 17:19:59 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 17:19:59 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 17:19:59 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 17:19:59 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 17:20:00 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 17:20:00 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 17:20:00 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 17:20:00 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 17:20:00 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 17:20:02 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 17:20:02 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 17:20:02 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 17:20:02 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 17:20:02 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 19:48:38 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 19:48:38 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 19:48:38 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 19:48:38 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 19:48:38 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 19:48:39 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 19:48:39 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 19:48:39 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 19:48:39 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 19:48:39 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 19:49:46 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 19:49:46 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 19:49:46 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 19:49:46 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 19:49:46 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 19:49:46 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 19:49:46 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 19:49:46 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 19:49:46 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 19:49:46 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 19:49:47 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 19:49:47 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 19:49:47 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 19:49:47 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 19:49:47 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 19:49:47 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 19:49:47 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 19:49:47 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 19:49:47 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 19:49:47 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 19:49:48 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 19:49:48 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 19:49:48 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 19:49:48 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 19:49:48 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 19:49:48 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 19:49:48 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 19:49:48 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 19:49:48 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 19:49:48 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 19:49:49 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 19:49:49 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 19:49:49 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 19:49:49 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 19:49:49 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 19:49:50 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 19:49:50 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 19:49:50 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 19:49:50 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 19:49:50 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138
+[05-Nov-2015 20:28:26 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 20:28:26 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 70
+[05-Nov-2015 20:28:26 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 74
+[05-Nov-2015 20:28:26 UTC] PHP Warning:  fopen(GRID_XML_PATH/freport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 123
+[05-Nov-2015 20:28:26 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_freport.php on line 125
+[05-Nov-2015 20:28:26 UTC] PHP Warning:  mysql_query(): Access denied for user 'vlmispk'@'localhost' (using password: NO) in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 20:28:26 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 83
+[05-Nov-2015 20:28:26 UTC] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 87
+[05-Nov-2015 20:28:26 UTC] PHP Warning:  fopen(GRID_XML_PATH/whreport.xml): failed to open stream: No such file or directory in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 136
+[05-Nov-2015 20:28:26 UTC] PHP Warning:  fwrite() expects parameter 1 to be resource, boolean given in /home/vlmispk/public_html/common/reports/xml/xml_genaration_whreport.php on line 138

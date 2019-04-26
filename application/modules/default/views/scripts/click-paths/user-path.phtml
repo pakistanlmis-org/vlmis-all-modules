@@ -1,0 +1,188 @@
+<?php
+/**
+ *  phtml for Target Issuance
+ */
+/**
+ * Target Issuance
+ */
+?>
+<!-- Content -->
+
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            <?php
+            echo $this->translate("User Click Path");
+            ?>
+        </h3>
+
+
+        <?php if ($this->user_page_count && count($this->user_page_count) > 0) { ?>
+
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <div class="dashboard-stat lightgreen">
+                                <div class="visual" style="margin-left: 20px;">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <div class="details">
+                                    <div class="number"> <?php echo $this->daily_users_count[0]['avg_user_count'] ?> </div>
+                                    <div class="desc">Daily Active Users <span class="red">*</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="dashboard-stat lightgreen">
+                                <div class="visual" style="margin-left: 20px;">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <div class="details">
+                                    <div class="number"> <?php echo $this->weekly_users_count[0]['user_count'] ?> </div>
+                                    <div class="desc">Weekly Active Users <span class="red">**</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="dashboard-stat lightgreen">
+                                <div class="visual" style="margin-left: 20px;">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <div class="details">
+                                    <div class="number"> <?php echo $this->monthly_users_count[0]['user_count'] ?> </div>
+                                    <div class="desc">Monthly Active Users <span class="red">***</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="widget" data-toggle="collapse-widget">
+                            <div class="widget-head">
+                                <h4 class="heading glyphicons cargo">
+                                    <i></i>
+                                    Filters
+                                </h4>
+                            </div>
+                            <div class="widget-body">
+                                <form name="userpath" id="userpath" action="" method="post">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group ">
+                                                <label class="control-label" ><?php echo $this->translate("Date From") ?></label>
+                                                <input type="text" name="date_from" id="date_from" value="<?php echo $this->date_from; ?>" class="form-control datepicker" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group ">
+                                                <label class="control-label" ><?php echo $this->translate("Date To") ?></label>
+                                                <input type="text" name="date_to" id="date_to" value="<?php echo $this->date_to; ?>" class="form-control datepicker" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group ">
+                                                <label class="control-label" ><?php echo $this->translate("Province") ?></label>
+                                                
+                                                <select  class="form-control" id="province_id" name="province_id">
+                                                    <option value="all">All</option>
+                                                    <?php
+                                                    
+                                                    
+                                                    foreach ($this->provinces as $province) {
+                                                        if ($province['pkId'] == $this->province_sel){
+                                                            $sel = "selected=selected";
+                                                        }else {
+                                                            $sel = "";
+                                                        }
+                                                        
+                                                        ?>
+                                                        <option  value="<?php echo $province['pkId']; ?>" <?php echo $sel; ?>><?php echo $province['locationName']; ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group " style="padding-top: 27px;">
+                                                <input type="submit" name="submit" id="submit" class="btn btn-success" value="Go" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="widget" data-toggle="collapse-widget">
+                            <div class="widget-head">
+                                <h4 class="heading glyphicons cargo">
+                                    <i></i>
+                                    Page count per Role
+                                </h4>
+                            </div>
+                            <div class="widget-body dashlets">
+                                <?php
+                                require_once 'FusionCharts/Code/PHP/Includes/FusionCharts.php';
+                                FC_SetRenderer('javascript');
+                                echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie3D.swf", "", $this->xmlstore, 'PageCountPerRole', '100%', 300, false, false);
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="widget" data-toggle="collapse-widget">
+                            <div class="widget-head">
+                                <h4 class="heading glyphicons cargo">
+                                    <i></i>
+                                    Page description <!--(Role: <?php //echo $this->role_name;   ?>)-->
+                                </h4>
+                            </div>
+                            <div class="widget-body dashlets" id="data14">
+                                <?php
+                                require_once 'FusionCharts/Code/PHP/Includes/FusionCharts.php';
+                                FC_SetRenderer('javascript');
+                                echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie3D.swf", "", $this->xmlstore2, 'PagesForRole', '100%', 300, false, false);
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+        } else {
+            ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>No data found</h4>
+                </div>
+            </div>
+        <?php } ?>
+        <div id="future_arrival_details"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <span class="red">*&nbsp;&nbsp;&nbsp;&nbsp;</span> - Last 30 days daily average users. <br>
+                <span class="red">**&nbsp;&nbsp;</span> - Last 3 weeks weekly average users. <br>
+                <span class="red">***</span> - Last 3 months monthly average users.
+            </div>
+        </div> 
+
+    </div>
+
+
+
+
+
+
+</div>
+
+
+
+

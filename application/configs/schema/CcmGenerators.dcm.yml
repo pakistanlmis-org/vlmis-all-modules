@@ -1,0 +1,83 @@
+CcmGenerators:
+  type: entity
+  table: ccm_generators
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    powerRating:
+      type: string
+      length: 50
+      fixed: false
+      nullable: true
+      column: power_rating
+    automaticStartMechanism:
+      type: boolean
+      nullable: true
+      column: automatic_start_mechanism
+    useFor:
+      type: string
+      length: 50
+      fixed: false
+      nullable: true
+      column: use_for
+    createdDate:
+      type: datetime
+      nullable: false
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: false
+      column: modified_date
+  oneToOne:
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    ccm:
+      targetEntity: ColdChain
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        ccm_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    coldRoom:
+      targetEntity: ColdChain
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        cold_room_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false  
+    powerSource:
+      targetEntity: ListDetail
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        power_source:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

@@ -1,0 +1,220 @@
+<?php
+/**
+*  phtml for Stock Issue
+*/
+?>
+<!-- Content -->
+<style>
+    .table.table-bordered thead > tr > th {
+        /*border: 1px solid #ddd !important;*/
+    }
+</style>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"> <?php echo $this->translate("Stock Issue/Dispatch For Routine") ?></h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Filters") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="batch_search" action="" id="batch_search">
+                                    <!-- Row -->
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="Month"><?php echo $this->translate("Month"); ?></label>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->month; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="Year"><?php echo $this->translate("Year"); ?></label>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->year; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <!-- Group -->
+                                        <div class="col-md-3">
+                                            <div class="form-group form-btn-margin-top">
+                                                <button type="submit" name="search" value="search" class="btn btn-success"><?php echo $this->translate("Search") ?></button>
+                                                <button type="reset" class="btn btn-info" id="reset">Reset</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="main_div" style="visibility: visible">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Stock Issue Search") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- Table -->
+                                <table class=" table table-striped table-bordered table-hover dataTable no-footer" id="">
+                                    <!-- Table heading -->
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2"><?php echo $this->translate("Sr.No.") ?></th>
+                                            <th rowspan="2"><?php echo $this->translate("EPI Center") ?></th>
+                                            <th colspan="2" style="border-bottom:  1px solid #ddd !important; text-align: center;" ><?php echo $this->translate("Voucher") ?></th>
+
+                                            <?php foreach ($this->items as $row_items) { ?>
+                                                <th  rowspan="2" class="hidden-tablet hidden-phone"><?php echo $row_items['description'] ?></th>
+                                            <?php } ?>
+                                        </tr>
+                                        <tr>
+                                            <th><?php echo $this->translate("Voucher No.") ?></th>
+                                            <th style="border-right: 1px solid #ddd !important; text-align: center;"><?php echo $this->translate("Issue Date") ?></th>
+                                        </tr>
+
+                                    </thead>
+                                    <!-- // Table heading END -->
+
+                                    <!-- Table body -->
+                                    <tbody>
+                                        <!-- Table row -->
+                                        <?php
+                                        $i = 1;
+                                        if ($this->result && count($this->result) > 0) :
+                                            foreach ($this->result as $row):
+                                                ?>
+                                                <tr class="gradeX">
+                                                    <td class="center"><?php echo $i; ?></td>
+                                                    <td><?php echo $row['warehouse_name']; ?></td>
+                                                    <td>
+                                                        <?php
+                                                        foreach ($this->reports()->getIssueVoucherList($this->wh_id, $row['receiver_warehouse_id'], $this->month, $this->year) as $issue_voucher) {
+                                                            ?> 
+                                                            <a  onclick="window.open('print-issue?id=<?php echo $issue_voucher['pk_id']; ?>', '_blank', 'scrollbars=1,width=840,height=595');" href="javascript:void(0);"> <?php echo $issue_voucher['transaction_number']; ?></a>
+                                                            <?php
+                                                            echo "<br>";
+                                                        }
+                                                        ?>
+                                                        <?php
+                                                        if ($this->reports()->getIssueVoucherListTemp($this->wh_id, $row['receiver_warehouse_id'], $this->month, $this->year)) {
+                                                            $res_draft = $this->reports()->getIssueVoucherListTemp($this->wh_id, $row['receiver_warehouse_id'], $this->month, $this->year);
+                                                            ?>
+                                                            <a class="add-user btn btn-xs blue"  href="add-stock-issue?r_wh_id=<?php echo $row['receiver_warehouse_id']; ?>&type_d=d&month=<?php echo $this->month;?>&year=<?php echo $this->year;?>"> <?php
+                                                                if ($res_draft[0]['transaction_number'] == 'TEMP') {
+                                                                    echo "Draft";
+                                                                }
+                                                                ?></a>
+                                                        <?php } else { ?>   
+                                                            <a class="add-user btn btn-xs blue"  href="add-stock-issue?r_wh_id=<?php echo $row['receiver_warehouse_id']; ?>&type_d=n&month=<?php echo $this->month;?>&year=<?php echo $this->year;?>"> new voucher</a>
+                                                        <?php } ?>
+                                                    </td> 
+                                                    <td>
+                                                        <?php
+                                                        foreach ($this->reports()->getIssueVoucherList($this->wh_id, $row['receiver_warehouse_id'], $this->month, $this->year) as $issue_voucher) {
+                                                            ?> 
+                                                            <?php
+                                                            echo App_Controller_Functions::dateToUserFormat($issue_voucher['transaction_date']);
+                                                            echo "<br>";
+                                                        }
+                                                        ?>                        
+                                                    </td> 
+
+                                                    <?php foreach ($this->items as $row_items) { ?>
+                                                        <td class="right"><?php echo number_format($this->reports()->getIssuancePercent($this->wh_id, $row['receiver_warehouse_id'], $row_items['item_pack_size_id'], $this->month, $this->year)); ?>  </td>
+                                                    <?php } ?>
+
+                                                </tr>
+
+                                                <?php
+                                                $i++;
+                                            endforeach;
+                                        endif;
+                                        ?>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="center"><b>Total</b></td>
+                                            <?php foreach ($this->items as $row_items) { ?>
+                                                <td class="right"><?php echo number_format($this->reports()->getIssuanceTotal($this->wh_id, $row_items['item_pack_size_id'], $this->month, $this->year)); ?>  </td>
+                                            <?php } ?>
+
+                                        </tr>
+                                        <!-- // Table row END -->
+                                    </tbody>
+                                    <!-- // Table body END -->
+                                </table>
+                                <!-- // Table END -->
+                                <!---->
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/stock/place-stock" id="form-stock-issue">
+            <div class="modal fade" id="modal-stock-issue" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3><?php echo $this->translate("Stock Issue/Dispatch"); ?></h3>
+                        </div>
+                        <div class="modal-body" id="modal-body-contents">
+                            <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                        </div>
+                        <div class="modal-footer" id="update-button">
+                            <input class="btn btn-primary input-sm" type="submit" value="<?php echo $this->translate("Save"); ?>">
+                        </div>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+        </form>
+
+    </div>
+</div>
+<!-- // Content END -->

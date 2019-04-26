@@ -1,0 +1,10 @@
+<?php
+/**
+*  phtml for Ajax Stock Receive
+*/
+?>
+<?php
+
+FC_SetRenderer('javascript');
+echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Column3D.swf", "", $this->xmlstore, 'StockReceive', '100%', 350, false, false);
+?>

@@ -1,0 +1,107 @@
+<?php
+/**
+*  phtml for Batch Summary 2 Print
+*/
+?>
+<!-- Content -->
+<style>
+    #content_print {
+        margin-left: 50px;
+        width: 624px;
+    }
+    table#mytable {
+        border: 1px solid #000;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table#mytable tr td {
+        border: 1px solid #000;
+    }
+    table#mytable tr th {
+        border: 1px solid #000;
+    }
+</style>
+<!-- Content -->
+
+<style type="text/css" media="print">
+    .page
+    {
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print
+    {    
+        #printButt
+        {
+            display: none !important;
+        }
+    }
+</style>
+<?php if (!empty($this->summary) && count($this->summary) > 0) { ?>
+    <table class="table tab-content" id="mytable">
+        <table class="table tab-content" id="mytable">
+            <thead>
+                <tr>
+                    <th class="center" rowspan="2">S. No.</th>
+                    <th rowspan="2">Product</th>
+                    <th class="right" rowspan="2">VSSM (10 March 2015)</th>                                
+                    <th class="center" colspan="3">Transactions</th>
+                    <th class="center" colspan="2">VSSM Today</th>
+                    <th class="center" colspan="2">Physical Quantity</th>
+                    <th class="center" colspan="2">Difference</th>
+                </tr>
+                <tr>                              
+                    <th class="right">Received</th>
+                    <th class="right">Issued</th>
+                    <th class="right">Expired</th>
+                    <th class="right">Vials</th>
+                    <th class="right">Doses</th>
+                    <th class="right">Vials</th>
+                    <th class="right">Doses</th>
+                    <th class="right">Vials</th>
+                    <th class="right">Doses</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $i = 1;
+                foreach ($this->summary as $summary) {
+                    $issue = $this->transactions[$summary['itemName']]['issue'];
+                    $receive = $this->transactions[$summary['itemName']]['receive'];
+                    $expired = $this->transactions[$summary['itemName']]['expired'];
+                    $quantity_before = $this->summarybefore[$summary['itemName']]['quantity'];
+                    $quantity_after = $this->summarybefore[$summary['itemName']]['quantity'] + $this->transactions[$summary['itemName']]['total'];
+                    $quantity_after_doses = $this->summarybefore[$summary['itemName']]['quantityD'] + $this->transactions[$summary['itemName']]['totalD'];
+                    $difference = $summary['Vials'] - $quantity_after;
+                    $difference_doses = $summary['Doses'] - $quantity_after_doses;
+                    ?>
+                    <!-- Table row -->
+                    <tr>
+                        <td class="center"><?php echo $i; ?></td>
+                        <td class="left"><?php echo $summary['itemName']; ?></td>
+                        <td class="right"><?php echo number_format($quantity_before); ?></td>
+                        <td class="right"><?php echo number_format($receive); ?></td>
+                        <td class="right"><?php echo number_format($issue); ?></td>
+                        <td class="right"><?php echo number_format($expired); ?></td>
+                        <td class="right"><?php echo number_format($quantity_after); ?></td>
+                        <td class="right"><?php echo number_format($quantity_after_doses); ?></td>
+                        <td class="right"><?php echo number_format($summary['Vials']); ?></td>
+                        <td class="right"><?php echo number_format($summary['Doses']); ?></td>
+                        <td class="right"><?php echo number_format($difference); ?></td>
+                        <td class="right"><?php echo number_format($difference_doses); ?></td>
+                    </tr>
+                    <?php
+                    $i++;
+                }
+                ?>
+                <!-- // Table row END -->
+            </tbody>
+        </table>
+    <?php } ?>            
+    <div>
+        <div class="widget-body right">
+            <button name="print" id="print" value="1" type="button" class="btn btn-primary"><?php echo $this->translate("Print"); ?></button> 
+        </div>
+    </div>        
+
+    <!-- // Content END -->

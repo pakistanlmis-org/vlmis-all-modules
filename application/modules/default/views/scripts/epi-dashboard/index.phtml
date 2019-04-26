@@ -1,0 +1,198 @@
+<?php
+/**
+ *  phtml for Cold Chain Capacity 
+ */
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <!-- BEGIN PAGE HEADER-->
+
+        <div class="row">
+            <h3 class="col-md-8">
+                Situation of EPI Procurement & Supply Management
+                <small>dashboard <?php
+                    echo date('d') . date('F', mktime(0, 0, 0, date('m'))) . ', ' . date('Y');
+                    ?></small>
+            </h3>
+
+        </div>
+        <div class="row">&nbsp;</div>
+        <!-- END PAGE HEADER-->
+        <div class="row">
+            <div class="widget-body">
+                <div class="col-md-12">
+
+                    <div class="row">
+
+                        <div class="col-md-6" >
+                            <div class="widget widget-tabs">
+                                <div class="widget-body">
+                                    <?php
+                                    FC_SetRenderer('javascript');
+                                    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie2d.swf", "", $this->xmlstore_cold_store_stock, "coldchainCapacity28", '100%', 350, false, false);
+                                    ?>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="widget widget-tabs">
+                                <div class="widget-body">
+                                    <?php
+                                    FC_SetRenderer('javascript');
+                                    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie2d.swf", "", $this->xmlstore_dry_store_stock, "coldchainCapacity20", '100%', 350, false, false);
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="widget widget-tabs">
+                                <div class="widget-body">
+
+                                    <?php
+                                    FC_SetRenderer('javascript');
+                                    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Bar2D.swf", "", $this->xmlstore_cold_store_mos, "coldchainCapacity281", '100%', 350, false, false);
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="widget widget-tabs">
+                                <div class="widget-body">
+
+                                    <?php
+                                    FC_SetRenderer('javascript');
+                                    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Bar2D.swf", "", $this->xmlstore_dry_store_mos, "coldchainCapacity201", '100%', 350, false, false);
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+
+
+                        <div class="col-md-4">
+                            <div class="widget widget-tabs">
+                                <div class="widget-body">
+                                    <?php
+                                    FC_SetRenderer('javascript');
+                                    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie2d.swf", "", $this->xmlstore_summary, "coldchainCapacity2021", '100%', 300, false, false);
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <div class="widget widget-tabs">
+                                <div class="widget-body">
+                                    <?php
+                                    FC_SetRenderer('javascript');
+                                    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie2d.swf", "", $this->xmlstore_crCapacity, "coldchainCapacity2022", '100%', 300, false, false);
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <div class="widget widget-tabs">
+                                <div class="widget-body">
+                                    <?php
+                                    FC_SetRenderer('javascript');
+                                    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie2d.swf", "", $this->xmlstore_frCapacity, "coldchainCapacity2023", '100%', 300, false, false);
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- // Tabs END -->    
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="text-align: center"> Incoming Shipment Details</p>
+                            <table class="dynamicTable table table-striped table-bordered table-hover dataTable no-footer" >
+                                <thead>
+                                    <tr>
+                                        <th>Sr. No.</th>
+                                        <th>Item</th>
+                                        <th class="right">Order</th>
+                                        <th alass="right">Funding</th>
+                                        <th alass="right">Purpose</th>
+                                        <th alass="right">Quantity</th>
+                                        <th alass="right">Cartons</th>
+                                        <th alass="right">Airline</th>
+                                        <th alass="right">EDA</th>
+                                        <th alass="right">ETA</th>
+                                        <th alass="right">Status</th>
+
+                                        <th class="right">Storate Requirement <br>(In Litres)</th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+
+                                    <?php
+                                    if (count($this->data) > 0) {
+                                        $i = 1;
+                                        $q = 1;
+                                        foreach ($this->data as $row) {
+                                            if ($i <= 5) {
+                                                ?>
+                                                <tr>
+                                                    <td class="center"><?php echo $i; ?></td>
+                                                    <td><?php echo $row['item_name']; ?></td>
+                                                    <td ><?php echo $row['transaction_number']; ?></td>
+                                                    <td ><?php echo $row['warehouse_name']; ?></td>
+                                                    <td ><?php echo $row['activity']; ?></td>
+                                                    <td class="right"><?php echo number_format($row['received_quantity']); ?></td>
+                                                    <td class="center"></td>
+                                                    <td></td>
+                                                    <td ><?php echo date("d/m/Y", strtotime($row['shipment_date'])); ?></td>
+                                                    <td ><?php echo date("d/m/Y", strtotime($row['shipment_date'])); ?></td>
+                                                    <td ><?php echo $row['status']; ?></td>
+                                                    <td class="right"></td>
+
+                                                </tr>
+                                                <?php
+                                            }
+                                            $i++;
+                                        }
+                                        ?>
+                                    <?php } else { ?>
+                                        <tr>
+                                            <td colspan="12" class="center">No data found</td>
+
+
+                                        </tr> 
+                                    <?php } ?>
+                                </tbody>
+
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $(".sidebar-toggler").trigger("click");
+    });
+</script>

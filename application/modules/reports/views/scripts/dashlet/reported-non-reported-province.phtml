@@ -1,0 +1,18 @@
+<?php
+/**
+*  phtml for Reported Non Reported Province
+*/
+?>
+<div class="col-md-6">
+    <?php
+    FC_SetRenderer('javascript');
+    echo renderChart("FusionCharts/Charts/Pie3D.swf", "", $this->xmlstore, 'rrStatusProvince', '100%', 395, false, false);
+    ?>
+</div>
+<div class="col-md-6" id="data12">
+    <?php
+    FC_SetRenderer('javascript');
+    echo renderChart("FusionCharts/Charts/Column2D.swf", "", $this->xmlstore2, 'rrStatusProvinceAjax', '100%', 395, false, false);
+    ?>
+</div>
+

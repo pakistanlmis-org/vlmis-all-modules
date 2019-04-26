@@ -1,0 +1,46 @@
+ResourceTypes:
+  type: entity
+  table: resource_types
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    resourceType:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: resource_type
+    createdDate:
+      type: datetime
+      nullable: false
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: true
+      column: modified_date
+  oneToOne:
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

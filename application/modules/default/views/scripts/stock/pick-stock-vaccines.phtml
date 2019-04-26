@@ -1,0 +1,70 @@
+<?php
+/**
+*  phtml for Pick Stock Vaccines
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper" xmlns="http://www.w3.org/1999/html">
+    <div class="page-content">
+        <h3 class="page-title"> <?php echo $this->translate("Manage Pick Stock") ?></h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <ul>
+                                <li class=""><a class="glyphicons table" href="#tab1-2"><i></i><span class="strong"><?php echo $this->translate("Non Vaccines"); ?></span><span>Location</span></a></li>
+                                <li class="active"><a data-toggle="tab" class="glyphicons table" href="<?php echo $this->baseUrl(); ?>/stock/pick-stock-vaccines"><i></i><span class="strong"><?php echo $this->translate("Vaccines"); ?></span><span>Location</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                        <strong>Data</strong> has been saved successfully!
+                                    </div>
+                                <?php } ?>
+                                <form method="POST" name="pickstockvaccines" action="" id="pickstockvaccines">
+                                    <h3>
+                                        <?php echo $this->translate("Pick From Issue Voucher List") ?>
+                                    </h3>
+                                    <div class="portlet-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <!-- Group -->
+                                                <div class="col-md-3">
+                                                    <label class="control-label" for="issueno"><?php echo $this->translate("Issue No") ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->stock_master_id; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="portlet-body">
+                                        <div id="ajax_tbl_data"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // Content END -->

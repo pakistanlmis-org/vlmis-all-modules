@@ -1,0 +1,14 @@
+<?php
+
+require_once 'FusionCharts/Code/PHP/Includes/FusionCharts.php';
+if ($this->xmlstore2 != false) {
+?>
+    <?php
+
+    FC_SetRenderer('javascript');
+    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Bar2D.swf", "", $this->xmlstore2, "productWiseContribution", '100%', 350, false, false);
+    ?>
+    <?php
+
+}
+    ?>

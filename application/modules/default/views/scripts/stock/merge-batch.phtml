@@ -1,0 +1,93 @@
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Merge Stock Batch Warehouse"); ?> </h3>
+        <?php
+        /**
+         *  phtml for Ajax Merge Batch
+         */
+        ?>
+        <?php
+        /**
+         *  phtml for Ajax Merge Batch
+         */
+        ?>
+        <?php if (!empty($this->result) && count($this->result) > 0) { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <form name="ajax-batches" id="ajax-batches" method="post" action="">
+                        <table class="table table-striped table-bordered table-condensed">
+                            <tr>
+                                <th rowspan="2" class="center" style="width:4%;">S.No</th>
+                                <th rowspan="2" style="width:3%;">Check</th>
+                                <th rowspan="2" style="width:3%;">Merge into</th>
+                                <th rowspan="2" class="col-md-1">Batch Id</th>
+                                <th rowspan="2" class="col-md-2">Batch Number</th>
+                                <th rowspan="2" class="col-md-1">Expiry</th>
+                                <th colspan="2" class="center col-md-2">Quantity</th>
+                                <th rowspan="2" class="col-md-1">Product</th>
+                                <th rowspan="2" class="col-md-2" nowrap>Warehouse</th>
+                            </tr>
+                            <tr>
+                                <th>Vials</th>
+                                <th>Doses</th>
+                            </tr>                
+                            <?php
+                            $count = 1;
+                            $number = '';
+                            $wh = '';
+                            $batch_array = array();
+                            foreach ($this->result as $row) {
+                                $batch_array[] = $row->getPkId();
+                                ?>
+                                <?php if ($number != $row->getStockBatch()->getNumber() && $count != 1) { break; ?>
+<!--                                    <tr>
+                                        <td colspan="10" class="right"><input type="submit" class="btn btn-success" name="merge" id="merge" value="Merge" /></td>
+                                    </tr>-->
+                                    <?php
+                                }
+                                if ($wh != $row->getWarehouse()->getWarehouseName() && $count != 1) { break; ?>
+                                    <!--<tr>
+                                        <td colspan="10" class="right"><input type="submit" class="btn btn-success" name="merge" id="merge" value="Merge" /></td>
+                                    </tr> -->
+                                <?php
+                                    }
+                                ?>
+                                <tr>
+                                    <td class="center"><?php echo $count; ?></td>
+                                    <td><input type="checkbox" name="check_batches[]" class="mergecheck" value="<?php echo $row->getPkId(); ?>" checked="checked" /></td>
+                                    <td><input type="radio" name="mergeinto" class="mergeinto" <?php if($row->getPkId() == min($batch_array)) { ?> checked=""<?php }?> value="<?php echo $row->getPkId(); ?>" /></td>
+                                    <td><?php echo $row->getPkId(); ?></td>
+                                    <td><?php echo $row->getStockBatch()->getNumber(); ?></td>
+                                    <td><?php echo $row->getStockBatch()->getExpiryDate()->format("d/m/Y"); ?></td>
+                                    <td class="right"><?php echo number_format($row->getQuantity()); ?></td>
+                                    <td class="right"><?php echo number_format($row->getQuantity() * $row->getStockBatch()->getPackInfo()->getStakeholderItemPackSize()->getItemPackSize()->getNumberOfDoses()); ?></td>
+                                    <td><?php echo $row->getStockBatch()->getPackInfo()->getStakeholderItemPackSize()->getItemPackSize()->getItemName(); ?></td>
+                                    <td><?php echo $row->getWarehouse()->getWarehouseName(); ?></td>
+                                </tr>
+                                <?php
+                                $number = $row->getStockBatch()->getNumber();
+                                $wh = $row->getWarehouse()->getWarehouseName();
+                                $count++;
+                            }
+                            ?>
+                            <tr>
+                                <td colspan="10" class="right"><input type="submit" class="btn btn-success" name="merge" id="merge" value="Merge" /></td>
+                            </tr>
+                            <tr>
+                                <td colspan="10" class="center"><?php echo count($this->result) . " records remaining" ?></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        <?php } else { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>All batches are merged successfully!</h4>
+                </div>
+            </div>
+
+        <?php } ?>
+    </div>
+</div>

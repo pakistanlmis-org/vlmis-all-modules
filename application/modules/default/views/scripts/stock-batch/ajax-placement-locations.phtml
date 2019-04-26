@@ -1,0 +1,20 @@
+<?php
+/**
+*  phtml for Ajax Placement Locations
+*/
+?>
+<option value=""><?php echo $this->translate("Select"); ?></option>
+<?php
+if (count($this->placement_locations) > 0) {
+    foreach ($this->placement_locations as $row) {
+        if (empty($row['make_name'])) {
+            $value = $row['asset_name'] . " - " . $row['make_name'];
+        } else {
+            $value = $row['asset_name'];
+        }
+        ?>
+        <option value="<?php echo $row['pk_id']; ?>"><?php echo $value; ?></option>
+        <?php
+    }
+}
+?>

@@ -1,0 +1,159 @@
+<?php
+if (!empty($this->role_id)) {
+    ?>
+    <style>
+        ul, li{list-style:none;}
+    </style>
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <?php echo $this->translate("Resource List") ?>
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="dataTables_wrapper form-inline">
+
+                    <table>
+                        <thead>
+                        <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                        <th>Description</th>
+                        <th>&nbsp;&nbsp;&nbsp;</th>
+
+                        <th>(Resource)</th>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    </br>
+
+                    <ul>
+                        <?php
+                        $m_res = array();
+                        $i = 1;
+                        if ($this->paginator && count($this->paginator) > 0) :
+                            foreach ($this->paginator as $row):
+                                ?>
+                                <li>
+
+
+                                    <?php foreach ($this->roles as $roles) { ?>
+                                        <?php
+                                        if (count($this->roleResources($row->getPkId(), $roles['pkId'])) > 0) {
+                                            $check = "checked='checked'";
+                                        } else {
+                                            $check = "";
+                                        }
+                                        ?>
+                                        <input type="checkbox" value="<?php echo $row->getPkId(); ?>-<?php echo $roles['pkId']; ?>" id="<?php echo $row->getPkId(); ?>-<?php echo $roles['pkId']; ?>-role_resource" name="role_resource[<?php echo $row->getPkId(); ?>-<?php echo $roles['pkId']; ?>]" <?php echo $check; ?> >
+                                    <?php } ?>
+                                    <label>
+            <!--                                        <select data-toggle="tooltip" data-trigger="hover" data-placement="top" title="Update Rank" name="<?php echo $row->getPkId(); ?>-rank" id="<?php echo $row->getPkId(); ?>-rank" class="form-control input-sm" style="display:inline; width:90px">
+                                            <option value="">Rank</option>     
+                                        <?php
+                                        //  for ($i = 1; $i <= 20; $i++) {
+                                        //      if ($row->getRank() == $i) {
+                                        //          $selected = "selected='selected'";
+                                        //     } else {
+                                        //         $selected = "";
+                                        //     }
+                                        ?>
+                                                <option value="<?php echo $row->getPkId(); ?>-<?php echo $i; ?>" <?php echo $selected; ?> ><?php echo $i; ?></option>
+                                        <?php //}
+                                        ?>
+                                        </select>&nbsp;&nbsp;&nbsp;&nbsp;-->
+                                        <b>       <?php echo $row->getDescription() . '  (' . $row->getResourceName() . ') '; ?></b>
+                                    </label>
+                                    <ul>
+
+
+                                        <?php foreach ($this->getSubResources($row->getPkId()) as $sub_roles) { ?>
+                                            <li>
+
+                                                <?php
+                                                if (count($this->roleResources($sub_roles->getPkId(), $roles['pkId'])) > 0) {
+                                                    $check = "checked='checked'";
+                                                } else {
+                                                    $check = "";
+                                                }
+                                                ?>
+                                                <input type="checkbox" value="<?php echo $sub_roles->getPkId(); ?>-<?php echo $roles['pkId']; ?>" id="<?php echo $sub_roles->getPkId(); ?>-<?php echo $roles['pkId']; ?>-role_resource" name="role_resource[<?php echo $sub_roles->getPkId(); ?>-<?php echo $roles['pkId']; ?>]" <?php echo $check; ?> >
+                                                <label>
+                                                <!--                                                 <select data-toggle="tooltip" data-trigger="hover" data-placement="top" title="Update Rank"  name="<?php echo $sub_roles->getPkId(); ?>-rank" id="<?php echo $sub_roles->getPkId(); ?>-rank" class="form-control input-sm" style="display:inline; width:90px">
+                                                                                                        <option value="">Rank</option>     
+                                                    <?php
+                                                    //  for ($i = 1; $i <= 20; $i++) {
+                                                    //    if ($sub_roles->getRank() == $i) {
+                                                    //       $selected = "selected='selected'";
+                                                    //   } else {
+                                                    //     $selected = "";
+                                                    // }
+                                                    // 
+                                                    ?>
+                                                                                                            <option value="<?php //echo $sub_roles->getPkId();                      ?>-<?php //echo $i;                      ?>" <?php //echo $selected;                      ?> ><?php // echo $i;                      ?></option>
+                                                    <?php //}
+                                                    ?>
+                                                                                                    </select>&nbsp;&nbsp;&nbsp;&nbsp;-->
+                                                    <?php echo $sub_roles->getDescription() . '  (' . $sub_roles->getResourceName() . ') '; ?>  </label>
+
+
+                                                <ul>
+
+
+                                                    <?php foreach ($this->getSubResources($sub_roles->getPkId()) as $s_sub_roles) { ?>
+                                                        <li>
+
+                                                            <?php
+                                                            if (count($this->roleResources($s_sub_roles->getPkId(), $roles['pkId'])) > 0) {
+                                                                $check = "checked='checked'";
+                                                            } else {
+                                                                $check = "";
+                                                            }
+                                                            ?>
+                                                            <input type="checkbox" value="<?php echo $s_sub_roles->getPkId(); ?>-<?php echo $roles['pkId']; ?>" id="<?php echo $s_sub_roles->getPkId(); ?>-<?php echo $roles['pkId']; ?>-role_resource" name="role_resource[<?php echo $s_sub_roles->getPkId(); ?>-<?php echo $roles['pkId']; ?>]" <?php echo $check; ?> >
+                    <label><!--                                                           <select data-toggle="tooltip" data-trigger="hover" data-placement="top" title="Update Rank"  name="<?php echo $s_sub_roles->getPkId(); ?>-rank" id="<?php echo $s_sub_roles->getPkId(); ?>-rank" class="form-control input-sm" style="display:inline; width:90px">
+                                                                    <option value="">Rank</option>     
+                                                                <?php
+                                                                //    for ($i = 1; $i <= 20; $i++) {
+                                                                //       if ($s_sub_roles->getRank() == $i) {
+                                                                //          $selected = "selected='selected'";
+                                                                //      } else {
+                                                                //         $selected = "";
+                                                                //     }
+                                                                ?>
+                                                                        <option value="<?php //echo $s_sub_roles->getPkId();                      ?>-<?php //echo $i;                      ?>" <?php //echo $selected;                      ?> ><?php //echo $i;                      ?></option>
+                                                                <?php // }
+                                                                ?>
+                                                                </select>&nbsp;&nbsp;&nbsp;&nbsp;-->
+                                                                <?php echo $s_sub_roles->getDescription() . '  (' . $s_sub_roles->getResourceName() . ') '; ?>  </label></li> <?php } ?></ul>
+                                            </li> <?php } ?>
+
+
+                                    </ul>
+                                </li>
+                                <!-- // Table row END --><?php
+                                $i++;
+                            endforeach;
+                        endif;
+                        ?>
+                    </ul>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        $("[data-toggle=tooltip]").tooltip({
+            placement: $(this).data("placement") || 'top'
+        });
+    </script>
+<?php } else { ?>
+
+<?php } ?>

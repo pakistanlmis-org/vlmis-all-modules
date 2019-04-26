@@ -1,0 +1,300 @@
+VarDetail:
+  type: entity
+  table: var_detail
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    country:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+    reportNo:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: report_no
+    reportDate:
+      type: date
+      nullable: true
+      column: report_date
+    placeOfInspection:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: place_of_inspection
+    dateOfInspection:
+      type: date
+      nullable: true
+      column: date_of_inspection
+    coldStore:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: cold_store
+    dateOfVaccinesEnteredColdStore:
+      type: date
+      nullable: true
+      column: date_of_vaccines_entered_cold_store
+    preAdviceDate:
+      type: date
+      nullable: true
+      column: pre_advice_date
+    shippingNotificationDate:
+      type: date
+      nullable: true
+      column: shipping_notification_date
+    awb:
+      type: integer
+      unsigned: false
+      nullable: true
+    packingList:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: packing_list
+    invoice:
+      type: integer
+      unsigned: false
+      nullable: true
+    releaseCertificate:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: release_certificate
+    advanceNoteOtherDocument:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: advance_note_other_document
+    awbNumber:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: awb_number
+    airportOfDestination:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: airport_of_destination
+    flightNo:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: flight_no
+    etaDate:
+      type: date
+      nullable: true
+      column: eta_date
+    actualTimeArrival:
+      type: date
+      nullable: true
+      column: actual_time_arrival
+    nameOfClearingAgent:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: name_of_clearing_agent
+    onBehalf:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: on_behalf
+    quantityReceived:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: quantity_received
+    detailShortShipment:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: detail_short_shipment
+    quantityReceivedComments:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: quantity_received_comments
+    detailShortShipmentComments:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: detail_short_shipment_comments
+    documentsInvoice:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: documents_invoice
+    documentsPackingList:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: documents_packing_list
+    documentsReleaseCertificate:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: documents_release_certificate
+    documentsVar:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: documents_var
+    documentOther:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: document_other
+    part4Comments:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: part4_comments
+    totalNumberBoxesInspected:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: total_number_boxes_inspected
+    dryIce:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: dry_ice
+    icePacks:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: ice_packs
+    noCoolant:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: no_coolant
+    coolantTypeEmpty:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: coolant_type_empty
+    vvm:
+      type: integer
+      unsigned: false
+      nullable: true
+    coldChainCard:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: cold_chain_card
+    electronicDevice:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: electronic_device
+    temperatureMonitorsEmpty:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: temperature_monitors_empty
+    conditionOfBoxesArrival:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: condition_of_boxes_arrival
+    labelsAttached:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: labels_attached
+    purchaseOrderNo:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: purchase_order_no
+    consignee:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: consignee   
+    vaccineDescription:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: vaccine_description   
+    manufacturer:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: manufacturer
+    countryPart3:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: country_part3  
+    otherCommentsElectronicDevice:
+      type: text
+      nullable: true
+      column: other_comments_electronic_device
+    createdDate:
+      type: date
+      nullable: true
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: false
+      column: modified_date
+  oneToOne:
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    stockMaster:
+      targetEntity: StockMaster
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        stock_master_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false  
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

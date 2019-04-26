@@ -1,0 +1,618 @@
+<?php
+/**
+*  phtml for Data Entry Status
+*/
+?>
+<?php
+$sel_prov = $this->province;
+$sel_dist = $this->district;
+$sel_tehsil = $this->tehsil;
+$wh_type = $this->wh_type;
+?>
+<style>
+    .w-main-cont{
+        margin: 0px;
+        border-left: 6px solid white;
+        border-right: 6px solid white;
+
+    }
+    .w-container{
+        background-color: #FFA500;
+        border-bottom: 1px solid #F0F0F0;
+        margin-bottom: 0; 
+        padding-top: 6px;
+        padding-left: 6px;
+        padding-bottom: 6px;
+    }
+    .d-container{
+        margin-bottom: 0; 
+        padding-bottom: 0px;
+    }
+    .w-name{
+        color:black; 
+        font-size:11px;
+    }
+    .i-voucher{
+        color:#FFF;
+        padding: 10px 0 10px 12px;
+        border-left: 1px solid #F0F0F0;
+        font-size:11px !important;
+    }
+    .r-voucher{
+        color:#FFF;
+        padding: 10px 0 10px 12px;
+        font-size:11px !important;
+    }
+    .i-voucher a, r-voucher a{
+        font-size:11px !important;
+    }
+</style>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate($this->main_heading) ?></h3>
+        <div class="innerLR">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('inventory-management/reports-header.phtml') ?>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <?php
+        echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+        ?>
+        <div class="row pull-right">
+            <div class="col-md-12">
+                <ul class="nav navbar-nav report-tab ">
+                    <li>
+                        <span>Legends:</span>
+                    </li>
+                    <li> 0-15 days
+                        <div style='display:inline-block;width:12px; height:11px; background-color:#44B6AE; margin-left:5px;'></div>
+                    </li>
+                    <li> 15-30 days
+                        <div style='display:inline-block;width:12px; height:11px; background-color:#578EBE; margin-left:5px;'></div>
+                    </li>
+                    <li> more than 30 days
+                        <div style='display:inline-block;width:12px; height:11px; background-color:#E35B5A; margin-left:5px;'></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="portlet box green" style="border-top:1px solid #77e588;">
+            <div class="portlet-body">
+
+                <!-- Federal Stores -->
+                <?php if ($this->data && count($this->data) > 0) :
+                    ?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Federal Stores</h3>
+                            <?php
+                            if ($this->data && count($this->data) > 0) :
+
+                                $counter = 0;
+                                foreach ($this->data as $w_data):
+                                    $warehouse_id = $w_data['pk_id'];
+
+                                    if ($counter % 6 == 0) {
+                                        ?>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php
+                                    }
+                                    ?>
+                                    <div>
+                                        <div class="col-lg-2 col-md-2 w-main-cont">
+                                            <div class="row w-container">
+                                                <div class="w-name"> <?php echo $w_data['warehouse_name']; ?></div>
+                                            </div>
+                                            <div class="row d-container"> 
+                                                <?php
+                                                $result_receive = $this->getDataEntryStatus($warehouse_id, 1);
+                                                if (count($result_receive) > 0) {
+                                                    foreach ($result_receive as $row_r):
+                                                        $start = $row_r['transactionDate'];
+                                                        $end = date('Y-m-d');
+                                                        $diff = (strtotime($end) - strtotime($start)) / 24 / 3600;
+                                                        $diff_total = round($diff);
+                                                        if ($diff_total < 15) {
+                                                            $status = 'dashboard-stat green-haze';
+                                                        } else if ($diff_total > 15 && $diff_total < 30) {
+                                                            $status = 'dashboard-stat blue-madison';
+                                                        } else if ($diff_total > 30) {
+                                                            $status = 'dashboard-stat red-intense';
+                                                        }
+
+                                                        $date = date_create($row_r['transactionDate']);
+                                                        ?>
+
+                                                        <?php
+                                                        if ($row_r['transaction_type_id'] == 1) {
+                                                            ?>
+                                                            <div class="r-voucher col-md-6 <?php echo $status; ?>">
+                                                                <a style="color:#fff; font-size:11px; padding-left: 1px;" onclick="window.open('<?php echo $this->baseUrl(); ?>/stock/print-receive-shipment?id=<?php echo $row_r['pk_id']; ?>&warehouse_id=<?php echo $row_r['wh_id']; ?>', '_blank', 'scrollbars=1,width=860,height=595');" href="javascript:void(0);">                                                      
+                                                                    <?php
+                                                                    echo "Receive:<br>" . date_format($date, 'd/m/Y');
+                                                                    ?>
+                                                                </a> 
+                                                            </div> <?php
+                                                        }
+                                                        ?> 
+                                                        <?php
+                                                    endforeach;
+                                                } else {
+                                                    ?> <div class="r-voucher col-md-6 dashboard-stat red-intense">
+                                                    <?php
+                                                    echo "Receive:<br>" . "    ......    ";
+                                                    ?>
+
+                                                    </div>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <?php
+                                                $result_issue = $this->getDataEntryStatus($warehouse_id, 2);
+                                                if (count($result_issue) > 0) {
+                                                    foreach ($result_issue as $row_i):
+                                                        $start = $row_i['transactionDate'];
+                                                        $end = date('Y-m-d');
+                                                        $diff = (strtotime($end) - strtotime($start)) / 24 / 3600;
+                                                        $diff_total = round($diff);
+                                                        if ($diff_total < 15) {
+                                                            $status = 'dashboard-stat green-haze';
+                                                        } else if ($diff_total > 15 && $diff_total < 30) {
+                                                            $status = 'dashboard-stat blue-madison';
+                                                        } else if ($diff_total > 30) {
+                                                            $status = 'dashboard-stat red-intense';
+                                                        }
+
+                                                        $date = date_create($row_i['transactionDate']);
+                                                        ?>
+                                                        <?php
+                                                        if ($row_i['transaction_type_id'] == 2) {
+                                                            ?>
+                                                            <div class="i-voucher col-md-6 <?php echo $status; ?>">
+                                                                <a style="color:#fff; font-size:11px; padding-left: 1px;" onclick="window.open('<?php echo $this->baseUrl(); ?>/stock/print-issue-shipment?id=<?php echo $row_i['pk_id']; ?>&warehouse_id=<?php echo $row_i['wh_from_id']; ?>', '_blank', 'scrollbars=1,width=860,height=595');" href="javascript:void(0);">
+                                                                    <?php
+                                                                    echo "Issue:<br>" . date_format($date, 'd/m/Y');
+                                                                    ?>
+                                                                </a> 
+                                                            </div> <?php }
+                                                                ?>
+
+                                                        <?php
+                                                    endforeach;
+                                                } else {
+                                                    ?>
+                                                    <div class="i-voucher col-md-6 dashboard-stat red-intense">
+                                                        <?php
+                                                        echo "Issue:<br>" . "    ......    ";
+                                                        ?>
+
+                                                    </div> 
+                                                <?php } ?>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                    $counter++;
+                                endforeach;
+                            endif;
+                            ?>
+                        </div>
+                    </div>
+                    <br>
+                <?php endif; ?>
+
+
+                <!-- Provincial Stores -->
+                <?php if ($this->data1 && count($this->data1) > 0) : ?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Provincial Stores</h3>
+                            <?php
+                            if ($this->data1 && count($this->data1) > 0) :
+
+                                $counter = 0;
+                                foreach ($this->data1 as $w_data1):
+                                    $warehouse_id1 = $w_data1['pk_id'];
+
+                                    if ($counter % 6 == 0) {
+                                        ?>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php
+                                    }
+                                    ?>
+                                    <div>
+                                        <div class="col-lg-2 col-md-2 w-main-cont">
+                                            <div class="row w-container">
+                                                <div class="w-name"> <?php echo $w_data1['warehouse_name']; ?></div>
+                                            </div>
+                                            <div class="row d-container"> 
+                                                <?php
+                                                $result1_receive = $this->getDataEntryStatus($warehouse_id1, 1);
+                                                if (count($result1_receive) > 0) {
+                                                    foreach ($result1_receive as $row1_r):
+                                                        $start = $row1_r['transactionDate'];
+                                                        $end = date('Y-m-d');
+                                                        $diff = (strtotime($end) - strtotime($start)) / 24 / 3600;
+                                                        $diff_total = round($diff);
+                                                        if ($diff_total < 15) {
+                                                            $status1 = 'dashboard-stat green-haze';
+                                                        } else if ($diff_total > 15 && $diff_total < 30) {
+                                                            $status1 = 'dashboard-stat blue-madison';
+                                                        } else if ($diff_total > 30) {
+                                                            $status1 = 'dashboard-stat red-intense';
+                                                        }
+
+                                                        $date = date_create($row1_r['transactionDate']);
+                                                        ?>
+
+                                                        <?php
+                                                        if ($row1_r['transaction_type_id'] == 1) {
+                                                            ?>
+                                                            <div class="r-voucher col-md-6 <?php echo $status1; ?>">
+                                                                <a style="color:#fff; font-size:11px; padding-left: 1px;" onclick="window.open('<?php echo $this->baseUrl(); ?>/stock/print-receive-shipment?id=<?php echo $row1_r['pk_id']; ?>&warehouse_id=<?php echo $row1_r['wh_id']; ?>', '_blank', 'scrollbars=1,width=860,height=595');" href="javascript:void(0);">                                                      
+                                                                    <?php
+                                                                    echo "Receive:<br>" . date_format($date, 'd/m/Y');
+                                                                    ?>
+                                                                </a> 
+                                                            </div> <?php
+                                                        }
+                                                        ?> 
+                                                        <?php
+                                                    endforeach;
+                                                } else {
+                                                    ?> <div class="r-voucher col-md-6 dashboard-stat red-intense">
+                                                    <?php
+                                                    echo "Receive:<br>" . "    ......    ";
+                                                    ?>
+
+                                                    </div>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <?php
+                                                $result1_issue = $this->getDataEntryStatus($warehouse_id1, 2);
+                                                if (count($result1_issue) > 0) {
+                                                    foreach ($result1_issue as $row1_i):
+                                                        $start = $row1_i['transactionDate'];
+                                                        $end = date('Y-m-d');
+                                                        $diff = (strtotime($end) - strtotime($start)) / 24 / 3600;
+                                                        $diff_total = round($diff);
+                                                        if ($diff_total < 15) {
+                                                            $status1 = 'dashboard-stat green-haze';
+                                                        } else if ($diff_total > 15 && $diff_total < 30) {
+                                                            $status1 = 'dashboard-stat blue-madison';
+                                                        } else if ($diff_total > 30) {
+                                                            $status1 = 'dashboard-stat red-intense';
+                                                        }
+
+                                                        $date = date_create($row1_i['transactionDate']);
+                                                        ?>
+                                                        <?php
+                                                        if ($row1_i['transaction_type_id'] == 2) {
+                                                            ?>
+                                                            <div class="i-voucher col-md-6 <?php echo $status1; ?>">
+                                                                <a style="color:#fff; font-size:11px; padding-left: 1px;" onclick="window.open('<?php echo $this->baseUrl(); ?>/stock/print-issue-shipment?id=<?php echo $row1_i['pk_id']; ?>&warehouse_id=<?php echo $row1_i['wh_from_id']; ?>', '_blank', 'scrollbars=1,width=860,height=595');" href="javascript:void(0);">
+                                                                    <?php
+                                                                    echo "Issue:<br>" . date_format($date, 'd/m/Y');
+                                                                    ?>
+                                                                </a> 
+                                                            </div> <?php }
+                                                                ?>
+
+                                                        <?php
+                                                    endforeach;
+                                                } else {
+                                                    ?>
+                                                    <div class="i-voucher col-md-6 dashboard-stat red-intense">
+                                                        <?php
+                                                        echo "Issue:<br>" . "    ......    ";
+                                                        ?>
+
+                                                    </div> 
+                                                <?php } ?>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                    $counter++;
+                                endforeach;
+                            endif;
+                            ?>
+                        </div>
+                    </div>
+                    <br>
+                <?php endif; ?>
+
+
+
+
+
+                <!-- District Stores -->
+                <?php if ($this->data2 && count($this->data2) > 0) : ?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>District Stores</h3>
+                            <?php
+                            if ($this->data2 && count($this->data2) > 0) :
+
+                                $counter = 0;
+                                foreach ($this->data2 as $w_data2):
+                                    $warehouse_id2 = $w_data2['pk_id'];
+
+                                    if ($counter % 6 == 0) {
+                                        ?>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php
+                                    }
+                                    ?>
+                                    <div>
+                                        <div class="col-lg-2 col-md-2 w-main-cont">
+                                            <div class="row w-container">
+                                                <div class="w-name"> <?php echo $w_data2['warehouse_name']; ?></div>
+                                            </div>
+                                            <div class="row d-container"> 
+                                                <?php
+                                                $result2_receive = $this->getDataEntryStatus($warehouse_id2, 1);
+                                                if (count($result2_receive) > 0) {
+                                                    foreach ($result2_receive as $row2_r):
+                                                        $start = $row2_r['transactionDate'];
+                                                        $end = date('Y-m-d');
+                                                        $diff = (strtotime($end) - strtotime($start)) / 24 / 3600;
+                                                        $diff_total = round($diff);
+                                                        if ($diff_total < 15) {
+                                                            $status2 = 'dashboard-stat green-haze';
+                                                        } else if ($diff_total > 15 && $diff_total < 30) {
+                                                            $status2 = 'dashboard-stat blue-madison';
+                                                        } else if ($diff_total > 30) {
+                                                            $status2 = 'dashboard-stat red-intense';
+                                                        }
+
+                                                        $date = date_create($row2_r['transactionDate']);
+                                                        ?>
+
+                                                        <?php
+                                                        if ($row2_r['transaction_type_id'] == 1) {
+                                                            ?>
+                                                            <div class="r-voucher col-md-6 <?php echo $status2; ?>">
+                                                                <a style="color:#fff; font-size:11px; padding-left: 1px;" onclick="window.open('<?php echo $this->baseUrl(); ?>/stock/print-receive-shipment?id=<?php echo $row2_r['pk_id']; ?>&warehouse_id=<?php echo $row2_r['wh_id']; ?>', '_blank', 'scrollbars=1,width=860,height=595');" href="javascript:void(0);">                                                      
+                                                                    <?php
+                                                                    echo "Receive:<br>" . date_format($date, 'd/m/Y');
+                                                                    ?>
+                                                                </a> 
+                                                            </div> <?php
+                                                        }
+                                                        ?> 
+                                                        <?php
+                                                    endforeach;
+                                                } else {
+                                                    ?> <div class="r-voucher col-md-6 dashboard-stat red-intense">
+                                                    <?php
+                                                    echo "Receive:<br>" . "    ......    ";
+                                                    ?>
+
+                                                    </div>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <?php
+                                                $result2_issue = $this->getDataEntryStatus($warehouse_id2, 2);
+                                                if (count($result2_issue) > 0) {
+                                                    foreach ($result2_issue as $row2_i):
+                                                        $start = $row2_i['transactionDate'];
+                                                        $end = date('Y-m-d');
+                                                        $diff = (strtotime($end) - strtotime($start)) / 24 / 3600;
+                                                        $diff_total = round($diff);
+                                                        if ($diff_total < 15) {
+                                                            $status2 = 'dashboard-stat green-haze';
+                                                        } else if ($diff_total > 15 && $diff_total < 30) {
+                                                            $status2 = 'dashboard-stat blue-madison';
+                                                        } else if ($diff_total > 30) {
+                                                            $status2 = 'dashboard-stat red-intense';
+                                                        }
+
+                                                        $date = date_create($row2_i['transactionDate']);
+                                                        ?>
+                                                        <?php
+                                                        if ($row2_i['transaction_type_id'] == 2) {
+                                                            ?>
+                                                            <div class="i-voucher col-md-6 <?php echo $status2; ?>">
+                                                                <a style="color:#fff; font-size:11px; padding-left: 1px;" onclick="window.open('<?php echo $this->baseUrl(); ?>/stock/print-issue-shipment?id=<?php echo $row2_i['pk_id']; ?>&warehouse_id=<?php echo $row2_i['wh_from_id']; ?>', '_blank', 'scrollbars=1,width=860,height=595');" href="javascript:void(0);">
+                                                                    <?php
+                                                                    echo "Issue:<br>" . date_format($date, 'd/m/Y');
+                                                                    ?>
+                                                                </a> 
+                                                            </div> <?php }
+                                                                ?>
+
+                                                        <?php
+                                                    endforeach;
+                                                } else {
+                                                    ?>
+                                                    <div class="i-voucher col-md-6 dashboard-stat red-intense">
+                                                        <?php
+                                                        echo "Issue:<br>" . "    ......    ";
+                                                        ?>
+
+                                                    </div> 
+                                                <?php } ?>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                    $counter++;
+                                endforeach;
+                            endif;
+                            ?>
+                        </div>
+                    </div>
+                    <br>
+                <?php endif; ?>
+
+
+
+
+
+                <!-- Tehsil Stores -->
+                <?php if ($this->data3 && count($this->data3) > 0) : ?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>Tehsil Stores</h3>
+                            <?php
+                            if ($this->data3 && count($this->data3) > 0) :
+
+                                $counter = 0;
+                                foreach ($this->data3 as $w_data3):
+                                    $warehouse_id3 = $w_data3['pk_id'];
+
+                                    if ($counter % 6 == 0) {
+                                        ?>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php
+                                    }
+                                    ?>
+                                    <div>
+                                        <div class="col-lg-2 col-md-2 w-main-cont">
+                                            <div class="row w-container">
+                                                <div class="w-name"> <?php echo $w_data3['warehouse_name']; ?></div>
+                                            </div>
+                                            <div class="row d-container"> 
+                                                <?php
+                                                $result3_receive = $this->getDataEntryStatus($warehouse_id3, 1);
+                                                if (count($result3_receive) > 0) {
+                                                    foreach ($result3_receive as $row3_r):
+                                                        $start = $row3_r['transactionDate'];
+                                                        $end = date('Y-m-d');
+                                                        $diff = (strtotime($end) - strtotime($start)) / 24 / 3600;
+                                                        $diff_total = round($diff);
+                                                        if ($diff_total < 15) {
+                                                            $status3 = 'dashboard-stat green-haze';
+                                                        } else if ($diff_total > 15 && $diff_total < 30) {
+                                                            $status3 = 'dashboard-stat blue-madison';
+                                                        } else if ($diff_total > 30) {
+                                                            $status3 = 'dashboard-stat red-intense';
+                                                        }
+
+                                                        $date = date_create($row3_r['transactionDate']);
+                                                        ?>
+
+                                                        <?php
+                                                        if ($row3_r['transaction_type_id'] == 1) {
+                                                            ?>
+                                                            <div class="r-voucher col-md-6 <?php echo $status3; ?>">
+                                                                <a style="color:#fff; font-size:11px; padding-left: 1px;" onclick="window.open('<?php echo $this->baseUrl(); ?>/stock/print-receive-shipment?id=<?php echo $row3_r['pk_id']; ?>&warehouse_id=<?php echo $row3_r['wh_id']; ?>', '_blank', 'scrollbars=1,width=860,height=595');" href="javascript:void(0);">                                                      
+                                                                    <?php
+                                                                    echo "Receive:<br>" . date_format($date, 'd/m/Y');
+                                                                    ?>
+                                                                </a> 
+                                                            </div> <?php
+                                                        }
+                                                        ?> 
+                                                        <?php
+                                                    endforeach;
+                                                } else {
+                                                    ?> <div class="r-voucher col-md-6 dashboard-stat red-intense">
+                                                    <?php
+                                                    echo "Receive:<br>" . "    ......    ";
+                                                    ?>
+
+                                                    </div>
+                                                    <?php
+                                                }
+                                                ?>
+                                                <?php
+                                                $result3_issue = $this->getDataEntryStatus($warehouse_id3, 2);
+                                                if (count($result3_issue) > 0) {
+                                                    foreach ($result3_issue as $row3_i):
+                                                        $start = $row3_i['transactionDate'];
+                                                        $end = date('Y-m-d');
+                                                        $diff = (strtotime($end) - strtotime($start)) / 24 / 3600;
+                                                        $diff_total = round($diff);
+                                                        if ($diff_total < 15) {
+                                                            $status3 = 'dashboard-stat green-haze';
+                                                        } else if ($diff_total > 15 && $diff_total < 30) {
+                                                            $status3 = 'dashboard-stat blue-madison';
+                                                        } else if ($diff_total > 30) {
+                                                            $status3 = 'dashboard-stat red-intense';
+                                                        }
+
+                                                        $date = date_create($row3_i['transactionDate']);
+                                                        ?>
+                                                        <?php
+                                                        if ($row3_i['transaction_type_id'] == 2) {
+                                                            ?>
+                                                            <div class="i-voucher col-md-6 <?php echo $status3; ?>">
+                                                                <a style="color:#fff; font-size:11px; padding-left: 1px;" onclick="window.open('<?php echo $this->baseUrl(); ?>/stock/print-issue-shipment?id=<?php echo $row3_i['pk_id']; ?>&warehouse_id=<?php echo $row3_i['wh_from_id']; ?>', '_blank', 'scrollbars=1,width=860,height=595');" href="javascript:void(0);">
+                                                                    <?php
+                                                                    echo "Issue:<br>" . date_format($date, 'd/m/Y');
+                                                                    ?>
+                                                                </a> 
+                                                            </div> <?php }
+                                                                ?>
+
+                                                        <?php
+                                                    endforeach;
+                                                } else {
+                                                    ?>
+                                                    <div class="i-voucher col-md-6 dashboard-stat red-intense">
+                                                        <?php
+                                                        echo "Issue:<br>" . "    ......    ";
+                                                        ?>
+
+                                                    </div> 
+                                                <?php } ?>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                    $counter++;
+                                endforeach;
+                            endif;
+                            ?>
+                        </div>
+                    </div>
+                    <br>
+                <?php endif; ?>
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<script>
+    var whType = <?php echo $wh_type; ?>;
+    var province = <?php echo $sel_prov; ?>;
+    var district = <?php echo $sel_dist; ?>;
+    var tehsil = <?php echo $sel_tehsil; ?>;
+</script>

@@ -1,0 +1,87 @@
+<?php
+/**
+*  phtml for Stakeholder Items
+*/
+?>
+<div class="modal1"></div>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">Change Stakeholder Items</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            Change Stakeholder Items
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form name="frm" id="frm" action="" method="post" onsubmit="return frmValidate()">
+                                    <div class="widget-body">
+                                        <!-- Row -->
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <?php
+                                                if (isset($_GET['e'])) {
+                                                    echo "<p style=\"color: green\">Leads have been successfully changed.</p>";
+                                                }
+                                                ?>
+                                                <div class="form-group" style="float:left;">
+                                                    <label class="control-label" for="firstname">Stakeholders</label>
+                                                    <?php echo $this->form->stakeholder; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-10" id="items">
+                                            </div>
+                                        </div>
+                                        <div class="row pull-right" id="div-submit" style="display: none;">
+                                            <div class="col-md-12">
+                                                <button class="btn btn-primary" type="submit" name="search"><?php echo $this->translate("Submit") ?></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <span id="showMonths"></span>
+                                        </div>
+                                    </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php if (isset($_REQUEST['Do']) && !empty($_REQUEST['Do'])) { ?>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            Monthly Consumption Report (<?php echo $month . "-" . $yy; ?>)
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+</div>
+</div>
+

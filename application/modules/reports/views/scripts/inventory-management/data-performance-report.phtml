@@ -1,0 +1,45 @@
+<?php
+/**
+ *  phtml for Pentavalent Coverage Detail
+ */
+?>
+<?php
+$from_sel_month = $this->from_month_sel;
+$from_sel_year = $this->from_year_sel;
+$year = $this->year_sel;
+$month = $this->month_sel;
+$sel_prov = $this->prov_sel;
+$sel_dist = $this->district_id;
+$sel_tehsil = $this->tehsil;
+$wh_type = $this->wh_type;
+$period = $this->period;
+// Headers of the Grid
+$report_type = $this->report_type;
+$report_by = $this->report_by;
+?>
+
+<?php
+if ($report_type == 1 && $report_by == 1) {
+    echo $this->render('inventory-management/data-performance-reported-ucs.phtml');
+} else if ($report_type == 1 && $report_by == 3) {
+    echo $this->render('inventory-management/data-performance-reported-users.phtml');
+} else if ($report_type == 1 && $report_by == 2) {
+    echo $this->render('inventory-management/data-performance-reported-facility.phtml');
+} else if ($report_type == 2 && $report_by == 2) {
+    echo $this->render('inventory-management/data-performance-non-reported-facility.phtml');
+} else if ($report_type == 2 && $report_by == 1) {
+    echo $this->render('inventory-management/data-performance-non-reported-uc.phtml');
+} else if ($report_type == 1 && $report_by == 4) {
+    echo $this->render('inventory-management/data-performance-reported-districts.phtml');
+} else if ($report_type == 1 && $report_by == 5) {
+    echo $this->render('inventory-management/data-performance-reported-provinces.phtml');
+}
+?>
+
+<script>
+
+    var whType = <?php echo $wh_type; ?>;
+    var province = <?php echo $sel_prov; ?>;
+    var district = <?php echo $sel_dist; ?>;
+    var tehsil = <?php echo $sel_tehsil; ?>;
+</script>

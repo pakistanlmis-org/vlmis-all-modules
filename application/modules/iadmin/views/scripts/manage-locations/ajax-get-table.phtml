@@ -1,0 +1,81 @@
+<table class="table  table-bordered table-hover dataTable no-footer" id="sample_2">
+    <!-- Table heading -->
+    <?php
+    $fields = array(
+        's_no' => 'S.No',
+        'location' => 'Location',
+        'Situated_in' => 'Situated In',
+        'administrative_level' => 'Administrative Level',
+        'ccm_code' => 'Ccm Code',
+        'locatoion_type' => 'Type',
+        'c_status' => 'Current Status',
+        'ch_status' => 'Change Status'
+    );
+    $this->tableHeading($this->order, $this->sort, $fields);
+    ?>
+    <!-- // Table heading END -->
+    <!-- Table body -->
+
+    <!-- // Table body END -->
+    <tbody>
+        <?php
+        $m_res = array();
+        $i = 1;
+        if ($this->paginator && count($this->paginator) > 0) :
+            foreach ($this->paginator as $row):
+                ?>
+                <tr class="<?php
+                if ($row['locationName'] == $this->locations_add && $this->action == 1) {
+                    echo 'danger';
+                } else if ($row['locationName'] == $this->locations_edit && $this->action == 2) {
+                    echo 'danger';
+                }
+                ?>">
+                    <td class="center" width="25"> <?php
+                        if ($row['locationName'] == $this->locations_add && $this->action == '1') {
+                            echo "<span class='label label-sm label-info'>New</span>";
+                        } else if ($row['locationName'] == $this->locations_edit && $this->action == '2') {
+                            echo "<span class='label label-sm label-info'>Edited</span>";
+                        }
+                        ?> <?php echo $i; ?></td>
+                    <td><?php echo $row['locationName']; ?></td>
+                    <td><?php echo $row['parent']; ?></td>
+                    <td><?php echo $row['geoLevelName']; ?></td>
+                    <td><?php echo $row['ccmLocationId']; ?></td>
+                    <td><?php echo $row['locationTypeName']; ?></td>
+                      <td>           <?php
+                                                    if ($row['status'] == 1) {
+                                                        ?>
+                                                        <p id="<?php echo 's_' . $row['pkId']; ?>"> Active     </p>
+
+                                                    <?php } elseif ($row['status'] == 0) {
+                                                        ?>
+                                                        <p id="<?php echo 's_' . $row['pkId']; ?>"> In-Active     </p>
+                                                        <?php
+                                                    }
+                                                    ?></td>
+                                                        <td>  <?php if ($row['status'] == 1) { ?>
+                                                                <a id="<?php echo $row['pkId']; ?>" class="active btn btn-link btn-danger input-sm"><?php echo $this->translate("Deactivate"); ?></a>
+                                                            <?php } else { ?>
+                                                                <a id="<?php echo $row['pkId']; ?>" class="deactivate btn btn-link btn-danger input-sm"><?php echo $this->translate("Activate"); ?></a>
+                                                            <?php } ?></td>
+                                                        <td>
+                                                            <?php if ($this->role_id != 39) { ?>
+                                                                <a itemid="<?php echo $row['pkId']; ?>" class="update-locations btn btn-xs green" data-toggle="modal" href="#modal-update-locations"><i class="fa fa-edit"></i><?php echo $this->translate("Edit") ?>
+                                                                </a>
+
+
+
+
+
+                                                            <?php } ?>
+                                                        </td>
+                    <!-- // Table row END --><?php
+                    $i++;
+
+                endforeach;
+
+            endif;
+            ?>
+    </tbody>
+</table>

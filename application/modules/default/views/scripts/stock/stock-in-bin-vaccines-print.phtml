@@ -1,0 +1,89 @@
+<?php
+/**
+*  phtml for Stock in Bin Vaccines Print
+*/
+?>
+<style>
+    #content_print {
+        margin-left: 55px;
+        width: 624px;
+    }
+    table#mytable {
+        border: 1px solid #444;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table#mytable tr td {
+        border: 1px solid #444;
+    }
+    table#mytable tr th {
+        border: 1px solid #444;
+    }
+</style>
+<style type="text/css" media="print">
+    .page{
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print{    
+        #printButt{
+            display: none !important;
+        }
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <table style="width:100%;">
+            <tr>
+                <td colspan="3" class="right"><b style="font-size: 16px;">Cold Room # <span style="font-family: Verdana; "><?php echo $this->title; ?></span> </b></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <div class="dataTables_wrapper form-inline">                            
+            <table class="table table-striped table-bordered table-condensed dataTable" id="mytable">
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th>Product</th>
+                        <th>Batch No</th>
+                        <th>Quantity (Vials)</th>
+                        <th>VVM Stage</th>                    
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $serial_num = 0;
+                    if ($this->result && count($this->result) > 0) {
+                        foreach ($this->result as $row) {
+                            $serial_num++;
+                            ?>
+                            <tr class="gradeX">
+                                <td class="center"><?php echo $serial_num; ?></td>
+                                <td class="left"><?php echo $row->getItemName(); ?></td>
+                                <td class="left"><?php echo $row->getBatchNumber(); ?></td>
+                                <!--<td class="right"><?php //echo $row->getCartons();         ?></td> -->
+                                <td class="right"><?php echo number_format($row->getQuantity()); ?></td>
+                                <td class="right"><?php echo ($row->getStockBatchWarehouse()->getStockBatch()->getPackInfo()->getStakeholderItemPackSize()->getItemPackSize()->getVvmGroup()->getPkId() == 1 ? $row->getVvmStage()->getPkId() : $row->getVvmStage()->getVvmStageValue() ); ?></td>
+                            </tr>
+                            <?php
+                        }
+                    }
+                    ?>
+                </tbody>
+            </table>                                    
+        </div>
+    </div>
+</div>
+
+<br/>
+<div class="row">
+    <div class="col-md-12">
+        <div class="widget-body right">
+            <button id="print" name="print" value="1" type="button" class="btn btn-primary" ><?php echo $this->translate("Print"); ?></button>
+        </div>
+    </div> 
+</div> 	

@@ -1,0 +1,467 @@
+<?php
+/**
+ *  phtml for Issue
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <?php if (!empty($this->temp_vouchers)) { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <small style="font-weight: bold;color:red;"><?php
+                        echo "Temporary Vouchers for : ";
+                        foreach ($this->temp_vouchers as $pending_receive) {
+                            ?> 
+                            <a style="color:red; cursor: pointer;" id="print_issue1">
+                                <input type="hidden" name="hdn_master_id1" id="hdn_master_id1" value="<?php echo $pending_receive['stock_id'] ?>" />
+                                <?php echo $pending_receive['transaction_number'] . '(' . $pending_receive['login_id'] . ')' ?></a>,
+                        <?php } ?>                        
+                    </small>
+                    <hr>
+                </div>
+            </div>
+        <?php } ?>
+
+        <h3 class="page-title">
+            <?php echo $this->translate("Stock Issue"); ?>
+        </h3>
+        <p class="red">Please email <a href="mailto:support@lmis.gov.pk" class="red">support@lmis.gov.pk</a> OR contact <a href="#" class="red" >051-8444566</a> in case of any problem/question.</p>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php
+                            $type = $this->type;
+                            if ($this->issueedit) {
+                                $label = "Update Issue";
+                                $d_id = $this->detail_id;
+                                $btn_hidden = "<input type=hidden name=issueedit value=Yes />";
+                                $btn_hidden .= "<input type=hidden name=detailid value=$d_id />";
+                                $btn_hidden .= "<input type=hidden name=type value=$type />";
+                            } else {
+                                $label = "Add Issue";
+                                $btn_hidden = '';
+                            }
+                            ?>
+                            <?php echo $this->translate('Fill Form') ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse"></a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <?php if (!empty($this->msg)) { ?>
+                                <div class="col-md-12">
+                                    <div class="alert alert-info">
+                                        <button data-dismiss="alert" class="close" type="button">
+                                            ×
+                                        </button>
+                                        <?php echo $this->msg; ?>                                        
+                                        <a id="issue-print" onclick="window.open('print-issue?id=<?php echo $this->master_id; ?>', '_blank', 'scrollbars=1,width=840,height=595');" href="javascript:void(0);"><strong><?php echo $this->voucher; ?></strong></a>
+                                    </div>                                
+                                </div>
+                            <?php } ?>
+                            <div class="col-md-12">
+                                <?php
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php if (!empty($this->arr_data['success']) && $this->arr_data['success'] == 1) { ?>
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                        <strong><?php echo $this->translate("Data"); ?></strong> <?php echo $this->translate("has been saved successfully"); ?>!
+                                    </div>
+                                <?php } ?>
+                                <form method="POST" name="new_issue_form" id="new_issue_form" action="">
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="transaction_number">
+                                                    <?php echo $this->translate("Issue No"); ?>
+                                                </label>
+                                                <?php echo $this->form->transaction_number; ?>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="transaction_date">
+                                                    <?php echo $this->translate("Date"); ?>
+                                                </label>
+                                                <?php echo $this->form->transaction_date; ?>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="transaction_reference">
+                                                    <?php echo $this->translate("Issue Reference"); ?>
+                                                </label>
+
+                                                <?php echo $this->form->transaction_reference; ?>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="activity_id">
+                                                    <?php echo $this->translate("Purpose"); ?> <span class="red">*</span>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->activity_id; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <?php
+                                    if (empty($this->arr_data['warehouse_name'])) {
+                                        $this->allLevelCombo("", "", $this->menu_type);
+                                    } else {
+                                        ?>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="warehouse_name">
+                                                        <?php echo $this->translate("Warehouse"); ?> <span class="red">*</span>
+                                                    </label>
+                                                    <?php echo $this->form->warehouse_name; ?>
+                                                </div>
+                                            </div>
+                                            <?php if ($this->issueedit) { ?>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label class="control-label"></label>
+
+                                                        <button type="button" class="btn btn-primary btn-sm" id="whchange">Change</button>
+                                                        <button type="button" class="btn btn-danger btn-sm" id="whcancel" style="display:none;">Cancel</button>
+
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
+
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+                                    <div style="display:none;" id="wh_change_div">
+                                        <?php
+                                        if ($this->issueedit) {
+                                            $this->allLevelCombo("", "", $this->menu_type);
+                                        }
+                                        ?>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="item_id">
+                                                    <?php echo $this->translate("Product"); ?> <span class="red">*</span>
+                                                </label>
+                                                <?php echo $this->form->item_id; ?>
+
+                                            </div>
+                                        </div>
+                                        <?php if ($this->role == 3) { ?>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="used_for">
+                                                        <?php echo $this->translate("Used for"); ?>
+                                                    </label>
+                                                    <?php echo $this->form->used_for; ?>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="number" id="label-batch">
+                                                    <span id="manufacturer_div">   </span>  <?php echo $this->translate("Manufacturer"); ?> |<?php echo $this->translate("Batch"); ?> | <?php echo $this->translate("Quantity"); ?> <span id="priority_div">| <?php echo $this->translate("Priority"); ?></span><span class="red">*</span>
+                                                </label>
+                                                <?php echo $this->form->number; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" id="vvm-stage-issue">
+                                            <div class="form-group">
+                                                <div id="vvm_stage_lable">
+                                                    <?php if ($this->role == 3) { ?>
+                                                        <label class="control-label" for="vvm_stage">
+                                                            <?php echo $this->translate("Location"); ?> | <?php echo $this->translate("VVM Stage"); ?> | <?php echo $this->translate("Quantity"); ?>
+                                                        </label>
+                                                    <?php } else { ?>
+                                                        <label class="control-label" for="vvm_stage">
+                                                            <?php echo $this->translate("VVM Stage"); ?>
+                                                        </label>
+                                                    <?php } ?>
+                                                    <?php echo $this->form->vvm_stage; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php if ($this->role != 3) { ?>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="quantity">
+                                                        <?php echo $this->translate("Quantity"); ?> <span class="red">*</span>
+                                                    </label>
+
+                                                    <?php echo $this->form->quantity; ?>
+                                                    <span id="product-unit">
+                                                        <?php echo $this->translate("Unit"); ?>
+                                                    </span>
+                                                    <span id="product-doses"></span>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+                                    <div class="row">
+                                        <?php if ($this->role == 3) { ?>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="quantity">
+                                                        <?php echo $this->translate("Quantity"); ?> <span class="red">*</span>
+                                                    </label>
+
+                                                    <?php echo $this->form->quantity; ?>
+                                                    <span id="product-unit">
+                                                        <?php echo $this->translate("Unit"); ?>
+                                                    </span>
+                                                    <span id="product-doses"></span>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                        <div id="itembatches">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="available_quantity" class="control-label"><?php echo $this->translate("Total available batch quantity"); ?></label>
+
+                                                    <?php echo $this->form->available_quantity; ?>
+                                                    <?php echo $this->form->hdn_available_quantity; ?>
+                                                </div>
+                                            </div>
+                                            <div id="expiry_div" class="col-md-3">
+                                                <div class="form-group">
+                                                    <label for="expiry_date" class="control-label"><?php echo $this->translate("Expiry Date"); ?></label>
+
+                                                    <?php echo $this->form->expiry_date; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="dispatch_by">
+                                                    <?php echo $this->translate("Dispatch By"); ?>
+                                                </label>
+
+                                                <?php echo $this->form->dispatch_by; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">      
+                                        <div class="col-md-3" id="div_campaign_id" style="display:none;">
+                                            <div class="form-group">
+                                                <label class="control-label" for="campaign_id">
+                                                    <?php echo $this->translate("Campaign"); ?>
+                                                </label>
+
+                                                <?php echo $this->form->campaign_id; ?>
+                                                <?php echo $this->form->hdn_campaign_id; ?>
+                                            </div>
+                                        </div>   
+                                    </div>
+                                    <div class="row">                                        
+                                        <div class="col-md-12 right">
+                                            <div class="form-group form-btn-margin-top pull-right">
+                                                <label class="control-label" for="hdn_stock_id">
+                                                    &nbsp;
+                                                </label>
+                                                <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit">
+                                                    <?php echo $this->translate($label); ?>
+                                                </button>
+                                                <?php
+                                                if ($this->issueedit) {
+                                                    if ($type == 's') {
+                                                        $url = "stock/issue-search";
+                                                    } else {
+                                                        $url = "stock/issue";
+                                                    }
+                                                    ?>
+                                                    <a href="<?php echo $this->baseUrl(); ?>/<?php echo $url; ?>"><button type="button" class="btn btn-danger" id="cancel_issue">
+                                                            <?php echo $this->translate("Cancel"); ?>
+                                                        </button></a>
+                                                <?php } ?>
+                                                <?php echo $btn_hidden; ?>
+                                                <?php echo $this->form->hdn_stock_id; ?>
+                                                <?php echo $this->form->hdn_to_warehouse_id; ?>
+                                            </div>
+
+                                        </div></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+        if (!empty($this->arr_data['tempstocks']) && count($this->arr_data['tempstocks']) > 0 && $type == 'issue') {
+            ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <?php echo $this->translate("Stock Issue List"); ?>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-striped table-bordered table-condensed">
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <?php echo $this->translate("Date"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Product"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Unit"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("To Store"); ?>
+                                                </th>
+                                                <th class="col-md-2 center">
+                                                    <?php echo $this->translate("Issued"); ?>
+                                                </th>
+                                                <th class="col-md-2">
+                                                    <?php echo $this->translate("Batch"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Expiry Date"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Action"); ?>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <!-- // Table heading END -->
+
+                                        <!-- Table body -->
+                                        <tbody>
+                                            <!-- Table row -->
+                                            <?php
+                                            $i = 1;
+                                            foreach ($this->arr_data['tempstocks'] as $row) {
+                                                ?>
+                                                <tr class="gradeX">
+                                                    <td><?php echo App_Controller_Functions::dateToUserFormat($row['transaction_date']); ?></td>
+                                                    <td>
+                                                        <?php echo $row['item_name']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $row['item_unit_name']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->arr_data['warehouse_name']; ?>
+                                                    </td>
+                                                    <!--<td class="editableSingle quantity id<?php echo $row['stock_master_id']; ?>"> <?php echo number_format(abs($row['quantity'])); ?>
+                                                </td>
+                                                <td class="editableSingle batch id<?php echo $row['stock_batch_id']; ?>"> <?php echo $row['number']; ?>
+                                                </td>
+                                                    -->
+                                                    <td class="right"><?php echo number_format(abs($row['quantity'])); ?></td>
+                                                    <td><?php echo $row['number']; ?></td>
+                                                    <td><?php echo App_Controller_Functions::dateToUserFormat($row['expiry_date']); ?></td>
+                                                    <td>
+                                                        <span data-toggle="notyfy" id="<?php echo $row['stock_detail_id']; ?>" data-type="confirm"
+                                                              data-layout="top" class="fa fa-times cursor-hand"></span>
+                                                        <!-- </a> -->
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                $i++;
+                                            }
+                                            ?>
+                                            <!-- // Table row END -->
+                                        </tbody>
+                                        <!-- // Table body END -->
+
+                                    </table>
+                                </div>
+                            </div>
+                            <form name="issue_stock" id="issue_stock" action="" method="POST">
+                                <div class="row">
+                                    <div>&nbsp;</div>
+                                    <div class="col-md-12">
+                                        <label class="control-label" for="comments">
+                                            <?php echo $this->translate("Comments Max 300 Char"); ?>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->comments; ?>
+                                        </div>
+                                    </div>
+                                    <div>&nbsp;</div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="issue_period">
+                                                <?php echo $this->translate("Issue Period"); ?>
+                                            </label>
+
+                                            <?php echo $this->form->issue_period; ?>
+                                        </div>
+                                    </div>
+                                    <div id="issue_period_date" style="display:none;">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="issue_from">
+                                                    <?php echo $this->translate("From"); ?>
+                                                </label>
+
+                                                <?php echo $this->form->issue_from; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="issue_to">
+                                                    <?php echo $this->translate("To"); ?>
+                                                </label>
+                                                <?php echo $this->form->issue_to; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>&nbsp;</div>
+                                    <div class="col-md-12 right">
+                                        <button id="print_issue" type="button" class="btn btn-success">
+                                            <?php echo $this->translate("Print"); ?>
+                                        </button>
+                                        <button type="submit" class="btn btn-primary"
+                                                onclick="return confirm('Are you sure you want to save the list?');">
+                                                    <?php echo $this->translate("Save"); ?>
+                                        </button>
+                                        <?php echo $this->form->hdn_master_id; ?>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+</div>
+<!-- // Content END -->
+<input type="hidden" id="curr_wh" value="<?php echo $this->wh_id; ?>"/>
+<div style="display: none;">
+    <div id="cprov"><?php echo $this->params['province']; ?></div>
+    <div id="cdist"><?php echo $this->params['district']; ?></div>
+</div>

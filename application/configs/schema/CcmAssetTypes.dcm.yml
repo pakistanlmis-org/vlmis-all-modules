@@ -1,0 +1,67 @@
+CcmAssetTypes:
+  type: entity
+  table: ccm_asset_types
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    assetTypeName:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+      column: asset_type_name
+    status:
+      type: boolean
+      nullable: true   
+    createdDate:
+      type: datetime
+      nullable: false
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: true
+      column: modified_date
+  oneToOne:
+    parent:
+      targetEntity: CcmAssetTypes
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        parent_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    ccmEquipmentType:
+      targetEntity: CcmEquipmentTypes
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        ccm_equipment_type_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

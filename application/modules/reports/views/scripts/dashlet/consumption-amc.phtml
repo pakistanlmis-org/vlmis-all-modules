@@ -1,0 +1,13 @@
+<?php
+/**
+*  phtml for Consumption AMC
+*/
+?>
+<?php
+
+foreach ($this->xmlstore as $key => $graphs) {
+    $graphs = $graphs[0];
+    FC_SetRenderer('javascript');
+    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/MSLine.swf", "", $graphs, "chartContainer$key", '100%', 350, false, false);
+}
+?>

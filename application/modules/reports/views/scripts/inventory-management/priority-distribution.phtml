@@ -1,0 +1,467 @@
+<?php
+/**
+ *  phtml for Central Provincial Warehouse
+ */
+?>
+<?php
+$sel_month = $this->month_sel;
+$sel_year = $this->year_sel;
+$counter = 1;
+
+$sel_stk = $this->in_stk;
+$sel_prov = $this->prov_sel;
+$sel_dist = $this->in_dist;
+$sel_indicator = $this->sel_indicator;
+$in_col = $this->in_col;
+$in_rg = $this->in_rg;
+$in_type = $this->in_type;
+$stk_sel = $this->stk_sel;
+$start_date = $this->start_date;
+$end_date = $this->end_date;
+$period = $this->period;
+$str_indicator = $this->str_indicator;
+$wh_type = $this->wh_type;
+$warehouse_id = $this->warehouse_id;
+?>
+
+
+<?php
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo 'Expiry Report ' . $this->warehouse_name . ' ' . $report_month . ' ' . $sel_year; ?></h3>
+        <div class="innerLR">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php
+                        echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('inventory-management/reports-header_pri_1.phtml') ?>
+                    </td>
+                </tr>
+
+
+            </table>
+            <div class="col-md-12 right">
+
+                <img src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="tableToExcel('export', 'sheet 1', '<?php echo $report_title; ?>')" alt="Excel" style="cursor:pointer;" />
+            </div>
+            <br>
+            <?php
+            /**
+             *  phtml for Priority Vaccines Distribution Detail Print
+             */
+            ?>
+            <!-- Content -->
+            <style>
+                #content_print {
+                    margin-left: 50px;
+                    width: 100%;
+                }
+                table.mytable {
+                    border: 1px solid grey;
+                    font-size: 9pt;
+                    width: 100%;
+                }
+                table.mytable tr td {
+                    border: 1px solid grey;
+
+                    padding-left: 5px;
+                }
+                table.mytable tr th {
+                    border: 1px solid grey;
+                }
+            </style>
+            <!-- Content -->
+
+            <style type="text/css" media="print">
+                .page{
+                    -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+                    filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+                }
+                @media print{    
+                    #printButt{
+                        display: none !important;
+                    }
+                }
+            </style>
+
+
+            <br>  
+            <div class="row" id="export">
+                <div class="col-md-12">
+                    <?php if ($this->detail_summary == 1) { ?>
+                        <table class="mytable" cellpadding="2">
+                            <thead>
+                                <tr class="bg-priority-head2">
+                                    <th>
+                                    </th>
+                                    <th class="right">
+                                        Quantity (Vials)
+                                    </th>
+                                    <th class="right">
+                                        Quantity (Doses)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                if ($this->products != false) {
+                                    $count = 1;
+                                    foreach ($this->products as $row) {
+                                        $unusabletotal = 0;
+                                        $unusabledoses = 0;
+                                        $priority1total = 0;
+                                        $priority1doses = 0;
+                                        $priority2total = 0;
+                                        $priority2doses = 0;
+                                        $priority3total = 0;
+                                        $priority3doses = 0;
+
+                                        $data4 = $this->priorityVaccinesDistributionSummary($this->wh_type, $this->warehouse_id, $row['pkId'], 4);
+                                        $data1 = $this->priorityVaccinesDistributionSummary($this->wh_type, $this->warehouse_id, $row['pkId'], 1);
+                                        $data2 = $this->priorityVaccinesDistributionSummary($this->wh_type, $this->warehouse_id, $row['pkId'], 2);
+                                        $data3 = $this->priorityVaccinesDistributionSummary($this->wh_type, $this->warehouse_id, $row['pkId'], 3);
+                                        $items = array();
+                                        if ($data4 != false) {
+                                            foreach ($data4 as $row4) {
+                                                if (!in_array($row4['item_name'], $items)) {
+                                                    $items[] = $row4['item_name'];
+                                                }
+                                            }
+                                        }
+                                        if ($data1 != false) {
+                                            foreach ($data1 as $row1) {
+                                                if (!in_array($row1['item_name'], $items)) {
+                                                    $items[] = $row1['item_name'];
+                                                }
+                                            }
+                                        }
+                                        if ($data2 != false) {
+                                            foreach ($data2 as $row2) {
+                                                if (!in_array($row2['item_name'], $items)) {
+                                                    $items[] = $row2['item_name'];
+                                                }
+                                            }
+                                        }
+                                        if ($data3 != false) {
+                                            foreach ($data3 as $row3) {
+                                                if (!in_array($row3['item_name'], $items)) {
+                                                    $items[] = $row3['item_name'];
+                                                }
+                                            }
+                                        }
+                                        if ($items != false) {
+                                            ?>
+
+                                            <tr >
+                                                <td colspan="4">
+                                                    <?php foreach ($items as $item) { ?>
+                                                        <b><?php echo $item; ?></b>
+                                                    <?php } ?>
+                                                </td>
+                                            </tr> 
+                                        <?php } ?>
+                                        <?php
+                                        if ($data4 != false) {
+                                            ?>
+
+                                            <?php
+                                            foreach ($data4 as $row4) {
+                                                ?>
+                                                <tr>
+                                                    <td>
+                                                        Unusable
+                                                    </td>
+
+                                                    <td class="right">
+                                                        <?php echo number_format($row4['quantity']); ?>
+                                                    </td>
+                                                    <td class="right">
+                                                        <?php echo number_format($row4['doses']); ?>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                $unusabletotal += $row4['quantity'];
+                                                $unusabledoses += $row4['doses'];
+                                            }
+                                            ?>
+
+                                            <?php
+                                        }
+                                        $data1 = $this->priorityVaccinesDistributionSummary($this->wh_type, $this->warehouse_id, $row['pkId'], 1);
+                                        if ($data1 != false) {
+                                            ?>
+
+                                            <?php
+                                            foreach ($data1 as $row1) {
+                                                ?>
+                                                <tr>
+                                                    <td>
+                                                        Priority 1
+                                                    </td>
+
+
+                                                    <td class="right">
+                                                        <?php echo number_format($row1['quantity']); ?>
+                                                    </td>
+                                                    <td class="right">
+                                                        <?php echo number_format($row1['doses']); ?>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                $priority1total += $row1['quantity'];
+                                                $priority1doses += $row1['doses'];
+                                            }
+                                            ?>
+
+                                            <?php
+                                        }
+                                        $data2 = $this->priorityVaccinesDistributionSummary($this->wh_type, $this->warehouse_id, $row['pkId'], 2);
+                                        if ($data2 != false) {
+                                            ?>
+
+                                            <?php
+                                            foreach ($data2 as $row2) {
+                                                ?>
+                                                <tr>
+
+                                                    <td>
+                                                        Priority 2
+                                                    </td>
+
+
+
+                                                    <td class="right">
+                                                        <?php echo number_format($row2['quantity']); ?>
+                                                    </td>
+                                                    <td class="right">
+                                                        <?php echo number_format($row2['doses']); ?>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                $priority2total += $row2['quantity'];
+                                                $priority2doses += $row2['doses'];
+                                            }
+                                            ?>
+
+                                            <?php
+                                        }
+
+                                        $data3 = $this->priorityVaccinesDistributionSummary($this->wh_type, $this->warehouse_id, $row['pkId'], 3);
+                                        if ($data3 != false) {
+                                            ?>
+
+                                            <?php
+                                            foreach ($data3 as $row3) {
+                                                ?>
+                                                <tr>
+
+                                                    <td>
+                                                        Priority 3 
+                                                    </td>
+
+
+
+                                                    <td class="right">
+                                                        <?php echo number_format($row3['quantity']); ?>
+                                                    </td>
+                                                    <td class="right">
+                                                        <?php echo number_format($row3['doses']); ?>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                $priority3total += $row3['quantity'];
+                                                $priority3doses += $row3['doses'];
+                                            }
+                                            ?>
+
+                                            <?php
+                                        }
+                                        $total_vials = $unusabletotal + $priority1total + $priority2total + $priority3total;
+                                        $total_doses = $unusabledoses + $priority1doses + $priority2doses + $priority3doses;
+                                        if ($total_vials != 0) {
+                                            ?>
+                                            <tr>
+                                                <th  class="right">
+                                                    Total:
+                                                </th>
+                                                <th class="right">
+                                                    <?php echo number_format($total_vials); ?>
+                                                </th>
+                                                <th class="right">
+                                                    <?php echo number_format($total_doses); ?>
+                                                </th>
+                                            </tr>  <?php
+                                        }
+                                    }
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                        <br>
+                        <div class="right">
+                            <button type="button" id="print" class="btn btn-warning input-sm"><?php echo $this->translate("Print") ?></button>
+                        </div>
+                    <?php } else {
+                        ?>
+                        <table class="mytable" id="priority-vaccine-distribution" cellpadding="2">
+                            <thead>
+                            <input type="hidden" name="prod_id_hdn" id="prod_id_hdn" value="<?php echo $this->prod_sel;?>">
+                                <tr class="bg-priority-head2">
+                                    <?php if ($this->warehouse_id == 'all') { ?>
+                                        <th>
+                                            Province/Level
+                                        </th>
+                                    <?php } ?>
+                                    <th>
+                                        Store
+                                    </th>
+                                    <th>
+                                        Product
+                                    </th>
+                                    <th>
+                                        Batch Number
+                                    </th>                    
+                                    <th>
+                                        Expiry Date
+                                    </th>
+                                    <?php if ($this->status != 1) { ?>
+                                        <th>
+                                            Last VVM
+                                        </th>
+                                    <?php } ?>
+                                    <th>
+                                        Cold room
+                                    </th>                        
+                                    <th class="right">
+                                        Quantity (Vials)
+                                    </th>
+                                    <th class="right">
+                                        Quantity (Doses)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $unusabletotal = 0;
+                                $unusabledoses = 0;
+                                $priority1total = 0;
+                                $priority1doses = 0;
+                                $priority2total = 0;
+                                $priority2doses = 0;
+                                $priority3total = 0;
+                                $priority3doses = 0;
+
+                                $data4 = $this->priorityVaccinesDistributionRep($this->wh_type, $this->warehouse_id, $this->prod_sel, $this->purpose, $this->status, 4);
+
+                                if ($data4 != false) {
+                                    ?>
+
+                                    <?php
+                                    $in_a = array();
+                                    foreach ($data4 as $row4) {
+
+                                        if (!in_array($row4['warehouse_name'], $in_a)) {
+                                            $in_a[] = $row4['warehouse_name'];
+                                        }
+                                    }
+
+                                    foreach ($data4 as $row4) {
+                                        ?>
+                                        <tr >
+                                            <?php if ($this->warehouse_id == 'all') { ?>
+                                                <td>
+                                                    <?php echo $row4['location_name']; ?>
+                                                </td>
+                                            <?php } ?>
+                                            <td>
+                                                <?php echo $row4['warehouse_name']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row4['item_name']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo $row4['number']; ?>
+                                            </td>
+                                            <td nowrap>
+                                                <?php echo $row4['expiry_date']; ?>
+                                            </td>      
+                                            <?php if ($this->status != 1) { ?>
+                                                <td>
+                                                    <?php echo $row4['vvm']; ?>
+                                                </td>
+                                            <?php } ?>
+                                            <td>
+                                                <?php echo $row4['coldroom']; ?>
+                                            </td>
+                                            <td class="right">
+                                                <?php echo number_format($row4['quantity']); ?>
+                                            </td>
+                                            <td class="right">
+                                                <?php echo number_format($row4['doses']); ?>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                        $unusabletotal += $row4['quantity'];
+                                        $unusabledoses += $row4['doses'];
+                                    }
+                                    ?>
+                                    <tr>
+                                        <?php if ($this->warehouse_id == 'all' && $this->status != 1) { ?>
+                                            <th colspan="7" class="right">
+                                                Total:
+                                            </th>
+                                        <?php } else if ($this->warehouse_id != 'all' && $this->status == 1) { ?>
+                                            <th colspan="5" class="right">
+                                                Total:
+                                            </th>
+                                        <?php } else {?>
+                                             <th colspan="6" class="right">
+                                                Total:
+                                            </th>
+                                            
+                                        <?php }?>
+                                        <th class="right">
+                                            <?php echo number_format($unusabletotal); ?>
+                                        </th>
+                                        <th class="right">
+                                            <?php echo number_format($unusabledoses); ?>
+                                        </th>
+                                    </tr>
+                                <?php } else {
+                                    ?>
+                                    <tr>
+                                        <td colspan="8" class="center">
+                                            No Data found       
+                                        </td>  
+
+                                    <?php }
+                                    ?>
+                            </tbody>
+                        </table>
+                    <?php } ?>
+                </div>
+            </div>
+            </br>
+            </br>
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>

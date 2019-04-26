@@ -1,0 +1,20 @@
+<?php
+$SelId = $this->selId;
+$pd = $this->prod_data;
+echo "<option value=\"all\">All</option>";
+
+if (count($pd) > 0) {
+    $start = $pd[0]['startingNo'];
+    $end = $pd[0]['numberOfDoses'];
+
+    for ($i = $start; $i <= $end; $i++) {
+        if ($SelId == $i)
+            $sel = "selected='selected'";
+        else
+            $sel = "";
+        ?>
+        <option value="<?php echo $i; ?>" <?php echo $sel; ?>><?php echo $i; ?></option>
+        <?php
+    }
+}
+?>

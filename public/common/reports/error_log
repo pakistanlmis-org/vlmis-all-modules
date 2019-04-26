@@ -1,0 +1,5 @@
+[17-Apr-2013 04:53:45] PHP Fatal error:  Call to a member function close() on a non-object in /home/lmispcgo/public_html/clmis/plmis_src/operations/fetchWh.php on line 48
+[17-Apr-2013 04:54:19] PHP Fatal error:  Call to a member function close() on a non-object in /home/lmispcgo/public_html/clmis/plmis_src/operations/fetchWh.php on line 48
+[17-Apr-2013 06:22:33] PHP Parse error:  syntax error, unexpected '=' in /home/lmispcgo/public_html/clmis/plmis_src/operations/view_admin_whreport.php on line 78
+[17-Apr-2013 15:01:21] PHP Parse error:  syntax error, unexpected $end in /home/lmispcgo/public_html/clmis/plmis_src/operations/view_admin_whreport.php on line 32
+[17-Apr-2013 15:14:49] PHP Parse error:  syntax error, unexpected $end in /home/lmispcgo/public_html/clmis/plmis_src/operations/view_admin_whreport.php on line 578

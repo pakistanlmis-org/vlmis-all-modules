@@ -1,0 +1,535 @@
+<?php
+/**
+ *  phtml for TT Coverage Detail
+ */
+?>
+<?php
+$from_sel_month = $this->from_month_sel;
+$from_sel_year = $this->from_year_sel;
+$year = $this->year_sel;
+$month = $this->month_sel;
+$sel_prov = $this->prov_sel;
+$sel_dist = $this->district_id;
+$sel_tehsil = $this->tehsil;
+$wh_type = $this->wh_type;
+$report_type = $this->report_type;
+
+// Headers of the Grid
+if ($wh_type == 2 && $report_type == 1) {
+    $header = 'Sr.No.,District, TT Target';
+    $header1 = '#rspan,#rspan,#rspan';
+    $header0 = '#rspan,#rspan,#rspan';
+    $cspan = '#cspan,#cspan,#cspan,#cspan';
+    $width = '50,150,100';
+    $ro = 'ro,ro,ro';
+} else if ($wh_type == 2 && $report_type == 2) {
+    $header = 'Sr.No.,District,Tehsil/Taluka,UC, TT Target';
+    $header1 = '#rspan,#rspan,#rspan,#rspan,#rspan';
+    $header0 = '#rspan,#rspan,#rspan,#rspan,#rspan';
+    $cspan = '#cspan,#cspan,#cspan,#cspan,#cspan,#cspan';
+    $width = '50,100,100,100,80';
+    $ro = 'ro,ro,ro,ro,ro';
+} else if ($wh_type == 4 && $report_type == 1) {
+    $header = 'Sr.No.,Tehsil/Taluka,TT Target';
+    $header1 = '#rspan,#rspan,#rspan';
+    $header0 = '#rspan,#rspan,#rspan';
+    $cspan = '#cspan,#cspan,#cspan,#cspan';
+    $width = '100,150,120';
+    $ro = 'ro,ro,ro';
+} else if ($wh_type == 4 && $report_type == 2) {
+    $header = 'Sr.No.,Tehsil/Taluka,UC, TT Target';
+    $header1 = '#rspan,#rspan,#rspan,#rspan';
+    $header0 = '#rspan,#rspan,#rspan,#rspan';
+    $cspan = '#cspan,#cspan,#cspan,#cspan,#cspan';
+    $width = '50,100,100,80';
+    $ro = 'ro,ro,ro,ro';
+}
+
+
+$header .= ",<div style='text-align:center;'>Coverage TT-1</div>,#cspan";
+$header .= ",<div style='text-align:center;'>Coverage TT-2</div>,#cspan";
+$header .= ",<div style='text-align:center;'>Coverage TT-3</div>,#cspan";
+$header .= ",<div style='text-align:center;'>Coverage TT-4</div>,#cspan";
+$header .= ",<div style='text-align:center;'>Coverage TT-5</div>,#cspan";
+
+$cspan .= ',#cspan,#cspan';
+
+$header0 .= ",<div style='text-align:center;'>TT-1</div>";
+
+$header0 .= ",<div style='text-align:center;'>Coverage(%)</div>";
+$width .= ',80,90';
+
+$header1 .= ',<span>M</span>,<span>F</span>';
+
+$header1 .= ',<span>M</span>,<span>F</span>';
+$header1 .= ',<span>TT-1</span>';
+$header1 .= ',<span>TT-1</span>';
+$ro .= ',ro,ro,ro,ro';
+
+$cspan .= ',#cspan,#cspan';
+$header0 .= ",<div style='text-align:center;'>TT-1</div>";
+
+$header0 .= ",<div style='text-align:center;'>Coverage(%)</div>";
+$width .= ',80,90';
+
+
+$header1 .= ',<span>M</span>,<span>F</span>';
+
+$header1 .= ',<span>M</span>,<span>F</span>';
+$header1 .= ',<span>TT-2</span>';
+$header1 .= ',<span>TT-2</span>';
+$ro .= ',ro,ro,ro,ro';
+
+
+$cspan .= ',#cspan,#cspan';
+$header0 .= ",<div style='text-align:center;'>TT-1</div>";
+$header0 .= ",<div style='text-align:center;'>Coverage(%)</div>";
+$width .= ',80,90';
+
+
+$header1 .= ',<span>M</span>,<span>F</span>';
+$header1 .= ',<span>M</span>,<span>F</span>';
+$header1 .= ',<span>TT-3</span>';
+$header1 .= ',<span>TT-3</span>';
+$ro .= ',ro,ro,ro,ro';
+
+
+$cspan .= ',#cspan,#cspan';
+
+$header0 .= ",<div style='text-align:center;'>TT-1</div>";
+
+$header0 .= ",<div style='text-align:center;'>Coverage(%)</div>";
+$width .= ',80,90';
+
+
+$header1 .= ',<span>M</span>,<span>F</span>';
+$header1 .= ',<span>M</span>,<span>F</span>';
+$header1 .= ',<span>TT-4</span>';
+$header1 .= ',<span>TT-4</span>';
+$ro .= ',ro,ro,ro,ro';
+
+
+$cspan .= ',#cspan,#cspan';
+
+$header0 .= ",<div style='text-align:center;'>TT-1</div>";
+
+$header0 .= ",<div style='text-align:center;'>Coverage(%)</div>";
+$width .= ',80,90';
+
+
+$header1 .= ',<span>M</span>,<span>F</span>';
+$header1 .= ',<span>M</span>,<span>F</span>';
+$header1 .= ',<span>TT-5</span>';
+$header1 .= ',<span>TT-5</span>';
+$ro .= ',ro,ro,ro,ro';
+
+$header .= ',Total,Total %';
+$header0 .= ',#rspan,#rspan';
+$header1 .= ',#rspan,#rspan';
+$cspan .= ',#cspan,#cspan';
+$width .= ',60,60';
+$ro .= ',ro,ro';
+
+$xml_store = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+$xml_store .= "<rows>";
+$sum_arr = array();
+
+$query = $this->reports()->ttCoverageReport($wh_type, $year, $month, $from_sel_month, $from_sel_year, $sel_prov, $sel_dist, $sel_tehsil, 1, $report_type);
+$j = 1;
+
+
+foreach ($query as $row) {
+    $location_id = $row['location_id'];
+    $data_arr[$location_id][] = $j;
+    if ($wh_type == 2 && $report_type == 1) {
+        $data_arr[$location_id][] = $row['district'];
+    } else if ($wh_type == 2 && $report_type == 2) {
+        $data_arr[$location_id][] = $row['district'];
+        $data_arr[$location_id][] = $row['tehsil'];
+        $data_arr[$location_id][] = $row['ucs'];
+    } else if ($wh_type == 4 && $report_type == 1) {
+        $data_arr[$location_id][] = $row['tehsil'];
+    } else if ($wh_type == 4 && $report_type == 2) {
+        $data_arr[$location_id][] = $row['tehsil'];
+        $data_arr[$location_id][] = $row['ucs'];
+    }
+
+    $data_arr[$location_id][] = $row['lbt'];
+    $data_arr[$location_id][] = $row['pregnant_women'];
+
+
+    $data_arr[$location_id][] = $row['consumptionPercentage'];
+    $total_consumpiton[$location_id][] = $row['pregnant_women'];
+    $j++;
+}
+
+$query1 = $this->reports()->ttCoverageReport($wh_type, $year, $month, $from_sel_month, $from_sel_year, $sel_prov, $sel_dist, $sel_tehsil, 2, $report_type);
+
+foreach ($query1 as $row) {
+
+    $location_id = $row['location_id'];
+    $data_arr[$location_id][] = $row['pregnant_women'];
+
+
+    $data_arr[$location_id][] = $row['consumptionPercentage'];
+    $total_consumpiton[$location_id][] = $row['pregnant_women'];
+}
+
+$query3 = $this->reports()->ttCoverageReport($wh_type, $year, $month, $from_sel_month, $from_sel_year, $sel_prov, $sel_dist, $sel_tehsil, 3, $report_type);
+
+foreach ($query3 as $row) {
+
+    $location_id = $row['location_id'];
+    $data_arr[$location_id][] = $row['pregnant_women'];
+
+
+    $data_arr[$location_id][] = $row['consumptionPercentage'];
+    $total_consumpiton[$location_id][] = $row['pregnant_women'];
+}
+
+$query4 = $this->reports()->ttCoverageReport($wh_type, $year, $month, $from_sel_month, $from_sel_year, $sel_prov, $sel_dist, $sel_tehsil, 4, $report_type);
+
+foreach ($query4 as $row) {
+
+    $location_id = $row['location_id'];
+    $data_arr[$location_id][] = $row['pregnant_women'];
+
+
+    $data_arr[$location_id][] = $row['consumptionPercentage'];
+    $total_consumpiton[$location_id][] = $row['pregnant_women'];
+}
+$query5 = $this->reports()->ttCoverageReport($wh_type, $year, $month, $from_sel_month, $from_sel_year, $sel_prov, $sel_dist, $sel_tehsil, 5, $report_type);
+
+foreach ($query5 as $row) {
+
+    $location_id = $row['location_id'];
+    $data_arr[$location_id][] = $row['pregnant_women'];
+
+
+    $data_arr[$location_id][] = $row['consumptionPercentage'];
+    $total_consumpiton[$location_id][] = $row['pregnant_women'];
+}
+$query6 = $this->reports()->ttCoverageReport($wh_type, $year, $month, $from_sel_month, $from_sel_year, $sel_prov, $sel_dist, $sel_tehsil, 5, $report_type);
+
+foreach ($query6 as $row6) {
+
+
+    $location_id6 = $row6['location_id'];
+    $data_arr[$location_id6][] = array_sum($total_consumpiton[$location_id6]);
+    $data_arr[$location_id6][] = @Round((array_sum($total_consumpiton[$location_id6]) / $row6['lbt']) * 100);
+}
+
+
+foreach ($data_arr as $dis_id => $sub_arr) {
+
+    $xml_store .= "<row>";
+    if ($wh_type == 2 && $report_type == 1) {
+        $xml_store .= "<cell>$sub_arr[0]</cell>";
+        $xml_store .= "<cell>$sub_arr[1]</cell>";
+    } else if ($wh_type == 2 && $report_type == 2) {
+        $xml_store .= "<cell>$sub_arr[0]</cell>";
+        $xml_store .= "<cell>$sub_arr[1]</cell>";
+        $xml_store .= "<cell>$sub_arr[2]</cell>";
+        $xml_store .= "<cell>$sub_arr[3]</cell>";
+    } else if ($wh_type == 4 && $report_type == 1) {
+        $xml_store .= "<cell>$sub_arr[0]</cell>";
+        $xml_store .= "<cell>$sub_arr[1]</cell>";
+    } else if ($wh_type == 4 && $report_type == 2) {
+        $xml_store .= "<cell>$sub_arr[0]</cell>";
+        $xml_store .= "<cell>$sub_arr[1]</cell>";
+        $xml_store .= "<cell>$sub_arr[2]</cell>";
+    }
+
+    foreach ($sub_arr as $key => $value) {
+        if (!isset($sum_arr[$key])) {
+            $sum_arr[$key] = 0;
+        }
+        $sum_arr[$key] += $value;
+        if ($wh_type == 2 && $report_type == 1) {
+            if ($key > 1) {
+
+                $xml_store .= "<cell style=\"text-align:right;\">$value </cell>";
+            }
+        } else if ($wh_type == 2 && $report_type == 2) {
+            if ($key > 3) {
+
+                $xml_store .= "<cell style=\"text-align:right;\">$value </cell>";
+            }
+        } else if ($wh_type == 4 && $report_type == 1) {
+            if ($key > 1) {
+
+                $xml_store .= "<cell style=\"text-align:right;\">$value </cell>";
+            }
+        } else if ($wh_type == 4 && $report_type == 2) {
+            if ($key > 2) {
+
+                $xml_store .= "<cell style=\"text-align:right;\">$value </cell>";
+            }
+        }
+    }
+    $xml_store .= "</row>";
+}
+// To show Total
+array_shift($sum_arr);
+
+$xml_store .= "<row>";
+
+if ($wh_type == 2 && $report_type == 1) {
+    $xml_store .= "<cell></cell>";
+} else if ($wh_type == 2 && $report_type == 2) {
+    $xml_store .= "<cell></cell>";
+    $xml_store .= "<cell></cell>";
+    $xml_store .= "<cell></cell>";
+} else if ($wh_type == 4 && $report_type == 1) {
+    $xml_store .= "<cell></cell>";
+} else if ($wh_type == 4 && $report_type == 2) {
+    $xml_store .= "<cell></cell>";
+    $xml_store .= "<cell></cell>";
+}
+
+
+$xml_store .= "<cell style=\"font-weight:bold\">Total</cell>";
+foreach ($sum_arr as $key => $value) {
+    
+    if ($wh_type == 2 && $report_type == 1) {
+        if ($key == 1) {
+            $total_wh = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key > 1 && $key < 4) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 4) {
+            $total_val1 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val1 / $total_wh) * 100) . " %</cell>";
+        } else if ($key > 5 && $key < 8) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 8) {
+            $total_val2 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val2 / $total_wh) * 100) . " %</cell>";
+        } else if ($key > 9 && $key < 12) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 12) {
+            $total_val3 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val3 / $total_wh) * 100) . " %</cell>";
+        } else if ($key > 12 && $key < 15) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 15) {
+            $total_val4 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val4 / $total_wh) * 100) . " %</cell>";
+        } else if ($key > 16 && $key < 19) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 20) {
+            $total_val5 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val5 / $total_wh) * 100) . " %</cell>";
+        } else if ($key == 21) {
+            $total_val6 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val6 / $total_wh) * 100) . " %</cell>";
+        }
+    } else if ($wh_type == 2 && $report_type == 2) {
+        if ($key == 3) {
+            $total_wh = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key > 3 && $key < 6) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 6) {
+            $total_val1 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val1 / $total_wh) * 100) . " %</cell>";
+        } else if ($key > 7 && $key < 10) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 10) {
+            $total_val2 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val2 / $total_wh) * 100) . " %</cell>";
+        } else if ($key > 11 && $key < 14) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 14) {
+            $total_val3 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val3 / $total_wh) * 100) . " %</cell>";
+        } else if ($key > 14 && $key < 17) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 17) {
+            $total_val4 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val4 / $total_wh) * 100) . " %</cell>";
+        } else if ($key > 18 && $key < 21) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 22) {
+            $total_val5 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val5 / $total_wh) * 100) . " %</cell>";
+        } else if ($key == 23) {
+            $total_val6 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val6 / $total_wh) * 100) . " %</cell>";
+        }
+    } else if ($wh_type == 4 && $report_type == 1) {
+        if ($key == 1) {
+            $total_wh = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key > 1 && $key < 4) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 4) {
+            $total_val1 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val1 / $total_wh) * 100) . " %</cell>";
+        } else if ($key > 5 && $key < 8) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 8) {
+            $total_val2 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val2 / $total_wh) * 100) . " %</cell>";
+        } else if ($key > 9 && $key < 12) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 12) {
+            $total_val3 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val3 / $total_wh) * 100) . " %</cell>";
+        } else if ($key > 12 && $key < 15) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 15) {
+            $total_val4 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val4 / $total_wh) * 100) . " %</cell>";
+        } else if ($key > 16 && $key < 19) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 20) {
+            $total_val5 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val5 / $total_wh) * 100) . " %</cell>";
+        } else if ($key == 21) {
+            $total_val6 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val6 / $total_wh) * 100) . " %</cell>";
+        }
+    } else if ($wh_type == 4 && $report_type == 2) {
+        if ($key == 2) {
+            $total_wh = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key > 2 && $key < 5) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 5) {
+            $total_val1 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val1 / $total_wh) * 100) . " %</cell>";
+        } else if ($key > 6 && $key < 9) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 9) {
+            $total_val2 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val2 / $total_wh) * 100) . " %</cell>";
+        } else if ($key > 10 && $key < 13) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 13) {
+            $total_val3 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val3 / $total_wh) * 100) . " %</cell>";
+        } else if ($key > 13 && $key < 16) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 16) {
+            $total_val4 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val4 / $total_wh) * 100) . " %</cell>";
+        } else if ($key > 17 && $key < 20) {
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+        } else if ($key == 21) {
+            $total_val5 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val5 / $total_wh) * 100) . " %</cell>";
+        } else if ($key == 22) {
+            $total_val6 = $value;
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+            $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val6 / $total_wh) * 100) . " %</cell>";
+        }
+    }
+}
+
+$xml_store .= "</row>";
+
+$xml_store .= "</rows>";
+?>
+<?php
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+
+
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">    <?php echo $report_title; ?></h3>
+        <h5 style="color: red">
+            Note: Please check and provide feedback at support@lmis.gov.pk
+        </h5>
+        <div class="innerLR">
+            <script>
+                var mygrid;
+                function doInitGrid() {
+                    mygrid = new dhtmlXGridObject('mygrid_container');
+                    mygrid.selMultiRows = true;
+                    mygrid.setImagePath("<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+                    mygrid.setHeader("<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'><?php echo "'$report_title at  $this->loc_name'   for (" . date('F', mktime(0, 0, 0, $this->from_month_sel)) . '-' . $this->from_year_sel . ') to (' . date('F', mktime(0, 0, 0, $this->month_sel)) . '-' . $this->from_year_sel; ?>)  (Doses)</div>,<?php echo substr($cspan, 0, -14); ?>");
+                    mygrid.attachHeader("<?php echo $header; ?>");
+                    mygrid.attachHeader("<?php echo $header0; ?>");
+                    mygrid.setInitWidths("<?php echo $width; ?>");
+                    mygrid.setColTypes("<?php echo $ro; ?>");
+                    mygrid.enableRowsHover(true, 'onMouseOver');
+                    mygrid.setSkin("light");
+                    mygrid.init();
+                    mygrid.clearAll();
+                    $('body').append('<textarea id="xml_string" style="display:none;"><?php echo addslashes($xml_store); ?></textarea>');
+                    mygrid.loadXMLString(document.getElementById('xml_string').value);
+                }
+            </script>
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php
+                        echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('inventory-management/reports-header_coverage.phtml') ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="text-align:right; padding-bottom:10px;">
+                        <img style="cursor:pointer;" src="<?php echo $this->baseUrl(); ?>/images/pdf-32.png" onClick="mygrid.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="<?php echo $this->translate("Export to PDF"); ?>"/>&nbsp;&nbsp;
+                        <img style="cursor:pointer; margin-left:-5px" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="mygrid.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');" title="<?php echo $this->translate("Export to Excel"); ?>" />
+                    </td>
+                </tr>
+
+            </table>
+
+            <table width="99%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <div id="mygrid_container" style="width:100%; height:700px;"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    var whType = <?php echo $wh_type; ?>;
+    var province = <?php echo $sel_prov; ?>;
+    var district = <?php echo $sel_dist; ?>;
+    var tehsil = <?php echo $sel_tehsil; ?>;
+</script>
+

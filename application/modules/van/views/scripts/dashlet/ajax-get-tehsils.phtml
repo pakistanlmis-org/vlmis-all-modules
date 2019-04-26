@@ -1,0 +1,15 @@
+<?php
+/**
+*  phtml for Ajax Get Tehsils
+*/
+?>
+<option value=""><?php echo $this->translate("Select"); ?></option>
+<?php
+if ($this->result != false) {
+    foreach ($this->result as $row) {
+        ?>
+        <option value="<?php echo $row['pk_id']; ?> "><?php echo $row['location_name']; ?></option>
+        <?php
+    }
+}
+?>

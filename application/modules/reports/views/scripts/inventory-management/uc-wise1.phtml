@@ -1,0 +1,288 @@
+<?php
+/**
+*  phtml for UC Wise 1
+*/
+?>
+<!-- Content -->
+
+<style>
+    .rotate_text
+    {
+        margin: 0px;
+        padding: 0px;
+        padding-left: 3px;
+        padding-right: 3px;
+        padding-top: 0px;
+        -webkit-transform: rotate(-90deg); 
+        -moz-transform: rotate(-90deg);                 
+    }
+</style>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            UC wise1
+        </h3>
+        <div class="row">
+            <div class="col-md-12">
+
+
+                <?php echo $this->render('inventory-management/reports-header.phtml') ?>
+
+
+            </div>
+        </div>
+        <div class="col-md-12" style="overflow:auto;">
+            <?php if (count($this->result) > 0) { ?>
+                <?php echo $this->render('inventory-management/consumption-reports-common.phtml') ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table  width="100%">
+                            <tr>
+                                <td colspan="2">
+                                    <table id="myTable" cellspacing="0" align="center">
+                                        <thead>
+                                            <tr>
+                                                <th style="background-color: #A4A977;" rowspan="3" class="not_rotate center">
+                                                    #
+                                                </th>
+                                                <th style="background-color: #A4A977;" rowspan="3" class="not_rotate center">
+                                                    District
+                                                </th>
+                                                <th style="background-color: #A4A977;" rowspan="3" class="not_rotate center">
+                                                    Taluka
+                                                </th>
+                                                <th style="background-color: #A4A977;" rowspan="3" class="not_rotate center">
+                                                    Ucs
+                                                </th>
+                                                <th style="background-color: #A4A977;" rowspan="3" class="not_rotate right">
+                                                    Population
+                                                </th>
+                                                <th style="background-color: #CCFFFF;" rowspan="3" class="not_rotate">
+                                                    Target Live Birth 12 Months
+                                                </th>
+                                                <?php
+                                                $count = 1;
+                                                foreach ($this->items as $items) {
+                                                    $nod = $items['no_of_doses'];
+                                                    $max_i;
+                                                    $col_span = 0;
+                                                    for ($i = $items['start_no']; $i <= $items['no_of_doses']; $i++) {
+                                                        if ($i == 0) {
+                                                            $nod += 1;
+                                                        }
+                                                        $col_span += 5;
+                                                        ?>
+                                                    <?php } ?>
+                                                    <th style="background-color: #F1D975;" class="not_rotate" colspan="<?php echo $col_span; ?>"><?php echo $items['item_name']; ?> (0-11 Months)</th>
+                                                    <th style="background-color: #F1D975;" class="not_rotate" colspan="<?php echo $col_span; ?>"><?php echo $items['item_name']; ?> (12-23 Months)</th>
+
+                                                    <th style="background-color: #F1D975;" rowspan="3"><div  class="rotate_text">Opening Balance Doses</div></th>
+                                            <th style="background-color: #F1D975;" rowspan="3"><div  class="rotate_text">Revised Doses</div></th>
+                                            <th style="background-color: #F1D975;" rowspan="3" ><div  class="rotate_text">Total Doses</div></th>                    
+                                            <th style="background-color: #F1D975;" rowspan="3"><div class="rotate_text">Used Doses</div></th>       
+                                            <th style="background-color: #F1D975;" rowspan="3"><div  class="rotate_text">Doses Balance</div></th> 
+                                            <th style="background-color: #F1D975; color: #C00000;" rowspan="3"><div  class="rotate_text">Wastage Doses</div></th> 
+                                            <?php
+                                            $count++;
+                                            ?>
+                                        <?php } ?>
+                            </tr>
+
+                            <tr> 
+                                <?php
+                                foreach ($this->items as $items) {
+                                    $nod = $items['no_of_doses'];
+                                    $max_i;
+                                    $col_span = 0;
+                                    for ($i = $items['start_no']; $i <= $items['no_of_doses']; $i++) {
+                                        if ($i == 0) {
+                                            $nod += 1;
+                                        }
+                                        $col_span += 5;
+                                        ?>
+
+
+                                        <th style="background-color: #F1D975;" class="not_rotate" colspan="5"><?php echo $items['item_name'] ?> <?php echo ($i == 1 && $i == $nod) ? '' : "(" . $i . ")"; ?></th>
+
+                                        <?php
+                                    }
+                                    for ($i = $items['start_no']; $i <= $items['no_of_doses']; $i++) {
+                                        if ($i == 0) {
+                                            $nod += 1;
+                                        }
+                                        $col_span += 5;
+                                        ?>
+
+
+                                        <th style="background-color: #F1D975;" class="not_rotate" colspan="5"><?php echo $items['item_name'] ?> <?php echo ($i == 1 && $i == $nod) ? '' : "(" . $i . ")"; ?></th>
+
+                                        <?php
+                                    }
+                                }
+                                ?>
+                            </tr>
+                            <tr>
+                                <?php
+                                foreach ($this->items as $items) {
+
+                                    $nod = $items['no_of_doses'];
+                                    $max_i;
+                                    for ($i = $items['start_no']; $i <= $items['no_of_doses']; $i++) {
+                                        if ($i == 0) {
+                                            $nod += 1;
+                                        }
+                                        ?>    
+
+
+                                        <th style="background-color: #F1D975;"><div class="rotate_text">Inside UC</div></th>
+                                    <th style="background-color: #F1D975;"><div class="rotate_text">Referral from Outside UC</div></th>
+                                    <th style="background-color: #F1D975;"><div class="rotate_text">Outside UC</div></th>                    
+                                    <th style="background-color: #F1D975;"><div class="rotate_text">Total</div></th>       
+                                    <th style="background-color: #F1D975;"><div class="rotate_text">%</div></th> 
+
+                                    <th style="background-color: #F1D975;"><div class="rotate_text">Inside UC</div></th>
+                                    <th style="background-color: #F1D975;"><div class="rotate_text">Referral from Outside UC</div></th>
+                                    <th style="background-color: #F1D975;"><div class="rotate_text">Outside UC</div></th>                    
+                                    <th style="background-color: #F1D975;"><div class="rotate_text">Total</div></th>       
+                                    <th style="background-color: #F1D975;"><div class="rotate_text">%</div></th> 
+
+
+
+                                    <?php
+                                }
+                            }
+                            ?>   
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $j = 1;
+                                foreach ($this->result as $row) {
+                                    ?>
+                                    <tr>
+                                        <td class="center">
+                                            <?php echo $j; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $row['district']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $row['tehsil']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $row['ucs']; ?>
+                                        </td>
+                                        <td  class="right">
+                                            <?php echo number_format($row['facility_total_pouplation']); ?>
+                                        </td>
+                                        <td class="right">
+                                            0
+                                        </td>
+                                        <?php foreach ($this->items as $items) { ?>
+
+                                            <?php
+                                            $nod = $items['no_of_doses'];
+                                            $max_i;
+                                            for ($i = $items['start_no']; $i <= $items['no_of_doses']; $i++) {
+                                                if ($i == 0) {
+                                                    $nod += 1;
+                                                }
+                                                ?>  
+                                                <?php ($i == 1 && $i == $nod) ? '' : $i; ?>
+                                                <!--0-11 months-->
+                                                <?php $row0 = $this->reports()->ucWiseReport1($row['pk_id'], $items['pk_id'], 'Model_ListDetail::AGE_0_11', $this->year_sel, $this->month_sel, $i); ?>
+
+                                                <td class="right">
+                                                    <?php echo (!empty($row0['inside_uc'])) ? $row0['inside_uc'] : '0'; ?>
+                                                </td>
+                                                <td class="right">
+                                                    <?php echo (!empty($row0['outside_uc'])) ? $row0['outside_uc'] : '0'; ?>
+                                                </td>
+                                                <td class="right">
+                                                    <?php echo (!empty($row0['referal_uc'])) ? $row0['referal_uc'] : '0'; ?>
+                                                </td>
+                                                <td class="right">
+                                                    <?php echo (!empty($row0['total'])) ? $row0['total'] : '0'; ?>
+                                                </td>
+                                                <td class="right">
+                                                    <?php echo (!empty($row0['total'])) ? $row0['total'] : '0'; ?>
+                                                </td>
+                                            <?php } ?>
+                                            <!--end-->      
+
+                                            <?php
+                                            $nod = $items['no_of_doses'];
+                                            $max_i;
+                                            for ($i = $items['start_no']; $i <= $items['no_of_doses']; $i++) {
+                                                if ($i == 0) {
+                                                    $nod += 1;
+                                                }
+                                                ?> 
+                                                <?php ($i == 1 && $i == $nod) ? '' : $i; ?>
+                                                <!--12-23 months-->
+                                                <?php $row1 = $this->reports()->ucWiseReport1($row['pk_id'], $items['pk_id'], 'Model_ListDetail::AGE_0_11', $this->year_sel, $this->month_sel, $i); ?>
+                                                <td class="right">
+                                                    <?php echo (!empty($row0['inside_uc'])) ? $row0['inside_uc'] : '0'; ?>
+                                                </td>
+                                                <td class="right">
+                                                    <?php echo (!empty($row0['outside_uc'])) ? $row0['outside_uc'] : '0'; ?>
+                                                </td>
+                                                <td class="right">
+                                                    <?php echo (!empty($row0['referal_uc'])) ? $row0['referal_uc'] : '0'; ?>
+                                                </td>
+                                                <td class="right">
+                                                    <?php echo (!empty($row0['total'])) ? $row0['total'] : '0'; ?>
+                                                </td>
+                                                <td class="right">
+                                                    <?php echo (!empty($row0['total'])) ? $row0['total'] : '0'; ?>
+                                                </td>
+                                                <!--end--> 
+                                            <?php } ?>
+                                            <!--opening balance-->
+                                            <?php $row2 = $this->reports()->ucWiseReport11($row['pk_id'], $items['pk_id'], $this->year_sel, $this->month_sel); ?>
+                                            <td class="right">
+                                                <?php echo (!empty($row2['opening_balance'])) ? $row2['opening_balance'] : '0'; ?>
+                                            </td>
+                                            <td class="right">
+                                                <?php echo (!empty($row2['received_balance'])) ? $row2['received_balance'] : '0'; ?>
+                                            </td>
+                                            <td class="right">
+                                                <?php echo (!empty($row2['total_doses'])) ? $row2['total_doses'] : '0'; ?>
+                                            </td>
+                                            <td class="right">
+                                                <?php echo (!empty($row2['issue_balance'])) ? $row2['issue_balance'] : '0'; ?>
+                                            </td>
+                                            <td class="right">
+                                                <?php echo (!empty($row2['closing_balance'])) ? $row2['closing_balance'] : '0'; ?>
+                                            </td>
+                                            <td class="right" style="color: #C00000;">
+                                                <?php echo (!empty($row2['wastages'])) ? $row2['wastages'] : '0'; ?>
+                                            </td>
+                                            <!--end-->  
+
+                                        <?php } ?>
+                                    </tr>
+                                    <?php
+                                    $j++;
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                        </td>
+                        </tr>
+                        </table>
+                    </div>
+                </div>
+
+
+                <?php
+            } else {
+                echo "No record found";
+            }
+            ?>
+        </div>
+    </div>
+</div>
+
+
+

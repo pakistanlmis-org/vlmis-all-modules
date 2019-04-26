@@ -1,0 +1,68 @@
+Period:
+  type: entity
+  table: period
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    periodName:
+      type: text
+      nullable: true
+      column: period_name
+    periodCode:
+      type: integer
+      unsigned: false
+      nullable: false
+      column: period_code
+    isMonth:
+      type: text
+      nullable: true
+      column: is_month
+    beginMonth:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: begin_month
+    endMonth:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: end_month
+    monthCount:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: month_count
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: false
+      column: modified_date
+  oneToOne:
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

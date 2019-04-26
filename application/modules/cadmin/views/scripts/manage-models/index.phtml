@@ -1,0 +1,312 @@
+<?php
+/**
+*  phtml for Index
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Manage Models") ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Models Search") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="search_form" action="" >
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <div class="control-group ">
+                                                    <label class="control-label" ><?php echo $this->translate("Model Name"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->ccm_model_name; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="control-group ">
+                                                    <label class="control-label" ><?php echo $this->translate("Catalogue ID"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->catalogue_id; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="control-group ">
+                                                    <label class="control-label" ><?php echo $this->translate("Status"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->status; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <div class="control-group ">
+                                                    <label class="control-label" ><?php echo $this->translate("Asset Type"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->ccm_asset_type_id; ?>
+                                                        <div class="col-md-1" id="loader_make" style="display:none;">
+                                                            <img src="<?php echo Zend_Registry::get('baseurl'); ?>/images/loader-mini.gif" style="margin-top:8px; float:left" alt="" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="control-group ">
+                                                    <label class="control-label" ><?php echo $this->translate("Make"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->ccm_make_id; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 margin-top-25">
+                                                <label class="control-label" >&nbsp;</label>
+                                                <button class="btn btn-primary" type="submit" name="search"><?php echo $this->translate("Search") ?></button>
+                                                <button type="reset" class="btn btn-info" id="reset">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Makes List") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dataTables_wrapper form-inline">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <?php $this->recordsPerPage($this->counter); ?>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="dataTables_filter">
+                                                <label>
+                                                    <a class="btn btn-primary" data-toggle="modal" href="#modal-add-model"><?php echo $this->translate("Add Model") ?></a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table table-striped table-bordered table-condensed dataTable">
+                                        <!-- Table heading -->
+                                        <?php
+                                        $fields = array(
+                                            'model_name' => $this->translate("Model"),
+                                            'make_id' => $this->translate("Make"),
+                                            'asset_type' => $this->translate("Asset Type"),
+                                            'catalogue_id' => $this->translate("Catalogue ID"),
+                                            'created_by' => $this->translate("Created By")
+                                        );
+                                        $this->tableHeading($this->order, $this->sort, $fields);
+                                        ?>
+                                        <!-- // Table heading END -->
+
+                                        <!-- Table body -->
+                                        <tbody>
+                                            <?php
+                                            $i = 1;
+                                            if ($this->paginator && count($this->paginator) > 0) :
+                                                foreach ($this->paginator as $row):
+                                                    ?>
+                                                    <tr class="<?php if ($i % 2 == 0) { ?>gradeX even<?php } else { ?> gradeA odd<?php } ?>">
+                                                        <td><?php echo $row['ccmModelName'] ?></td>
+                                                        <td><?php echo $row['ccmMakeName'] ?></td>
+                                                        <td><?php echo $row['assetTypeName'] ?></td>
+                                                        <td><?php echo $row['catalogueId'] ?></td>
+                                                        <td><?php echo $row['userName'] ?></td>
+                                                        <td>
+                                                            <a itemid="<?php echo $row['pkId'] ?>" class="btn update-model btn-link btn-success btn-mini" data-toggle="modal" href="#modal-update-model"><?php echo $this->translate("Edit") ?></a>
+                                                            <!--<a itemid="<?php echo $row['pkId'] ?>" class="btn detail-model btn-link btn-success btn-mini" data-toggle="modal" href="#modal-detail-model"><?php echo $this->translate("Detail") ?></a>-->
+                                                            <?php if ($row['status'] == 1) { ?>
+                                                                <a id="<?php echo $row['pkId']; ?>" class="active btn btn-link btn-danger input-sm"><?php echo $this->translate("Active"); ?></a>
+                                                            <?php } else { ?>
+                                                                <a id="<?php echo $row['pkId']; ?>" class="deactivate btn btn-link btn-danger input-sm"><?php echo $this->translate("Deactive"); ?></a>
+                                                            <?php } ?>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- // Table row END --><?php
+                                                    $i++;
+                                                endforeach;
+                                            endif;
+                                            ?>
+                                        </tbody>
+                                        <!-- // Table body END -->
+                                    </table>
+                                    <?php echo $this->paginationControl($this->paginator, 'Sliding', 'paginator.phtml'); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/cadmin/manage-models/add" id="add-model">
+            <div class="modal fade" id="modal-add-model" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3>Add Model</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <div class="control-group ">
+                                            <label class="control-label" for="ccm_asset_type_id"><?php echo $this->translate("Asset Type"); ?><span class="red">*</span></label>
+                                            <div class="controls">
+                                                <?php echo $this->form_add->ccm_asset_type_id_popup; ?>
+                                                <div class="col-md-1" id="loader_asset_type" style="display:none;">
+                                                    <img src="<?php echo Zend_Registry::get('baseurl'); ?>/images/loader-mini.gif" style="margin-top:8px; float:left" alt="" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="control-group ">
+                                            <label class="control-label" for="ccm_asset_sub_type"><?php echo $this->translate("Asset Sub Type"); ?></label>
+                                            <div class="controls">
+                                                <?php echo $this->form_add->ccm_asset_sub_type; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="control-group ">
+                                            <label class="control-label" for="ccm_make_id"><?php echo $this->translate("Make"); ?><span class="red">*</span></label>
+                                            <div class="controls">
+                                                <?php echo $this->form_add->ccm_make_id; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <div class="control-group ">
+                                            <label class="control-label" for="ccm_model_name"><?php echo $this->translate("Model"); ?><span class="red">*</span></label>
+                                            <div class="controls">
+                                                <?php echo $this->form_add->ccm_model_name; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="control-group ">
+                                            <label class="control-label" for="catalogue_id"><?php echo $this->translate("Catalogue ID"); ?></label>
+                                            <div class="controls">
+                                                <?php echo $this->form_add->catalogue_id; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="control-group ">
+                                            <label class="control-label" for="cfc_free"><?php echo $this->translate("CFC Free Sticker"); ?></label>
+                                            <div class="controls widget-body uniformjs">
+                                                <?php echo $this->form_add->cfc_free; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <label class="control-label" for="gross_capacity_4"><?php echo $this->translate("Capacity"); ?></label>
+                                        <div class="controls">
+                                            <?php echo $this->form_add->gross_capacity_20; ?>
+                                            <?php echo $this->form_add->gross_capacity_4; ?>
+                                            <?php echo $this->form_add->net_capacity_20; ?>
+                                            <?php echo $this->form_add->net_capacity_4; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="control-group ">
+                                            <label class="control-label" for="asset_dimension_length"><?php echo $this->translate("Dimensions"); ?></label>
+                                            <div class="controls">
+                                                <?php echo $this->form_add->asset_dimension_length; ?>
+                                                <?php echo $this->form_add->asset_dimension_width; ?>
+                                                <?php echo $this->form_add->asset_dimension_height; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit"><?php echo $this->translate("Save"); ?></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/cadmin/manage-models/update" id="update-model">
+            <div class="modal fade" id="modal-update-model" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3><?php echo $this->translate("Edit Model"); ?></h3>
+                        </div>
+                        <div class="modal-body" id="modal-body-contents">
+                            <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                        </div>
+                        <div class="modal-footer" id="update-button">
+                            <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit"><?php echo $this->translate("Update"); ?></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+        <!--<div class="modal fade" id="modal-detail-model" tabindex="-1" role="basic" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title"><?php echo $this->translate("Model Detail"); ?></h4>
+                    </div>
+                    <div class="modal-body" id="modal-body-contents">
+                        <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>                  
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+    </div>
+</div>
+<!-- // Content END -->
+
+
+

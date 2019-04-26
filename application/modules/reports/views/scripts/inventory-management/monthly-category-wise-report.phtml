@@ -1,0 +1,465 @@
+<?php
+/**
+ *  phtml for Pentavalent Coverage Detail
+ */
+?>
+<?php
+$from_date = $this->from_date;
+$to_date = $this->to_date;
+$year = $this->year_sel;
+$month = $this->month_sel;
+$sel_prov = $this->prov_sel;
+$sel_dist = $this->district_id;
+$sel_tehsil = $this->tehsil;
+$wh_type = $this->wh_type;
+$report_type = $this->report_type;
+$item_id = $this->sel_item;
+// Headers of the Grid
+?>
+<?php
+if ($item_id == 7) {
+    $item_name = 'Penta-1';
+} else if ($item_id == 8) {
+    $item_name = 'Penta-3';
+} else if ($item_id == 6) {
+    $item_name = 'BCG';
+} else if ($item_id == 9) {
+    $item_name = 'Measles-1';
+} else if ($item_id == 10) {
+    $item_name = 'Measles-2';
+} else if ($item_id == 40) {
+    $item_name = 'IPV';
+}
+?>
+
+<?php
+?>
+
+<?php
+$sum_arr = array();
+
+$query = $this->reports()->monthlyCoverageReport($item_id, $wh_type, $year, $month, $from_date, $to_date, $sel_prov, $sel_dist, $sel_tehsil, Model_ListDetail::AGE_0_11, 1, 0, 11, $report_type);
+$j = 1;
+foreach ($query as $row) {
+    $location_id = $row['location_id'];
+    $data_arr[$location_id][] = $j;
+
+    if ($wh_type == 2 && $report_type == 1) {
+        $data_arr[$location_id][] = $row['district'];
+    } else if ($wh_type == 2 && $report_type == 2) {
+        $data_arr[$location_id][] = $row['district'];
+        $data_arr[$location_id][] = $row['tehsil'];
+        $data_arr[$location_id][] = $row['ucs'];
+    } else if ($wh_type == 4 && $report_type == 1) {
+
+        $data_arr[$location_id][] = $row['tehsil'];
+    } else if ($wh_type == 4 && $report_type == 2) {
+
+        $data_arr[$location_id][] = $row['tehsil'];
+        $data_arr[$location_id][] = $row['ucs'];
+    }
+    $data_arr[$location_id][] = $row['lbt'];
+
+    $data_arr[$location_id][] = $row['consumption_1_0_11'];
+    $data_arr[$location_id][] = $row['consumptionPercentage_1_0_11'];
+    if ($row['consumptionPercentage_1_0_11'] >= 95) {
+        $data_arr[$location_id][] = 1;
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 'Cat 1';
+    } else if ($row['consumptionPercentage_1_0_11'] < 95 && $row['consumptionPercentage_1_0_11'] >= 90) {
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 1;
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 'Cat 2';
+    } else if ($row['consumptionPercentage_1_0_11'] < 95 && $row['consumptionPercentage_1_0_11'] >= 80) {
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 1;
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 'Cat 3';
+    } else if ($row['consumptionPercentage_1_0_11'] < 95 && $row['consumptionPercentage_1_0_11'] >= 70) {
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 1;
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 'Cat 4';
+    } else if ($row['consumptionPercentage_1_0_11'] < 70) {
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 0;
+        $data_arr[$location_id][] = 1;
+        $data_arr[$location_id][] = 'Cat 5';
+    }
+    $total_consumpiton[$location_id][] = $row['consumption_1_0_11'];
+    $j++;
+}
+
+
+
+foreach ($query6 as $row6) {
+
+    $location_id6 = $row6['location_id'];
+    $target_avg = ($row6['target2'] + $row6['lbt']);
+
+    $data_arr[$location_id6][] = array_sum($total_consumpiton[$location_id6]);
+    $data_arr[$location_id6][] = @round((array_sum($total_consumpiton[$location_id6]) / $target_avg) * 100);
+}
+?>
+<?php
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $report_title; ?></h3>
+        <h5 style="color: red">
+            Note: Please check and provide feedback at support@lmis.gov.pk
+        </h5>
+
+        <div class="row">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('inventory-management/reports-header_analytic.phtml') ?>
+                    </td>
+                </tr>
+            </table>
+            <div class="col-md-12 right">
+
+                <img src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="tableToExcel('export', 'sheet 1', '<?php echo $report_title; ?>')" alt="Excel" style="cursor:pointer;" />
+            </div>
+        </div>
+        <div>
+            &nbsp; &nbsp; &nbsp;
+        </div>
+        <div class="row" id="export">
+            <style>
+                table#myTable{margin-top:0px !important; color: #000;}
+                table#myTable{margin-top:20px;border-collapse: collapse;border-spacing: 0; border:1px solid #999;}
+                table#myTable tr td{font-size:11px;padding:3px; text-align:left; border:1px solid #999; color: #000;}
+                table#myTable tr th{font-size:11px;padding:3px; text-align:center; border:1px solid #999; color: #000;}
+                table#myTable tr td.TAR{text-align:right; padding:5px;width:50px !important;}
+                .sb1NormalFont {color: #444444; font-size: 11px; font-weight: bold; text-decoration: none;}
+                p{margin-bottom:5px; font-size:11px !important; line-height:1 !important; padding:0 !important; color: #000;}
+                table#headerTable tr td{ font-size:11px; color: #000;}
+                h4{margin:0; color: #000; font-size:14px;}
+                h5{margin:15px 0 5px 0; color: #000;}
+                h6{margin:0; color: #000; font-size:12px;}
+                .right{text-align:right !important;}
+                .center{text-align:center !important;}
+
+                /* Print styles */
+                @media only print
+                {
+                    table#myTable{margin-top:0px !important;}
+                    table#myTable tr th{font-size:8px;padding:3px !important; text-align:center; border:1px solid #999; color: #000;}
+                    table#myTable tr td{font-size:8px;padding:3px !important; text-align:left; border:1px solid #999; color: #000;}
+                    #doNotPrint{display: none !important;}
+                    h4{margin:0; color: #000;}
+                    h5{margin:0; color: #000;}
+                    h6{margin:0; color: #000;}
+                    p{margin-bottom:5px; font-size:11px !important; line-height:1 !important; padding:0 !important; color: #000;}
+                }
+            </style>
+
+
+            <script>
+                function printContents() {
+                    var w = 900;
+                    var h = screen.height;
+                    var left = Number((screen.width / 2) - (w / 2));
+                    var top = Number((screen.height / 2) - (h / 2));
+                    var dispSetting = "toolbar=yes,location=no,directories=yes,menubar=yes,scrollbars=yes,left=" + left + ",top=" + top + ",width=" + w + ",height=" + h;
+                    var printingContents = document.getElementById("export").innerHTML;
+                    var docprint = window.open("", "", dispSetting);
+                    docprint.document.open();
+                    docprint.document.write('<html><head>');
+                    docprint.document.write('</head><body onLoad="self.print();self.close();"><center>');
+                    docprint.document.write(printingContents);
+                    docprint.document.write('</center></body></html>');
+                    docprint.document.close();
+                    docprint.focus();
+                }
+
+            </script>
+
+            <div class="innerLR" style="overflow:auto;">
+                <table id="myTable" cellspacing="0" align="center" style="width:100%">
+                    <thead>
+
+
+                        <tr>
+                            <th rowspan="4" width="50">No. of Ucs</th>
+
+                        </tr>
+                        <tr>
+
+                            <th style='text-align:center; background: green;'  colspan="2">Cat 1</th>
+                            <th style='text-align:center; background: greenyellow;' colspan="2">Cat 2</th>
+                            <th style='text-align:center; background: yellow;' colspan="2">Cat 3</th>
+                            <th style='text-align:center; background: orange;' colspan="2">Cat 4</th>
+                            <th style='text-align:center; background: red;'  colspan="2">Cat 5</th>
+                        </tr>
+                        <tr>
+
+                            <th style='text-align:center; background: green;'  colspan="2">No. of UCs having <br> >= 95%</th>
+                            <th style='text-align:center; background: greenyellow;' colspan="2">No. of UCs having <br> 90=<95%</th>
+                            <th style='text-align:center; background: yellow;' colspan="2">No. of UCs having <br> 80=< 90%</th>
+                            <th style='text-align:center; background: orange;' colspan="2">No. of UCs having <br> 70=< 95%</th>
+                            <th style='text-align:center; background: red;'  colspan="2">No. of UCs having <br> < 70%</th>
+                        </tr>
+                        <tr>
+                            <th style='text-align:center; background: green;'colspan="1">Total </th>
+
+
+
+                            <th style='text-align:center; background: green;' colspan="1">%</th>
+
+                            <th style='text-align:center; background: greenyellow;' colspan="1">Total</th>
+
+
+
+                            <th style='text-align:center; background: greenyellow;' colspan="1">%</th>
+
+                            <th style='text-align:center; background: yellow;' colspan="1">Total </th>
+
+
+
+                            <th style='text-align:center; background: yellow;' colspan="1">% </th>
+                            <th style='text-align:center; background: orange;' colspan="1">Total</th>
+
+
+
+                            <th style='text-align:center; background: orange;' colspan="1">% </th>
+                            <th style='text-align:center; background: red;' colspan="1">Total</th>
+
+
+
+                            <th style='text-align:center; background: red;' colspan="1">% </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+
+                            <?php
+                            foreach ($data_arr as $dis_id => $sub_arr) {
+                                foreach ($sub_arr as $key => $value) {
+                                    if (!isset($sum_arr[$key])) {
+                                        $sum_arr[$key] = 0;
+                                    }
+                                    $sum_arr[$key] += $value;
+                                }
+                            }
+                            array_shift($sum_arr);
+                            ?>
+                            <td style="text-align:right; "><?php echo number_format($sub_arr[0]); ?></td>
+                            <?php $total_ucs = $sub_arr[0]; ?>
+                            <?php
+                            foreach ($sum_arr as $key => $value) {
+
+                                if ($key >= 5 && $key < 10) {
+                                    ?>
+                                    <td style="text-align:right; "><?php echo number_format($value); ?></td>
+                                    <td style="text-align:right; "><?php echo Round($value / $total_ucs * 100); ?></td>
+                                    <?php
+                                }
+                            }
+                            ?>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+                <br>
+
+                <table width="100%" >
+
+                    <td align="center"><h4 class="center">
+                            <?php echo "'$report_title at  $this->loc_name'" . '<br>' . " for (" . date('F', mktime(0, 0, 0, $this->from_month_sel)) . '-' . $this->from_year_sel . ') to (' . date('F', mktime(0, 0, 0, $this->to_month_sel)) . '-' . $this->to_year_sel; ?>)  (Doses)
+                        </h4></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 10px;">
+                            <table id="myTable" cellspacing="0" align="center" width="100%">
+                                <thead>
+
+
+                                    <tr>
+                                        <th rowspan="3" width="50">S.No</th>
+                                        <th rowspan="3" width="150">Tehsil/Taluka</th>
+                                        <th rowspan="3" width="150">UC</th>
+                                        <th rowspan="3" width="80">Target</th>
+                                    </tr>
+                                    <tr>
+                                        <th tyle="text-align:center;" colspan="1">Total </th>
+                                        <th tyle="text-align:center;" colspan="1">Coverage(%)</th>
+                                        <th style='text-align:center; background: green;' rowspan="4" >No. of UCs having <br> >= 95%</th>
+                                        <th style='text-align:center; background: greenyellow;' rowspan="4">No. of UCs having <br> 90=<95%</th>
+                                        <th style='text-align:center; background: yellow;' rowspan="4">No. of UCs having <br> 80=< 90%</th>
+                                        <th style='text-align:center; background: orange;' rowspan="4">No. of UCs having <br> 70=< 95%</th>
+                                        <th style='text-align:center; background: red;'  rowspan="4">No. of UCs having <br> < 70%</th>
+                                        <th  rowspan="4">Category</th>
+                                    </tr>
+                                    <tr>
+                                        <th tyle="text-align:center;" colspan="1"><?php echo $item_name; ?></th>
+
+
+
+                                        <th tyle="text-align:center;" colspan="1"><?php echo $item_name; ?></th>
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    unset($sum_arr);
+                                    foreach ($data_arr as $dis_id => $sub_arr) {
+                                        ?>
+                                        <tr>
+                                            <?php
+                                            if ($wh_type == 2 && $report_type == 1) {
+                                                ?>
+                                                <td><?php echo $sub_arr[0]; ?></td>
+                                                <td><?php echo $sub_arr[1]; ?></td>
+                                                <?php
+                                            } else if ($wh_type == 2 && $report_type == 2) {
+                                                ?>
+                                                <td><?php echo $sub_arr[0]; ?></td>
+                                                <td><?php echo $sub_arr[1]; ?></td>
+                                                <td><?php echo $sub_arr[2]; ?></td>
+                                                <td><?php echo $sub_arr[3]; ?></td>
+                                                <?php
+                                            } else if ($wh_type == 4 && $report_type == 1) {
+                                                ?>
+                                                <td><?php echo $sub_arr[0]; ?></td>
+                                                <td><?php echo $sub_arr[1]; ?></td>
+                                                <?php
+                                            } else if ($wh_type == 4 && $report_type == 2) {
+                                                ?>
+                                                <td><?php echo $sub_arr[0]; ?></td>
+                                                <td><?php echo $sub_arr[1]; ?></td>
+                                                <td><?php echo $sub_arr[2]; ?></td>
+                                                <?php
+                                            }
+
+                                            foreach ($sub_arr as $key => $value) {
+                                                if (!isset($sum_arr[$key])) {
+                                                    $sum_arr[$key] = 0;
+                                                }
+                                                $sum_arr[$key] += $value;
+
+                                                if ($wh_type == 2 && $report_type == 1) {
+                                                    if ($key > 1) {
+                                                        ?><td style="text-align:right;"><?php echo number_format($value); ?></td>
+
+                                                        <?php
+                                                    }
+                                                } else if ($wh_type == 2 && $report_type == 2) {
+                                                    if ($key > 3) {
+                                                        ?>
+                                                        <td style="text-align:right;"><?php echo number_format($value); ?></td>
+                                                        <?php
+                                                    }
+                                                } else if ($wh_type == 4 && $report_type == 1) {
+                                                    if ($key > 1) {
+                                                        ?>
+                                                        <td style="text-align:right;"><?php echo number_format($value); ?></td>
+                                                        <?php
+                                                    }
+                                                } else if ($wh_type == 4 && $report_type == 2) {
+                                                    if ($key > 2 && $key < 5) {
+                                                        ?>
+                                                        <td style="text-align:right;"><?php echo number_format($value); ?></td>
+                                                        <?php
+                                                    } else if ($key == 5) {
+                                                        if ($value >= 95) {
+                                                            $color = 'green';
+                                                        } else if ($value < 95 && $value >= 90) {
+                                                            $color = 'greenyellow';
+                                                        } else if ($value < 95 && $value >= 80) {
+                                                            $color = 'yellow';
+                                                        } else if ($value < 95 && $value >= 70) {
+                                                            $color = 'orange';
+                                                        } else if ($value < 70) {
+                                                            $color = 'red';
+                                                        }
+                                                        ?>
+                                                        <td style="text-align:right; background: <?php echo $color; ?>"><?php echo number_format($value); ?></td>
+                                                    <?php } else if ($key >= 6 && $key < 11) { ?>
+                                                        <td style="text-align:right;"><?php echo number_format($value); ?></td>
+                                                        <?php
+                                                    }else if ($key == 11) { ?>
+                                                       <td style="text-align:right;"><?php echo $value; ?></td>
+                                                       
+                                                   <?php }
+                                                }
+                                            }
+                                        }
+
+                                        // To show Total
+                                        array_shift($sum_arr);
+                                        ?>
+                                    <tr>
+                                        <?php if ($wh_type == 2 && $report_type == 1) {
+                                            ?>
+                                            <td></td>
+                                            <?php
+                                        } else if ($wh_type == 2 && $report_type == 2) {
+                                            ?>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        <?php } else if ($wh_type == 4 && $report_type == 1) {
+                                            ?>
+                                            <td></td>
+                                        <?php } else if ($wh_type == 4 && $report_type == 2) {
+                                            ?>
+                                            <td></td>
+                                            <td></td>
+                                        <?php }
+                                        ?>
+                                        <td style="font-weight:bold">Total</td>
+                                        <?php
+                                        foreach ($sum_arr as $key => $value) {
+
+                                            if ($key == 2) {
+                                                ?>
+                                                <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+                                            <?php } else if ($key > 2 && $key < 10) { ?>
+                                                <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                    </tr>
+                                </tbody>
+                            </table></td>
+                    </tr>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        var whType = <?php echo $wh_type; ?>;
+        var province = <?php echo $sel_prov; ?>;
+        var district = <?php echo $sel_dist; ?>;
+        var tehsil = <?php echo $sel_tehsil; ?>;
+    </script>

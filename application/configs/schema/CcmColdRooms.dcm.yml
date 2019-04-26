@@ -1,0 +1,103 @@
+CcmColdRooms:
+  type: entity
+  table: ccm_cold_rooms
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    coolingSystem:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: cooling_system
+    hasVoltage:
+      type: boolean
+      nullable: true
+      column: has_voltage
+    createdDate:
+      type: datetime
+      nullable: false
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: true
+      column: modified_date
+  oneToOne:
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    typeRecordingSystem:
+      targetEntity: ListDetail
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        type_recording_system:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    refrigeratorGasType:
+      targetEntity: ListDetail
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        refrigerator_gas_type:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    temperatureRecordingSystem:
+      targetEntity: ListDetail
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        temperature_recording_system:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    backupGenerator:
+      targetEntity: ListDetail
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        backup_generator:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    ccmAssetSubType:
+      targetEntity: CcmAssetTypes
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        ccm_asset_sub_type_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    ccm:
+      targetEntity: ColdChain
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        ccm_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

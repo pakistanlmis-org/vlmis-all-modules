@@ -1,0 +1,129 @@
+<?php
+/**
+*  phtml for Ajax Explorer
+*/
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <?php echo ( $this->warehouse_level == 6 ) ? $this->translate("Monthly Consumption Report") : $this->translate("Monthly Report") ?>
+                    (<?php echo $this->month . "-" . $this->yy; ?>) - Last Reporting date : <?php echo ( $this->warehouse_level == 6 ) ? $this->modified_date : $this->created_date; ?> 
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="monthlyConsumption table table-striped table-bordered table-hover dataTable no-footer">
+                            <!-- Table heading -->
+                            <thead>
+                                <tr>
+                                    <th class="col-md-1">
+                                        <?php echo $this->translate("Product"); ?>
+                                    </th>
+                                    <th class="col-md-2">
+                                        <?php echo $this->translate("Opening Balance"); ?><br> (<?php echo $this->translate("Doses"); ?>)
+                                    </th>
+                                    <th class="col-md-1">
+                                        <?php echo $this->translate("Received"); ?><br> (<?php echo $this->translate("Doses"); ?>)
+                                    </th>
+                                    <th class="col-md-1">
+                                        <?php echo ( $this->warehouse_level == 6 ) ? $this->translate("Dispensed") : $this->translate("Issued") ?><br> (<?php echo $this->translate("Doses"); ?>)
+                                    </th>
+                                    <th class="col-md-1">
+                                        <?php echo ( $this->warehouse_level == 6 ) ? $this->translate("Vials Used") : $this->translate("Adjustment +") ?><br> (<?php echo $this->translate("Vials"); ?>)
+                                    </th>
+                                    <th class="col-md-1">
+                                        <?php echo ( $this->warehouse_level == 6 ) ? $this->translate("Unusable Vials") : $this->translate("Adjustment -") ?><br> (<?php echo $this->translate("Vials"); ?>)
+                                    </th>
+                                    <th class="col-md-2">
+                                        <?php echo $this->translate("Closing Balance"); ?><br> (<?php echo $this->translate("Doses"); ?>)
+                                    </th>
+                                    <?php if ($this->warehouse_level == 6) { ?>
+                                        <th class="col-md-1">
+                                            <?php echo $this->translate("Nearest Expiry"); ?>
+                                        </th>
+                                    <?php } ?>
+                                </tr>
+                            </thead>
+                            <!-- // Table heading END -->
+                            <!-- Table body -->
+                            <tbody>
+                                <!-- Table row -->
+                                <?php
+                                $result_received_quantity = $this->explorerReport()->getMonthlyReceiveQuantityWarehouse($this->stakeholder_id, $this->wh_id, $this->yy, $this->mm);
+                                foreach ($result_received_quantity as $val) {
+                                    $received_quantity = $val['rcv'];
+                                }
+
+                                $result_1 = $this->explorerReport()->ajaxExplorerReport($this->stakeholder_id, $this->wh_id, $this->yy, $this->mm);
+                                $serial_no = 1;
+                                if (!empty($result_1) && count($result_1) > 0) {
+
+                                    foreach ($result_1 as $rsRow1) {
+                                        $serial_no = ((strlen($serial_no) < 2) ? "0" . $serial_no : $serial_no);
+
+                                        $rsRow2 = $this->explorerReport()->getWarehouseDataByItemAndWarehouseId($this->wh_id, $rsRow1['pk_id'], $this->prev_month_date);
+                                        
+                                        $itemid = $rsRow1['pk_id'];
+                                        if (!empty($rsRow2['nearest_expiry'])) {
+                                            $nearest_expiry = App_Controller_Functions::dateToUserFormat($rsRow2['nearest_expiry']);
+                                        } else {
+                                            $nearest_expiry = '';
+                                        }
+                                        ?>
+
+                                        <?php
+                                        if ($this->is_new_report == 2) {
+                                            ?>
+                                            <tr class="gradeX">
+                                                <td class="col-md-1" style=" width: 200px;">
+                                                    <?php echo $rsRow1['item_name']; ?>
+                                                </td>
+                                                <td style="text-align:right; width: 120px;">
+                                                    <?php echo (!empty($rsRow2['opening_balance'])) ? number_format($rsRow2['opening_balance']) : '0'; ?>
+                                                </td>
+                                                <td class="col-md-1" style="text-align:right; width: 100px;">
+                                                    <?php echo (!empty($rsRow2['received_balance'])) ? number_format($rsRow2['received_balance']) : '0'; ?>
+                                                </td>
+                                                <td class="col-md-1" style="text-align:right; width: 100px;">
+                                                    <?php echo (!empty($rsRow2['issue_balance'])) ? number_format($rsRow2['issue_balance']) : '0'; ?>
+                                                </td>
+                                                <td class="col-md-1" style="text-align:right; width: 180px;">
+                                                    <?php echo (!empty($rsRow2['vials_used'])) ? number_format($rsRow2['vials_used']) : '0'; ?>
+                                                </td>
+                                                <td class="col-md-1" style="text-align:right; width: 180px;">
+                                                    <?php echo (!empty($rsRow2['adjustments'])) ? number_format(abs($rsRow2['adjustments'])) : '0'; ?>
+                                                </td>
+                                                <td class="col-md-1" style="text-align:right; width: 120px;">
+                                                    <?php echo (!empty($rsRow2['closing_balance'])) ? number_format($rsRow2['closing_balance']) : '0'; ?>
+                                                </td>
+                                                <?php if ($this->warehouse_level == 6) { ?>
+                                                    <td class="col-md-1" style="text-align:center; width: 150px;">
+                                                        <?php echo (!empty($nearest_expiry)) ? $nearest_expiry : '&nbsp;'; ?>
+                                                    </td>
+                                                <?php } ?>
+                                            </tr>
+                                            <?php
+                                        }
+                                    }
+                                }
+                                ?>
+                                <!-- // Table row END -->
+                            </tbody>
+                            <!-- // Table body END -->
+                        </table>
+                        <div class="right">
+                            <button type="button" id="print_explorer" class="btn btn-warning input-sm"><?php echo $this->translate("Print") ?></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

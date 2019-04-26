@@ -1,0 +1,17 @@
+<?php
+/**
+*  phtml for Ajax Get Users
+*/
+?>
+<?php
+if ($this->data != false) {
+    ?>
+    <option value=""><?php echo $this->translate("Select"); ?></option>
+    <?php
+    foreach ($this->data as $row) {
+        ?>
+        <option value="<?php echo $row['pkId']; ?>"><?php echo $row['loginId']; ?></option>
+                <?php
+            }
+        } 
+?>

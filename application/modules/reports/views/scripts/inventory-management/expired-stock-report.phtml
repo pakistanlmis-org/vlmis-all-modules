@@ -1,0 +1,96 @@
+<?php
+/**
+ *  phtml for Pentavalent Coverage Detail
+ */
+?>
+<?php
+$stocks = $this->stocks;
+$xmlstore = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+$xmlstore .= "<rows>";
+$counter = 1;
+//populate xml
+foreach ($stocks as $row) {
+    $temp = "\"$row[wh_id]\"";
+    $xmlstore .= "<row>";
+    $xmlstore .= "<cell>" . $counter++ . "</cell>";
+    //itm_name
+    $xmlstore .= "<cell><![CDATA[" . $row["Province"] . "]]></cell>";
+    //generic_name
+    $xmlstore .= "<cell><![CDATA[" . $row["Disrict"] . "]]></cell>";
+    //method_type
+    $xmlstore .= "<cell><![CDATA[" . $row["Tehsil"] . "]]></cell>";
+    //UnitType
+    $xmlstore .= "<cell><![CDATA[" . $row["warehouse_name"] . "]]></cell>";
+    //ItemStatusName
+    $xmlstore .= "<cell><![CDATA[" . $row["item_name"] . "]]></cell>";
+    //frmindex
+    $xmlstore .= "<cell><![CDATA[" . number_format($row["total"]) . " Vials]]></cell>";
+    $xmlstore .= "<cell></cell>";
+    $xmlstore .= "</row>";
+}
+//end xml
+$xmlstore .= "</rows>";
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">Expired Stock Report</h3>
+        <h5 style="color: red">
+            Note: Please check and provide feedback at support@lmis.gov.pk
+        </h5>
+        <div class="innerLR">
+            <script>
+                var mygrid;
+                function doInitGrid() {
+                    mygrid = new dhtmlXGridObject('mygrid_container');
+                    mygrid.setImagePath("<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+                    //mygrid.setHeader("Province,Consumption,AMC,On Hand,MOS,#cspan");
+                    mygrid.setHeader("<span title='Serial Number'>Sr. No.</span>,Province, District, Tehsil,EPI Center, Product, Expired Quantity, Actions");
+                    mygrid.attachHeader(",#select_filter,#text_filter,#text_filter,#text_filter,#text_filter,,");
+                    mygrid.setInitWidths("50,*,*,*,*,*,*,30");
+                    mygrid.setColAlign("center,left,left,left,left,left,right,center")
+                    mygrid.setColSorting("int,str,str,str,str,str,,");
+                    mygrid.setColTypes("ro,ro,ro,ro,ro,ro,ro,img");
+                    mygrid.setSkin("light");
+                    mygrid.init();
+                    mygrid.clearAll();
+                    mygrid.loadXMLString('<?php echo $xmlstore; ?>');
+                }
+            </script>
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php
+                        echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                        ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="text-align:right; padding-bottom:10px;">
+<!--                        <img style="cursor:pointer;" src="<?php echo $this->baseUrl(); ?>/images/pdf-32.png" onClick="mygrid.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="<?php echo $this->translate("Export to PDF"); ?>"/>&nbsp;&nbsp;-->
+                        <img style="cursor:pointer; margin-left:-5px" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="mygrid.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');" title="<?php echo $this->translate("Export to Excel"); ?>" />
+                    </td>
+                </tr>
+
+            </table>
+
+            <table width="99%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <div id="mygrid_container" style="width:100%; height:700px;"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    var whType = <?php echo $wh_type; ?>;
+    var province = <?php echo $sel_prov; ?>;
+    var district = <?php echo $sel_dist; ?>;
+    var tehsil = <?php echo $sel_tehsil; ?>;
+</script>

@@ -1,0 +1,198 @@
+﻿<?php
+/**
+ *  phtml for Stock in Bin Vaccines
+ */
+/**
+ * Stock in Bin Vaccines
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Stock in Bin"); ?> - <?php echo $this->title; ?></h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <a style="color:#fff;" href="<?php echo $this->baseUrl(); ?>/stock/location-status-vaccines?id=<?php echo $this->id; ?>"><?php echo $this->translate("Back to Location"); ?></a>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                        <strong>Stock</strong> has been transfered successfully!
+                                    </div>
+                                <?php } ?>
+                                <div class="dataTables_wrapper form-inline">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <?php $this->recordsPerPage($this->counter); ?>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="dataTables_filter">
+                                                <label>
+                                                    <!-- <a class="btn btn-primary" href="<?php //echo $this->baseUrl();     ?>/stock/stock-bin-placement-vaccines?id=<?php //echo $this->id;     ?>">
+                                                    <?php //echo $this->translate("Place More");  ?>
+                                                    </a> -->
+                                                    <a onclick="window.open('<?php echo $this->baseUrl(); ?>/stock/stock-in-bin-vaccines-print?id=<?php echo $this->id; ?>', '_blank', 'scrollbars=1,width=860,height=595');" href="javascript:void(0);" class="btn btn-success">
+                                                        <?php echo $this->translate("Print"); ?>
+                                                    </a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table table-striped table-bordered table-condensed dataTable">
+                                        <!-- Table heading -->
+                                        <?php
+                                        $array = array(
+                                            "sno" => "S.No.",
+                                            "product" => "Product",
+                                            "batch_no" => "Batch No",
+                                            "expiry" => "Expiry Date",
+                                            "qty" => "Qty (Vials)",
+                                            "doses" => "Qty (Doses)",
+                                            "vvm_stage" => "VVM Stage"
+                                        );
+                                        $this->tableHeading($this->order, $this->sort, $array);
+                                        ?>
+                                        <!-- // Table heading END -->
+                                        <!-- Table body -->
+
+                                        <!-- // Table body END -->
+                                        <tbody>
+                                            <?php
+                                            if ($this->result && count($this->result) > 0) {
+                                                $i = 1;
+                                                foreach ($this->result as $row) {
+                                                    ?>
+                                                    <tr class="gradeX">
+                                                        <td class="left"><?php echo $i; ?></td>
+                                                        <td class="left"><?php echo $row->getItemName(); ?></td>
+                                                        <td class="left"><?php echo $row->getBatchNumber(); ?></td>
+
+                                                        <?php
+                                                        $current_date = date("y/m/d");
+                                                        $expiray_date = $row->getStockBatchWarehouse()->getStockBatch()->getExpiryDate()->format("y/m/d");
+
+                                                        if ($expiray_date < $current_date) {
+                                                            ?>
+                                                            <td align="center" style="color:red"><?php echo $row->getStockBatchWarehouse()->getStockBatch()->getExpiryDate()->format("d/m/y"); ?></td>
+                                                            <?php
+                                                        } else {
+                                                            ?>
+                                                            <td align="center" style="color:green"><?php echo $row->getStockBatchWarehouse()->getStockBatch()->getExpiryDate()->format("d/m/y"); ?></td>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                        <?php
+                                                        $vials = $row->getQuantity();
+                                                        $num_of_doses = $row->getStockBatchWarehouse()->getStockBatch()->getPackInfo()->getStakeholderItemPackSize()->getItemPackSize()->getNumberOfDoses();
+                                                        $doses = $vials * $num_of_doses;
+                                                        ?>
+
+                                                        <td class="right"><?php echo number_format($row->getQuantity()); ?></td>
+                                                        <td class="right"><?php echo number_format($doses); ?></td>
+                                                        <td class="left"><?php echo ($row->getStockBatchWarehouse()->getStockBatch()->getPackInfo()->getStakeholderItemPackSize()->getItemPackSize()->getVvmGroup()->getPkId() == 1 ? $row->getVvmStage()->getPkId() : $row->getVvmStage()->getVvmStageValue() ); ?></td>
+                                                        <td>
+
+                                                            <?php if ($this->role_id != 23 && $this->role_id != 17 && $this->role_id != 24 && $this->role_id != 25) { ?>
+
+                                                                <a editid="<?php echo $row->getPkId(); ?>" class="btn transfer-stock-vaccines btn-link btn-success btn-sm" data-toggle="modal" href="#modal-transfer-stock-vaccines">
+                                                                    <?php echo $this->translate("Transfer") ?>
+                                                                </a>
+                                                            <?php } ?>
+                                                <!-- <a data-toggle="notyfy" id="<?php //echo $row->getPkId();     ?>" data-type="confirm" data-layout="top" class="cursor-hand btn btn-danger btn-sm">
+                                                            <?php //echo $this->translate("Delete")  ?>
+                                                </a> -->
+                                                            <a class="btn btn-info btn-sm" id="<?php echo $row->getStockBatchWarehouse()->getPkId(); ?>-batchdetail" data-id="<?php echo $row->getStockBatchWarehouse()->getPkId(); ?>" data-toggle="modal" href="#information"><i class="fa fa-search"></i></a>
+                                                        </td>        
+                                                    </tr>
+                                                    <?php
+                                                    $i++;
+                                                }
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                    <?php echo $this->paginationControl($this->result, 'Sliding', 'paginator.phtml', array('params' => $this->pagination_params)); ?>
+                                </div>
+                                <input type="hidden" id="bin_id" value="<?php echo $this->bin_id; ?>"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="post" action="<?php echo $this->baseUrl(); ?>/stock/transfer-stock-vaccines" id="transfer-stock-vaccines">
+                                    <div class="modal fade" id="modal-transfer-stock-vaccines" tabindex="-1" role="basic" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h3>Transfer Stock from: <?php echo $this->title; ?></h3>
+                                                </div>
+                                                <div class="modal-body" id="modal-body-contents">
+                                                    <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                                                </div>
+                                                <div class="modal-footer hide" id="transfer-button">
+                                                    <input class="btn btn-primary" type="submit" value="<?php echo $this->translate("Transfer"); ?>">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="asset_name" id="asset_name" value="<?php echo $this->title; ?>" >
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <?php
+                require_once 'FusionCharts/Code/PHP/Includes/FusionCharts.php';
+                FC_SetRenderer('javascript');
+                echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie3D.swf", "", $this->xmlstore, 'DataEntryStatus', '100%', 250, false, false);
+                ?>
+            </div>
+        
+            <div class="col-md-6">
+                <?php
+                FC_SetRenderer('javascript');
+                echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie3D.swf", "", $this->xmlstore1, "coldchainCapacity20", '100%', 250, false, false);
+                ?>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- // Content END -->
+<!-- /.modal -->
+<div id="information" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Batch Placements Detail</h4>
+            </div>
+            <div class="modal-body" id="batchdetailbody">
+
+            </div>
+        </div>
+    </div>

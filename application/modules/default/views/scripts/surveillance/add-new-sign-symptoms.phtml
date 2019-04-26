@@ -1,0 +1,15 @@
+<?php
+/**
+*  phtml for Add New Make Model
+*/
+?>
+
+<?php
+if ($this->result != false) {
+    foreach ($this->result as $row) {
+        ?>
+        <option value="<?php echo $row['pkId']; ?> "><?php echo $row['listValue']; ?></option>
+        <?php
+    }
+}
+?>

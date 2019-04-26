@@ -1,0 +1,251 @@
+<?php
+/**
+*  phtml for Planned Issue
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content"> 
+        <?php if (isset($this->success)) { ?>
+            <div class="alert alert-success alert-dismissable">
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button"></button>
+                <strong>Success!</strong> <?php echo $this->success; ?>
+            </div>
+        <?php } ?>
+        <?php if (isset($this->error)) { ?>
+            <div class="alert alert-danger alert-dismissable">
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button"></button>
+                <strong>Error!</strong> <?php echo $this->error; ?>
+            </div>
+        <?php } ?>
+        <h3 class="page-title">
+            <?php echo $this->translate("Issue & Picking"); ?>
+        </h3>
+        <form method="POST" name="stock_issue" id="stock_issue" action="" >
+            <div class="row">
+                <div class="col-md-12">
+                    <?php
+                    echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                    ?>
+                </div>
+            </div>
+            <?php
+            if (count($this->voucherdetail) > 0) {
+                ?>
+                <div class="row">    
+                    <div class="right col-md-7">
+                        <h3>Voucher # <?php echo $this->voucherdetail->getVoucherNumber(); ?></h3>
+                    </div>    
+                    <div class="right col-md-5">
+                        <a href="<?php echo $this->baseUrl(); ?>/stock/planned-issue" class="btn btn-success btn-sm">New voucher</a>
+                    </div>
+                </div>
+                <input type="hidden" name="voucher" id="voucher" value="<?php echo $this->voucherdetail->getVoucherNumber(); ?>" />
+                <input type="hidden" name="trans_id" id="trans_id" value="<?php echo $this->voucherdetail->getTransactionCounter(); ?>" />
+                <input type="hidden" name="transaction_date" id="transaction_date" value="<?php echo $this->voucherdetail->getExpectedArrivalDate()->format("d/m/Y"); ?>" />
+                <input type="hidden" name="reference_number" id="reference_number" value="<?php echo $this->voucherdetail->getReferenceNumber(); ?>" />
+                <input type="hidden" name="stakeholder_activity_id" id="stakeholder_activity_id" value="<?php echo $this->voucherdetail->getStakeholderActivity()->getPkId(); ?>" />
+                <input type="hidden" name="description" id="description" value="<?php echo $this->voucherdetail->getDescription(); ?>" />
+                <input type="hidden" name="warehouse" id="warehouse" value="<?php echo $this->voucherdetail->getToWarehouse()->getPkId(); ?>" />
+                <?php
+            } else {
+                ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <?php echo $this->translate("Fill Form"); ?>
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse"></a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <div class="col-md-12">  
+                                        <?php $this->allLevelCombo("", "", $this->menu_type); ?>
+                                        <!-- Row -->
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label" for="transaction_date">
+                                                        <?php echo $this->translate("Transaction Date"); ?> <span class="red">*</span>
+                                                    </label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->transaction_date; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label" for="stakeholder_activity_id">
+                                                        <?php echo $this->translate("Purpose"); ?> <span class="red">*</span>
+                                                    </label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->stakeholder_activity_id; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="reference_number">
+                                                    <?php echo $this->translate("Reference No."); ?>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->reference_number; ?>
+                                                </div>
+                                            </div>   
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label" for="description">
+                                                        <?php echo $this->translate("Description"); ?><small></small>
+                                                    </label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->description; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div>
+                                            <div class="col-md-3" id="div_campaign_id" style="display:none;">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="campaign_id">
+                                                        <?php echo $this->translate("Campaign"); ?>
+                                                    </label>
+
+                                                    <?php echo $this->form->campaign_id; ?>
+                                                    <?php echo $this->form->hdn_campaign_id; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>   
+            <?php } ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <?php echo $this->translate("Fill Form"); ?>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-striped table-bordered table-condensed">
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th class="serial">
+                                                    <?php echo $this->translate("S.No"); ?>
+                                                </th>
+                                                <th class="col-md-2">
+                                                    <?php echo $this->translate("Product"); ?>
+                                                </th>
+                                                <th class="col-md-2">
+                                                    <?php echo $this->translate("Batch | Current Quantity"); ?>
+                                                </th>
+                                                <th class="col-md-2">
+                                                    <?php echo $this->translate("Available Quantity"); ?>
+                                                </th>
+                                                <th class="col-md-2">
+                                                    <?php echo $this->translate("Expiry Date"); ?>
+                                                </th>
+                                                <th class="col-md-2">
+                                                    <?php echo $this->translate("VVM Stage"); ?>
+                                                </th>                                                
+                                                <th class="quantity col-md-2">
+                                                    <?php echo $this->translate("Quantity"); ?>
+                                                    <i data-container="body" data-original-title="Quantity in Vials" class="fa fa-info-circle tooltips"></i>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <!-- // Table heading END -->
+
+                                        <!-- Table body -->
+                                        <tbody>
+                                            <!-- Table row -->
+                                            <?php
+                                            $j = 1;
+                                            for ($i = $this->start; $i < $this->end; $i++) {
+                                                $rows = "rows" . $i;
+                                                $j = $i + 1;
+                                                ?>
+                                                <tr class="dynamic-rows">
+                                                    <td class="serial">
+                                                        <?php echo $j; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->item_id; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->number; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->ava_qty; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->expiry_date; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->vvm_stage; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->quantity; ?>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                            }
+                                            ?>
+                                            <!-- // Table row END -->
+                                        </tbody>
+                                        <!-- // Table body END -->                                      
+
+                                    </table>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-md-10">   
+                                    <button id="add_stock" type="submit" class="btn btn-primary">
+                                        <?php echo $this->translate("Save"); ?>
+                                    </button>                                    
+                                    <input type="hidden" value="<?php echo $this->end; ?>" name="counter" id="counter" />
+                                </div>                                
+                                <div class="col-md-1">
+                                    <button id="add_more" type="button" class="btn blue">
+                                        <?php echo $this->translate("Add rows"); ?>
+                                    </button>
+                                </div>
+                                <div class="col-md-1 right">
+                                    <input type="text" value="5" id="default_counter" class="form-control" />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<a id="notific8_show" href="javascript:;" class="hide"></a>
+<div id="notific8_heading" class="hide">Your Data</div>
+<div id="notific8_life" class="hide">5000</div>
+<div id="notific8_text" class="hide">has been saved as draft.</div>
+
+<div style="display: none;">
+    <div id="clevel"><?php echo $this->params['office']; ?></div>
+    <div id="cprov"><?php echo $this->params['province']; ?></div>
+    <div id="cdist"><?php echo $this->params['district']; ?></div>
+    <div id="cwh"><?php echo $this->params['warehouse']; ?></div>
+</div>

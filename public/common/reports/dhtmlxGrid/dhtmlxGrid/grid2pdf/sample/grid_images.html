@@ -1,0 +1,36 @@
+ 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+	<title>Demo</title>
+	<link rel='STYLESHEET' type='text/css' href='codebase/dhtmlxgrid.css'>
+	<link rel='STYLESHEET' type='text/css' href='codebase/skin/dhtmlxgrid_dhx_skyblue.css'>
+	<script src='codebase/dhtmlxcommon.js'></script>
+	<script src='codebase/dhtmlxgrid.js'></script>
+	<script src='codebase/dhtmlxgridcell.js'></script>
+	
+	
+	<script src='../client/dhtmlxgrid_export.js'></script>
+	
+</head>
+
+<body>
+	<input type="button" name="" value="Get as PDF" style="width:300px; font-weight:bold;" onclick="mygrid.toPDF('../server/generate.php');"><br><br>
+	
+	<div id="gridbox" style="width:650px; height:350px"></div>
+<script>
+		mygrid = new dhtmlXGridObject('gridbox');
+		mygrid.setImagePath('codebase/imgs/');
+		mygrid.setHeader("Cover,Title,Author");
+		mygrid.setInitWidths("150,150,150")
+		mygrid.enableMultiline(true)
+		mygrid.setColAlign("center,left,left,right,center,center")
+		mygrid.setColTypes("img,ed,ed");
+		mygrid.setSkin("dhx_skyblue")
+		mygrid.init();
+		
+		mygrid.loadXML("grid_images.xml");
+</script>
+</body>
+</html>

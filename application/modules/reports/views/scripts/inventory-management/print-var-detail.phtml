@@ -1,0 +1,896 @@
+
+<style>
+    table#myTable{margin-top:20px;border-collapse: collapse;border-spacing: 0; border:2px solid #000000;}
+    table#myTable tr td{font-size:11px;padding:3px; text-align:left; border:1px solid #000000;}
+    table#myTable tr th{font-size:11px;padding:3px; text-align:center; border:1px solid #000000;}
+    table#myTable tr td.TAR{text-align:right; padding:5px;width:50px !important;}
+    .sb1NormalFont {
+        color: #444444;
+        font-size: 11px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    p{margin-bottom:5px; font-size:11px !important; line-height:1 !important; padding:0 !important;}
+    table#headerTable tr td{ font-size:11px;}
+
+    /* Print styles */
+    @media only print
+    {
+        table#myTable tr th{font-size:8px;padding:3px !important; text-align:center; border:1px solid #000000;}
+        table#myTable tr td{font-size:8px;padding:3px !important; text-align:left; border:1px solid #000000;}
+        #doNotPrint{display: none !important;}
+    }
+</style>
+
+<?php
+/**
+ *  phtml for shipment scenario
+ */
+?>
+
+
+<div style="width: 80%; margin: auto;">
+    <div style="width: 100%;  float: left; margin-top: 24px; padding-bottom: 10px;">
+
+        <?php
+        $row = $this->var_data;
+        ?>
+
+        <table  width="50%" id="myTable" cellspacing="0" align="left" >
+
+
+            <tr>
+                <td width="30%">
+                    COUNTRY
+                </td>
+                <td width="70%">
+                    <?php echo $row[0]['country']; ?>
+                </td>
+
+
+
+            </tr>
+            <tr>
+                <td width="30%">
+                    Report No.
+                </td>
+                <td width="70%">
+                    <?php echo $row[0]['report_no']; ?>
+                </td>
+
+
+
+            </tr>
+
+
+
+        </table>
+        <table  width="40%" id="myTable" cellspacing="0" align="right" >
+
+
+
+            <tr>
+                <td width="30%">
+                    Date of Report
+                </td>
+                <td width="70%">
+                    <?php echo date("d/m/Y", strtotime($row[0]['report_date'])); ?>
+                </td>
+
+
+
+            </tr>
+
+        </table>
+        </br>
+        </br>
+        </br>
+        </br>
+        <table width="100%" id="myTable" cellspacing="0" align="center">
+            <thead>
+                <tr>
+                    <td width="50%">
+                        Place, date and time of Inspection
+                    </td >
+                    <td width="50%">
+                        Name of Cold Store,date and time vaccines entered into cold store
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><?php echo $row[0]['place_of_inspection'] . ',' . date("d/m/Y", strtotime($row[0]['date_of_inspection'])); ?> </td>
+                    <td> <?php echo $row[0]['cold_store'] . ',' . date("d/m/Y", strtotime($row[0]['date_of_vaccines_entered_cold_store'])); ?>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+        </br>
+
+        <b> PART I - ADVANCE NOTICE </b>
+
+        <table width="100%" id="myTable" cellspacing="0" align="center">
+            <thead>
+                <tr>
+                    <td>
+                        MAIN DOCUMENTS
+                    </td>
+                    <td>
+                        Date received by </br> consignee
+                    </td>
+                    <td>
+                        Copy airway bill</br>(AWB)
+
+                    </td>
+                    <td>
+                        Copy of packing list
+                    </td>
+                    <td>
+                        Copy of Invoice
+                    </td>
+                    <td>
+                        Copy of release </br> certificate
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        Pre-advice
+                    </td>
+                    <td>
+                        <?php echo date("d/m/Y", strtotime($row[0]['pre_advice_date'])); ?>
+                    </td>
+
+                    <td colspan="4" style="background-color: black">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        Shipping notification
+                    </td>
+                    <td>
+                        <?php echo date("d/m/Y", strtotime($row[0]['shipping_notification_date'])); ?>
+                    </td>
+                    <td>
+                        Yes <input type="checkbox" disabled="disabled" value="1" name="awb" <?php echo ($row[0]['awb'] == '1') ? "checked" : ""; ?>>
+                        No <input type="checkbox" disabled="disabled" value="0" name="awb" <?php echo ($row[0]['awb'] == '0') ? "checked" : ""; ?>>
+                    </td>
+                    <td>
+                        Yes <input type="checkbox" disabled="disabled" value="1" name="packing_list" <?php echo ($row[0]['packing_list'] == '1') ? "checked" : ""; ?>>
+                        No <input type="checkbox" disabled="disabled" value="0" name="packing_list" <?php echo ($row[0]['packing_list'] == '0') ? "checked" : ""; ?>>
+                    </td>
+                    <td>
+                        Yes <input type="checkbox" disabled="disabled" value="1" name="invoice" <?php echo ($row[0]['invoice'] == '1') ? "checked" : ""; ?>>
+                        No <input type="checkbox" disabled="disabled" value="0" name="invoice" <?php echo ($row[0]['invoice'] == '0') ? "checked" : ""; ?>>
+                    </td>
+                    <td>
+                        Yes <input type="checkbox" disabled="disabled" value="1" name="release_certificate" <?php echo ($row[0]['release_certificate'] == '1') ? "checked" : ""; ?>>
+                        No <input type="checkbox" disabled="disabled" value="0" name="release_certificate" <?php echo ($row[0]['release_certificate'] == '0') ? "checked" : ""; ?>>
+                    </td>
+                </tr>
+
+
+
+            </tbody>
+
+        </table>
+        <table width="100%" id="myTable" cellspacing="0" align="center"> 
+            <tbody>
+                <tr>
+                    <td width="36%">
+                        List of other documents(if Requested)
+                    </td>
+                    <td colspan="5" width="64%">
+                        <?php echo $row[0]['advance_note_other_document']; ?>
+
+                    </td>
+
+                </tr>
+            </tbody>
+
+        </table>
+
+        </br>
+
+        <b>  PART II - FLIGHT ARRIVAL DETAILS </b>
+
+        <table width="100%" id="myTable" cellspacing="0" align="center">
+            <thead>
+                <tr>
+                    <td rowspan="2" class="center">
+                        AWB Number
+                    </td>
+                    <td rowspan="2" class="center">
+                        Airport of </br> destination
+                    </td>
+                    <td rowspan="2" class="center">
+                        Flight No
+                    </td>
+                    <td colspan="1" class="center">
+                        ETA as per notification
+                    </td>
+                    <td colspan="1" class="center">
+                        Actual time of arrival
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="center">
+                        Date/Time
+                    </td>  
+
+                    <td class="center">
+                        Date/Time
+                    </td>  
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+
+
+                    <td>
+                        <?php echo $row[0]['awb_number']; ?>
+
+                    </td>
+                    <td>
+                        <?php echo $row[0]['airport_of_destination']; ?>
+
+                    </td>
+                    <td>
+                        <?php echo $row[0]['flight_no']; ?>
+
+                    </td>
+                    <td>
+                        <?php echo date("d/m/Y", strtotime($row[0]['eta_date'])); ?>
+
+                    </td>
+                    <td>
+                        <?php echo date("d/m/Y", strtotime($row[0]['actual_time_arrival'])); ?>
+
+                    </td>
+
+
+
+
+                </tr>
+
+
+
+
+            </tbody>
+
+        </table>
+        <table width="100%">
+            <tr>
+                <td colspan="2">&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td style="text-align:right;" width="10%" >NAME OF CLEARING AGENT:</td>
+                <td width="4%"><u> <?php echo $row[0]['name_of_clearing_agent']; ?></u>
+                </td>
+                <td width="8%" style="text-align:right;" >ON BEHALF OF:</td>
+                <td width="20%"><u><?php echo $row[0]['on_behalf']; ?></u>
+                </td>
+            </tr>
+
+        </table>
+        </br>
+        <b>  PART III - DETAILS OF VACCINE SHIPMENT </b>
+
+        <table width="100%" id="myTable" cellspacing="0" align="center">
+            <thead>
+                <tr>
+                    <td class="center" >
+                        Purchase Order </br> No.
+                    </td>
+                    <td class="center" >
+                        Consignee
+                    </td>
+                    <td class="center" >
+                        Vaccine Description</br>
+                        (Type and doses/val)
+                    </td>
+                    <td class="center" >
+                        Manufacturer
+                    </td>
+                    <td class="center" >
+                        Country
+                    </td>
+
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr>
+
+
+                    <td width="20%"><?php echo $row[0]['purchase_order_no']; ?></td>
+                    <td width="20%"> <?php echo $row[0]['consignee']; ?></td>
+                    <td width="30%"> <?php echo $row[0]['vaccine_description']; ?></td>
+                    <td width="20%"><?php echo $row[0]['manufacturer']; ?> </td>
+                    <td width="10%"> <?php echo $row[0]['country_part3']; ?></td>
+
+                </tr>
+
+
+
+
+            </tbody>
+
+        </table>
+        <table width="100%" id="myTable" cellspacing="0" align="center">
+            <thead>
+                <tr>
+                    <td colspan="4" class="center" >
+                        Vaccine
+                    </td>
+                    <td colspan="4" class="center" >
+                        Diluent/droppers
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td  class="center" >
+                        Lot Number
+                    </td>
+                    <td  class="center" >
+                        Number of boxes
+                    </td>
+                    <td  class="center" >
+                        Number of vials
+                    </td>
+                    <td  class="center" >
+                        Expiry date
+                    </td>
+
+                    <td  class="center" >
+                        Lot Number
+                    </td>
+                    <td  class="center" >
+                        Number of boxes
+                    </td>
+                    <td  class="center" >
+                        Number of units
+                    </td>
+                    <td  class="center" >
+                        Expiry date
+                    </td>
+
+                </tr>
+
+            </thead>
+            <tbody>
+                <?php
+                foreach ($this->shipment_vaccines as $sv) {
+                    ?>
+                    <?php if ($sv['item_category_id'] == 1) { ?>
+                        <tr>
+
+                            <td class="center">
+                                <?php echo $sv['number']; ?>
+                            </td>
+                            <td style="text-align: right">
+                                <?php echo $sv['carton']; ?>
+                            </td>
+
+                            <td style="text-align: right">
+                                <?php echo number_format($sv['quantity']); ?>
+                            </td>
+                            <td class="center"><?php echo date("d/m/Y", strtotime($sv['expiry_date'])); ?></td>
+
+                            <td class="center">
+
+                            </td>
+                            <td style="text-align: right">
+
+                            </td>
+
+                            <td style="text-align: right">
+
+                            </td>
+                            <td class="center"></td>
+                        </tr>
+
+
+
+
+
+
+
+                    <?php } else {
+                        ?>
+                        <tr>
+                            <td class="center">
+
+                            </td>
+                            <td style="text-align: right">
+
+                            </td>
+
+                            <td style="text-align: right">
+
+                            </td>
+                            <td class="center"></td>
+                            <td class="center">
+                                <?php echo $sv['number']; ?>
+                            </td>
+                            <td style="text-align: right">
+                                <?php echo $sv['carton']; ?>
+                            </td>
+
+                            <td style="text-align: right">
+                                <?php echo number_format($sv['quantity']); ?>
+                            </td>
+                            <td class="center"><?php echo date("d/m/Y", strtotime($sv['expiry_date'])); ?></td>
+
+
+                        </tr>
+
+                    <?php }
+                }
+                ?>
+
+
+            </tbody>
+
+        </table>
+        (Continue on seperate sheet if necessary)
+        <table width="100%" id="myTable" cellspacing="0" align="center">
+            <thead>
+                <tr>
+                    <td class="center" width="40%">
+
+                    </td>
+                    <td width="5%">
+                        yes
+                    </td>
+                    <td width="5%">
+                        No
+                    </td>
+                    <td width="50%">
+                        Comments
+                    </td>
+
+
+                </tr>
+
+
+            </thead>
+            <tbody>
+                <tr>
+
+                    <td>
+                        Was quantity received as per shipping notification?
+                    </td>
+
+                    <td>
+                        <input type="checkbox" disabled="disabled" value="1" name="quantity_received" <?php echo ($row[0]['quantity_received'] == '1') ? "checked" : ""; ?>>
+
+                    </td>
+                    <td>
+                        <input type="checkbox" disabled="disabled" value="0" name="quantity_received" <?php echo ($row[0]['quantity_received'] == '0') ? "checked" : ""; ?>>
+                    </td> <td>
+<?php echo $row[0]['quantity_received_comments']; ?>
+
+
+                </tr>
+
+                <tr>
+
+
+                    <td>
+                        If not,were details of short-shipment provided prior to vaccine arrival?
+                    </td>
+                    <td>
+                        <input type="checkbox" disabled="disabled" value="1" name="detail_short_shipment" <?php echo ($row[0]['detail_short_shipment'] == '1') ? "checked" : ""; ?>>
+                    </td>
+                    <td>
+                        <input type="checkbox" disabled="disabled" value="0" name="detail_short_shipment" <?php echo ($row[0]['detail_short_shipment'] == '0') ? "checked" : ""; ?>>
+                    </td> <td>
+<?php echo $row[0]['detail_short_shipment_comments']; ?>
+
+                    </td>
+
+
+                </tr>
+
+
+
+
+            </tbody>
+
+        </table>
+        __________________________</br>
+        <small>  Adopted from the Standard UNICEF Vaccine Arrival Report from WHO Guidelines on the international packaging and shipping of vaccines </n>
+            (WHO/IVB/05.23)</n>
+            No.= Number</n>
+            WHO recomends all UN agencies, countries and non-governmental organizations procuring vaccines adopt this report.</small>
+        <p align="center">Page 1</p>
+        </br>
+        </br>
+        </br>
+        </br>
+        <table  width="40%" id="myTable" cellspacing="0" align="right" >
+            <tr>
+                <td width="30%">
+                    Report No.
+                </td>
+                <td width="70%">
+<?php echo $row[0]['report_no']; ?>
+                </td>
+
+            </tr>
+
+        </table>
+        </br>
+        </br>
+        </br>
+        </br>
+        <b> PART IV - DOCUMENTS ACCOMPANYING THE SHIPMENT </b>
+        <table width="100%" id="myTable" cellspacing="0" align="center">
+            <thead>
+                <tr>
+                    <td class="center" width="15%" >
+                        Invoice
+                    </td>
+                    <td width="15%">
+                        Paking list
+                    </td>
+                    <td width="15%">
+                        Release certicate 
+                    </td>
+                    <td width="15%">
+                        Vaccine Arrival Report
+                    </td>
+                    <td width="25%">
+                        Other
+                    </td>
+
+
+                </tr>
+
+
+            </thead>
+            <tbody>
+                <tr>
+
+                    <td>
+                        Yes  <input type="checkbox" disabled="disabled" value="1" name="documents_invoice" <?php echo ($row[0]['documents_invoice'] == '1') ? "checked" : ""; ?>>
+                        No   <input type="checkbox" disabled="disabled" value="0" name="documents_invoice" <?php echo ($row[0]['documents_invoice'] == '0') ? "checked" : ""; ?>>
+                    </td>
+                    <td>
+                        Yes  <input type="checkbox" disabled="disabled" value="1" name="documents_packing_list" <?php echo ($row[0]['documents_packing_list'] == '1') ? "checked" : ""; ?>>
+                        No   <input type="checkbox" disabled="disabled" value="0" name="documents_packing_list" <?php echo ($row[0]['documents_packing_list'] == '0') ? "checked" : ""; ?>>
+                    </td>
+                    <td>
+                        Yes  <input type="checkbox" disabled="disabled" value="1" name="documents_release_certificate" <?php echo ($row[0]['documents_release_certificate'] == '1') ? "checked" : ""; ?>>
+                        No   <input type="checkbox" disabled="disabled" value="0" name="documents_release_certificate" <?php echo ($row[0]['documents_release_certificate'] == '0') ? "checked" : ""; ?>>
+                    </td> 
+                    <td>
+                        Yes  <input type="checkbox" disabled="disabled" value="1" name="documents_var"  <?php echo ($row[0]['documents_var'] == '1') ? "checked" : ""; ?>>
+                        No   <input type="checkbox" disabled="disabled" value="0" name="documents_var"  <?php echo ($row[0]['documents_var'] == '0') ? "checked" : ""; ?>>
+                    </td>
+                    <td>
+<?php echo $row[0]['document_other']; ?>
+
+                    </td>
+
+
+                </tr>
+                <tr>
+
+                    <td>
+                        Comments
+                    </td>
+                    <td colspan="4">
+<?php echo $row[0]['part4_comments']; ?>
+
+                    </td>
+
+
+
+                </tr>
+
+
+
+
+
+            </tbody>
+
+        </table>
+
+        </br>
+        <b> PART V - STATUS OF SHIPPING INDICATORS</b>
+        <table width="100%" id="myTable" cellspacing="0" align="center">
+
+            <tbody>
+                <tr>
+
+                    <td>
+                        Total number of boxes </br>Inspected:
+                    </td>
+                    <td colspan="5">
+                        <span style="border:2px solid black;  display: inline-block; width: 70px; height: 30px;">    <?php echo $row[0]['total_number_boxes_inspected']; ?> </span>
+                    </td>
+
+
+
+                </tr>
+                <tr>
+
+                    <td>
+                        Coolant type
+                    </td>
+                    <td>
+                        <input type="checkbox" disabled="disabled" name="dry_ice" id="dry_ice" <?php echo ($row[0]['dry_ice'] == '1') ? "checked" : ""; ?>> Dry Ice
+                        <input type="checkbox" disabled="disabled" name="ice_packs" id="ice_packs" <?php echo ($row[0]['ice_packs'] == '1') ? "checked" : ""; ?>> Ice Packs
+                        <input type="checkbox" disabled="disabled" name="no_coolant" id="no_coolant" <?php echo ($row[0]['no_coolant'] == '1') ? "checked" : ""; ?>> No coolant
+                        <input type="checkbox" disabled="disabled" name="coolant_type_empty" id="coolant_type_empty" <?php echo ($row[0]['coolant_type_empty'] == '1') ? "checked" : ""; ?>>
+
+
+                    </td>
+
+
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        Temperature monitors </br> present:
+                    </td>
+                    <td>
+                        <input type="checkbox" disabled="disabled"  name="vvm" id="vvm" <?php echo ($row[0]['vvm'] == '1') ? "checked" : ""; ?>> VVM
+                        <input type="checkbox" disabled="disabled"  name="cold_chain_card" id="cold_chain_card"  <?php echo ($row[0]['cold_chain_card'] == '1') ? "checked" : ""; ?> > Cold-chain card 
+                        <input type="checkbox" disabled="disabled"  name="electronic_device" id="electronic_device" <?php echo ($row[0]['electronic_device'] == '1') ? "checked" : ""; ?>> Electronic device
+                        <input type="checkbox" disabled="disabled"  name="temperature_monitors_empty" id="temperature_monitors_empty" <?php echo ($row[0]['temperature_monitors_empty'] == '1') ? "checked" : ""; ?>>
+
+
+                    </td>
+
+
+
+                </tr>
+
+
+
+            </tbody>
+
+        </table>
+
+        </br>
+        <strong> PROVIDE BELOW DETAILS OF STATUS <u>ONLY</u> WHEN PROBLEMS ARE OBSERVED </br>
+            <small>(in addition fill in ALARM REPORTING FORM if there are any ALARMS in electronic devices):</small></strong>
+        <table width="100%" id="myTable" cellspacing="0" align="center">
+            <thead>
+                <tr>
+                    <td rowspan="2" class="center" >
+                        Box number
+                    </td>
+                    <td rowspan="2" class="center">
+                        Lot No
+                    </td>
+                    <td colspan="4" class="center">
+                        Alarm in electronic device
+                    </td>
+                    <td colspan="4" class="center">
+                        Cold-chain monitor
+                    </td>
+                    <td rowspan="2" class="center">
+                        Day/time of Inspection
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td  >
+                        >=45c
+                    </td>
+                    <td  >
+                        >=30c
+                    </td>
+                    <td  >
+                        >=10c
+                    </td>
+                    <td  >
+                        >=0.5c
+                    </td>
+                    <td  >
+                        A
+                    </td>
+                    <td  >
+                        B
+                    </td>
+                    <td  >
+                        C
+                    </td>
+                    <td  >
+                        D
+                    </td>
+
+
+
+                </tr>
+
+            </thead>
+            <tbody>
+                <?php
+                $i = 0;
+                foreach ($this->var_electronic_data as $row1) {
+                    ?>
+                    <tr>
+
+                        <td >
+    <?php echo $row1['box_number']; ?>
+                        </td>
+                        <td >
+    <?php echo $row1['lot_no']; ?>
+                        </td>
+                        <td >
+    <?php echo $row1['less_45']; ?>
+                        </td>
+                        <td >
+    <?php echo $row1['less_30']; ?>
+                        </td>
+                        <td >
+    <?php echo $row1['less_10']; ?>
+                        </td>
+                        <td >
+    <?php echo $row1['less_5']; ?>
+                        </td>
+                        <td >
+    <?php echo $row1['cold_chain_a']; ?>
+                        </td>
+                        <td >
+    <?php echo $row1['cold_chain_b']; ?>
+                        </td>
+                        <td >
+    <?php echo $row1['cold_chain_c']; ?>
+                        </td>
+                        <td >
+    <?php echo $row1['cold_chain_d']; ?>
+                        </td>
+                        <td >
+    <?php echo $row1['day_of_inspection']; ?>
+                        </td>
+                        <td >
+    <?php echo date("d/m/Y", strtotime($row1['date_of_inspection'])); ?>
+                        </td>
+
+
+
+                    </tr>
+
+
+                    <?php
+                    $i++;
+                }
+                ?>
+
+
+
+            </tbody>
+
+        </table>
+        <small>  (Continuing on seperate sheet if necessary) </small>
+        </br>
+        <b>  PART VI - GENERAL CONDITIONS OF SHIPMENT </b>
+        <table width="100%" id="myTable" cellspacing="0" align="center">
+            <?php
+            $row = $this->var_data;
+            ?>
+            <tbody>
+                <tr>
+
+                    <td width="40%" >
+                        What was the condition of boxes on arrival?
+                    </td>
+                    <td width="60%"  >
+<?php echo $row[0]['condition_of_boxes_arrival']; ?>
+                    </td>
+
+
+
+                </tr>
+                <tr>
+
+                    <td >
+                        Where necessary labels attached to shipping boxes?
+                    </td>
+                    <td >
+<?php echo $row[0]['labels_attached']; ?>
+                    </td>
+
+
+
+                </tr>
+                <tr>
+
+                    <td >
+                        Other comments including description of alarms in electronic devices:</br>
+                        (continue on seperate sheet if necessary).
+                    </td>
+                    <td >
+<?php echo $row[0]['other_comments_electronic_device']; ?> 
+                    </td>
+
+
+
+                </tr>
+
+
+
+
+
+            </tbody>
+
+        </table>
+
+        </br>
+        <b>   PART VII - NAME AND SIGNATURE </b>
+
+        <table width="100%">
+            <tr>
+                <td colspan="2">&nbsp;</td>
+            </tr>
+
+            <tr>
+
+                <td width="37%">___________________________________</td>
+
+                <td width="20%">________________</td>
+                <td width="32%">___________________________________</td>
+                <td width="20%">__________________</td>
+
+            </tr>
+            <tr></tr>
+            <tr>
+                <td  width="19%" class="sb1NormalFont">Authorized Inspection Supervisor</td>
+                <td width="2%"  class="sb1NormalFont">Date</td>
+                <td width="14%"  class="sb1NormalFont">Central Store of EPI Manager</td>
+
+                <td width="2%"  class="sb1NormalFont">Date</td>
+
+
+            </tr>
+
+        </table>
+
+        <table width="100%" id="myTable" cellspacing="0" align="center">
+
+            <tbody>
+
+                <tr>
+
+                    <td >
+                        For Procurement Agency office use only </br></br>
+                        Date received by the office: ___________________________________   &nbsp;&nbsp;  Contact person:______________________________</td>
+
+
+
+
+                </tr>
+
+
+
+
+
+            </tbody>
+
+        </table>
+        </br>
+        <p align="center">Page 2</p>
+        <div class="row">
+            <div class="col-md-12 right">
+                <button id="print" name="print" value="1" type="button" class="btn btn-primary" ><?php echo $this->translate("Print"); ?></button>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,94 @@
+<?php
+/**
+*  phtml for Summary
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate($this->main_heading) ?></h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate($this->report_title) ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="search" action="" >
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="province" class="col-md-3">
+                                                <?php echo $this->translate("Province"); ?> <span class="red">*</span>
+                                            </label>
+                                            <div class="controls">
+                                                <?php echo $this->search_form->combo1_add ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" id="div_combo2_add">
+                                            <label class="control-label" id="lblcombo2_add"><?php echo $this->translate("District"); ?> <span class="red">*</span></label>
+                                            <div class="controls">
+                                                <?php echo $this->search_form->combo2_add ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" >
+                                            <label class="control-label" ><?php echo $this->translate("Year"); ?> <span class="red">*</span></label>
+                                            <div class="controls">
+                                                <?php echo $this->search_form->year ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" >
+                                            <label class="control-label" ><?php echo $this->translate("Campaigns"); ?> <span class="red">*</span></label>
+                                            <div class="controls">
+                                                <?php echo $this->search_form->campaign_id ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" >&nbsp;</label>
+                                            <button class="btn btn-primary" type="submit" name="search"><?php echo $this->translate("Search") ?></button>
+                                        </div>
+                                        <div class="col-md-1" id="loader" style="display:none;"><img src="<?php echo Zend_Registry::get('baseurl'); ?>/images/loader.gif" style="margin-top:8px; float:left" alt="" /></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row margin-top-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                Search Campaign History Page Not Ready Yet
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="innerLR">
+            <div class="widget">
+                <!-- Widget Heading -->
+                <div class="widget-head">
+                    <h3 class="heading"></h3>
+                </div>
+                <!-- // Widget Heading END -->
+                <div class="widget-body">
+                </div>
+                <div class="widget-footer">
+                </div>
+            </div>
+            <!-- // Row END --> 
+        </div>
+    </div>
+</div>
+

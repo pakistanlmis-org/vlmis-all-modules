@@ -1,0 +1,67 @@
+<?php
+/**
+*  phtml for Ajax Stock Status
+*/
+?>
+<!-- BEGIN SAMPLE TABLE PORTLET-->
+<div class="portlet">
+    <div class="portlet-body">
+        <div>
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            Vaccines
+                        </th>
+                        <th>
+                            OB
+                        </th>
+                        <th>
+                            Receive
+                        </th>
+                        <th>
+                            Issue
+                        </th>
+                        <th>
+                            CB
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $counter = 1;
+                    foreach ($this->result as $row) {
+                        ?>
+                        <tr class="<?php
+                        if ($counter % 2 == 0) {
+                            echo "active";
+                        } else {
+                            echo "success";
+                        }
+                        ?>">
+                            <td>
+                                <?php echo $row['item_name']; ?>
+                            </td>
+                            <td class="right">
+                                <?php echo number_format($row['OB']); ?>
+                            </td>
+                            <td class="right">
+                                <?php echo number_format($row['Rcv']); ?>
+                            </td>
+                            <td class="right">
+                                <?php echo number_format($row['Issue']); ?>
+                            </td>
+                            <td class="right">
+                                <?php echo number_format($row['CB']); ?>
+                            </td>
+                        </tr>
+                        <?php
+                        $counter++;
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- END SAMPLE TABLE PORTLET-->

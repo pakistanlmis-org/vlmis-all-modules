@@ -1,0 +1,12 @@
+<?php
+/**
+*  phtml for Ajax Get Campaigns by District
+*/
+?>
+<option value=""><?php echo $this->translate("All"); ?></option>
+<?php foreach ($this->campaign_data as $row) { ?>
+    <option value="<?php echo $row['pkId']; ?>">
+        <?php echo $row['campaignName']; ?></option>
+    <?php
+}
+?>

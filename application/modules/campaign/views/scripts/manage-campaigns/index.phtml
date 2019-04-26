@@ -1,0 +1,154 @@
+<?php
+/**
+*  phtml for Index
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Manage Campaigns") ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Campaigns Search") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="search_form" action="" >
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <div class="form-group ">
+                                                    <label class="control-label" ><?php echo $this->translate("Campaign Name"); ?></label>
+                                                    <?php echo $this->form->campaign_name; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group ">
+                                                    <label class="control-label" ><?php echo $this->translate("Campaign Type"); ?></label>
+                                                    <?php echo $this->form->campaign_type_id; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group ">
+                                                    <label class="control-label" ><?php echo $this->translate("Vaccine"); ?></label>
+                                                    <?php echo $this->form->item_id; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group ">
+                                                    <div class="form-group form-btn-margin-top">
+                                                        <button class="btn btn-primary" type="submit" name="search"><?php echo $this->translate("Search") ?></button>
+                                                        <button type="reset" class="btn btn-info" id="reset">Reset</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Campaigns List") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dataTables_wrapper form-inline">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <?php $this->recordsPerPage($this->counter); ?>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="dataTables_filter">
+                                                <label>
+                                                    <a class="btn btn-primary" href="<?php echo $this->baseUrl(); ?>/campaign/manage-campaigns/add-campaign"><?php echo $this->translate("Add New Campaign") ?></a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table table-striped table-bordered table-hover dataTable no-footer">
+                                        <!-- Table heading -->
+                                        <?php
+                                        $fields = array(
+                                            "campaign_name" => "Campaign Name",
+                                            "date_from" => "Date From",
+                                            "date_to" => "Date To",
+                                            "catch_up" => "Catch Up Days"
+                                        );
+                                        $this->tableHeading($this->order, $this->sort, $fields);
+                                        ?>
+                                        <!-- // Table heading END -->
+                                        <!-- Table body -->
+
+                                        <!-- // Table body END -->
+                                        <tbody>
+                                            <?php
+                                            $m_res = array();
+                                            $i = 1;
+                                            if ($this->paginator && count($this->paginator) > 0) :
+                                                foreach ($this->paginator as $row):
+                                                    $doEdit = App_Controller_Functions::encrypt('edit|' . $row['pkId']);
+                                                    ?>
+                                                    <tr class="<?php if ($i % 2 == 0) { ?>gradeX even<?php } else { ?> gradeA odd<?php } ?>">
+                                                        <td><?php echo $row['campaignName']; ?></td>
+                                                        <td><?php echo App_Controller_Functions::dateToUserFormat($row['dateFrom']); ?></td>
+                                                        <td><?php echo App_Controller_Functions::dateToUserFormat($row['dateTo']); ?></td>
+                                                        <td><?php echo $row['catchUpDays']; ?></td>
+                                                        <!--<td><a campaignid="<?php echo $row['pkId']; ?>" class="btn update-asset-sub-type btn-link btn-success btn-mini" data-toggle="modal" href="#modal-update-campaign"><?php echo $this->translate("Edit") ?></a>-->
+                                                        <td>
+                                                            <?php if ($row['isClosed'] == 0) { ?>
+                                                                <a id="<?php echo $row['pkId']; ?>" class="closeCampaigns btn btn-link btn-danger input-sm"><?php echo $this->translate("Open"); ?></a>
+                                                            <?php } else { ?>
+                                                                <a id="<?php echo $row['pkId']; ?>" class="openCampaigns btn btn-link btn-danger input-sm"><?php echo $this->translate("Close"); ?></a>
+                                                            <?php } ?>
+
+                                                            <a href="<?php echo $this->baseUrl(); ?>/campaign/manage-campaigns/add-campaign?id=<?php echo $doEdit; ?>" class="fa fa-edit" ></a>
+                                                        </td>
+                                                        <!-- // Table row END --><?php
+                                                        $i++;
+                                                    endforeach;
+                                                endif;
+                                                ?>
+                                        </tbody>
+                                    </table>
+                                    <?php echo $this->paginationControl($this->paginator, 'Sliding', 'paginator.phtml'); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // Content END -->

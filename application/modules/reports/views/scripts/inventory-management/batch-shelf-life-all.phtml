@@ -1,0 +1,329 @@
+<?php
+/**
+ *  phtml for Batch Shelf Life
+ */
+/**
+ * Batch Shelf Life
+ */
+?>
+    <div class="page-content-wrapper">
+    <div class="page-content"><h3 class="page-title"><?php echo $report_title ?> (Beta Version)</h3><h5 class="red">Please Check against Batch Data</h5>
+
+    <div class="innerLR">
+    <table width="99%">
+        <tr>
+            <td colspan="2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    Filter By
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <form method="POST" name="form" action="" >
+                                            <!-- Row -->
+                                            <?php
+                                            if ($this->role_id == 17 || $this->role_id == 18 || $this->role_id == 19 || $this->role_id == 20) {
+                                                ?>
+                                                <div class="row">
+
+                                                    <?php $this->allLevelCombo("", "", $this->menu_type); ?>
+
+                                                </div>
+                                            <?php }
+                                            ?>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label class="control-label" >Date</label>
+                                                    <?php echo $this->form->time_period; ?>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="control-label" >&nbsp;</label>
+                                                    <div class="controls">
+                                                        <button class="btn btn-success" type="submit" name="search"><?php echo $this->translate("Search") ?></button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+    </table>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-striped table-bordered table-condensed" id="sample_2">
+                    <thead>
+                    <tr>
+                        <th rowspan="2">Province</th>
+                        <th rowspan="2">District</th>
+                        <th rowspan="2">Tehsil</th>
+                        <th rowspan="2">Store</th>
+                        <th rowspan="2">Level</th>
+                        <th rowspan="2" class="center"><?php echo $this->translate("Vaccine Type") ?></th>
+                        <th rowspan="2 " class="center"><?php echo $this->translate("Doses") ?></th>
+                        <th rowspan="2" class="center"><?php
+                            echo $this->translate("Weighted avg. </br>"
+                                . "shelf life(months)")
+                            ?></th>
+                        <th style="background-color: #F7B5B4;" colspan="2" class="center"><?php echo $this->translate("<= 6 months shelf life") ?></th>
+                        <th style="background-color: #F6D646;" colspan="2" class="center"><?php echo $this->translate("<= 12 months shelf life") ?></th>
+                        <th style="background-color: #5FC78D;" colspan="2" class="center"><?php echo $this->translate("> 12 months shelf life") ?></th>
+                    </tr>
+                    <tr>
+                        <th style="background-color: #F7B5B4;" class="center"><?php echo $this->translate("Doses") ?></th>
+                        <th style="background-color: #F7B5B4;" class="center"><?php echo $this->translate("Remaing months") ?></th>
+                        <th style="background-color: #F6D646;" class="center"><?php echo $this->translate("Doses") ?></th>
+                        <th style="background-color: #F6D646;" class="center"><?php echo $this->translate("Remaing months") ?></th>
+                        <th style="background-color: #5FC78D;" class="center"><?php echo $this->translate("Doses") ?></th>
+                        <th style="background-color: #5FC78D;" class="center"><?php echo $this->translate("Remaing months") ?></th>
+                    </tr>
+                    </thead>
+                    <!-- Table body -->
+                    <tbody>
+<?php
+$counter = 1;
+
+$data_arr = array();
+
+$wh_id = $this->warehouse_id;
+
+$getAllWarehouses = $this->reports()->getAllWarehouses();
+
+foreach($getAllWarehouses as $whwh){
+    $wh_id = $whwh["pk_id"];
+
+$query_vals_1 = $this->reports()->getItemPackSizesDoses($wh_id);
+
+foreach ($query_vals_1 as $row) {
+    $data_arr[$row['pk_id']][] = $row['item_name'];
+    $data_arr[$row['pk_id']][] = $row['quantity'];
+}
+
+foreach ($query_vals_1 as $row) {
+    $count = 2;
+
+    $query_vals = $this->reports()->getWeightedAvg($wh_id, $row['pk_id']);
+    foreach ($query_vals as $row1) {
+        $data_arr[$row['pk_id']][$count] = $row1['val'];
+    }
+    $count++;
+
+    $count = 3;
+
+    $query_vals = $this->reports()->getShelfLife6($wh_id, $row['pk_id'], $this->time_period);
+    foreach ($query_vals as $row1) {
+        $data_arr[$row['pk_id']][$count] = $row1['6months'];
+        $month6_quantity = $row1['6months'];
+    }
+    $count++;
+
+
+
+    $count = 4;
+
+    $query_vals = $this->reports()->getShelfLifeMonths6($wh_id, $row['pk_id'], $this->time_period);
+    foreach ($query_vals as $row1) {
+        if ($month6_quantity > 0) {
+
+            if ($row1['Min6months'] == "") {
+                $mo = "";
+            } else if ($row1['Min6months'] == 0) {
+                $mo = $row1['Max6months'];
+            } else if ($row1['Min6months'] == $row1['Max6months']) {
+                $mo = $row1['Max6months'];
+            } else {
+                $mo = " " . $row1['Min6months'] . "-" . $row1['Max6months'];
+            }
+        } else {
+            $mo = "";
+        }
+
+        //$data_arr[$row['pk_id']][$count] = $row1['minExpiryDate'] . " " . $mo;
+        $data_arr[$row['pk_id']][$count] = $mo;
+    }
+    $count++;
+
+
+    $count = 5;
+
+    $query_vals = $this->reports()->getShelfLife12($wh_id, $row['pk_id'], $this->time_period);
+    foreach ($query_vals as $row1) {
+        $data_arr[$row['pk_id']][$count] = $row1['12months'];
+        $month12_qunatity = $row1['12months'];
+    }
+    $count++;
+
+
+
+
+    $count = 6;
+
+    $query_vals = $this->reports()->getShelfLifeMonths12($wh_id, $row['pk_id'], $this->time_period);
+    foreach ($query_vals as $row1) {
+        if ($month12_qunatity > 0) {
+            if ($row1['Min12months'] == "") {
+                $mo = " ";
+            } else if ($row1['Min12months'] == 0) {
+                $mo = $row1['Max12months'];
+            } else if ($row1['Min12months'] == $row1['Max12months']) {
+                $mo = $row1['Max12months'];
+            } else {
+                $mo = " " . $row1['Min12months'] . "-" . $row1['Max12months'];
+            }
+        } else {
+            $mo = "";
+        }
+        $data_arr[$row['pk_id']][$count] = $mo;
+    }
+    $count++;
+
+    $count = 7;
+
+    $query_vals11 = $this->reports()->getShelfLife24($wh_id, $row['pk_id'], $this->time_period);
+    foreach ($query_vals11 as $row1) {
+        $data_arr[$row['pk_id']][$count] = $row1['24months'];
+        $month24_qunatity = $row1['24months'];
+    }
+    $count++;
+
+    $count = 8;
+
+    $query_vals12 = $this->reports()->getShelfLifeMonths24($wh_id, $row['pk_id'], $this->time_period);
+    foreach ($query_vals12 as $row1) {
+        if ($month24_qunatity > 0) {
+            if ($row1['Min24months'] == "") {
+                $mo = " ";
+            } else if ($row1['Min24months'] == 0) {
+                $mo = $row1['Max24months'];
+            } else if ($row1['Min24months'] == $row1['Max24months']) {
+                $mo = $row1['Max24months'];
+            } else {
+                $mo = $row1['Min24months'] . "-" . $row1['Max24months'];
+            }
+        } else {
+            $mo = "";
+        }
+        $data_arr[$row['pk_id']][$count] = $mo;
+    }
+    $count++;
+}
+// Graph
+
+$main_heading = "Vaccine Shelf Life";
+$str_sub_heading = "";
+$number_prefix = "";
+$number_suffix = "%";
+$s_number_prefix = "";
+$width = '100%';
+$height = '400';
+$xmlstore = "<?xml version=\"1.0\"?>";
+$xmlstore .='<chart caption="' . $main_heading . '" numberprefix="' . $number_prefix . '" yAxisName="No.of Doses" showvalues="0" exportEnabled="1" rotateValues="1" formatNumberScale="0" theme="fint">';
+
+$categories = '<categories>';
+$dataset_1 = '<dataset seriesname="Less than 6 months shelf life" color="#F7B5B4" >';
+$dataset_2 = '<dataset seriesname="Less than 12 months shelf life" color="#F6D646" >';
+$dataset_3 = '<dataset seriesname="Greater than 12 months shelf life" color="#5FC78D" >';
+
+$query_graphs_1 = $this->reports()->getItemPackSizesDoses($this->warehouse_id);
+
+foreach ($query_graphs_1 as $row) {
+
+    $categories .='<category label="' . $row['item_name'] . '" />';
+
+    $query_vals = $this->reports()->getShelfLife6($wh_id, $row['pk_id'], $this->time_period);
+
+    foreach ($query_vals as $row1) {
+        $dataset_1 .= '<set value="' . $row1['6months'] . '" />';
+    }
+    $query_vals1 = $this->reports()->getShelfLife12($wh_id, $row['pk_id'], $this->time_period);
+    foreach ($query_vals1 as $row11) {
+        $dataset_2 .= '<set value="' . $row11['12months'] . '" />';
+    }
+    $query_vals11 = $this->reports()->getShelfLife24($wh_id, $row['pk_id'], $this->time_period);
+    foreach ($query_vals11 as $row111) {
+        $dataset_3 .= '<set value="' . $row111['24months'] . '" />';
+    }
+}
+
+
+
+
+$categories .='</categories>';
+$dataset_1 .= '</dataset>';
+$dataset_2 .= '</dataset>';
+$dataset_3 .= '</dataset>';
+
+$xmlstore .= $categories;
+$xmlstore .= $dataset_1;
+$xmlstore .= $dataset_2;
+$xmlstore .= $dataset_3;
+
+
+$xmlstore .="</chart>";
+?>
+
+<?php
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+
+
+                                            <!-- Table row -->
+                                            <?php
+                                            $i = 1;
+                                            foreach ($data_arr as $dis_id => $sub_arr) :
+                                                ?>
+                                                <tr class="gradeX">
+                                                    <td><?php echo $whwh["Province"]; ?></td>
+                                                    <td><?php echo $whwh["District"]; ?></td>
+                                                    <td><?php echo $whwh["Tehsil"]; ?></td>
+                                                    <td><?php echo $whwh["Warehouse"]; ?></td>
+                                                    <td><?php echo $whwh["stakeholder_office_id"]; ?></td>
+                                                    <td><?php echo $sub_arr[0]; ?></td>
+                                                    <td class="right" ><?php echo number_format($sub_arr[1]); ?></td>
+                                                    <td class="center"><?php echo $sub_arr[2]; ?></td>
+                                                    <td style="background-color: #F7B5B4;" class="right"><?php echo number_format($sub_arr[3]); ?></td>
+                                                    <td style="background-color: #F7B5B4;" class="center" > &nbsp;<?php echo $sub_arr[4]; ?></td>
+                                                    <td style="background-color: #F6D646;" class="right"><?php echo number_format($sub_arr[5]); ?></td>
+                                                    <td style="background-color: #F6D646;" class="center"> &nbsp;<?php echo $sub_arr[6]; ?></td>
+                                                    <td style="background-color: #5FC78D;" class="right"><?php echo number_format($sub_arr[7]); ?></td>
+                                                    <td style="background-color: #5FC78D;" class="center"> &nbsp;<?php echo $sub_arr[8]; ?></td>
+                                                </tr>
+                                                <?php
+                                                $i++;
+                                            endforeach;
+                                            ?>
+                                            <!-- // Table row END -->
+
+
+<?php } ?>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+<input type="hidden" name="warehouse_hidden" id="warehouse_hidden" value="<?php echo $this->warehouse_hidden ?>">
+<input type="hidden" name="combo1_hidden" id="combo1_hidden" value="<?php echo $this->combo1_hidden ?>">
+<input type="hidden" name="combo2_hidden" id="combo2_hidden" value="<?php echo $this->combo2_hidden ?>">

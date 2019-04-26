@@ -1,0 +1,137 @@
+<?php
+/**
+*  phtml for Stakeholder Summary
+*/
+?>
+<!-- Content -->
+<style>
+    #content_print {
+        margin-left: 50px;
+        width: 624px;
+    }
+    table#mytable {
+        border: 1px solid #e5e5e5;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table#mytable tr td {
+        border: 1px solid #e5e5e5;
+    }
+    table#mytable tr th {
+        border: 1px solid #e5e5e5;
+    }
+</style>
+<!-- Content -->
+
+<style type="text/css" media="print">
+    .page
+    {
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print
+    {    
+        #printButt
+        {
+            display: none !important;
+        }
+    }
+</style>
+
+<?php if (!empty($this->summary) && count($this->summary) > 0) { ?>
+    <table style="width:100%;">
+        <tr>
+            <td class="left"><b style="font-size: 16px;">Manufacturer wise usable stock summary</b></td>
+        </tr>        
+    </table>
+    <table id="mytable">
+        <thead>
+            <tr>
+                <th rowspan="2">S. No.</th>
+                <th rowspan="2">Product</th>
+                <th rowspan="2">Manufacturer</th>                
+                <th colspan="3">Quantity</th>
+            </tr>
+            <tr style="background-color: #F8F8F8;">
+                <th width="10%">Vials/Pcs</th>
+                <th width="15%">Total Doses</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $i = 1;
+            foreach ($this->summary as $summary) {
+                ?>
+                <!-- Table row -->
+                <tr>
+                    <td align="center"><?php echo $i; ?></td>
+                    <td align="left"><?php echo $summary['itemName']; ?></td>
+                    <td align="left"><?php echo $summary['stakeholderName']; ?></td>                    
+                    <td align="right"><?php echo number_format($summary['Vials']); ?></td>
+                    <td align="right"><?php echo number_format($summary['Doses']); ?></td>
+                </tr>
+                <?php
+                $i++;
+            }
+            ?>
+            <!-- // Table row END -->
+        </tbody>
+    </table>
+<?php } ?>  
+
+<br>
+
+<?php if (!empty($this->expired_summary) && count($this->expired_summary) > 0) { ?>
+    <table style="width:100%;">
+        <tr>
+            <td class="left"><b style="font-size: 16px; color: red">Manufacturer wise expired stock summary</b></td>
+        </tr>        
+    </table>
+    <table id="mytable">
+        <thead>
+            <tr>
+                <th rowspan="2">S. No.</th>
+                <th rowspan="2">Product</th>
+                <th rowspan="2">Manufacturer</th>                
+                <th colspan="3">Quantity</th>
+            </tr>
+            <tr style="background-color: #F8F8F8;">
+                <th width="10%">Vials/Pcs</th>
+                <th width="15%">Total Doses</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $i = 1;
+            foreach ($this->expired_summary as $exp_summary) {
+                ?>
+                <!-- Table row -->
+                <tr>
+                    <td align="center"><?php echo $i; ?></td>
+                    <td align="left"><?php echo $exp_summary['itemName']; ?></td>
+                    <td align="left"><?php echo $exp_summary['stakeholderName']; ?></td>                    
+                    <td align="right"><?php echo number_format($exp_summary['Vials']); ?></td>
+                    <td align="right"><?php echo number_format($exp_summary['Doses']); ?></td>
+                </tr>
+                <?php
+                $i++;
+            }
+            ?>
+            <!-- // Table row END -->
+        </tbody>
+    </table>
+    <div style="float:left;">
+        <div class="col-md-12 left">
+            <b>Printed By:</b> <?php echo $this->username ?><br> 
+            <b>Print Date:</b> <?php echo date("d/m/Y"); ?>
+        </div>
+    </div> 
+<?php } ?> 
+
+<div>
+    <div class="widget-body right">
+        <button name="print" id="print" value="1" type="button" class="btn btn-primary"><?php echo $this->translate("Print"); ?></button> 
+    </div>
+</div>        
+
+<!-- // Content END -->

@@ -1,0 +1,57 @@
+<?php
+/**
+*  phtml for Ajax Campaigns Target
+*/
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <div class="col-md-1">
+                <label class="control-label" style="display:inline;"><b>S.No.</b></label>
+            </div>
+            <div class="col-md-6">
+                <label class="control-label" style="margin-left:35px;display:inline;"><b>Union Council(UC)</b></label>
+            </div>
+            <div class="col-md-5">
+                <label class="control-label" style="margin-left:35px;display:inline;"><b>Target</b></label>
+            </div>
+            <?php
+            $i = 1;
+            foreach ($this->result as $rs) {
+                ?>
+                <div class="col-md-1" style="padding-bottom: 1px;">
+                    <?php echo $i . "."; ?>
+                </div>
+                <div class="col-md-6" style="padding-bottom: 1px;">
+                    <input type="text" class="form-control inpput-sm" name='warehoue_id[]' id='warehouse_id<?php echo $rs['warehouse_id']; ?>' value='<?php echo $rs['warehouse_name']; ?>' disabled="disabled" >
+                </div>
+                <div class="col-md-5" style="padding-bottom: 1px;">
+                    <input type="text" class="txt form-control inpput-sm input-small target" name='daily_target[]' id='daily_target<?php echo $rs['warehouse_id']; ?>' value='<?php echo $rs['daily_target']; ?>'>
+                    <input type="hidden" name='warehoue[]' id='warehouse<?php echo $rs['warehouse_id']; ?>' value='<?php echo $rs['warehouse_id']; ?>'>
+                </div>
+                <?php
+                $i++;
+            }
+            ?>
+
+            <div class="col-md-1" style="padding-bottom: 1px;">
+
+            </div>
+            <div class="col-md-6" style="padding-left: 220px; padding-top:7px">
+
+                <br>
+                <b>  Total </b>
+            </div>
+            <div class="col-md-5" style="padding-bottom: 1px;">
+                <br>
+                <input type="text" class="form-control inpput-sm input-small target" name='total' id='total' value=''>
+
+            </div>
+
+        </div>
+    </div>
+    <input type="hidden" name='campaign_id' id='campaign_id' value='<?php echo $this->campaign_id; ?>'>
+    <input type="hidden" name='province_id' id='province_id' value='<?php echo $this->province_id; ?>'>
+    <input type="hidden" name='district_id' id='district_id' value='<?php echo $this->district_id; ?>'>
+    <input type="hidden" name='item_id' id='item_id' value='<?php echo $this->item_id; ?>'>
+</div>

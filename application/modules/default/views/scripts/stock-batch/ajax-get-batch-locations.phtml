@@ -1,0 +1,30 @@
+<?php
+/**
+*  phtml for Ajax Get Batch Locations
+*/
+?>
+<?php if ($this->locations != false) { ?>
+    <option value=""><?php echo $this->translate("Select"); ?></option>
+    <?php
+    foreach ($this->locations as $row) {
+        ?>
+        <option value="<?php
+        echo $row['placement_location_id'];
+            ?>|<?php
+                    echo $row['vvm_stage_id'];                
+                ?>|<?php echo $row['quantity']; ?>">
+                    <?php
+            echo $row['asset_id'];
+            if (!empty($row['vvm_stage'])) {
+                ?> | <?php
+                echo $row['vvm_stage'];
+            }
+            if (!empty($row['quantity'])) {
+                ?> | <?php
+                echo number_format($row['quantity']);
+            }
+            ?>
+        </option>
+        <?php
+    }
+}

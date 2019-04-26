@@ -1,0 +1,68 @@
+<?php
+/**
+*  phtml for Reported Non Reported
+*/
+?>
+<div class="col-md-6">
+    <?php
+    FC_SetRenderer('javascript');
+    echo renderChart("FusionCharts/Charts/Pie2D.swf", "", $this->xmlstore, 'rrStatus', 450, 395, false, false);
+    ?>
+</div>
+<div class="col-md-6" id="data">
+    <div class="portlet box blue">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-picture"></i>Reported Union Council List
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="table-scrollable">
+                <table class="table table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                S.No
+                            </th>
+                            <th>
+                                Union Council Name
+                            </th>
+                            <th>&nbsp;</th>
+                            <th>
+                                S.No
+                            </th>
+                            <th>
+                                Union Council Name
+                            </th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <?php
+                            $count = 1;
+                            foreach ($this->data as $row) {
+                                ?>
+                                <?php if ($count % 2 == 0) { ?>
+                                    <td>&nbsp;</td>
+                                <?php } ?>
+                                <td>
+                                    <?php echo $count; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['location_name']; ?>
+                                </td>
+                                <?php if ($count % 2 == 0) { ?>
+                                </tr><tr>
+                                <?php } ?>
+                                <?php
+                                $count++;
+                            }
+                            ?>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

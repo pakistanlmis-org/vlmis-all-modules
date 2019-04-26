@@ -1,0 +1,193 @@
+<?php
+/**
+*  phtml for Batch Shelf Life Graph
+*/
+
+/**
+* Batch Shelf Life Graph
+*/
+?>
+
+<?php
+// Graph
+
+$main_heading = "Vaccine Shelf Life";
+$str_sub_heading = "";
+$number_prefix = "";
+$number_suffix = "%";
+$s_number_prefix = "";
+$width = '100%';
+$height = '400';
+$xmlstore = "<?xml version=\"1.0\"?>";
+$xmlstore .='<chart caption="' . $main_heading . '" numberprefix="' . $number_prefix . '" showvalues="0" exportEnabled="1" rotateValues="1" formatNumberScale="0" theme="fint">';
+
+$categories = '<categories>';
+$dataset_1 = '<dataset seriesname="less than 6 months shelf life" >';
+$dataset_2 = '<dataset seriesname="less than 12 months shelf life" >';
+$dataset_3 = '<dataset seriesname="greater than 12 months shelf life" >';
+
+$query_graphs_1 = $this->reports()->getItemPackSizesDoses($this->warehouse_id);
+
+foreach ($query_graphs_1 as $row) {
+
+    $categories .='<category label="' . $row['item_name'] . '" />';
+
+    $query_vals = $this->reports()->getShelfLife6($this->warehouse_id, $row['pk_id'], $this->time_period);
+
+    foreach ($query_vals as $row1) {
+        $dataset_1 .= '<set value="' . $row1['6months'] . '" />';
+    }
+    $query_vals1 = $this->reports()->getShelfLife12($this->warehouse_id, $row['pk_id'], $this->time_period);
+    foreach ($query_vals1 as $row11) {
+        $dataset_2 .= '<set value="' . $row11['12months'] . '" />';
+    }
+    $query_vals11 = $this->reports()->getShelfLife24($this->warehouse_id, $row['pk_id'], $this->time_period);
+    foreach ($query_vals11 as $row111) {
+        $dataset_3 .= '<set value="' . $row111['24months'] . '" />';
+    }
+}
+
+
+
+
+$categories .='</categories>';
+$dataset_1 .= '</dataset>';
+$dataset_2 .= '</dataset>';
+$dataset_3 .= '</dataset>';
+
+$xmlstore .= $categories;
+$xmlstore .= $dataset_1;
+$xmlstore .= $dataset_2;
+ $xmlstore .= $dataset_3;
+
+
+$xmlstore .="</chart>";
+
+
+
+//
+?>
+
+
+
+
+<?php
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+<div class="page-content-wrapper">
+    <div class="page-content"><h3 class="page-title"><?php echo $report_title ?> (Beta Version)</h3><h5 class="red">Please Check against Batch Data</h5>
+
+        <div class="innerLR">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="portlet box green">
+                                    <div class="portlet-title">
+                                        <div class="caption">
+                                            Filter By
+                                        </div>
+                                        <div class="tools">
+                                            <a href="javascript:;" class="collapse">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="portlet-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <form method="POST" name="form" action="" >
+                                                    <!-- Row -->
+                                                    <?php
+                                                    if ($this->role_id == 17 || $this->role_id == 18 || $this->role_id == 19 || $this->role_id == 20) {
+                                                        ?>
+                                                        <div class="row">
+
+                                                            <?php $this->allLevelCombo("", "", $this->menu_type); ?>
+
+                                                        </div>
+                                                    <?php }
+                                                    ?>   
+                                                    <div class="row">
+                                                        <div class="col-md-3">   
+                                                            <label class="control-label" >Date</label>
+                                                            <?php echo $this->form->time_period; ?>
+                                                        </div>      </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label class="control-label" >&nbsp;</label>
+                                                            <div class="controls">
+                                                                <button class="btn btn-success" type="submit" name="search"><?php echo $this->translate("Search") ?></button>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                    </td>
+                </tr>
+                
+            </table>
+
+            
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <?php
+                require_once 'FusionCharts/Code/PHP/Includes/FusionCharts.php';
+                FC_SetRenderer('javascript');
+                echo renderChart($this->baseUrl() . "/FusionCharts/Charts/StackedColumn2DLine.swf", "", $xmlstore, 'chartContainer', $width, $height, false, false);
+                ?>
+            </div>
+        </div> 
+
+    </div>
+
+</div>
+<input type="hidden" name="warehouse_hidden" id="warehouse_hidden" value="<?php echo $this->warehouse_hidden ?>">
+<input type="hidden" name="combo1_hidden" id="combo1_hidden" value="<?php echo $this->combo1_hidden ?>">
+<input type="hidden" name="combo2_hidden" id="combo2_hidden" value="<?php echo $this->combo2_hidden ?>">
+<script>
+    var mygrid;
+    function doInitGrid() {
+        mygrid = new dhtmlXGridObject('mygrid_container');
+        mygrid.selMultiRows = true;
+        mygrid.setImagePath("<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+        //mygrid.setHeader("Province,Consumption,AMC,On Hand,MOS,#cspan");
+        mygrid.setHeader(",<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'><?php echo $this->report_title ?></div><?php echo $cspan; ?>,#cspan");
+        mygrid.attachHeader("<?php echo $header; ?>");
+        mygrid.attachHeader("<?php echo $header1; ?>");
+        mygrid.attachHeader("<?php echo $header2; ?>");
+        mygrid.setInitWidths("<?php echo $width; ?>");
+        mygrid.setColTypes("<?php echo $ro; ?>");
+        mygrid.setColumnHidden(0, true);
+        mygrid.enableRowsHover(true, 'onMouseOver');
+        mygrid.setSkin("light");
+        mygrid.init();
+        mygrid.clearAll();
+        $('body').append('<textarea id="xml_string" style="display:none;"><?php echo addslashes($xml_store); ?></textarea>');
+        mygrid.loadXMLString(document.getElementById('xml_string').value);
+    }
+
+    $(function() {
+        $('#mygrid_container').parent('td').addClass('gridBorder');
+        $('#office').val(<?php echo $this->office; ?>);
+    });
+</script>

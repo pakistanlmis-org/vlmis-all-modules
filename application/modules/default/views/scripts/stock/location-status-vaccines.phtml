@@ -1,0 +1,142 @@
+<?php
+/**
+ *  phtml for Location Status Vaccines
+ */
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Location Status"); ?></h3>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="widget widget-tabs widget-tabs-double" style=" border-bottom: 1px solid #77e588; border-right: 1px solid #77e588; border-top: 1px solid #77e588; margin-bottom: -2px;  ">
+                    <div class="widget-head">
+                        <ul>
+                            <li class=""><a  class="glyphicons table" href="<?php echo $this->baseUrl(); ?>/stock/location-status"><i></i><span class="strong"><?php echo $this->translate("Dry Store"); ?></span><span>Locations</span></a></li>
+                            <li class="active"><a class="glyphicons table" href="<?php echo $this->baseUrl(); ?>/stock/location-status-vaccines"><i></i><span class="strong"><?php echo $this->translate("Cold Store"); ?></span><span>Locations</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="portlet box green">
+                    <div class="portlet-body">                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                if ($this->result && count($this->result) > 0) :
+                                    $counter = 0;
+                                    foreach ($this->result as $row):
+                                        if ($counter % 6 == 0) {
+                                            ?>
+                                        </div>
+                                    </div><br/>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <?php
+                                        }
+                                        $link = $this->baseUrl() . "/stock/stock-in-bin-vaccines?id=" . $row['plc_pk_id'];
+                                        $asste_type_name = $row['asset_type_name'];
+
+                                        $remaining = 100 - $row['used_percentage'];
+                                        if ($row['used_percentage'] < 100) {
+                                            $color = "#DD8521";
+                                        }
+
+                                        if ($row['used_percentage'] >= 100) {
+                                            $color = "#E00000";
+                                        }
+
+                                        $is_working = $row['ccm_status_list_id'];
+                                        if ($is_working == 3) {
+                                            $color = "#7F7F7F";
+                                            $row['used_percentage'] = 100;
+                                            $link = "#";
+                                            $asste_type_name = "Non Functional";
+                                        }
+                                        ?>
+                                        <div class="col-lg-2 col-md-2">
+                                            <div class="capacity">
+                                                <table width="100%" height="90">
+                                                    <tbody><tr><td width="<?php echo $row['used_percentage']; ?>%" style="background-color: <?php echo $color; ?>;"></td><td width="<?php echo $remaining; ?>%" style="background-color: green;"></td></tr>
+                                                    </tbody></table>
+                                            </div>
+                                            <a style="color:#fff;" class="center" itemid="<?php echo $row['plc_pk_id']; ?>" class="btn product-location span2 btn-link btn-mini" href="<?php echo $link; ?>">
+                                                <div class="dashboard-stat blue-madison">
+                                                    <div class="visual">
+                                                        <i class="fa fa-cubes"></i>
+                                                    </div>
+                                                    <div class="details">
+                                                        <div class="number">
+
+                                                            <?php echo $row['asset_id']; ?>
+                                                        </div>
+                                                        <div class="desc" style="font-size:11px; padding-left: 20px;">
+                                                            (<?php echo $asste_type_name; ?>)
+                                                        </div>
+                                                    </div>
+                                                </div>   
+                                            </a>
+                                        </div>           
+
+                                        <?php
+                                        $counter++;
+                                    endforeach;
+                                endif;
+                                ?>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                </div>
+                            </div>
+                            <!--                            <div class="row">
+                                                            <div class="col-md-12">
+                                                                <table class="table table-hover">
+                            <?php
+                            if ($this->result && count($this->result) > 0) :
+                                $counter = 0;
+                                foreach ($this->result as $row):
+                                    if ($counter != 0 && $counter % 6 == 0) {
+                                        ?>
+                                                                                                                                                                                                                                                        </tr>
+                                        <?php echo $row['asset_id']; ?></a>
+                                                                                                                                                                                                                                                                        </td>
+                                        <?php
+                                    } else {
+                                        if ($counter == 0) {
+                                            ?>
+                                                                                                                                                                                                                                                                                                                    <tr>
+                                            <?php
+                                        }
+                                        ?>
+                                        <?php echo $row['asset_id']; ?></a>
+                                                                                                                                                                                                                                                                        </td>
+                                        <?php
+                                    }
+                                    $counter++;
+                                endforeach;
+                            endif;
+                            ?>
+                                                                </table>
+                                                            </div>
+                                                        </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>       
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-2">
+                <div class="btn btn-sm" style="background-color: green;">&nbsp;</div> Unused Capacity
+            </div>
+            <div class="col-md-2">
+                <div class="btn btn-sm" style="background-color: #DD8521;">&nbsp;</div> Used Capacity
+            </div>
+            <div class="col-md-2">
+                <div class="btn btn-sm" style="background-color: #E00000;">&nbsp;</div> Overload
+            </div>
+            <div class="col-md-2">
+                <div class="btn btn-sm" style="background-color: #7F7F7F;">&nbsp;</div> Non Functional
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>

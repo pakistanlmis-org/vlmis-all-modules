@@ -1,0 +1,174 @@
+<?php
+/**
+*  phtml for Activity Log
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="row margin-top-10 margin-bottom-10">
+            <div class="col-md-12">
+                <?php
+                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                ?>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Filters"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="batch_search" action="" >
+                                    <!-- Row -->
+
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <!-- Group -->
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Date From"); ?>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->date_from; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Date To"); ?>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->date_to; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="firstname">&nbsp</label>
+                                                <div class="controls">
+                                                    <button type="submit" name="search" value="search" class="btn btn-success"><?php echo $this->translate("Search"); ?></button>
+                                                    <button type="reset" class="btn btn-info" id="reset"><?php echo $this->translate("Reset"); ?></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Activity Log"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="dynamicTable table table-striped table-bordered table-hover dataTable no-footer" id="sample_3">
+                                    <!-- Table heading -->
+                                    <thead>
+                                        <tr>
+                                            <th><?php echo $this->translate("S.No"); ?></th>
+                                            <th><?php echo $this->translate("Date"); ?></th>
+                                            <th><?php echo $this->translate("Voucher No"); ?></th>
+                                            <th><?php echo $this->translate("To/From"); ?></th>
+                                            <th><?php echo $this->translate("Ref No"); ?></th>
+                                            <th><?php echo $this->translate("Product"); ?></th>
+                                            <th><?php echo $this->translate("Batch No"); ?></th>
+                                            <th><?php echo $this->translate("Quantity"); ?></th>
+                                            <th><?php echo $this->translate("Unit"); ?></th>
+                                            <th><?php echo $this->translate("Expiry Date"); ?></th>
+                                            <th><?php echo $this->translate("Created On"); ?></th>
+                                            <th><?php echo $this->translate("User"); ?></th> 
+                                           <th><?php echo $this->translate("Action"); ?></th> 
+                                        </tr>
+                                    </thead>
+                                    <!-- // Table heading END -->
+                                    <!-- Table body -->
+                                    <tbody>
+                                        <?php
+                                        $m_res = array();
+                                        $i = 1;
+                                        if ($this->result && count($this->result) > 0) :
+
+                                            foreach ($this->result as $row):
+                                                ?>
+                                                <tr class="gradeX">
+                                                    <td class="center"><?php echo $i; ?></td>
+                                                    <td><?php echo date("d/m/Y", strtotime($row['transaction_date'])); ?></td>
+                                                    <td><?php echo $row['transaction_number']; ?></td>
+                                                    <td><?php
+                                                        if ($row['transaction_type_id'] == 1) {
+                                                            echo $row['from_warehouse_name'];
+                                                        } else if ($row['transaction_type_id'] == 2) {
+                                                            echo $row['to_warehouse_name'];
+                                                        } else {
+                                                            
+                                                        }
+                                                        ?></td>
+                                                    <td><?php echo '&nbsp;' . $row['transaction_reference']; ?></td>
+                                                    <td><?php echo $row['item_name']; ?></td>
+                                                    <td><?php echo $row['number']; ?></td>
+                                                    <td class="right"><?php echo number_format($row['quantity']); ?></td>
+                                                    <td><?php echo $row['item_unit_name']; ?></td>
+                                                    <td><?php echo date("d/m/Y", strtotime($row['expiry_date'])); ?></td>
+                                                    <td><?php echo date("d/m/Y", strtotime($row['created_date'])); ?></td>
+                                                    <td><?php echo $row['user_name']; ?></td>
+                                                    <td><?php
+                                                        if ($row['transaction_type_id'] == 1 || $row['transaction_type_id'] == 2) {
+                                                            if ($row['action_type'] == 1 || $row['action_type'] == 2) {
+                                                                echo 'Add';
+                                                            } else if ($row['action_type'] == 3) {
+                                                                echo 'Delete';
+                                                            }
+                                                        } else {
+
+                                                            if ($row['action_type'] == 1) {
+                                                                echo 'Add';
+                                                            } else if ($row['action_type'] == 2) {
+                                                                echo 'Update';
+                                                            } else if ($row['action_type'] == 3) {
+                                                                echo 'Delete';
+                                                            }
+                                                        }
+                                                        ?></td>   
+                                                </tr>
+                                                <?php
+                                                $i++;
+                                            endforeach;
+                                        endif;
+                                        ?>
+                                    </tbody>
+                                    <!-- // Table body END -->
+                                </table>
+
+                                <!-- // Table END -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // Content END -->

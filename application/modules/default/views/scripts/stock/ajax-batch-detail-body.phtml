@@ -1,0 +1,72 @@
+<?php
+/**
+*  phtml for Ajax Batch Detail Body
+*/
+?>
+<div class="scroller" style="min-height:200px" data-always-visible="1" data-rail-visible1="1">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            Batch Number
+                        </th>
+                        <th>
+                            Cold Room
+                        </th>
+                        <th class="right">
+                            VVM Stage
+                        </th>
+                        <th class="right">
+                            Quantity (Vials)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $i = 1;
+                    $total = 0;
+                    if ($this->result != false) {
+                        foreach ($this->result as $row) {
+                            $total += $row['quantity'];
+                            ?>
+                            <tr>
+                                <td>
+                                    <?php echo $i; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['batch_number']; ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['asset_id']; ?>
+                                </td>
+                                <td class="right">
+                                    <?php echo $row['vvm_stage']; ?>
+                                </td>
+                                <td class="right">
+                                    <?php echo number_format($row['quantity']); ?>
+                                </td>
+                            </tr>
+                            <?php $i++;
+                        }
+                    }
+                    ?>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="4" class="right">
+                            Total:
+                        </th>
+                        <th class="right">
+                            <?php echo number_format($total); ?>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

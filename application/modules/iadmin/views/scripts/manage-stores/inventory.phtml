@@ -1,0 +1,242 @@
+<?php
+/**
+ *  phtml for Invntory
+ */
+?>
+
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Manage Stores/Facilities (Inventory)") ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Stores/Facilities Search") ?>
+                        </div>
+
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="search-stores" id="search-stores" action="" >
+                                    <!-- Row -->
+
+
+                                    <div class="row">
+
+                                        <?php echo $this->storesCombo($this->combos_1, $this->combos, $this->warehouse_id, $this->role_id); ?>
+
+                                        <?php echo $this->form->province_id; ?>
+                                        <?php echo $this->form->district_id; ?>
+                                        <?php echo $this->form->tehsil_id; ?>
+                                        <?php echo $this->form->parent_id; ?>
+                                        <input type="hidden" name="hdn_warehouse_id" id="hdn_warehouse_id" value="<?php echo $this->warehouse_id; ?>">
+                                        <input type="hidden" name="hdn_role_id" id="hdn_role_id" value="<?php echo $this->role_id; ?>">
+                                        <input type="hidden" name="store_name_add_hdn" id="store_name_add_hdn" value="">
+                                        <input type="hidden" name="store_name_edit_hdn" id="store_name_edit_hdn" value="">
+                                        <input type="hidden" name="action_hdn" id="action_hdn" value="">
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                        </div>
+                                        <div class="col-md-2">
+
+                                            <button data-loading-text="Searching"  class="btn btn-sm green btn-outline filter-submit" type="button" name="search" id="search" ><i class="fa fa-search"></i>
+                                                <?php echo $this->translate("Search") ?></button>
+                                            <button type="reset" class="btn btn-sm default btn-outline filter-cancel" id="reset"><i class="fa fa-times"></i>
+                                                Reset</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Stores/Facilities List") ?>
+                        </div>
+                        <div class="actions">
+                            <a  class="btn btn-default btn-sm"  data-toggle="modal"  data-toggle="modal" href="#add-store">
+                                <i class="fa fa-plus"></i> <?php echo $this->translate("Add Store/Facility") ?> </a>
+
+                        </div>
+                        <div class="tools">
+
+                            <a href="javascript:;" class="reload" style="visibility: hidden"></a>
+
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dataTables_wrapper form-inline" id="ajax-table">
+                                    <div class="row">
+
+
+                                    </div>
+                                    <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_2">
+
+                                        <!-- Table heading -->
+                                        <?php
+                                        $fields = array(
+                                            's_no' => 'S.No',
+                                            'store/facility' => 'Store/facility',
+                                            'type' => 'Office',
+                                            'tehsil' => 'Tehsil',
+                                            'district' => 'District',
+                                            'province' => 'Province'
+                                        );
+                                        $this->tableHeading($this->order, $this->sort, $fields);
+                                        ?>
+                                        <!-- // Table heading END -->
+                                        <!-- Table body -->
+
+                                        <!-- // Table body END -->
+                                        <tbody>
+                                            <?php
+                                            $m_res = array();
+                                            $i = $this->count;
+                                            if ($this->paginator && count($this->paginator) > 0) :
+                                                foreach ($this->paginator as $row):
+                                                    ?>
+                                                    <tr class="<?php if ($i % 2 == 0) { ?>gradeX even<?php } else { ?> gradeA odd<?php } ?>">
+                                                        <td class="center" width="25"><?php echo $i; ?></td>
+                                                        <td><?php echo $row['warehouseName']; ?></td>
+                                                        <td><?php echo $row['stakeholderName']; ?></td>
+                                                        <td><?php echo $row['UC']; ?></td>
+                                                        <td><?php echo $row['provinceName']; ?></td>
+                                                        <td><?php echo $row['districtName']; ?></td>
+
+                                                        <td><a itemid="<?php echo $row['pkId']; ?>" class="update-stores btn btn-xs green"  data-toggle="modal" href="#modal-update-stores"><i class="fa fa-edit"></i><?php echo $this->translate("Edit") ?></a>
+                                                            <?php if ($this->warehouseDelete($row['pkId'])) { ?>
+                                                            <?php } else { ?>
+                                                                <a data-toggle="notyfy" data-bind="<?php echo $row['pkId']; ?>" data-status="<?php echo $row['status']; ?>" data-type="confirm" data-layout="top" class="btn btn-xs red">
+                                                                    <?php
+                                                                    if ($row['status'] == 1) {
+                                                                        echo $this->translate("In-Active");
+                                                                    } elseif ($row['status'] == 0) {
+                                                                        echo $this->translate("Active");
+                                                                    }
+                                                                    ?>
+                                                                </a>
+                                                            <?php } ?>
+
+                                                        </td>
+                                                        <!-- // Table row END --><?php
+                                                        $i++;
+                                                    endforeach;
+                                                endif;
+                                                ?>
+                                        </tbody>
+                                    </table>
+                                    <?php //echo $this->paginationControl($this->paginator, 'Sliding', 'paginator.phtml', array('params' => $this->pagination_params)); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // modal box for add -->
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/iadmin/manage-stores/add-inventory" id="add-stores">
+            <div class="modal fade" id="add-store"  tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3>Add Stores/Facilities</h3>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="row">
+                                <?php echo $this->storesAddCombo($this->combos_1, $this->warehouse_id, $this->role_id); ?>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Type"); ?></label>
+                                        <div class="controls">
+                                            <?php echo $this->form->warehouse_type; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Store/Facility"); ?></label>
+                                        <div class="controls">
+                                            <?php echo $this->form->store_name_add; ?>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("CCM Code"); ?></label>
+                                        <div class="controls">
+                                            <?php echo $this->form->ccm_warehouse_id; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Start Date"); ?></label>
+                                        <div class="controls">
+                                            <?php echo $this->form->starting_on; ?>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Edit Date"); ?></label>
+                                        <div class="controls">
+                                            <?php echo $this->form->from_edit; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-loading-text="Adding" class="btn btn-primary" type="submit" id="add" ><?php echo $this->translate("Add"); ?></button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- // modal box for update -->
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/iadmin/manage-stores/update-inventory" id="update-stores">
+            <div class="modal fade" id="modal-update-stores" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3>Edit Stores/Facilities</h3>
+                        </div>
+
+                        <div class="modal-body" id="modal-body-contents">
+                            <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                        </div>
+                        <div class="modal-footer " id="update-button">
+                            <button data-loading-text="Updating" class="btn btn-primary" type="submit" id="update" ><?php echo $this->translate("Update"); ?></button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- // Content END -->

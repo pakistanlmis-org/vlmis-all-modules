@@ -1,0 +1,191 @@
+<?php
+/**
+*  phtml for Print Explorer
+*/
+?>
+<style>
+    #content_print {
+        margin-left: 50px;
+        width: 624px;
+    }
+    table#mytable {
+        border: 1px solid #e5e5e5;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table#mytable tr td {
+        border: 1px solid #e5e5e5;
+    }
+    table#mytable tr th {
+        border: 1px solid #e5e5e5;
+    }
+</style>
+<!-- Content -->
+
+<style type="text/css" media="print">
+    .page
+    {
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print
+    {    
+        #printButt
+        {
+            display: none !important;
+        }
+    }
+</style>
+<table style="width:100%;">
+    <tr>
+        <td class="center" colspan="3"><b style="font-size: 16px;"><?php echo $this->print_title; ?> </b></td>
+    </tr>
+</table>
+<div style="clear:both"></div>
+
+<p style="text-align:right;">
+    <?php $dt = new DateTime($this->rpt_date); ?>
+    <b>Reporting Month:</b> <?php echo $dt->format("F, Y"); ?>
+</p>
+
+<table id="mytable" >
+    <thead>
+        <tr>
+            <th class="col-md-1">
+                <?php echo $this->translate("Product"); ?>
+            </th>
+            <th class="col-md-2">
+                <?php echo $this->translate("Opening Balance"); ?>
+            </th>
+            <th class="col-md-1">
+                <?php echo $this->translate("Received"); ?>
+            </th>
+            <th class="col-md-1">
+                <?php echo ( $this->warehouse_level == 6 ) ? $this->translate("Dispensed") : $this->translate("Issued") ?>
+            </th>
+            <th class="col-md-1">
+                <?php echo ( $this->warehouse_level == 6 ) ? $this->translate("Vials Used") : $this->translate("Adjustment +") ?>
+            </th>
+            <th class="col-md-1">
+                <?php echo ( $this->warehouse_level == 6 ) ? $this->translate("Unusable Vials") : $this->translate("Adjustment -") ?>
+            </th>
+            <th class="col-md-2">
+                <?php echo $this->translate("Closing Balance"); ?>
+            </th>
+            <?php if ($this->warehouse_level == 6) { ?>
+                <th class="col-md-1">
+                    <?php echo $this->translate("Nearest Expiry"); ?>
+                </th>
+            <?php } ?>
+        </tr>
+        <tr>
+            <td class="col-md-1">&nbsp;
+
+            </td>
+            <td class="col-md-1">
+                <?php echo $this->translate("Doses"); ?>
+            </td>
+            <td class="col-md-1">
+                <?php echo $this->translate("Doses"); ?>
+            </td>
+            <td class="col-md-1">
+                <?php echo $this->translate("Doses"); ?>
+            </td>
+            <td class="col-md-1">
+                <?php echo $this->translate("Vials"); ?>
+            </td>
+            <td class="col-md-1">
+                <?php echo $this->translate("Vials"); ?>
+            </td>
+            <td class="col-md-1">
+                <?php echo $this->translate("Doses"); ?>
+            </td>
+            <?php if ($this->warehouse_level == 6) { ?>
+                <td class="col-md-1">&nbsp;</td>
+            <?php } ?>
+        </tr>
+    </thead>
+</thead>
+<tbody>
+    <!-- Table row -->
+    <?php
+    //exit;
+    $result_received_quantity = $this->explorerReport()->getMonthlyReceiveQuantityWarehouse($this->stakeholder_id, $this->wh_id, $this->yy, $this->mm);
+    foreach ($result_received_quantity as $val) {
+        $received_quantity = $val['rcv'];
+    }
+
+    $result_1 = $this->explorerReport()->ajaxExplorerReport($this->stakeholder_id, $this->wh_id, $this->yy, $this->mm);
+    $serial_no = 1;
+    if (!empty($result_1) && count($result_1) > 0) {
+
+        foreach ($result_1 as $rsRow1) {
+            $serial_no = ((strlen($serial_no) < 2) ? "0" . $serial_no : $serial_no);
+
+            $rsRow2 = $this->explorerReport()->getWarehouseDataByItemAndWarehouseId($this->wh_id, $rsRow1['pk_id'], $this->prev_month_date);
+            $itemid = $rsRow1['pk_id'];
+            if (!empty($rsRow2['nearest_expiry'])) {
+                $nearest_expiry = App_Controller_Functions::dateToUserFormat($rsRow2['nearest_expiry']);
+            } else {
+                $nearest_expiry = '';
+            }
+            ?>
+
+            <?php
+            if ($this->is_new_report == 2) {
+                ?>
+                <tr class="gradeX">
+                    <td class="col-md-1">
+                        <?php echo $rsRow1['item_name']; ?>
+                    </td>
+                    <td style="text-align:right;">
+                        <?php echo (!empty($rsRow2['opening_balance'])) ? number_format($rsRow2['opening_balance']) : '0'; ?>
+                    </td>
+                    <td class="col-md-1" style="text-align:right;">
+                        <?php echo (!empty($rsRow2['received_balance'])) ? number_format($rsRow2['received_balance']) : '0'; ?>
+                    </td>
+                    <td class="col-md-1" style="text-align:right;">
+                        <?php echo (!empty($rsRow2['issue_balance'])) ? number_format($rsRow2['issue_balance']) : '0'; ?>
+                    </td>
+                    <td class="col-md-1" style="text-align:right;">
+                        <?php echo (!empty($rsRow2['vials_used'])) ? number_format($rsRow2['vials_used']) : '0'; ?>
+                    </td>
+                    <td class="col-md-1" style="text-align:right;">
+                        <?php echo (!empty($rsRow2['adjustments'])) ? number_format(abs($rsRow2['adjustments'])) : '0'; ?>
+                    </td>
+                    <td class="col-md-1" style="text-align:right;">
+                        <?php echo (!empty($rsRow2['closing_balance'])) ? number_format($rsRow2['closing_balance']) : '0'; ?>
+                    </td>
+                    <?php if ($this->warehouse_level == 6) { ?>
+                        <td class="col-md-1" style="text-align:center;">
+                            <?php echo (!empty($nearest_expiry)) ? $nearest_expiry : '&nbsp;'; ?>
+                        </td>
+                    <?php } ?>
+                </tr>
+                <?php
+            }
+            ?>
+
+            <?php
+        }
+    }
+    ?>
+    <!-- // Table row END -->
+</tbody>
+
+</table>
+
+<br />
+
+<div style="float:left;">
+
+    <b>Print Date:</b> <?php echo date('d/m/y') . ' <b>by</b> ' . $this->username; ?>
+</div>  
+
+<div class="col-md-12" class="widget">
+    <div class="widget-body right">
+        <button id="print" name="print" value="1" type="button" class="btn btn-primary"><?php echo $this->translate("Print"); ?></button>
+    </div>
+</div> 	  
+
+<!-- // Content END -->

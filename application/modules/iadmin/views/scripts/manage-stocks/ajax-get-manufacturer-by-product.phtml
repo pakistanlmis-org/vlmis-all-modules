@@ -1,0 +1,39 @@
+<?php
+/**
+*  phtml for Ajax Get Manufacturer by Product
+*/
+?>
+<option value=""><?php echo $this->translate("Select"); ?></option>
+<?php
+if ($this->associated != false) {
+    ?>
+<optgroup label="Already Used">
+    <?php
+    foreach ($this->associated as $row) {
+        ?>
+        <option value="<?php echo $row['pkId']; ?>"><?php echo $row['stakeholderName']; ?></option>
+        <?php
+    }
+    ?>
+      </optgroup>
+<?php
+    }
+?>
+      
+<?php
+if ($this->not_associated != false) {
+    ?>
+<optgroup label="Not Used">
+    <?php
+    foreach ($this->not_associated as $row) {
+        ?>
+        <option value="<?php echo $row['pkId']; ?>"><?php echo $row['stakeholderName']; ?></option>
+        <?php
+    }
+    ?>
+      </optgroup>
+<?php
+    }
+?>
+
+      

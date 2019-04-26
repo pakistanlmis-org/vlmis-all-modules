@@ -1,0 +1,7 @@
+<?php
+
+FC_SetRenderer('javascript');
+echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Doughnut2D.swf", "", $this->xml_wastages_type, "coldchainCapacity28d3", '100%', 350, false, false);
+?>
+<b style="font-size: 10px;">Closed Vials Wastage (Expired):</b> <p style="color: #666666; font-size: 10px;">Stock wasted due to expiry date</p>
+<b style="font-size: 10px;">Closed Vials Wastage (Unusable):</b><p style="color: #666666; font-size: 10px;">Stock wasted due to VVM </p>

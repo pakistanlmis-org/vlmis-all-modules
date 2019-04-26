@@ -1,0 +1,133 @@
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Yearly Target"); ?> </h3>
+        <?php
+        /**
+         *  phtml for Ajax Merge Batch
+         */
+        ?>        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Filters") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse"></a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">    
+                        <?php if (!empty($this->msg)) { ?>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button">
+                                            ×
+                                        </button>
+                                        <?php echo $this->msg; ?>                                        
+                                    </div>                                
+                                </div>
+                            </div>
+                        <?php } ?>
+                        <form name="epi-amc-1" id="epi-amc-1" method="post" action="">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="year"><?php echo $this->translate("Year"); ?></label>   
+                                        <select name="year" id="year" class="form-control">
+                                            <?php for ($i = 2015; $i <= date("Y"); $i++) { ?>
+                                                <option value="<?php echo $i; ?>" <?php if ($i == $this->year) { ?>selected=""<?php } ?>><?php echo $i; ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="store"><?php echo $this->translate("Store"); ?></label>   
+                                        <select name="store" id="store" class="form-control">
+                                            <?php foreach ($this->stores as $row) { ?>
+                                                <option value="<?php echo $row->getPkId(); ?>" <?php if ($row->getPkId() == $this->store) { ?>selected=""<?php } ?>><?php echo $row->getWarehouseName(); ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group" style="padding-top: 27px;"> 
+                                        <input type="submit" name="go" id="go" class="btn btn-success" value="Go" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php if (!empty($this->result) && count($this->result) > 0) { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <form name="epi-amc" id="epi-amc" method="post" action="">
+                        <table class="table table-striped table-bordered table-condensed">
+                            <tr>
+                                <th class="center" style="width:4%;">S.No</th>
+                                <th class="col-md-2">Item Name</th>
+                                <th class="col-md-1">Monthly Quota</th>
+                                <th class="col-md-2">Store Name</th>
+                                <th class="col-md-1">Year</th>
+                                <th class="col-md-1">Created Date</th>
+                            </tr>              
+                            <?php
+                            $count = 1;
+                            foreach ($this->result as $row) {
+                                if ($this->addcheck == 'Yes') {
+                                    $amc_year = $row->getAmcYear() + 1;
+                                    $created_date = '';
+                                    $button_txt = 'Add New';
+                                    $amc = '';
+                                } else {
+                                    $amc_year = $row->getAmcYear();
+                                    if (!empty($row->getCreatedDate())) {
+                                        $created_date = $row->getCreatedDate()->format("d/m/Y");
+                                    } else {
+                                        $created_date = '';
+                                    }
+
+                                    $button_txt = 'Update';
+                                    $amc = $row->getAmc();
+                                }
+                                ?>                                
+                                <tr>
+                                    <td class="center"><?php echo $count; ?></td>
+                                    <td><?php echo $row->getItem()->getItemName(); ?></td>
+                                    <td><input name="amc[<?php echo $button_txt; ?>|<?php echo $row->getPkId(); ?>|<?php echo $row->getWarehouse()->getPkId(); ?>|<?php echo $amc_year; ?>|<?php echo $row->getItem()->getPkId(); ?>]" id="amc" class="form-control" value="<?php
+                                        if (!empty($amc)) {
+                                            echo $amc;
+                                        } else {
+                                            echo 0;
+                                        }
+                                        ?>"/></td>
+                                    <td><?php echo $row->getWarehouse()->getWarehouseName(); ?></td>
+                                    <td><?php echo $amc_year; ?></td>
+                                    <td><?php echo $created_date; ?></td>
+                                </tr>
+                                <?php
+                                $count++;
+                            }
+                            ?>
+                            <tr>
+                                <th class="col-md-12 right" colspan="6"><input type="submit" name="submit" id="submit" value="<?php echo $button_txt; ?>" class="btn btn-success" /></th>
+                            </tr>  
+                        </table>
+                    </form>
+                </div>
+            </div>
+        <?php } else { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Data not found!</h4>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+</div>

@@ -1,0 +1,274 @@
+<?php
+/**
+ *  phtml for VVM Management
+ */
+?>
+
+
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            <?php echo $this->translate("VVM Stage Management"); ?>
+        </h3>
+        <!-- <p class="red"><b>Important!</b> Please use Ctrl + R before using this form.</p> -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">                            
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse"></a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <?php if (isset($this->msg) && !empty($this->msg)) { ?>
+                                <div class="col-md-12">
+                                    <div class="alert alert-info">
+                                        <button data-dismiss="alert" class="close" type="button">
+                                            ×
+                                        </button>
+                                        <?php echo $this->msg; ?>
+                                    </div>                                
+                                </div>
+                            <?php } ?>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="vvm-management-filter" id="vvm-management-filter" action="">
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="product">
+                                                    <?php echo $this->translate("Product"); ?><span class="red">*</span>
+                                                </label>
+                                                <?php echo $this->form->product; ?>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="batch">
+                                                    <?php echo $this->translate("Batch"); ?> | <?php echo $this->translate("Quantity"); ?><span class="red">*</span>
+                                                </label>
+                                                <?php echo $this->form->batch; ?>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <label class="control-label">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </label>
+                                                <input class="btn btn-success" type="submit" name="go" id="go" value="GO"/>
+                                                <input type="hidden" name="sel_batch" id="sel_batch" value="<?php echo $this->batch; ?>"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form method="POST" name="vvm-management" id="vvm-management" action="">
+                                    <div id="vvm-management-div">
+                                        <?php if (count($this->result) > 0) { ?>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <table class="table table-striped table-bordered table-condensed">
+                                                        <!-- Table heading -->
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    <?php echo $this->translate("S.No"); ?>
+                                                                </th>
+                                                                <th>
+                                                                    <?php echo $this->translate("Location"); ?>
+                                                                </th>
+                                                                <th>
+                                                                    <?php echo $this->translate("Placed Quantity Vials"); ?>
+                                                                </th>
+                                                                <th>
+                                                                    <?php echo $this->translate("Current VVM Stage"); ?>
+                                                                </th>
+                                                                <th>
+                                                                    <?php echo $this->translate("New VVM Stage"); ?>
+                                                                </th>
+                                                                <th class="col-md-2 center">
+                                                                    <?php echo $this->translate("New VVM Quantity Vials"); ?>
+                                                                </th>                                                        
+                                                            </tr>
+                                                        </thead>
+                                                        <!-- // Table heading END -->
+
+                                                        <!-- Table body -->
+                                                        <tbody>
+
+
+                                                            <?php
+                                                            $counter = 1;
+                                                            foreach ($this->result as $row) {
+                                                                if ($row['placed_qty'] > 0) {
+                                                                    $key = $row['batch_id'] . "_" . $row['vvm_stage'] . "_" . $row['location_id'];
+                                                                    ?>
+                                                                    <tr class="gradeX">
+                                                                        <td><?php echo $counter; ?></td>
+                                                                        <td><?php echo $row['location']; ?></td>
+                                                                        <td id="<?php echo $key; ?>_placed_quantity"><?php echo number_format($row['placed_qty']); ?></td>
+                                                                        <td><?php echo ($row['vvm_group_id'] == 1 ? $row['vvm_stage'] : $row['vvm_stage_value']); ?></td>
+                                                                        <td><?php echo $this->getVvmByGroup($row['vvm_group_id'], $row['vvm_stage'], $key); ?></td>
+                                                                        <td><input class="form-control quantity" type="text" id="<?php echo $key; ?>_quantity" name="quantity[<?php echo $key; ?>]" /></td>
+                                                                    </tr>
+                                                                    <?php
+                                                                    $counter++;
+                                                                }
+                                                            }
+                                                            ?>
+
+                                                            <!-- // Table row END -->
+                                                        </tbody>
+                                                        <!-- // Table body END -->
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-md-12 right">
+                                                    <div class="form-group">
+                                                        <input class="btn btn-success" type="button" name="updatevvm" id="updatevvm" value="Update VVM"/>
+                                                        <input id="trans_date" name="trans_date" value="<?php echo date("d/m/Y"); ?>" type="hidden" />
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+                                </form>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <?php if ($this->h_result && count($this->h_result) > 0) { ?>
+            <div id="history-div">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <?php echo $this->translate("VVM Transfer History") ?>
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php if ($this->h_result && count($this->h_result) > 0) { ?>
+
+                                            <table class="table table-striped table-bordered table-condensed" id="sample_20">
+                                                <!-- Table heading -->
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            <?php echo $this->translate("S.No"); ?>
+                                                        </th>
+
+                                                        <th>
+                                                            <?php echo $this->translate("Item Name"); ?>
+                                                        </th>
+
+                                                        <th>
+                                                            <?php echo $this->translate("Batch Number"); ?>
+                                                        </th>
+
+                                                        <th>
+                                                            <?php echo $this->translate("From VVM Stage"); ?>
+                                                        </th>
+                                                        <th>
+                                                            <?php echo $this->m . $this->translate("To VVM Stage"); ?>
+                                                        </th>
+
+                                                        </th>
+                                                        <th>
+                                                            <?php echo $this->m . $this->translate("Quantity"); ?>
+                                                        </th>
+
+                                                        </th>
+                                                        <th>
+                                                            <?php echo $this->m . $this->translate("Created Date"); ?>
+                                                        </th>
+
+                                                        </th>
+
+                                                    </tr>
+
+
+                                                </thead>
+                                                <!-- // Table heading END -->
+
+                                                <!-- Table body -->
+                                                <tbody>
+
+
+                                                    <!-- Table row -->
+                                                    <?php
+                                                    $j = 1;
+                                                    foreach ($this->h_result as $row) {
+                                                        ?>
+                                                        <tr class="dynamic-rows">
+                                                            <td class="serial" style="font-size:12px" align="center">
+                                                                <?php echo $j; ?>
+                                                            </td>
+                                                            <td style="font-size:12px;" align="center" nowrap>
+                                                                <?php echo $row['item_name']; ?>
+                                                            </td>
+                                                            <td style="font-size:12px" nowrap>
+                                                                <?php echo $row['number'] ?>
+                                                            </td>
+                                                            <td style="font-size:12px" nowrap align="left">
+                                                                <?php echo $row['from_vvm_stage_id'] ?>
+                                                            </td>
+                                                            <td style="font-size:12px"  align="left">
+                                                                <?php echo $row['to_vvm_stage_id'] ?>
+                                                            </td>
+                                                            <td style="font-size:12px" nowrap>
+                                                                <?php echo $row['quantity'] ?>
+                                                            </td>
+                                                            <td style="font-size:12px" nowrap align="left">
+                                                                <?php echo $row['created_date'] ?>
+                                                            </td>
+
+                                                        </tr>
+                                                        <?php
+                                                        $j ++;
+                                                    }
+                                                    ?>
+
+                                                    <!-- // Table row END -->
+                                                </tbody>
+                                                <!-- // Table body END -->                                      
+
+                                            </table>
+
+
+                                            <?php
+                                        } else {
+                                            echo "No data found.";
+                                        }
+                                        ?>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+
+    </div>
+
+</div>

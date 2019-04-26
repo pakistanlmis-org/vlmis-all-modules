@@ -1,0 +1,20 @@
+input[id$='-quantity'] {
+    text-align: right;
+}
+
+input[id$='-unit_price'] {
+    text-align: right;
+}
+
+.serial {
+    width: 1% !important;
+    text-align: center;
+}
+
+.quantity,.unit-price {
+    width: 4% !important;
+}
+
+.col-md-2 {
+    width: 13% !important;
+}

@@ -1,0 +1,244 @@
+<?php
+/**
+ *  phtml for Vaccine Dropout Report
+ */
+?>
+<?php
+$from_date = $this->from_date;
+$to_date = $this->to_date;
+
+$sel_month = $this->month_sel;
+$sel_year = $this->year_sel;
+
+$from_sel_month = $this->from_month_sel;
+$from_sel_year = $this->from_year_sel;
+$counter = 1;
+
+$sel_stk = $this->in_stk;
+$sel_prov = $this->province;
+$sel_dist = $this->district1;
+$sel_tehsil = $this->tehsil;
+$wh_type = $this->wh_type;
+$sel_indicator = $this->sel_indicator;
+$in_col = $this->in_col;
+$in_rg = $this->in_rg;
+$in_type = $this->in_type;
+$stk_sel = $this->stk_sel;
+$start_date = $this->start_date;
+$end_date = $this->end_date;
+$period = $this->period;
+$str_indicator = $this->str_indicator;
+$year = $this->year_sel;
+$month = $this->month_sel;
+$item = $this->sel_item;
+
+
+$data_arr = array();
+if ($sel_dist == 'all') {
+    $header = 'District,Tehsil,UC Name,'
+            . 'Total Coverage  Penta I'
+            . ',Total Coverage  Penta III'
+            . ',Penta Dropout Rate'
+            . ',Total Coverage BCG'
+            . ',Total Coverage Measles I'
+            . ',Dropout Rate BCG to Measles'
+            . ',Total Coverage Penta I'
+            . ',Total Coverage Measles I'
+            . ',Dropout Rate Penta to Measles';
+
+    $cspan = '';
+    $width = '160,160,160,*,*,*,*,*,*,*,*';
+    $ro = 'ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro';
+} else {
+    $header = 'Tehsil,UC Name,'
+            . 'Total Coverage  Penta I'
+            . ',Total Coverage  Penta III'
+            . ',Penta Dropout Rate'
+            . ',Total Coverage BCG'
+            . ',Total Coverage Measles I'
+            . ',Dropout Rate BCG to Measles'
+            . ',Total Coverage Penta I'
+            . ',Total Coverage Measles I'
+            . ',Dropout Rate Penta to Measles';
+
+    $cspan = '';
+    $width = '160,160,*,*,*,*,*,*,*,*';
+    $ro = 'ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro';
+}
+
+$district = 'District:';
+$query = $this->reports()->vaccineDropoutRate($wh_type, $sel_prov, $sel_dist, $sel_tehsil, $year, $month, $item, $from_date, $to_date, 7, 1);
+foreach ($query as $row) {
+    $item_id = $row['pk_id'];
+    if ($sel_dist == "all") {
+        $data_arr[$item_id][] = $row['dis'];
+    }
+
+    $data_arr[$item_id][] = $row['teh'];
+    $data_arr[$item_id][] = $row['uc'];
+    $data_arr[$item_id][] = $row['doses'];
+    $penta_doses[$item_id] = $row['doses'];
+}
+$query_1 = $this->reports()->vaccineDropoutRate($wh_type, $sel_prov, $sel_dist, $sel_tehsil, $year, $month, $item, $from_date, $to_date, 7, 3);
+foreach ($query_1 as $row1) {
+    $item_id = $row1['pk_id'];
+
+    $data_arr[$item_id][] = $row1['doses'];
+    $data_arr[$item_id][] = Round(((($penta_doses[$item_id] - $row1['doses']) / $penta_doses[$item_id]) * 100), 2);
+}
+$query_2 = $this->reports()->vaccineDropoutRate($wh_type, $sel_prov, $sel_dist, $sel_tehsil, $year, $month, $item, $from_date, $to_date, 6, 1);
+foreach ($query_2 as $row2) {
+    $item_id = $row2['pk_id'];
+
+    $data_arr[$item_id][] = $row2['doses'];
+    $bcg_doses[$item_id] = $row2['doses'];
+}
+$query_3 = $this->reports()->vaccineDropoutRate($wh_type, $sel_prov, $sel_dist, $sel_tehsil, $year, $month, $item, $from_date, $to_date, 9, 1);
+foreach ($query_3 as $row3) {
+    $item_id = $row3['pk_id'];
+
+    $data_arr[$item_id][] = $row3['doses'];
+    $data_arr[$item_id][] = Round(((($bcg_doses[$item_id] - $row3['doses']) / $bcg_doses[$item_id]) * 100), 2);
+}
+$query_4 = $this->reports()->vaccineDropoutRate($wh_type, $sel_prov, $sel_dist, $sel_tehsil, $year, $month, $item, $from_date, $to_date, 7, 1);
+foreach ($query_4 as $row4) {
+    $item_id = $row4['pk_id'];
+
+    $data_arr[$item_id][] = $row4['doses'];
+    $pen_doses[$item_id] = $row4['doses'];
+}
+$query_5 = $this->reports()->vaccineDropoutRate($wh_type, $sel_prov, $sel_dist, $sel_tehsil, $year, $month, $item, $from_date, $to_date, 9, 1);
+foreach ($query_5 as $row5) {
+    $item_id = $row5['pk_id'];
+
+    $data_arr[$item_id][] = $row5['doses'];
+    $data_arr[$item_id][] = Round(((($bcg_doses[$item_id] - $row5['doses']) / $pen_doses[$item_id]) * 100), 2);
+}
+
+
+$s_date = $this->start_date;
+$e_date = $this->end_date;
+$xml_store = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+$xml_store .= "<rows>";
+
+$sum_arr = array();
+
+foreach ($data_arr as $dis_id => $sub_arr) {
+
+    $xml_store .= "<row>";
+
+    $xml_store .= "<cell>$sub_arr[0]</cell>";
+
+
+    foreach ($sub_arr as $key => $value) {
+        if ($value < 0) {
+            $style = "style=\"text-align:right; color:red;\"";
+        } else {
+            $style = "";
+        }
+        if ($key > 0) {
+
+            $xml_store .= "<cell $style>$value </cell>";
+        }
+    }
+    $xml_store .= "</row>";
+}
+
+
+$xml_store .= "</rows>";
+?>
+
+<?php
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $report_title; ?></h3>
+        <h5 style="color: red">
+            Note: Please check and provide feedback at support@lmis.gov.pk
+        </h5>
+        <div class="innerLR">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php
+                        echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('inventory-management/reports-header_coverage.phtml') ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td style="text-align:right; padding-bottom:10px;">
+                        <img style="cursor:pointer;" src="<?php echo $this->baseUrl(); ?>/images/pdf-32.png" onClick="mygrid.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="<?php echo $this->translate("Export to PDF"); ?>"/>&nbsp;&nbsp;
+                        <img style="cursor:pointer; margin-left:-5px" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="mygrid.setColumnHidden(0, false);
+                                mygrid.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');
+                                mygrid.setColumnHidden(0, true);" title="<?php echo $this->translate("Export to Excel"); ?>" />
+                    </td>
+                </tr>
+            </table>
+
+            <table width="99%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <div id="mygrid_container" style="width:100%; height:510px;">
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Dropout Rate = ((Penta I - Penta III)/Penta I)*100 
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    var mygrid;
+    function doInitGrid() {
+        mygrid = new dhtmlXGridObject('mygrid_container');
+        mygrid.selMultiRows = true;
+        mygrid.setImagePath(
+         "<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+        mygrid.setHeader("<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'><?php echo "'$report_title at  $this->loc_name'   for (" . date('F', mktime(0, 0, 0, $this->from_month_sel)) . '-' . $this->from_year_sel . ') to (' . date('F', mktime(0, 0, 0, $this->to_month_sel)) . '-' . $this->to_year_sel; ?>)  (Doses)<?php echo $cspan; ?>,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan");
+        mygrid.attachHeader("<?php echo $header; ?>");
+        mygrid.setInitWidths("<?php echo $width; ?>");
+        mygrid.setColAlign("left,left,right,right,right,right,right,right,right,right,right");
+        mygrid.setColTypes("<?php echo $ro; ?>");
+        mygrid.enableRowsHover(true, 'onMouseOver');
+        mygrid.setSkin("light");
+        mygrid.init();
+        mygrid.clearAll();
+        $('body').append('<textarea id="xml_string" style="display:none;"><?php echo addslashes($xml_store); ?></textarea>');
+        mygrid.loadXMLString(document.getElementById('xml_string').value);
+    }
+
+    function functionCall(param) {
+        var width = 1002;
+        var height = 595;
+        var x = (screen.width / 2) - (width / 2);
+        var y = (screen.height / 2) - (height / 2);
+        window.open('reported-warehouse-list?param=' + param, '_blank', 'scrollbars=1,width=' + width + ',height=' + height + ',left=' + x + ',top=' + y);
+    }
+
+    function showGraph(param) {
+        window.open('<?php echo $this->baseUrl(); ?>/reports/graphs/reported-districts?param=' + param, '_blank', 'scrollbars=1,width=950,height=600');
+    }
+    var whType = <?php echo $wh_type; ?>;
+    var province = <?php echo $sel_prov; ?>;
+    var district = <?php echo $sel_dist; ?>;
+    var tehsil = <?php echo $sel_tehsil; ?>;
+</script>
+

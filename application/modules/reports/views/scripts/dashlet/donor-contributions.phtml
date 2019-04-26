@@ -1,0 +1,111 @@
+<?php
+/**
+ *  phtml for Cold Chain Capacity Product
+ */
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <!-- BEGIN PAGE HEADER-->
+
+        <div class="row">
+            <h3 class="col-md-8">
+                <?php echo $this->warehousename; ?>  <small></small>
+            </h3>
+            <form method="post" name="mystore" id="mystore" action="">
+                <div class="col-md-2">
+                    <label>Year:
+                        <select id="to_date" name="to_date" class="form-control input-inline">
+                            <?php for ($i = 2014; $i <= date("Y"); $i++) { ?>
+                                <option value="<?php echo $i; ?>" <?php if ($i == $this->to_date) { ?>selected="selected"<?php } ?>><?php echo $i; ?></option>   
+                            <?php } ?>                    
+                        </select>
+                    </label> 
+                </div>
+                <div class="col-md-1 ">
+                    <button class="btn btn-success" type="submit" id="camp_btn" name="camp_btn" value="camp">GO</button>
+                </div>
+            </form>
+        </div>
+        <div class="row">&nbsp;</div>
+        <!-- END PAGE HEADER-->
+        <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="widget" data-toggle="collapse-widget">
+                        <div class="widget-head">
+                            <h4 class="heading glyphicons cargo">
+                                <i></i>
+                                Donor's Contribution
+                            </h4>
+                        </div>
+                        <div class="widget-body dashlets">
+
+                            <?php
+                            FC_SetRenderer('javascript');
+                            echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie2D.swf", "", $this->xmlstore, 'DataEntryStatus', '100%', 350, false, false);
+                            ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" >
+                    <div class="widget" data-toggle="collapse-widget">
+                        <div class="widget-head">
+                            <h4 class="heading glyphicons cargo">
+                                <i></i>
+                                Contribution Breakup
+                            </h4>
+                        </div>
+                        <div class="widget-body dashlets">
+                            <div id="div_1">
+                                <?php
+                                FC_SetRenderer('javascript');
+                                echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Column2D.swf", "", $this->xmlstore1, "coldchainCapacity20", '100%', 350, false, false);
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div  class="row">
+                <div class="col-md-6" >
+                    <div class="widget" data-toggle="collapse-widget">
+                        <div class="widget-head">
+                            <h4 class="heading glyphicons cargo">
+                                <i></i>
+                                Provincially Vaccination
+                            </h4>
+                        </div>
+                        <div class="widget-body dashlets">
+                            <div id="div_2">
+                                <?php
+                                FC_SetRenderer('javascript');
+                                echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Doughnut2d.swf", "", $this->xmlstore3, 'provinciallyVaccine', '100%', 350, false, false);
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" >
+                    <div class="widget" data-toggle="collapse-widget">
+                        <div class="widget-head">
+                            <h4 class="heading glyphicons cargo">
+                                <i></i>
+                                Product wise Contribution
+                            </h4>
+                        </div>
+                        <div class="widget-body dashlets">
+                            <div id="div_3">
+                                <?php
+                                FC_SetRenderer('javascript');
+                                echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Bar2D.swf", "", $this->xmlstore2, "productWiseContribution", '100%', 350, false, false);
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            </div>
+    </div>
+</div>

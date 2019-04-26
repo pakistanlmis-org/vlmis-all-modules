@@ -1,0 +1,62 @@
+<?php
+/**
+*  phtml for Stock Movement Report
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            Stock Ledger
+        </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Search Filters"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse"></a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <form method="POST" name="ledger" action="" id="ledger">
+                            <?php if($this->role_id == 2 || $this->role_id == 22) { $this->allLevelCombo('', null, 1, 10); } ?>
+                            <div class="row">
+                                <div class="col-md-12">                                
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="product"><?php echo $this->translate("Product") ?></label>
+                                                <?php echo $this->form->product; ?>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="to_date"><?php echo $this->translate("To Date") ?></label>
+                                                <?php echo $this->form->to_date; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="button">&nbsp;</label><br/>
+                                                <input type="submit" class="btn btn-success" name="submit" id="submit" value="Submit" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="product_ledger">
+
+        </div>
+    </div>
+</div>

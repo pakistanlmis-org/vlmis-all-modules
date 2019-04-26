@@ -1,0 +1,143 @@
+<style>
+    .hasDatepicker {
+        position: relative;
+        z-index: 9999;
+    }
+</style>
+<?php
+/**
+ *  phtml for Adjustment Search
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Purpose Transfer - Search") ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Filters") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="batch_search" action="" >
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group ">
+                                                <label class="control-label" ><?php echo $this->translate("Product") ?></label>
+                                                <?php echo $this->form->product; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group ">
+                                                <label class="control-label" ><?php echo $this->translate("Date From") ?></label>
+                                                <?php echo $this->form->date_from; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group ">
+                                                <label class="control-label" ><?php echo $this->translate("Date To") ?></label>
+                                                <?php echo $this->form->date_to; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group form-btn-margin-top">
+                                                <button class="btn btn-success" type="submit" name="search" value="Search"><?php echo $this->translate("Search") ?></button>
+                                                <button class="btn btn-info" type="reset" id="reset"><?php echo $this->translate("Reset") ?></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Stock Transfer History") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- Table -->
+                                <table class="dynamicTable table table-striped table-bordered table-hover dataTable no-footer" id="sample_2">
+                                    <!-- Table heading -->
+                                    <thead>
+                                        <tr>
+                                            <th class="col-md-2"><?php echo $this->translate("S.No") ?></th>
+                                            <th class="col-md-2"><?php echo $this->translate("Date") ?></th>
+                                            <th class="col-md-2"><?php echo $this->translate("Adjustment No") ?></th>
+                                            <th><?php echo $this->translate("Transfer From") ?></th>
+                                            <th><?php echo $this->translate("Transfer To") ?></th>
+                                            <th><?php echo $this->translate("Batch No") ?></th>
+                                            <th><?php echo $this->translate("Quantity") ?></th>
+                                            <th class="col-md-2"><?php echo $this->translate("Adjustment Type") ?></th>
+                                        </tr>
+                                    </thead>
+                                    <!-- // Table heading END -->
+                                    <!-- Table body -->
+                                    <tbody>
+                                        <?php
+                                        $m_res = array();
+                                        $i = 1;
+                                        if ($this->result && count($this->result) > 0) :
+                                            foreach ($this->result as $row):
+                                                ?>
+                                                <tr class="gradeX">
+                                                    <td class="center"><?php echo $i; ?></td>
+                                                    <td><?php echo date("d/m/Y", strtotime($row['transactionDate'])); ?></td>
+                                                    <td><?php echo $row['transactionNumber']; ?></td>
+                                                    <td><?php echo (($row['trTypeId'] == 16) ? $this->getStockTransferProduct($row['isReceived'], 17) : $row['itemName']); ?></td>
+                                                    <td><?php echo (($row['trTypeId'] == 17) ? $this->getStockTransferProduct($row['isReceived'], 16) : $row['itemName']); ?></td>                                                    
+                                                    <td><?php echo $row['number']; ?></td>
+                                                    <td class="right"><?php echo number_format(abs($row['quantity'])); ?></td>
+                                                    <td><?php echo $row['transactionTypeName']; ?></td>
+
+                                                </tr>
+                                                <!-- // Table row END --><?php
+                                                $i++;
+                                            endforeach;
+                                        endif;
+                                        ?>
+                                    </tbody>
+                                    <!-- // Table body END -->
+                                </table>
+                                <!-- // Table END -->
+                                <!--                                <div class="right">
+                                                                    <button id="print_stock" class="btn btn-warning input-sm" type="button"><?php echo $this->translate("Print") ?></button>
+                                                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // Content END -->

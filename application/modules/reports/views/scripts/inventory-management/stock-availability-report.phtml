@@ -1,0 +1,348 @@
+<?php
+/**
+ *  phtml for Stock Availability Report
+ */
+?>
+<?php
+$total = 0;
+$cwhtotal = 0;
+$ppiutotal = 0;
+$disttotal = 0;
+$old1 = '';
+
+$num_item_cwh = ($this->rs_items['national']) ? count($this->rs_items['national']) : 0;
+$xml_national = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+$xml_national .="<rows>";
+$counter = 1;
+
+$sel_month = $this->month_sel;
+$sel_year = $this->year_sel;
+$sel_item = $this->sel_item;
+$sel_stk = $this->sel_stk;
+$sel_prov = !empty($this->sel_prov) ? $this->sel_prov : 0;
+$rpt_date = $sel_year . '-' . str_pad($sel_month, 2, "0", STR_PAD_LEFT) . '-01';
+
+if ($num_item_cwh > 0) {
+    foreach ($this->rs_items['national'] as $row_item) {
+        $xml_national .="<row id=\"$counter\">";
+        $cwhamc = 0;
+        $cwhsoh = 0;
+        $cwhamc = $this->reports()->reportAmc('NP', $rpt_date, 0, $sel_item, $sel_stk);
+        $cwhsoh = $this->reports()->reportCb('NP', $rpt_date, 0, $sel_item, $sel_stk);
+        if ($old1 != $row_item['warehouse_name']) {
+            $cwh_name = $row_item['warehouse_name'];
+        }
+        $stk_name = $row_item['stakeholder_name'];
+        $xml_national .="<cell>" . $cwh_name . "</cell>";
+        $xml_national .="<cell><![CDATA[$stk_name]]></cell>";
+        $xml_national .="<cell>" . number_format($cwhamc[0]['AMC'] / 1) . "</cell>";
+        $xml_national .="<cell>" . number_format($cwhsoh[0]['CB'] / 1) . "</cell>";
+        if (!empty($cwhsoh)) {
+            $xml_national .="<cell>" . number_format($cwhsoh[0]['CB'] / $cwhamc[0]['AMC'], 1) . "</cell>";
+        }
+        $xml_national .="</row>";
+        $counter++;
+    }
+}
+$xml_national .="</rows>";
+
+$old1 = '';
+$xml_provincial = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+$xml_provincial .="<rows>";
+$counter = 1;
+
+$num_item = ($this->rs_items['provincial']) ? count($this->rs_items['provincial']) : 0;
+if (!empty($num_item) && $num_item > 0) {
+    $pwhamc = 0;
+    $pwhsoh = 0;
+    $pwhamc = $this->reports()->reportAmc('PP', $rpt_date, 0, $sel_item, $sel_stk);
+    $pwhsoh = $this->reports()->reportCb('PP', $rpt_date, 0, $sel_item, $sel_stk);
+    foreach ($pwhamc as $amc) {
+        $data_arr[$amc['pk_id']]['amc'] = $amc['AMC'];
+    }
+    foreach ($pwhsoh as $cb) {
+        $data_arr[$cb['pk_id']]['cb'] = $cb['CB'];
+    }
+    foreach ($this->rs_items['provincial'] as $row_item) {
+
+        $xml_provincial .="<row id=\"$counter\">";
+        $stk_name = $row_item['stakeholder_name'];
+        $xml_provincial .="<cell>" . $row_item['province'] . "</cell>";
+        $xml_provincial .="<cell><![CDATA[$stk_name]]></cell>";
+        $xml_provincial .="<cell>" . number_format(round($data_arr[$row_item['province_id']]['amc']), 2) . "</cell>";
+        $xml_provincial .="<cell>" . number_format(round($data_arr[$row_item['province_id']]['cb']), 2) . "</cell>";
+        $xml_provincial .="<cell>" . (($data_arr[$row_item['province_id']]['amc'] > 0) ? number_format(($data_arr[$row_item['province_id']]['cb'] / $data_arr[$row_item['province_id']]['amc']), 1) : 0) . "</cell>";
+        $xml_provincial .="</row>";
+        $counter++;
+    }
+}
+$xml_provincial .="</rows>";
+
+$old1 = '';
+unset($data_arr);
+$xml_district = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+$xml_district .="<rows>";
+$counter = 1;
+$num_item2 = ($this->rs_items['district']) ? count($this->rs_items['district']) : 0;
+if (!empty($num_item2) && $num_item2 > 0) {
+    $pwhamc = 0;
+    $pwhsoh = 0;
+    $pwhamc = $this->reports()->reportAmc('DP', $rpt_date, $sel_prov, $sel_item, $sel_stk);
+    $pwhsoh = $this->reports()->reportCb('DPT', $rpt_date, $sel_prov, $sel_item, $sel_stk);
+    foreach ($pwhamc as $amc) {
+        $data_arr[$amc['pk_id']]['amc'] = $amc['AMC'];
+    }
+    foreach ($pwhsoh as $cb) {
+        $data_arr[$cb['district_id']]['field_store'] = $cb['field_store'];
+        $data_arr[$cb['district_id']]['district_store'] = $cb['district_store'];
+        $data_arr[$cb['district_id']]['tehsil_store'] = $cb['tehsil_store'];
+        $data_arr[$cb['district_id']]['total_cb'] = $cb['CB'];
+    }
+
+    foreach ($this->rs_items['district'] as $row_item2) {
+        if (isset($data_arr[$row_item2['district_id']])) {
+            $district_id = $row_item2['district_id'];
+            $xml_district .="<row id=\"$counter\">";
+            $district_name = $row_item2['district'];
+            $province_name = $row_item2['province'];
+            $stk_name = $row_item2['stakeholder_name'];
+            $xml_district .="<cell>" . $district_name . "</cell>";
+            $xml_district .="<cell>" . $province_name . "</cell>";
+            $MOS = $MOS1 = $MOS2 = 0;
+            if ($data_arr[$district_id]['amc'] > 0) {
+                $MOS = $data_arr[$district_id]['district_store'] / $data_arr[$district_id]['amc'];
+                $MOS0 = $data_arr[$district_id]['tehsil_store'] / $data_arr[$district_id]['amc'];
+                $MOS1 = $data_arr[$district_id]['field_store'] / $data_arr[$district_id]['amc'];
+                $MOS2 = $data_arr[$district_id]['total_cb'] / $data_arr[$district_id]['amc'];
+            }
+
+            $xml_district .="<cell>" . number_format($data_arr[$district_id]['amc']) . "</cell>";
+            $xml_district .="<cell>" . number_format($data_arr[$district_id]['district_store']) . "</cell>";
+            $xml_district .="<cell>" . number_format($MOS, 2) . "</cell>";
+            $xml_district .="<cell>" . number_format($data_arr[$district_id]['tehsil_store']) . "</cell>";
+            $xml_district .="<cell>" . number_format($MOS0, 2) . "</cell>";
+            $xml_district .="<cell>" . number_format($data_arr[$district_id]['field_store']) . "</cell>";
+            $xml_district .="<cell>" . number_format($MOS1, 2) . "</cell>";
+            $xml_district .="<cell>" . number_format($data_arr[$district_id]['total_cb']) . "</cell>";
+            $xml_district .="<cell>" . number_format($MOS2, 2) . "</cell>";
+            $xml_district .="</row>";
+
+            $counter++;
+        }
+    }
+}
+
+$xml_district .="</rows>";
+
+$str_stock_report_national = "Stock Present at Federal EPI Store Islamabad For Product = $this->product_name (" . date('F', mktime(0, 0, 0, $this->month_sel)) . ' ' . $this->year_sel . ")";
+$str_stock_report_province = "Provincial Report For Province/Region = $this->location_name  And Product = $this->product_name (" . date('F', mktime(0, 0, 0, $this->month_sel)) . ' ' . $this->year_sel . ")";
+$str_stock_report_district = "Districts Report For Province/Region = $this->location_name And Product = $this->product_name (" . date('F', mktime(0, 0, 0, $this->month_sel)) . ' ' . $this->year_sel . ")";
+?>
+<input type="hidden" name="total" id="total" value="<?php echo number_format($total / PLMIS_CBL_UNIT); ?>" />
+<input type="hidden" name="hdn_stock_report_national" id="hdn_stock_report_national" value="<?php echo $str_stock_report_national; ?>">
+<input type="hidden" name="hdn_stock_report_province" id="hdn_stock_report_province" value="<?php echo $str_stock_report_province; ?>">
+<input type="hidden" name="hdn_stock_report_district" id="hdn_stock_report_district" value="<?php echo $str_stock_report_district; ?>">
+
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">Stock Availability Report (Doses)</h3>
+        <div class="innerLR">
+            <script>
+                function frmvalidate() {
+                    if (document.getElementById('prod_sel').value == '') {
+                        alert('Please Select Product');
+                        document.getElementById('prod_sel').focus();
+                        return false;
+                    }
+
+                    if (document.getElementById('month_sel').value == '') {
+                        alert('Please Select Month');
+                        document.getElementById('month_sel').focus();
+                        return false;
+                    }
+
+                    if (document.getElementById('year_sel').value == '') {
+                        alert('Please Select Year');
+                        document.getElementById('year_sel').focus();
+                        return false;
+                    }
+                }
+
+                var mygrid;
+                function doInitGrid() {
+                    mygrid = new dhtmlXGridObject('mygrid_container_provincial');
+                    mygrid.selMultiRows = true;
+                    mygrid.setImagePath("<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+                    mygrid.setHeader("<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'>'" + $('#hdn_stock_report_province').val() + "'</div>,#cspan,#cspan,#cspan,#cspan");
+                    mygrid.attachHeader("<span title='Provincial Office'>Provincial(Province+District+Tehsil+UCs)</span>,<span title='Stakeholder Name'>Stakeholder</span>,<span title='Average Monthly Consumption'>AMC</span>,<span title='Total'>Total</span>,<span title='Months of Stock'>MOS</span>");
+                    mygrid.setInitWidths("*,250,100,100,100");
+                    mygrid.setColAlign("left,left,right,right,right");
+                    mygrid.setColSorting("str,str");
+                    mygrid.setColTypes("ro,ro,ro,ro,ro");
+                    mygrid.enableRowsHover(true, 'onMouseOver');
+                    mygrid.setSkin("light");
+                    mygrid.init();
+                    mygrid.clearAll();
+                    mygrid.loadXMLString('<?php echo $xml_provincial ?>');
+                    $('body').append('<textarea id="xml_provincial" style="display:none;"><?php echo addslashes($xml_provincial); ?></textarea>');
+                    mygrid.loadXMLString(document.getElementById('xml_provincial').value);
+
+                    mygrid1 = new dhtmlXGridObject('mygrid_container_district');
+                    mygrid1.selMultiRows = true;
+                    mygrid1.setImagePath("../operations/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+                    mygrid1.setHeader("<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'>'" + $('#hdn_stock_report_district').val() + "'</div>,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan");
+                    mygrid1.attachHeader("<span title='District Name'>Districts</span>,<span title='Province/Region Name'>Province/Region</span>,<span title='Average Monthly Consumption'>AMC</span>,<span title='Store'>District Store</span>,<span title='Months of Stock'>MOS</span>,<span title='Store'>Tehsil/Town Store</span>,<span title='Months of Stock'>MOS</span>,<span title='Field'>Field(UCs)</span>,<span title='Months of Stock'>MOS</span>,<span title='Total'>Total</span>,<span title='Months of Stock'>MOS</span>");
+                    mygrid1.setInitWidths("*,150,80,80,80,80,80,80,80,80,80");
+                    mygrid1.setColAlign("left,left,right,right,right,right,right,right,right,right,right");
+                    //   mygrid1.attachFooter("<div style='font-size: 10px;'>Note: Store=District+Tehsil/Taluka</div>,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan");
+
+                    mygrid1.setColSorting("str,str,str");
+                    mygrid1.setColTypes("ro,ro,ro,ro,ro,ro,ro,ro,ro,ro,ro");
+                    mygrid1.enableRowsHover(true, 'onMouseOver');
+                    mygrid1.setSkin("light");
+                    mygrid1.init();
+                    mygrid1.clearAll();
+                    mygrid1.loadXMLString('<?php echo $xml_district ?>');
+                    $('body').append('<textarea id="xml_district" style="display:none;"><?php echo addslashes($xml_district); ?></textarea>');
+                    mygrid1.loadXMLString(document.getElementById('xml_district').value);
+                    mygrid2 = new dhtmlXGridObject('mygrid_container_national');
+                    mygrid2.selMultiRows = true;
+                    mygrid2.setImagePath("../operations/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+                    mygrid2.setHeader("<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'>'" + $('#hdn_stock_report_national').val() + "'</div>,#cspan,#cspan,#cspan,#cspan");
+                    mygrid2.attachHeader("<span title='Central Warehouse Name'>Federal EPI Store</span>,<span title='Stakeholder Name'>Stakeholder</span>,<span title='Average Monthly Consumption'>AMC</span>,<span title='Total'>Total</span>,<span title='Months of Stock'>MOS</span>");
+                    mygrid2.setInitWidths("*,250,100,100,100");
+                    mygrid2.setColAlign("left,left,right,right,right");
+                    mygrid2.setColSorting("str,str");
+                    mygrid2.setColTypes("ro,ro,ro,ro,ro");
+                    mygrid2.enableRowsHover(true, 'onMouseOver');
+                    mygrid2.setSkin("light");
+                    mygrid2.init();
+                    mygrid2.clearAll();
+                    mygrid2.loadXMLString('<?php echo $xml_national ?>');
+                    $('body').append('<textarea id="xml_national" style="display:none;"><?php echo addslashes($xml_national); ?></textarea>');
+                    mygrid2.loadXMLString(document.getElementById('xml_national').value);
+                }
+            </script>
+
+            <div class="wrraper" style="height:auto; padding-left:5px">
+                <div class="content" align="">
+                    <table width="99%">
+                        <tr>
+                            <td colspan="2">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <?php echo $this->render('inventory-management/reports-header.phtml') ?>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                    <?php if ($num_item_cwh > 0) { ?>
+                        <table width="99%">
+                            <tr>
+                                <td class="sb1NormalFont">&nbsp;</td>
+                                <td align="right" style="padding:10px;">
+                                    <img style="cursor:pointer;" src="<?php echo $this->baseUrl(); ?>/images/pdf-32.png" onClick="mygrid2.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="Export to PDF"/>&nbsp;&nbsp;
+                                    <img style="cursor:pointer; margin-left:-5px" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="mygrid2.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');" title="Export to Excel" />
+                                </td>
+                            </tr>
+                        </table>
+                        <table width="99%" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <div id="mygrid_container_national" style="width:100%; height:100px; background-color:white; overflow:hidden;"></div>
+                                </td>
+                            </tr>
+                        </table><br>
+                    <?php } else { ?>
+                        <table width="99%" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <div id="mygrid_container_national" style="width:100%; height:0px; background-color:white; overflow:hidden;"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center">
+                                    <strong>No record found.</strong>
+                                </td>
+                            </tr>
+                        </table><br>
+                    <?php } if ($num_item > 0) { ?>
+                        <table width="99%">
+                            <tr>
+                                <td class="sb1NormalFont">&nbsp;
+                                </td>
+                                <td align="right" style="padding-right:0px">
+                                    <img style="cursor:pointer;" src="<?php echo $this->baseUrl(); ?>/images/pdf-32.png" onClick="mygrid.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="Export to PDF"/>&nbsp;&nbsp;
+                                    <img style="cursor:pointer; margin-left:-5px" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="mygrid.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');" title="Export to Excel" />
+                                </td>
+                            </tr>
+                        </table>
+
+
+                        <table width="99%" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <div id="mygrid_container_provincial" style="width:100%; height:200px; background-color:white; overflow:hidden;"></div>
+                                </td>
+                            </tr>
+                        </table><br>
+
+                    <?php } else { ?>
+                        <table width="99%" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <div id="mygrid_container_provincial" style="width:100%; height:0px; background-color:white; overflow:hidden;"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center">
+                                    <strong>No record found.</strong>
+                                </td>
+                            </tr>
+                        </table><br>
+                    <?php } ?>
+
+                    <?php if ($num_item2 > 0) { ?>
+                        <table width="99%">
+                            <tr>
+                                <td class="sb1NormalFont">&nbsp;</td>
+                                <td align="right">
+                                    <img style="cursor:pointer;" src="<?php echo $this->baseUrl(); ?>/images/pdf-32.png" onClick="mygrid1.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="Export to PDF"/>&nbsp;&nbsp;
+                                    <img style="cursor:pointer; margin-left:-5px;" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="mygrid1.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');" title="Export to Excel" />
+                                </td>
+                            </tr>
+                        </table>
+                        <table width="99%" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <div id="mygrid_container_district" style="width:100%; height:300px; background-color:white; overflow:hidden;"></div>
+                                </td>
+                            </tr>
+                        </table>
+                    <?php } else { ?>
+                        <table width="99%" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td>
+                                    <div id="mygrid_container_district" style="width:100%; height:0px; background-color:white; overflow:hidden;"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center">
+                                    <strong>No record found.</strong>
+                                </td>
+                            </tr>
+                        </table>
+                    <?php } ?>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

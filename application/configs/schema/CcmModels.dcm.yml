@@ -1,0 +1,189 @@
+CcmModels:
+  type: entity
+  table: ccm_models
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    ccmModelName:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+      column: ccm_model_name
+    assetDimensionLength:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: asset_dimension_length
+    assetDimensionWidth:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: asset_dimension_width
+    assetDimensionHeight:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: asset_dimension_height
+    grossCapacity20:
+      type: float
+      nullable: true
+      column: gross_capacity_20
+    grossCapacity4:
+      type: float
+      nullable: true
+      column: gross_capacity_4
+    netCapacity20:
+      type: float
+      nullable: true
+      column: net_capacity_20
+    netCapacity4:
+      type: float
+      nullable: true
+      column: net_capacity_4
+    cfcFree:
+      type: boolean
+      nullable: true
+      column: cfc_free
+    noOfPhases:
+      type: boolean
+      nullable: true
+      column: no_of_phases
+    status:
+      type: boolean
+      nullable: true
+    reasons:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+    utilizations:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+    temperatureType:
+      type: boolean
+      nullable: true
+      column: temperature_type
+    catalogueId:
+      type: string
+      length: 50
+      fixed: false
+      nullable: true
+      column: catalogue_id
+    createdDate:
+      type: datetime
+      nullable: false
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: true
+      column: modified_date
+    coldLife:
+      type: string
+      length: 50
+      fixed: false
+      nullable: true
+      column: cold_life
+    productPrice:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: product_price
+    internalDimensionLength:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: internal_dimension_length
+    internalDimensionWidth:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: internal_dimension_width
+    internalDimensionHeight:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: internal_dimension_height
+    storageDimensionLength:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: storage_dimension_length
+    storageDimensionWidth:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: storage_dimension_width
+    storageDimensionHeight:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: storage_dimension_height
+    isPqs:
+      type: boolean
+      nullable: true
+      column: is_pqs
+  oneToOne:
+    gasType:
+      targetEntity: ListDetail
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        gas_type:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    powerSource:
+      targetEntity: ListDetail
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        power_source:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    ccmAssetType:
+      targetEntity: CcmAssetTypes
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        ccm_asset_type_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    ccmMake:
+      targetEntity: CcmMakes
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        ccm_make_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

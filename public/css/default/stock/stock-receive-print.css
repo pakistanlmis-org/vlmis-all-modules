@@ -1,0 +1,6 @@
+table#myTable tr td {
+    border: 1px solid #E5E5E5;
+}
+th {
+    text-align: left;
+}

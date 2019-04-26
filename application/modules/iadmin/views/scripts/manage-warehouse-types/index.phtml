@@ -1,0 +1,265 @@
+<?php
+/**
+ *  phtml for Geo Levels
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Warehouse Types") ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Warehouse Type Search") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="form-body">
+                            <form method="POST" name="search-warehouse-type" action="" >
+                                <!-- Row -->
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group ">
+                                            <label class="control-label" ><?php echo $this->translate("Warehouse Type Name"); ?></label>
+                                            <?php echo $this->form->warehouse_type_name; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group" style="margin-top: 25px;">
+                                            <button class="btn btn-primary" type="submit" name="search"><?php echo $this->translate("Search") ?></button>
+                                            <button type="reset" class="btn btn-info" id="reset">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Warehouse Type List") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="dataTables_wrapper form-inline">
+                            <div class="row">
+                                <div class="col-md-3">
+
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="dataTables_filter">
+                                        <label>
+                                            <a class="btn btn-primary" data-toggle="modal" href="#add-warehouse-type"><?php echo $this->translate("Add Warehouse Type") ?></a>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>                            
+
+                            <?php if ($this->result && count($this->result) > 0) { ?>
+                                <table class="table table-striped table-bordered table-condensed" id="sample_2">
+                                    <!-- Table heading -->
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <?php echo $this->translate("S.No"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Warehouse Type Name"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Warehouse Category Name"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Geo Level Name"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Resupply Interval"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Reserved Stock"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Usage %"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Rank"); ?>
+                                            </th>
+                                            <th>
+                                                <?php echo $this->translate("Action"); ?>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <!-- // Table heading END -->
+
+                                    <!-- Table body -->
+                                    <tbody>
+                                        <!-- Table row -->
+                                        <?php
+                                        $j = 1;
+                                        foreach ($this->result as $row) {
+                                            ?>
+                                            <tr >
+                                                <td >
+                                                    <?php echo $j; ?>
+                                                </td>
+                                                <td >
+                                                    <?php echo $row['warehouse_type_name']; ?>
+                                                </td>
+                                                <td >
+                                                    <?php echo $row['category_name']; ?>
+                                                </td>
+                                                <td >
+                                                    <?php echo $row['geo_level_name']; ?>
+                                                </td>
+                                                <td >
+                                                    <?php echo $row['resupply_interval']; ?>
+                                                </td>
+                                                <td >
+                                                    <?php echo $row['reserved_stock']; ?>
+                                                </td>
+                                                <td >
+                                                    <?php echo $row['usage_percentage']; ?>
+                                                </td>
+                                                <td >
+                                                    <?php echo $row['list_rank']; ?>
+                                                </td>
+                                                <td >
+                                                    <a whtypeid="<?php echo $row['pk_id']; ?>" class="btn btn-update-warehouse-type btn-link btn-success input-sm" data-toggle="modal" href="#modal-update-warehouse-type"><?php echo $this->translate("Edit") ?></a>
+
+                                                </td>
+                                            </tr>
+                                            <?php
+                                            $j ++;
+                                        }
+                                        ?>
+                                        <!-- // Table row END -->
+                                    </tbody>
+                                    <!-- // Table body END -->                                      
+                                </table>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- // modal box for add -->
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/iadmin/manage-warehouse-types/add-warehouse-type" id="form-add-warehouse-type">
+            <div class="modal fade" id="add-warehouse-type" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3>Add Warehouse Type</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Warehouse Type Name"); ?> <span class="red">*</span></label>
+                                        <div class="controls">
+                                            <?php echo $this->form->warehouse_type_name; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Warehouse Type Category"); ?> <span class="red">*</span></label>
+                                        <div class="controls">
+                                            <?php echo $this->form->warehouse_type_category; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Geo Level"); ?> <span class="red">*</span></label>
+                                        <div class="controls">
+                                            <?php echo $this->form->geo_level; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Resupply Interval"); ?> <span class="red">*</span></label>
+                                        <div class="controls">
+                                            <?php echo $this->form->resupply_interval; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Reserved Stock"); ?> <span class="red">*</span></label>
+                                        <div class="controls">
+                                            <?php echo $this->form->reserved_stock; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Usage %"); ?> <span class="red">*</span></label>
+                                        <div class="controls">
+                                            <?php echo $this->form->usage_percentage; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                 <div class="col-md-5">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Rank"); ?> <span class="red">*</span></label>
+                                        <div class="controls">
+                                            <?php echo $this->form->list_rank; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input id="btn-add-warehouse-type" class="btn btn-primary input-sm" type="submit" value="<?php echo $this->translate("Save"); ?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- // modal box for update -->
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/iadmin/manage-warehouse-types/update-warehouse-type" id="form-update-warehouse-type">
+            <div class="modal fade" id="modal-update-warehouse-type" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3>Edit Warehouse Type</h3>
+                        </div>
+                        <div class="modal-body" id="modal-body-contents">
+                            <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                        </div>
+                        <div class="modal-footer" id="update-button">
+                            <input id="btn-update-warehouse-type" class="btn btn-primary input-sm" type="submit" value="<?php echo $this->translate("Update"); ?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- // Content END -->

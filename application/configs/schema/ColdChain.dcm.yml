@@ -1,0 +1,143 @@
+ColdChain:
+  type: entity
+  table: cold_chain
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    assetId:
+      type: string
+      length: 50
+      fixed: false
+      nullable: true
+      column: asset_id
+    autoAssetId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: auto_asset_id
+    serialNumber:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+      column: serial_number
+    estimateLife:
+      type: smallint
+      nullable: true
+      column: estimate_life
+    workingSince:
+      type: datetime
+      nullable: true
+      column: working_since
+    quantity:
+      type: integer
+      unsigned: false
+      nullable: true
+    manufactureYear:
+      type: datetime
+      nullable: true
+      column: manufacture_year
+    status:
+      type: boolean
+      nullable: true    
+    approvedBy:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: approved_by
+    approvedOn:
+      type: datetime
+      nullable: true
+      column: approved_on
+    hasVoltage:
+      type: boolean
+      nullable: true
+      column: has_voltage  
+    createdDate:
+      type: datetime
+      nullable: false
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: false
+      column: modified_date
+  oneToOne:
+    temperatureMonitor:
+      targetEntity: ListDetail
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        temperature_monitor:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    ccmStatusHistory:
+      targetEntity: CcmStatusHistory
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        ccm_status_history_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false 
+    ccmAssetType:
+      targetEntity: CcmAssetTypes
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        ccm_asset_type_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    ccmModel:
+      targetEntity: CcmModels
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        ccm_model_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    source:
+      targetEntity: Stakeholders
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        source_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    warehouse:
+      targetEntity: Warehouses
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        warehouse_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

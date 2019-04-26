@@ -1,0 +1,13 @@
+<?php
+/**
+*  phtml for Ajax Change Status Nature
+*/
+?>
+<?php
+if ($this->ajaxactionnature == 'positive') {
+    $val = $this->translate("Negative");
+} else {
+    $val = $this->translate("Positive");
+}
+echo $val;
+?>

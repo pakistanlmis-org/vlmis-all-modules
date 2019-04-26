@@ -1,0 +1,65 @@
+<?php
+/**
+ *  phtml for Role Resources
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            <?php echo $this->translate("Assign Resources to Role"); ?>
+        </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Role Search") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <form method="POST" name="role_search" action="" >
+                            <!-- Row -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                        <div class="control-group ">
+
+                                            <label class="control-label" ><?php echo $this->translate("Role name"); ?></label>
+                                            <div class="controls">
+
+                                                <select data-toggle="tooltip" data-trigger="hover" data-placement="top" title="Select Role to see Resources" name="role" id="role" class="form-control" >
+                                                    <option value="" selected="selected">Select</option>
+                                                    <?php
+                                                    foreach ($this->res_rol as $rs) {
+                                                        ?>
+                                                        <option value="<?php echo $rs->getPkId(); ?>"  ><?php echo $rs->getDescription(); ?></option>
+                                                    <?php }
+                                                    ?>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="res">
+
+        </div>
+
+
+    </div>
+</div>
+<!-- // Content END -->

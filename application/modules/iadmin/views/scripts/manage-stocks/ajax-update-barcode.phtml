@@ -1,0 +1,62 @@
+<?php
+/**
+*  phtml for Ajax Update Barcode
+*/
+?>
+<div id ="barcode_container">
+        <div class="row">
+        <div class="col-md-2">
+            <label class="control-label" for="barcode"><?php echo $this->translate("Barcode"); ?></label>     
+        </div>
+        <div class="col-md-2">  
+            <label class="control-label" for="gtin"><?php echo $this->translate("GTIN"); ?><?php echo $this->form->gtin; ?></label>  
+        </div>
+        <div class="col-md-2">
+            <label class="control-label" for="batch"><?php echo $this->translate("Batch Lot NO"); ?><?php echo $this->form->batch; ?></label>   
+        </div>
+        <div class="col-md-2">
+            <label class="control-label" for="expiry"><?php echo $this->translate("Expiry Date"); ?><?php echo $this->form->expiry; ?></label>    
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <label class="control-label" for="startposition"><?php echo $this->translate("Start Position"); ?></label>
+        </div>
+        <div class="col-md-2">
+            <div class="controls">
+                <?php echo $this->form->gtin_start_position; ?>
+            </div> 
+        </div>
+        <div class="col-md-2">
+            <div class="controls">
+                <?php echo $this->form->batch_no_start_position; ?></div> 
+        </div>
+        <div class="col-md-2">
+            <div class="controls">
+                <?php echo $this->form->expiry_date_start_position; ?></div>
+        </div> 
+        <div class="col-md-4"></div>
+    </div> 
+    <div class="row">
+        <div class="col-md-2">
+            <label class="control-label" for="endposition"><?php echo $this->translate("End Position"); ?></label>
+        </div>
+        <div class="col-md-2">
+            <div class="controls">
+                <?php echo $this->form->gtin_end_position; ?>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="controls">
+                <?php echo $this->form->batch_no_end_position; ?>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="controls">
+                <?php echo $this->form->expiry_date_end_position; ?>
+            </div>
+        </div>
+        <div class="span"></div><?php echo $this->form->barcode_ty_id; ?>
+    </div> 
+</div>

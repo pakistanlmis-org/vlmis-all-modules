@@ -1,0 +1,622 @@
+<?php
+/**
+*  phtml for Log Book
+*/
+?>
+<!-- Content -->
+
+<div class="page-content-wrapper">
+    <div class="page-content">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-7">
+
+                </div>
+
+                <div class="col-md-5">
+                    <div class="well">
+                        <div class="control-group">
+                            <label class="control-label" for="firstname">
+                                <?php echo $this->translate("View Log Book for") ?>
+                            </label>
+                            <div class="controls">
+                                <?php echo $this->form->monthly_report; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <?php if (isset($this->success)) { ?>
+            <div class="alert alert-success alert-dismissable">
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button"></button>
+                <strong>Success!</strong> <?php echo $this->success; ?>
+            </div>
+        <?php } ?>
+        <?php if (isset($this->error)) { ?>
+            <div class="alert alert-danger alert-dismissable">
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button"></button>
+                <strong>Error!</strong> <?php echo $this->error; ?>
+            </div>
+        <?php } ?>
+        <h3 class="page-title">
+            <?php echo $this->translate("Log book of children vaccinated from outside UCs"); ?>
+        </h3>
+        <form method="POST" name="stock_issue" id="stock_issue" action="" >
+            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <?php echo $this->translate("Log Book Form For "); ?>(<?php echo date('F', mktime(0, 0, 0, $this->mm)) . "-" . $this->yy; ?>)
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-striped table-bordered table-condensed">
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("S.No"); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("Name"); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("Father Name"); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("Age"); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("Contact"); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("Address"); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("District"); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("Union Council"); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("Vaccination Day"); ?>
+                                                </th>
+
+                                                <th class="center" colspan="5" style="font-size:12px" >
+                                                    <?php echo $this->translate("Dose No."); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("Refer from"); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("Remarks"); ?>
+                                                </th>
+
+
+                                            </tr>
+
+                                            <tr>
+                                                <?php foreach ($this->items as $row) { ?>
+                                                    <th style="font-size:12px"><?php
+                                                        if ($row['item_name'] == 'Pentavalent-1') {
+                                                            echo 'Penta-1';
+                                                        } else if ($row['item_name'] == 'Pneumococcal-2 (PCV10)') {
+                                                            echo '(PCV10)';
+                                                        } else if ($row['item_name'] == 'Measles-10') {
+                                                            echo 'Measles';
+                                                        } else {
+
+                                                            echo $row['item_name'];
+                                                        }
+                                                        ?></th>
+
+                                                <?php } ?>
+                                            </tr>
+                                        </thead>
+                                        <!-- // Table heading END -->
+
+                                        <!-- Table body -->
+                                        <tbody>
+                                            <!-- Table row -->
+                                            <?php if ($this->is_new_report == 1) { ?>
+                                                <?php
+                                                $j = 1;
+                                                for ($i = $this->start; $i < $this->end; $i++) {
+                                                    $rows = "rows" . $i;
+                                                    $j = $i + 1;
+                                                    ?>
+                                                    <tr class="dynamic-rows">
+                                                        <td class="serial">
+                                                            <?php echo $j; ?>
+                                                            <input type="hidden" name="serial_number[]" value="<?php echo $j; ?>">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control" value="" id="name" name="name[]">
+                                                        </td>
+                                                        <td>
+                                                            <input id="father_name" class="form-control" type="text" value="" name="father_name[]">
+                                                        </td>
+                                                        <td width="4%">
+                                                            <input id="age" class="form-control" type="text" value="" name="age[]">
+                                                        </td>
+                                                        <td>
+                                                            <input id="contact" class="form-control" type="text" value="" name="contact[]">
+                                                        </td>
+                                                        <td>
+                                                            <input id="address" class="form-control" type="text" value="" name="address[]">
+                                                        </td>
+
+                                                        <td>
+                                                            <select id="<?php echo $j; ?>-district" class="form-control" name="district[]" style=" padding: 0px; width:70px ">
+                                                                <option value=""><?php echo $this->translate("Select"); ?></option>
+                                                                <?php
+                                                                foreach ($this->locations as $row) {
+                                                                    ?>
+                                                                    <option value="<?php echo $row['pkId']; ?>" >
+                                                                        <?php echo $row['locationName']; ?>
+                                                                    </option>
+                                                                    <?php
+                                                                }
+                                                                ?>
+
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <select id="<?php echo $j; ?>-uc" class="form-control" name="uc[]" style=" padding: 0px; width:70px">
+                                                                <option value=""><?php echo $this->translate("Select"); ?></option>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control"  id="day" name="day[]" >
+
+                                                                <option value="1">1</option><option value="2">2</option>
+                                                                <option value="3">3</option><option value="4">4</option>
+                                                                <option value="5">5</option><option value="6">6</option>
+                                                                <option value="7">7</option><option value="8">8</option>
+                                                                <option value="9">9</option><option value="10">10</option>
+                                                                <option value="11">11</option><option value="12">12</option>
+                                                                <option value="13">13</option><option value="14">14</option>
+                                                                <option value="15">15</option><option value="16">16</option>
+                                                                <option value="17">17</option><option value="18">18</option>
+                                                                <option value="19">19</option><option value="20">20</option>
+                                                                <option value="21">21</option><option value="22">22</option>
+                                                                <option value="23">23</option><option value="24">24</option>
+                                                                <option value="25">25</option><option value="26">26</option>
+                                                                <option value="27">27</option><option value="28">28</option>
+                                                                <option value="29">29</option><option value="30">30</option>
+                                                                <option value="31">31</option></select>
+                                                        </td>
+
+                                                        <?php foreach ($this->items as $row) { ?>
+                                                            <td width="5%">
+                                                                <input type="hidden" name="<?php echo $j; ?>_item_id[]" value="<?php echo $row['pk_id'] ?>">
+                                                                <input id="<?php echo $row['pk_id'] ?>-item" class="form-control" type="text" value="" name="<?php echo $j; ?>_dose_no[]" size="25px">
+                                                            </td>
+                                                        <?php } ?>
+                                                        <td>
+                                                            <input type="text" class="form-control" value="" id="reffers_to" name="reffers_to[]">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control" value="" id="remarks" name="remarks[]">
+
+                                                        </td>
+
+                                                    </tr>
+                                                    <?php
+                                                }
+                                                ?> 
+
+                                            <?php } else if ($this->is_new_report == 2) { ?>
+                                                <?php
+                                                $result = $this->monthlyConsumtion2()->logBookEdit($this->wh_id, $this->yy . "-" . $this->mm);
+
+                                                $j = 1;
+                                                foreach ($result as $row_r) {
+                                                    ?>
+                                                    <tr class="dynamic-rows">
+                                                        <td class="serial">
+                                                            <?php echo $j; ?>
+                                                            <input type="hidden" id="<?php echo $j; ?>-serial" name="serial_number[]" value="<?php echo $j; ?>">
+                                                        </td>
+                                                        <td>
+                                                            <?php echo $row_r['name']; ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php echo $row_r['father_name']; ?>
+                                                        </td>
+                                                        <td width="4%">
+                                                            <?php echo $row_r['age']; ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php echo $row_r['contact']; ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php echo $row_r['address']; ?>
+                                                        </td>
+
+                                                        <td>
+
+
+                                                            <?php
+                                                            $result_district = $this->monthlyConsumtion2()->getLocationName($row_r['district_id']);
+
+                                                            echo $result_district[0]['location_name'];
+                                                            ?>
+
+
+                                                        </td>
+                                                        <td>
+                                                            <?php
+                                                            $result_uc = $this->monthlyConsumtion2()->getLocationName($row_r['union_council_id']);
+                                                            echo $result_uc[0]['location_name'];
+                                                            ?>
+                                                            </select>
+                                                        </td>
+                                                        <td class="center">
+                                                            <?php
+                                                            echo date("d", strtotime($row_r['vaccination_date']));
+                                                            ?>
+
+                                                        </td>
+
+                                                        <?php
+                                                        foreach ($this->items as $row) {
+                                                            $result1 = $this->monthlyConsumtion2()->logBookItemDosesEdit($row_r['pk_id'], $row['pk_id']);
+                                                            ?>
+                                                            <td width="5%">
+                                                                <input type="hidden" name="<?php echo $j; ?>_item_id[]" value="<?php echo $row['pk_id'] ?>">
+                                                                <?php echo $result1[0]['doses']; ?>
+                                                            </td>
+                                                        <?php }
+                                                        ?>
+                                                        <td>
+                                                            <?php echo $row_r['reffer_to']; ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php echo $row_r['remarks']; ?>
+                                                        </td>
+
+                                                    </tr>
+                                                    <?php
+                                                    $j++;
+                                                }
+                                                ?> 
+
+
+
+
+
+                                            <?php } else { ?>
+                                                <?php
+                                                $result = $this->monthlyConsumtion2()->logBookEdit($this->wh_id, $this->yy . "-" . $this->mm);
+
+                                                $j = 1;
+                                                foreach ($result as $row_r) {
+                                                    ?>
+                                                    <tr class="dynamic-rows">
+                                                        <td class="serial">
+                                                            <?php echo $j; ?>
+                                                            <input type="hidden" id="<?php echo $j; ?>-serial" name="serial_number[]" value="<?php echo $j; ?>">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control" value="<?php echo $row_r['name']; ?>" id="name" name="name[]">
+                                                        </td>
+                                                        <td>
+                                                            <input id="father_name" class="form-control" type="text" value="<?php echo $row_r['father_name']; ?>" name="father_name[]">
+                                                        </td>
+                                                        <td width="4%">
+                                                            <input id="age" class="form-control" type="text" value="<?php echo $row_r['age']; ?>" name="age[]">
+                                                        </td>
+                                                        <td>
+                                                            <input id="contact" class="form-control" type="text" value="<?php echo $row_r['contact']; ?>" name="contact[]">
+                                                        </td>
+                                                        <td>
+                                                            <input id="address" class="form-control" type="text" value="<?php echo $row_r['address']; ?>" name="address[]">
+                                                        </td>
+
+                                                        <td>
+                                                            <select id="<?php echo $j; ?>-district" class="form-control" name="district[]" style=" padding: 0px; width:70px ">
+                                                                <option value=""><?php echo $this->translate("Select"); ?></option>
+                                                                <?php
+                                                                foreach ($this->locations as $row) {
+
+                                                                    if ($row['pkId'] == $row_r['district_id'])
+                                                                        $sel = "selected='selected'";
+                                                                    else
+                                                                        $sel = "";
+                                                                    ?>
+
+                                                                    ?>
+                                                                    <option value="<?php echo $row['pkId']; ?>" <?php echo $sel; ?> >
+                                                                        <?php echo $row['locationName']; ?>
+                                                                    </option>
+                                                                    <?php
+                                                                }
+                                                                ?>
+
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <?php $result_uc = $this->monthlyConsumtion2()->logBookItemUcs($row_r['district_id']); ?>
+                                                            <select id="<?php echo $j; ?>-uc" class="form-control" name="uc[]" style=" padding: 0px; width:70px">
+                                                                <option value=""><?php echo $this->translate("Select"); ?></option>
+                                                                <?php
+                                                                foreach ($result_uc as $row_uc) {
+
+                                                                    if ($row_uc['pk_id'] == $row_r['union_council_id'])
+                                                                        $sel = "selected='selected'";
+                                                                    else
+                                                                        $sel = "";
+                                                                    ?>
+
+                                                                    ?>
+                                                                    <option value="<?php echo $row_uc['pk_id']; ?>" <?php echo $sel; ?> >
+                                                                        <?php echo $row_uc['location_name']; ?>
+                                                                    </option>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                        </td>
+                                                        <td>
+                                                            <?php list($yy, $mm, $dd ) = explode("-", $row_r['vaccination_date']);
+                                                            ?>
+                                                            <select class="form-control"  id="day" name="day[]" >
+
+                                                                <option value="1" <?php
+                                                                if ($dd == 1) {
+                                                                    echo "selected='selected'";
+                                                                }
+                                                                ?>  >1</option><option value="2" <?php
+                                                                        if ($dd == 2) {
+                                                                            echo "selected='selected'";
+                                                                        }
+                                                                        ?>>2</option>
+                                                                <option value="3" <?php
+                                                                if ($dd == 3) {
+                                                                    echo "selected='selected'";
+                                                                }
+                                                                ?>>3</option><option value="4" <?php
+                                                                        if ($dd == 4) {
+                                                                            echo "selected='selected'";
+                                                                        }
+                                                                        ?>>4</option>
+                                                                <option value="5" <?php
+                                                                if ($dd == 5) {
+                                                                    echo "selected='selected'";
+                                                                }
+                                                                ?>>5</option><option value="6" <?php
+                                                                        if ($dd == 6) {
+                                                                            echo "selected='selected'";
+                                                                        }
+                                                                        ?>>6</option>
+                                                                <option value="7" <?php
+                                                                if ($dd == 7) {
+                                                                    echo "selected='selected'";
+                                                                }
+                                                                ?>>7</option><option value="8" <?php
+                                                                        if ($dd == 8) {
+                                                                            echo "selected='selected'";
+                                                                        }
+                                                                        ?>>8</option>
+                                                                <option value="9" <?php
+                                                                if ($dd == 9) {
+                                                                    echo "selected='selected'";
+                                                                }
+                                                                ?>>9</option><option value="10" <?php
+                                                                        if ($dd == 10) {
+                                                                            echo "selected='selected'";
+                                                                        }
+                                                                        ?> >10</option>
+                                                                <option value="11" <?php
+                                                                if ($dd == 11) {
+                                                                    echo "selected='selected'";
+                                                                }
+                                                                ?>>11</option><option value="12" <?php
+                                                                        if ($dd == 12) {
+                                                                            echo "selected='selected'";
+                                                                        }
+                                                                        ?>>12</option>
+                                                                <option value="13" <?php
+                                                                if ($dd == 13) {
+                                                                    echo "selected='selected'";
+                                                                }
+                                                                ?>>13</option><option value="14" <?php
+                                                                        if ($dd == 14) {
+                                                                            echo "selected='selected'";
+                                                                        }
+                                                                        ?>>14</option>
+                                                                <option value="15" <?php
+                                                                if ($dd == 15) {
+                                                                    echo "selected='selected'";
+                                                                }
+                                                                ?>>15</option><option value="16" <?php
+                                                                        if ($dd == 16) {
+                                                                            echo "selected='selected'";
+                                                                        }
+                                                                        ?>>16</option>
+                                                                <option value="17" <?php
+                                                                if ($dd == 17) {
+                                                                    echo "selected='selected'";
+                                                                }
+                                                                ?>>17</option><option value="18" <?php
+                                                                        if ($dd == 18) {
+                                                                            echo "selected='selected'";
+                                                                        }
+                                                                        ?>>18</option>
+                                                                <option value="19" <?php
+                                                                if ($dd == 19) {
+                                                                    echo "selected='selected'";
+                                                                }
+                                                                ?>>19</option><option value="20" <?php
+                                                                        if ($dd == 20) {
+                                                                            echo "selected='selected'";
+                                                                        }
+                                                                        ?>>20</option>
+                                                                <option value="21" <?php
+                                                                if ($dd == 21) {
+                                                                    echo "selected='selected'";
+                                                                }
+                                                                ?>>21</option><option value="22" <?php
+                                                                        if ($dd == 22) {
+                                                                            echo "selected='selected'";
+                                                                        }
+                                                                        ?>>22</option>
+                                                                <option value="23" <?php
+                                                                if ($dd == 23) {
+                                                                    echo "selected='selected'";
+                                                                }
+                                                                ?>> 23</option><option value="24" <?php
+                                                                        if ($dd == 24) {
+                                                                            echo "selected='selected'";
+                                                                        }
+                                                                        ?>>24</option>
+                                                                <option value="25" <?php
+                                                                if ($dd == 25) {
+                                                                    echo "selected='selected'";
+                                                                }
+                                                                ?>>25</option><option value="26" <?php
+                                                                        if ($dd == 26) {
+                                                                            echo "selected='selected'";
+                                                                        }
+                                                                        ?>>26</option>
+                                                                <option value="27" <?php
+                                                                if ($dd == 27) {
+                                                                    echo "selected='selected'";
+                                                                }
+                                                                ?>>27</option><option value="28" <?php
+                                                                        if ($dd == 28) {
+                                                                            echo "selected='selected'";
+                                                                        }
+                                                                        ?>>28</option>
+                                                                <option value="29" <?php
+                                                                if ($dd == 29) {
+                                                                    echo "selected='selected'";
+                                                                }
+                                                                ?>>29</option><option value="30" <?php
+                                                                        if ($dd == 30) {
+                                                                            echo "selected='selected'";
+                                                                        }
+                                                                        ?>>30</option>
+                                                                <option value="31" <?php
+                                                                if ($dd == 31) {
+                                                                    echo "selected='selected'";
+                                                                }
+                                                                ?>>31</option></select>
+                                                        </td>
+
+                                                        <?php
+                                                        foreach ($this->items as $row) {
+                                                            $result1 = $this->monthlyConsumtion2()->logBookItemDosesEdit($row_r['pk_id'], $row['pk_id']);
+                                                            ?>
+                                                            <td width="5%">
+                                                                <input type="hidden" name="<?php echo $j; ?>_item_id[]" value="<?php echo $row['pk_id'] ?>">
+                                                                <input id="<?php echo $row['pk_id'] ?>-item" class="form-control" type="text" value="<?php echo $result1[0]['doses']; ?>" name="<?php echo $j; ?>_dose_no[]" size="25px">
+                                                            </td>
+                                                        <?php }
+                                                        ?>
+                                                        <td>
+                                                            <input type="text" class="form-control" value="<?php echo $row_r['reffer_to']; ?>" id="reffers_to" name="reffers_to[]">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control" value="<?php echo $row_r['remarks']; ?>" id="remarks" name="remarks[]">
+                                                        </td>
+
+                                                    </tr>
+                                                    <?php
+                                                    $j++;
+                                                }
+                                                ?> 
+
+
+
+
+
+                                            <?php } ?>
+
+
+
+
+                                            <!-- // Table row END -->
+                                        </tbody>
+                                        <!-- // Table body END -->
+                                        <?php if ($this->is_new_report != 2) { ?>
+                                            <tfoot>
+                                                <tr style="background-color: lightgray">
+                                                    <td colspan="16" class="right">
+                                                        <button data-loading-text="Validating and saving your data ..." class="btn btn-primary input-sm" id="btn-loading" type="submit">
+                                                            <?php echo $this->translate("Save") ?>
+                                                        </button>
+                                                        <a href="monthly-consumption2"><button class="btn btn-primary input-sm" type="button">
+                                                                <?php echo $this->translate("Go back to main") ?>
+                                                            </button></a>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        <?php } ?>
+                                        <?php if ($this->is_new_report == 2) { ?>
+                                            <tfoot>
+                                                <tr style="background-color: lightgray">
+                                                    <td colspan="16" class="right">
+                                                        <a href="monthly-consumption2"><button class="btn btn-primary input-sm" type="button">
+                                                                <?php echo $this->translate("Go back to main") ?>
+                                                            </button></a>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        <?php } ?>
+                                    </table>
+                                    <input type="hidden" name="rpt_date" value="<?php echo $this->rpt_date; ?>">
+                                    <input type="hidden" name="wh_id" id="wh_id" value="<?php echo $this->wh_id; ?>">
+                                    <input type="hidden" name="loc_id" value="<?php echo $this->locid; ?>">
+                                    <input type="hidden" name="do" id="do" value="<?php echo $this->do; ?>">
+                                    <input type="hidden" name="yearmonth" id="yearmonth" value="<?php echo $this->year . "-" . $this->mm; ?>">
+                                    <input type="hidden" name="is_new_report" id="isNewRpt" value="<?php echo $this->is_new_report; ?>" />
+                                </div>
+                            </div>
+                            <br/>
+                            <?php if ($this->is_new_report != 2) { ?>
+                                <div class="row">
+
+                                    <div class="col-md-1">
+                                        <button id="add_more" type="button" class="btn blue">
+                                            <?php echo $this->translate("Add rows"); ?>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-1 right">
+                                        <input type="text" value="5" id="default_counter" class="form-control" />
+                                    </div>
+
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<a id="notific8_show" href="javascript:;" class="hide"></a>
+<div id="notific8_heading" class="hide">Your Data</div>
+<div id="notific8_life" class="hide">5000</div>
+<div id="notific8_text" class="hide">has been saved as draft.</div>
+
+<div style="display: none;">
+    <div id="clevel"><?php echo $this->params['office']; ?></div>
+    <div id="cprov"><?php echo $this->params['province']; ?></div>
+    <div id="cdist"><?php echo $this->params['district']; ?></div>
+    <div id="cwh"><?php echo $this->params['warehouse']; ?></div>
+
+</div>

@@ -1,0 +1,125 @@
+<?php
+/**
+*  phtml for Add Regulator
+*/
+?>
+<div class="page-content-wrapper">
+    <h3 class="page-title"><?php echo $this->translate("Cold Chain"); ?></h3>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <?php echo $this->translate("New Add Asset"); ?>
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row margin-top-10 margin-bottom-10">
+                        <div class="col-md-12">
+                            <?php
+                            echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                            ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form method="POST" name="asset_add" id="asset_add" action="" >
+                                <!-- Row -->
+                                <div class="row">
+                                    <?php
+                                    $this->allLevelCombo();
+                                    ?>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="catalogueid" ><?php echo $this->translate("Catalogue ID"); ?></label>
+                                            <?php echo $this->form->catalogue_id; ?>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="quantity" ><?php echo $this->translate("Quantity"); ?></label>
+                                            <?php echo $this->form->quantity; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="ccmmakeid"><?php echo $this->translate("Make"); ?> <span class="red">*</span></label>
+                                            <?php echo $this->form->ccm_make_id; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="ccmmodelid"><?php echo $this->translate("Model"); ?> <span class="red">*</span></label>
+                                            <?php echo $this->form->ccm_model_id; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" type="button" id="add" name="add"><?php echo $this->translate("Add"); ?></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                            <table class="receiveSearch table table-striped table-bordered table-hover dataTable no-footer"  >
+                                <!-- Table heading -->
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2"><?php echo $this->translate("Catalogue ID"); ?></th>
+                                        <th rowspan="2"><?php echo $this->translate("Quantity"); ?></th>
+                                        <th rowspan="2"><?php echo $this->translate("Make"); ?></th>
+                                        <th rowspan="2"><?php echo $this->translate("Model"); ?></th>
+                                    </tr>
+                                </thead>
+                                <!-- // Table heading END -->
+
+                                <!-- Table body -->
+                                <tbody>
+                                    <!-- Table row -->
+                                    <?php
+                                    $m_res = array();
+                                    $i = 1;
+                                    if ($this->result && count($this->result) > 0) :
+                                        foreach ($this->result as $row):
+                                            ?>
+                                            <tr class="gradeX">
+                                                <td style="text-align: center"><?= $row['catalogueId'] ?></td>
+                                                <td style="text-align: center"><?= $row['quantity'] ?></td>
+                                                <td style="text-align: center"><?= $row['ccm_make_id'] ?></td>
+                                                <td style="text-align: center"><?= $row['ccm_model_name'] ?></td>
+                                            </tr>
+                                            <?php
+                                        endforeach;
+                                    endif;
+                                    ?>
+                                    <!-- // Table row END -->
+                                </tbody>
+                                <!-- // Table body END -->
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

@@ -1,0 +1,158 @@
+<?php
+/**
+ *  phtml for Vaccine Placemnt Issue
+ */
+?>
+<!-- Content -->
+<style>
+    #content_print {
+        margin-left: 50px;
+        width: 624px;
+    }
+    table#mytable {
+        border: 1px solid #e5e5e5;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table#mytable tr td {
+        border: 1px solid #e5e5e5;
+    }
+    table#mytable tr th {
+        border: 1px solid #e5e5e5;
+    }
+</style>
+<!-- Content -->
+<style type="text/css" media="print">
+    .page {
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print {
+        #printButt {
+            display: none !important;
+        }
+    }
+</style>
+<table style="width:100%;">
+    <tr>
+        <td class="center" colspan="3"><b style="font-size: 16px;"><?php echo $this->print_title ?>  </b></td>
+    </tr>
+</table>
+<br />
+<?php
+if (count($this->result) > 0) {
+    $params = '';
+    foreach ($this->params as $key => $value) {
+        $params .= $key . "=" . $value . "&";
+    }
+    ?>
+    <div class="row">
+        <div class="col-md-12 right"><a title="Export to Excel" href="<?php echo $this->baseUrl(); ?>/stock-demand/export-excel?<?php echo $params; ?>"><img src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" /></a></div>
+    </div>
+<?php } ?>
+<table id="mytable" >
+    <!-- Table heading -->
+    <thead>
+        <tr>
+            <th><?php echo $this->translate("S.No"); ?></th>
+            <th><?php echo $this->translate("Date"); ?></th>
+            <th><?php echo $this->translate("Req. No"); ?></th>
+            <th><?php echo $this->translate("Period"); ?></th>
+            <th><?php echo $this->translate("To Store"); ?></th>
+            <th><?php echo $this->translate("Ref. No"); ?></th>
+            <th><?php echo $this->translate("Product"); ?></th>                                           
+            <th><?php echo $this->translate("Demanded Qty"); ?></th>
+            <th><?php echo $this->translate("Approved Qty"); ?></th>                                          
+            <th><?php echo $this->translate("Approved Date"); ?></th> 
+            <th><?php echo $this->translate("Delivery Date"); ?></th>
+            <th><?php echo $this->translate("Status"); ?></th>           
+        </tr>
+    </thead>
+    <!-- // Table heading END -->
+    <!-- Table body -->
+    <tbody>
+        <?php
+        $m_res = array();
+        $i = 1;
+        if ($this->result && count($this->result) > 0) :
+            foreach ($this->result as $row):
+                ?>
+                <tr class="gradeX">
+                    <td><?php echo $i; ?></td>
+                    <td>
+                        <?php echo $row['createdDate']; ?>
+                    </td>   
+                    <td>
+                        <?php echo $row['requisitionNumber']; ?>
+                    </td>                                                   
+                    <td>
+                        <?php
+                        $month = date("m", strtotime($row['fromDate']));
+                        $year = date("Y", strtotime($row['fromDate']));
+                        if ($month <= 3) {
+                            $requsitionPeriod = "1st Quarter of " . $year;
+                        } else if ($month <= 6) {
+                            $requsitionPeriod = "2nd Quarter of " . $year;
+                        } else if ($month <= 9) {
+                            $requsitionPeriod = "3rd Quarter of " . $year;
+                        } else if ($month <= 9) {
+                            $requsitionPeriod = "4th Quarter of " . $year;
+                        }
+
+                        echo $requsitionPeriod;
+                        ?>
+                    </td>
+                    <td><?php echo $row['warehouseName']; ?></td>
+                    <td><?php $row['requisitionReference']; ?></td>
+                    <td><?php echo $row['itemName']; ?></td>                                                   
+                    <td class="right"><?php echo number_format($row['quantity']); ?></td>
+                    <td class="right"><?php echo number_format($row['approvedQuantity']); ?></td>                                                   
+                    <td class="center">
+                        <?php
+                        if (!empty($row['approvedDate'])) {
+                            echo date("d/m/Y", strtotime($row['approvedDate']));
+                        }
+                        ?></td>
+                    <td class="center">
+                        <?php
+                        if (!empty($row['suggestedDate'])) {
+                            echo date("d/m/Y", strtotime($row['suggestedDate']));
+                        }
+                        ?>
+                    </td>
+                    <td>
+                        <?php
+                        if ($row['draft'] == 0) {
+                            echo $this->translate("DRAFT");
+                        } else if ($row['draft'] == 1) {
+                            echo $this->translate("SUBMITTED");
+                        } else if ($row['draft'] == 2) {
+                            echo $this->translate("APPROVED");
+                        } else if ($row['draft'] == 3) {
+                            echo $this->translate("UNAPPROVED");
+                        }
+                        ?>
+                    </td>                   
+                </tr>
+                <?php
+                $i++;
+            endforeach;
+        endif;
+        ?>
+    </tbody>
+    <!-- // Table body END -->
+</table>
+<?php
+?>
+<br>
+<div style="float:left;">
+    <b>Print Date:</b> <?php echo date('d/m/Y') . ' <b>by</b> ' . $this->username; ?>
+</div> 
+<div class="col-md-12" class="widget">
+    <div class="widget-body right">
+        <button id="print" name="print" value="1" type="button" class="btn btn-primary" ><?php echo $this->translate("Print") ?></button>
+    </div>
+</div> 	  
+
+
+

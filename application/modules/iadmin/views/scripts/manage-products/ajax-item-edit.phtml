@@ -1,0 +1,19 @@
+<?php
+/**
+*  phtml for Ajax Item Edit
+*/
+?>
+<div class="row">
+    <div class="col-md-5">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Item Group Title"); ?> <span class="red">*</span></label>
+            <div class="controls">
+                <?php echo $this->form->item_description ?>
+            </div>
+        </div>
+    </div>
+</div>
+<?php 
+echo $this->form->item_group_id;
+echo $this->form->item_description_hidden;
+?>

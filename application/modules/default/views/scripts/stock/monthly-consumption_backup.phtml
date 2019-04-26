@@ -1,0 +1,309 @@
+<?php
+/**
+*  phtml for Monthly Consumption Backup
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+<div class="page-content">
+    <h3 class="page-title">
+        <?php echo $this->translate("Monthly Consumption") ?>
+    </h3>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <?php echo $this->translate("Enter the report of consumed vaccines for every month.") ?>
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse"></a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-7">
+                                <div class="col-md-6">
+                                    <div class="control-group">
+                                        <label class="control-label" for="firstname">
+                                            <?php echo $this->translate("Select UC") ?>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->uc; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="control-group" id="uc_center_div" <?php if (empty($this->locid)) { ?> style="display: none;" <?php } ?>>
+                                        <label class="control-label" for="firstname">
+                                            <?php echo $this->translate("Select UC Center") ?>
+                                        </label>
+                                        <?php echo $this->form->uc_center; ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                <span id="showMonths">
+                                </span>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="span8 well">
+                                    <div class="control-group">
+                                        <label class="control-label" for="firstname">
+                                            <?php echo $this->translate("View Monthly Consumption Report for") ?>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->monthly_report; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php if (isset($this->do) && !empty($this->do)) { ?>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <?php echo $this->translate("Monthly Consumption Report") ?>  (<?php echo $this->month . "-" . $this->year; ?>)
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                    <div class="col-md-12">
+                    <form name="frmF7" id="dataEntryfrm" action="" method="POST" enctype="multipart/form-data">
+                    <!-- Table -->
+                    <table class="table table-striped table-bordered table-condensed">
+                    <!-- Table heading -->
+                    <thead>
+                    <tr style="background-color: lightgray">
+                        <th class="col-md-1">
+                            <?php echo $this->translate("Product") ?>
+                        </th>
+                        <th class="col-md-1">
+                            <?php echo $this->translate("Opening Balance") ?>
+                        </th>
+                        <th class="col-md-1">
+                            <?php echo $this->translate("Received") ?>
+                        </th>
+                        <th class="col-md-1" style="background-color: #1fc70c;">
+                            <?php echo $this->translate("Dispensed") ?>
+                        </th>
+                        <th class="col-md-1" style="background-color:#e1f20d;">
+                            <?php echo $this->translate("Vials Used") ?>
+                        </th>
+                        <th class="col-md-1" style="background-color: #e1f20d;">
+                            <?php echo $this->translate("Unusable Vials") ?>
+                        </th>
+                        <th class="col-md-1">
+                            <?php echo $this->translate("Closing Balance") ?>
+                        </th>
+                        <th class="col-md-1">
+                            <?php echo $this->translate("Nearest Expiry") ?>
+                        </th>
+                    </tr>
+                    <tr style="background-color: lightgray">
+                        <td class="col-md-1">&nbsp;</td>
+                        <td class="col-md-1">
+                            <?php echo $this->translate("Doses Pcs") ?>
+                        </td>
+                        <td class="col-md-1">
+                            <?php echo $this->translate("Doses Pcs") ?>
+                        </td>
+                        <td class="col-md-1" style="background-color:#1fc70c;">
+                            <?php echo $this->translate("Doses Pcs") ?>
+                        </td>
+                        <td class="col-md-1" style="background-color: #e1f20d;">
+                            <?php echo $this->translate("Vials Pcs") ?>
+                        </td>
+                        <td class="col-md-1" style="background-color: #e1f20d;">
+                            <?php echo $this->translate("Vials Pcs") ?>
+                        </td>
+                        <td class="col-md-1">
+                            <?php echo $this->translate("Doses Pcs") ?>
+                        </td>
+                        <td class="col-md-1">&nbsp;
+
+                        </td>
+                    </tr>
+                    </thead>
+                    <!-- // Table heading END -->
+                    <!-- Table body -->
+                    <tbody>
+                    <!-- Table row -->
+                        <?php
+                        foreach ($this->items as $row1):
+                            if ($this->is_new_report == 1) {
+                                $row2 = $this->monthlyConsumtion($this->wh_id, $this->prev_month_date, $row1['pk_id']);
+                            } else {
+                                $row2 = $this->monthlyConsumtion($this->wh_id, $this->rpt_date, $row1['pk_id']);
+                            }
+                            
+
+                            $itemid = $row1['pk_id'];
+                            if ($row1['item_category_id'] == 2) {
+                                $vialsFunc = "onblur=\"getValue(this.value, '$row1[pk_id]')\"";
+                                $style = 'readonly="readonly"';
+                            } else {
+                                $vialsFunc = '';
+                                $style = '';
+                            }
+
+                            if (!empty($row2['nearestExpiry'])) {
+                                $n_expiry = $row2['nearestExpiry'];
+                            } else {
+                                $n_expiry = '';
+                            }
+
+                            if ($this->is_new_report == 1) {
+                                                      
+                                ?>
+                            <tr class="gradeX">
+                                <td class="col-md-1">
+                                    <?php echo $row1['item_name']; ?>
+                                    <input type="hidden" name="flitm_id[]" value="<?php echo $row1['pk_id']; ?>" />
+                                    <input type="hidden" name="doses_per_unit[]" id="<?php echo $itemid; ?>-doses" value="<?php echo $row1['description']; ?>" />
+                                </td>
+                                <td class="col-md-1">
+                                    <?php if ($this->prev_month_date == $this->first_month) { ?>
+                                    <input name="opening_balance[]" id="<?php echo $itemid; ?>-opening_balance" value="<?php echo (!empty($row2['closingBalance'])) ? $row2['closingBalance'] : '0'; ?>" class="form-control ob" readonly="readonly" />
+                                    <?php } else { ?>
+                                    <input class="form-control" name="opening_balance[]" id="<?php echo $itemid; ?>-opening_balance" value="<?php echo (!empty($row2['closingBalance'])) ? $row2['closingBalance'] : '0'; ?>" readonly="readonly" />
+                                    <?php } ?>
+                                </td>
+                                <td class="col-md-1">
+                                    <input class="form-control" name="received[]" id="<?php echo $itemid; ?>-received" value="0" />
+                                </td>
+                                <td style="background-color:#1fc70c;">
+                                    <input <?php echo $vialsFunc; ?> name="dispensed[]" id="<?php echo $itemid; ?>-dispensed" value="0" class="form-control dispensed" />
+                                </td>
+                                <td class="col-md-1" style="background-color: #e1f20d;">
+                                    <input <?php echo $style; ?> name="vials_used[]" id="<?php echo $itemid; ?>-vials_used" value="0" class="form-control vials_used" />
+                                </td>
+                                <td class="col-md-1" style="background-color: #e1f20d;">
+                                    <input name="unusable_vials[]" id="<?php echo $itemid; ?>-unusable_vials" value="0" class="form-control unusable_vials" />
+                                </td>
+                                <td class="col-md-1">
+                                    <input name="cb[]" id="<?php echo $itemid; ?>-cb" disabled="" value="<?php echo (!empty($row2['closingBalance'])) ? $row2['closingBalance'] : '0'; ?>" class="form-control closing_balance" />
+                                    <input type="hidden" name="closing_balance[]" id="<?php echo $itemid; ?>-closing_balance" value="<?php echo (!empty($row2['closingBalance'])) ? $row2['closingBalance'] : '0'; ?>" class="col-md-2" />
+                                </td>
+                                <td class="col-md-1">
+                                    <input name="nearest_expiry[]" id="nearest-<?php echo $itemid; ?>-expiry" value="0" class="span15 nearest_expiry" />
+                                    <input type="hidden" name="record_id[]" id="record_id<?php echo $itemid; ?>" value="<?php echo (!empty($row2['pkId']) ? $row2['pkId'] : '' ); ?>" />
+                                </td>
+                            </tr>
+                                <?php } else if ($this->is_new_report == 2) { ?>
+                            <tr class="gradeX">
+                                <td class="col-md-1">
+                                    <?php echo $row1['item_name']; ?>
+                                </td>
+                                <td>
+                                    <?php echo (!empty($row2['openingBalance'])) ? $row2['openingBalance'] : '0'; ?>
+                                </td>
+                                <td class="col-md-1">
+                                    <?php echo (!empty($row2['receivedBalance'])) ? number_format($row2['receivedBalance']) : '0'; ?>
+                                </td>
+                                <td class="col-md-1" style="background-color:#1fc70c;">
+                                    <?php echo (!empty($row2['issueBalance'])) ? $row2['issueBalance'] : '0'; ?>
+                                </td>
+                                <td class="col-md-1" style="background-color: #e1f20d;">
+                                    <?php echo (!empty($row2['vialsUsed'])) ? $row2['vialsUsed'] : '0'; ?>
+                                </td>
+                                <td class="col-md-1" style="background-color: #e1f20d;">
+                                    <?php echo (!empty($row2['adjustments'])) ? abs($row2['adjustments']) / $row1['description'] : '0'; ?>
+                                </td>
+                                <td class="col-md-1">
+                                    <?php echo (!empty($row2['closingBalance'])) ? $row2['closingBalance'] : '0'; ?>
+                                </td>
+                                <td class="col-md-1">
+                                    <?php echo (!empty($n_expiry)) ? $n_expiry : '&nbsp;'; ?>
+                                </td>
+                            </tr>
+                                <?php } else {  ?>
+                            <tr class="gradeX">
+                                <td class="col-md-1">
+                                    <?php echo $row1['item_name']; ?>
+                                    <input type="hidden" name="flitm_id[]" value="<?php echo $row1['pk_id']; ?>" />
+                                    <input type="hidden" name="doses_per_unit[]" id="<?php echo $itemid; ?>-doses" value="<?php echo $row1['description']; ?>" />
+                                </td>
+                                <td class="col-md-1">
+                                    <?php if ($this->check_date == $this->first_month) { ?>
+                                    <input name="opening_balance[]" id="<?php echo $itemid; ?>-opening_balance" value="<?php echo (!empty($row2['openingBalance'])) ? $row2['openingBalance'] : '0'; ?>" class="form-control ob" readonly="readonly" />
+                                    <?php } else { ?>
+                                    <input class="form-control" name="opening_balance[]" id="<?php echo $itemid; ?>-opening_balance" value="<?php echo (!empty($row2['openingBalance'])) ? $row2['openingBalance'] : '0'; ?>" readonly="readonly" />
+                                    <?php } ?>
+                                </td>
+                                <td class="col-md-1">
+                                    <input class="form-control" name="received[]" id="<?php echo $itemid; ?>-received" value="<?php echo (!empty($row2['receivedBalance'])) ? intval($row2['receivedBalance']) : '0'; ?>" />
+                                </td>
+                                <td class="col-md-1" style="background-color:#1fc70c;">
+                                    <input <?php echo $vialsFunc; ?> name="dispensed[]" id="<?php echo $itemid; ?>-dispensed" value="<?php echo (!empty($row2['issueBalance']) ? $row2['issueBalance'] : '0' ); ?>" class="form-control dispensed" />
+                                </td>
+                                <td class="col-md-1" style="background-color: #e1f20d;">
+                                    <input <?php echo $style; ?> name="vials_used[]" id="<?php echo $itemid; ?>-vials_used" value="<?php echo (!empty($row2['vialsUsed']) ? $row2['vialsUsed'] : '0' ); ?>" class="form-control vials_used" />
+                                </td>
+                                <td style="background-color: #e1f20d;">
+                                    <input name="unusable_vials[]" id="<?php echo $itemid; ?>-unusable_vials" value="<?php echo (!empty($row2['adjustments']) ? abs($row2['adjustments']) / $row1['description'] : '0' ); ?>" class="form-control unusable_vials" />
+                                </td>
+                                <td class="col-md-1">
+                                    <input name="cb[]" id="<?php echo $itemid; ?>-cb" disabled="" value="<?php echo (!empty($row2['closingBalance']) ? $row2['closingBalance'] : '0'); ?>" class="form-control" />
+                                    <input type="hidden" name="closing_balance[]" id="<?php echo $itemid; ?>-closing_balance" value="<?php echo (!empty($row2['closingBalance']) ? $row2['closingBalance'] : '0'); ?>" class="col-md-1" />
+                                </td>
+                                <td class="col-md-1">
+                                    <input name="nearest_expiry[]" id="nearest-<?php echo $itemid; ?>-expiry" value="<?php echo (!empty($n_expiry) ? $n_expiry : '0' ); ?>" class="span15 nearest_expiry" />
+                                    <input type="hidden" name="record_id[]" ID="record_id<?php echo $itemid; ?>" value="<?php echo (!empty($row2['pkId']) ? $row2['pkId'] : ''); ?>">
+                                </td>
+                            </tr>
+                                <?php
+                            }
+                        endforeach;
+                        //
+                        ?>
+                    <!-- // Table row END -->
+                    </tbody>
+                    <!-- // Table body END -->
+                    <!-- Table Footer -->
+                        <?php if ($this->is_new_report != 2) { ?>
+                    <tfoot>
+                    <tr style="background-color: lightgray">
+                        <td colspan="8" class="right">
+                            <button class="btn btn-primary input-sm" type="submit" id="savebutton">
+                                <?php echo $this->translate("Save") ?>
+                            </button>
+                            <a href="monthly-consumption"><button class="btn btn-primary input-sm" type="button">
+                                <?php echo $this->translate("Cancel") ?>
+                            </button></a>
+                        </td>
+                    </tr>
+                    </tfoot>
+                        <?php } ?>
+                    <!-- // Table Footer END -->
+                    </table>
+                    <!-- // Table END -->
+                    <input type="hidden" name="rpt_date" value="<?php echo $this->rpt_date; ?>">
+                    <input type="hidden" name="wh_id" id="wh_id" value="<?php echo $this->wh_id; ?>">
+                    <input type="hidden" name="loc_id" value="<?php echo $this->locid; ?>">
+                    <input type="hidden" name="do" id="do" value="<?php echo $this->do; ?>">
+                    <input type="hidden" name="yearmonth" id="yearmonth" value="<?php echo $this->year . "-" . $this->mm; ?>">
+                    <input type="hidden" name="is_new_report" id="isNewRpt" value="<?php echo $this->is_new_report; ?>" />
+                    </form>
+
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <?php } ?>
+</div>
+</div>

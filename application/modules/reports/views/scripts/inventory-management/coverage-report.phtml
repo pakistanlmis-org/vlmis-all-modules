@@ -1,0 +1,59 @@
+<?php
+/**
+ *  phtml for Pentavalent Coverage Detail
+ */
+?>
+<?php
+$from_sel_month = $this->from_month_sel;
+$from_sel_year = $this->from_year_sel;
+$year = $this->year_sel;
+$month = $this->month_sel;
+$sel_prov = $this->prov_sel;
+$sel_dist = $this->district_id;
+$sel_tehsil = $this->tehsil;
+$wh_type = $this->wh_type;
+$report_type = $this->report_type;
+// Headers of the Grid
+$sel_item = $this->sel_item;
+?>
+
+<?php
+if ($sel_item == 6) {
+    echo $this->render('inventory-management/bcg-detail.phtml');
+} else if ($sel_item == 7) {
+    echo $this->render('inventory-management/pentavalent-detail.phtml');
+} else if ($sel_item == 8) {
+    echo $this->render('inventory-management/pcv-detail.phtml');
+}
+else if ($sel_item == 9) {
+    echo $this->render('inventory-management/measles-detail.phtml');
+}else if ($sel_item == 12) {
+    echo $this->render('inventory-management/tt-detail.phtml');
+}
+else if ($sel_item == 40) {
+    echo $this->render('inventory-management/ipv-detail.phtml');
+}
+else if ($sel_item == 43) {
+    echo $this->render('inventory-management/bopv-detail.phtml');
+}
+else if ($sel_item == 26) {
+    echo $this->render('inventory-management/topv-detail.phtml');
+}else if ($sel_item == 50) {
+    echo $this->render('inventory-management/hepatitis-detail.phtml');
+}else if ($sel_item == 46) {
+    echo $this->render('inventory-management/rota-detail.phtml');
+}else if ($sel_item == 51) {
+    echo $this->render('inventory-management/dt-detail.phtml');
+}
+?>
+
+
+
+
+<script>
+
+    var whType = <?php echo $wh_type; ?>;
+    var province = <?php echo $sel_prov; ?>;
+    var district = <?php echo $sel_dist; ?>;
+    var tehsil = <?php echo $sel_tehsil; ?>;
+</script>

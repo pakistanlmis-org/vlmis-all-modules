@@ -1,0 +1,465 @@
+<?php
+/**
+ *  phtml for Index
+ */
+$url = "http://lmis.gov.pk/";
+echo "<script>window.location='$url'</script>";
+?>
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN CONTENT -->
+    <div class=" page-content-wrapper">
+        <div class="page-content landing-content">
+            <!-- BEGIN BANNER -->
+            <div class="vaccine-banner">
+                <div class="container">
+                    <p class="vaccine-landing-green">Management Information System</p>
+                    <h1><img src="<?php echo $this->baseUrl(); ?>/common/assets/img/landing-images/vaccine-images/vaccine_log.png" class="img-responsive" height="106" width="515"></h1>
+                    <p class="vaccine-headerTxt">Manages the national immunization programmes by providing a well-designed logistics management information system for vaccines. Supports Data Collection ..</p>
+                </div>
+            </div>
+            <div class="green-bar"><span class="blue-bar pull-right"></span><span class="grey-bar pull-right"></span></div>
+            <!-- END BANNER -->
+            <!-- BEGIN FORM-->
+            <div class="row login-area m-l-r-zero">
+                <form action="" role="form" method="post">
+                    <p class="col-md-12" style="text-align: center; margin-left: -103px; color: #c40040;"><?php echo $this->error; ?></p>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <div class="login-img">
+                                <img src="<?php echo $this->baseUrl(); ?>/common/assets/img/landing-images/vaccine-images/vaccines_login.png" height="48" width="173" class="img-responsive"><br>
+                                <a href="<?php echo $this->baseUrl(); ?>/index/whatsnew"><img src="<?php echo $this->baseUrl(); ?>/common/assets/img/landing-images/whatsnew.png" height="48" width="173" class="img-responsive"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">                        
+                        <div class="form-group">
+                            <label for="email" class="control-label">User Name <span class="require">*</span></label>
+                            <div class="input-group col-md-12">
+                                <?php echo $this->form->login_id; ?>
+                            </div>
+
+                        </div>
+                        <!--<p>For limited access username: guest and password: <strong>guest</strong></p> -->
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="email" class="control-label">Password <span class="require">*</span></label>
+                            <div class="input-group col-md-12">
+                                <?php echo $this->form->password; ?>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-form-green"><i class="icon-ok"></i> Login</button>
+                            <button type="button" onclick="javascript: alert('Please contact on this email address: support@lmis.gov.pk');" class="btn btn-default btn-form-grey">Forgot Password?</button>
+<!--                            <button type="button" onclick="window.location.href = '<?php // echo $this->baseUrl();  ?>/index/register'" class="btn btn-default btn-form-grey">Register Here</button>-->
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- END FORM-->
+            <!-- END LOGIN -->
+            <!-- BEGIN PROVANCE -->
+            <div class="row prov-bg m-l-r-zero">
+                <div class="note-common note-general note-formating">
+                    <p>
+                        Vaccine Logistics Management Information System (vLMIS) is functional in <span class="mehroon-clr">83</span> Districts/Towns of Pakistan
+                    </p>
+                </div>
+                <div class="col-md-12">
+
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+
+                        <div class="dashboard-stat blue">
+                            <div class="visual">
+                                <i class="fa fa-punjab"></i>
+                            </div>
+                            <div class="details">
+                                <div class="number">
+                                    13
+                                </div>
+                                <div class="desc">
+                                    PUNJAB
+                                </div>
+                            </div>
+                            <a class="more" href="#" data-toggle="dropdown">
+                                View more <i class="m-icon-swapright m-icon-white"></i>
+                            </a>
+
+                            <ul class="dropdown-menu bottom-down front-dropdown-ul">
+                                <li>
+                                    <div class="front-dropdown-maps">
+                                        <div class="dropdown-map-placing">
+                                            <img src="<?php echo $this->baseUrl(); ?>/common/assets/img/punjab_map.png" width="203" height="265">
+                                        </div>
+
+                                        <table width="100%" cellpadding="0" cellspacing="1" class="dropdown-map-table">
+                                            <tr>
+                                                <td>Bahawalpur</td>
+                                                <td>Muzaffargarh</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Dera Ghazi Khan</td>
+                                                <td>Rahim Yar Khan</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Faisalabad</td>
+                                                <td>Rajanpur</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Gujranwala</td>
+                                                <td>Rawalpindi</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Lahore</td>
+                                                <td>Sahiwal</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mianwali</td>
+                                                <td>Sargodha</td>
+                                            </tr>
+                                            <tr>                                                
+                                                <td>Multan</td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="dashboard-stat yellow">
+                            <div class="visual">
+                                <i class="fa fa-sindh"></i>
+                            </div>
+                            <div class="details">
+                                <div class="number1">
+                                    All 41 districts/towns of
+                                </div>
+                                <div class="desc">
+                                    SINDH
+                                </div>
+                            </div>
+                            <a class="more" href="#" data-toggle="dropdown">
+                                View more <i class="m-icon-swapright m-icon-white"></i>
+                            </a>
+                            <ul class="dropdown-menu bottom-down front-dropdown-ul">
+                                <li>
+                                    <div class="front-dropdown-maps">
+                                        <div class="dropdown-map-placing">
+                                            <img src="<?php echo $this->baseUrl(); ?>/common/assets/img/sindh_map.png" width="203" height="265">
+                                        </div>
+
+                                        <table width="100%" cellpadding="0" cellspacing="1" class="dropdown-map-table">
+                                            <tr>
+                                                <?php
+                                                $count = 1;
+                                                foreach ($this->sind as $row) {
+                                                    ?>                                                
+                                                    <td><?php echo $row['location_name']; ?></td>                                                
+                                                    <?php
+                                                    if ($count % 3 == 0) {
+                                                        echo "</tr><tr>";
+                                                    }
+                                                    $count ++;
+                                                }
+                                                ?>
+                                            </tr>                                            
+                                        </table>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="dashboard-stat mehroon">
+                            <div class="visual">
+                                <i class="fa fa-baloochistan"></i>
+                            </div>
+                            <div class="details">
+                                <div class="number">
+                                    09
+                                </div>
+                                <div class="desc">
+                                    BALOCHISTAN
+                                </div>
+                            </div>
+                            <a class="more" href="#" data-toggle="dropdown">
+                                View more <i class="m-icon-swapright m-icon-white"></i>
+                            </a>
+                            <ul class="dropdown-menu bottom-down front-dropdown-ul">
+                                <li>
+                                    <div class="front-dropdown-maps">
+                                        <div class="dropdown-map-placing">
+                                            <img src="<?php echo $this->baseUrl(); ?>/common/assets/img/balochistan_map.png" width="203" height="265">
+                                        </div>
+
+                                        <table width="100%" cellpadding="0" cellspacing="1" class="dropdown-map-table">
+                                            <tr>
+                                                <td>Jaffarabad</td>
+                                                <td>Qilla Abdullah</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Khuzdar</td>
+                                                <td>Qilla Saifullah</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Lasbella</td>
+                                                <td>Quetta</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Naseerabad</td>
+                                                <td>Sherani</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Pishin</td>
+                                                <td></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="dashboard-stat green">
+                            <div class="visual">
+                                <i class="fa fa-kpk"></i>
+                            </div>
+                            <div class="details">
+                                <div class="number">
+                                    05
+                                </div>
+                                <div class="desc">
+                                    KHYBER PAKHTUNKHWA
+                                </div>
+                            </div>
+                            <a class="more" href="#" data-toggle="dropdown">
+                                View more <i class="m-icon-swapright m-icon-white"></i>
+                            </a>
+
+                            <ul class="dropdown-menu bottom-down front-dropdown-ul">
+                                <li>
+                                    <div class="front-dropdown-maps">
+                                        <div class="dropdown-map-placing">
+                                            <img src="<?php echo $this->baseUrl(); ?>/common/assets/img/kpk_map.png" width="203" height="265">
+                                        </div>
+
+                                        <table width="100%" cellpadding="0" cellspacing="1" class="dropdown-map-table">
+                                            <tr>
+                                                <td>Charsadda</td>
+                                                <td>Nowshera</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Lakki Marwat</td>
+                                                <td>Peshawar</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mardan</td>
+                                                <td></td>
+                                            </tr>                                            
+                                        </table>
+                                    </div>
+
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="dashboard-stat orange">
+                            <div class="visual">
+                                <i class="fa fa-fata"></i>
+                            </div>
+                            <div class="details">
+                                <div class="number">
+                                    14
+                                </div>
+                                <div class="desc">
+                                    FATA
+                                </div>
+                            </div>
+                            <a class="more" href="#" data-toggle="dropdown">
+                                View more <i class="m-icon-swapright m-icon-white"></i>
+                            </a>
+
+                            <ul class="dropdown-menu bottom-down front-dropdown-ul">
+                                <li>
+                                    <div class="front-dropdown-maps">
+                                        <div class="dropdown-map-placing">
+                                            <img src="<?php echo $this->baseUrl(); ?>/common/assets/img/fata_map.png" width="203" height="265">
+                                        </div>
+
+                                        <table width="100%" cellpadding="0" cellspacing="1" class="dropdown-map-table">
+                                            <tr>
+                                                <td>Bajaur Agency</td>
+                                                <td>Khyber Agency</td>
+                                            </tr>
+                                            <tr>
+                                                <td>FR Bannu</td>
+                                                <td>Kurram Agency</td>
+                                            </tr>
+                                            <tr>
+                                                <td>FR Dera Ismail Khan</td>
+                                                <td>Mohmand Agency</td>
+                                            </tr>
+                                            <tr>
+                                                <td>FR Kohat</td>
+                                                <td>NW Agency</td>
+                                            </tr>
+                                            <tr>
+                                                <td>FR Lakki Marwat</td>
+                                                <td>Orakzai Agency</td>
+                                            </tr>
+                                            <tr>
+                                                <td>FR Peshawar</td>
+                                                <td>SW Agency</td>
+                                            </tr>
+                                            <tr>
+                                                <td>FR Tank</td>
+                                                <td>Upper Kurram Agency</td>
+                                            </tr>                                           
+                                        </table>
+                                    </div>
+
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                        <div class="dashboard-stat lightgreen">
+                            <div class="visual">
+                                <i class="fa fa-islamabad"></i>
+                            </div>
+                            <div class="details">
+                                <div class="number">
+                                    01
+                                </div>
+                                <div class="desc">
+                                    ISLAMABAD
+                                </div>
+                            </div>
+                            <a class="more" href="#" data-toggle="dropdown">
+                                View more <i class="m-icon-swapright m-icon-white"></i>
+                            </a>
+
+                            <ul class="dropdown-menu bottom-down front-dropdown-ul">
+                                <li>
+                                    <div class="front-dropdown-maps">
+                                        <div class="dropdown-map-placing">
+                                            <img src="<?php echo $this->baseUrl(); ?>/common/assets/img/islamabad_map.png" width="203" height="265">
+                                        </div>
+
+                                        <table width="100%" cellpadding="0" cellspacing="1" class="dropdown-map-table">
+                                            <tr>
+                                                <td>Islamabad</td>
+                                                <td></td>
+                                            </tr>                                           
+                                        </table>
+                                    </div>
+
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- END PROVANCE -->
+            <!-- BEGIN FEATURES -->
+            <div class="row feature-area m-l-r-zero">
+                <div class="col-md-12">
+                    <h3 class="feature-heading"> Achieving Logistics Data Visibility and Availability of Health Products at all levels through <span> LMIS!</span></h3>
+                    <ul class="nav nav-tabs nav-justified list-feature">
+                        <li><img src="<?php echo $this->baseUrl(); ?>/common/assets/img/landing-images/vaccine-images/health_icon.png" height="63" width="76">
+                            <p>Are you interested in improving supply management of health commodities?</p></li>
+                        <li><img src="<?php echo $this->baseUrl(); ?>/common/assets/img/landing-images/vaccine-images/evidence_icon.png" height="72" width="76">
+                            <p>Are you making informed, evidence-based decisions?</p></li>
+                        <li><img src="<?php echo $this->baseUrl(); ?>/common/assets/img/landing-images/vaccine-images/committment_icon.png" height="70" width="82">
+                            <p>Are you committed to improving collaboration among resource providers</p>
+                        </li>
+                        <li><img src="<?php echo $this->baseUrl(); ?>/common/assets/img/landing-images/vaccine-images/role_icon.png" height="70" width="86">
+                            <p>Are you playing a role in forecasting, quantification and supply planning?</p></li>
+                        <li><img src="<?php echo $this->baseUrl(); ?>/common/assets/img/landing-images/vaccine-images/emergency_icon.png" height="70" width="93">
+                            <p>Are you preventing supply emergencies?</p></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- END FEATURES -->
+            <!-- BEGIN  PAGE CONTENT -->
+            <div class="row content-area m-l-r-zero">
+                <div class="col-md-12">
+                    <h3>Strengthening Supply Chain Logistics Management</h3>
+                    <p>Strengthening the Logistics Management Information Systems (LMIS) is an important objective in addressing the challenges of health commodities distribution in Pakistan. A systematic architected and rational approach was applied to define the country’s needs for supply chain and logistics information management and most effective technology solutions were identified to address those needs. The LMIS is designed and implemented to be a sustainable source for health commodity supply chain monitoring and for informed decision making.</p>
+                    <h4>Logistics Management Information System for Vaccines (vLIMS)</h4>
+
+                    <ul class="nav nav-tabs nav-justified content-features">
+                        <li><span>01</span>
+                            <p>Government of Pakistan supports national immunization programmes by providing a well-designed logistics management system for vaccine management.</p>
+                            <div class="img-pos">
+                                <img src="<?php echo $this->baseUrl(); ?>/common/assets/img/landing-images/vaccine-images/tick_icon.png" height="40" width="43" >
+                            </div>
+                        </li>
+                        <li><span>02</span>
+                            <p>vLMIS is closely coordinated with existing information system dependencies and has customised and enhanced the existing vaccine delivery structure of Pakistan EPI centres and SDPs.</p>
+                            <div class="img-pos">
+                                <img src="<?php echo $this->baseUrl(); ?>/common/assets/img/landing-images/vaccine-images/tick_icon.png" height="40" width="43" >
+                            </div>
+                        </li>
+                        <li><span>03</span>
+                            <p>vLMIS System is a management information system capable of collecting and reporting data along with a stock inventory control system to ensure proper management of all supplies.</p>
+                            <div class="img-pos">
+                                <img src="<?php echo $this->baseUrl(); ?>/common/assets/img/landing-images/vaccine-images/tick_icon.png" height="40" width="43" >
+                            </div>
+                        </li>
+                        <li><span>04</span>
+                            <p>vLMIS System also caters for storage and warehousing of adequate capacity and quality to ensure their integrity and distribution/maintenance.</p>
+                            <div class="img-pos">
+                                <img src="<?php echo $this->baseUrl(); ?>/common/assets/img/landing-images/vaccine-images/tick_icon.png" height="40" width="43" >
+                            </div>
+                        </li>
+                        <li><span>05</span>
+                            <p>One critical area addressed in vLMIS is the cold chain management of vaccines, as vaccines are biological products that must be kept within a narrow temperature range, usually 2-8°C (36-45°F).</p>
+                            <div class="img-pos">
+                                <img src="<?php echo $this->baseUrl(); ?>/common/assets/img/landing-images/vaccine-images/tick_icon.png" height="40" width="43" >
+                            </div>
+                        </li>
+                    </ul>
+
+                </div> 
+            </div>
+            <!-- END PAGE CONTENT -->
+
+            <!-- BEGIN  PATNERS -->
+            <div class="row m-l-r-zero">
+                <div class="col-lg-12">
+                    <div class="tab-content stake-holder">Stakeholders</div>
+                    <ul class="nav nav-tabs stake-holder-list" style="float: left;">
+                        <li> <img src="<?php echo $this->baseUrl(); ?>/common/assets/frontend/layout/img/vaccine-partners/govt-of-pak-logo.png" alt=""/></li>
+                        <li> <img src="<?php echo $this->baseUrl(); ?>/common/assets/frontend/layout/img/vaccine-partners/unicef-logo.png" alt=""/></li>
+                        <li> <img src="<?php echo $this->baseUrl(); ?>/common/assets/frontend/layout/img/vaccine-partners/us-aid-logo.png" alt=""/></li>
+                        <li> <img src="<?php echo $this->baseUrl(); ?>/common/assets/frontend/layout/img/vaccine-partners/who-logo.png" alt=""/></li>
+                    </ul>
+                    <!--<div style="float:right; padding-top: 35px; padding-right: 20px;" class="usdeliver-logo"><img src="<?php echo $this->baseUrl(); ?>/images/usa-delivered-logo.png" alt=""/></div>-->
+                </div>
+            </div>        
+            <!-- END PATNERS -->
+        </div>
+    </div>
+    <!-- END CONTENT -->
+</div>
+<!-- END CONTAINER -->

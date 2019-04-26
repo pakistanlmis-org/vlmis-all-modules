@@ -1,0 +1,55 @@
+<?php
+/**
+*  phtml for Merge Manufacturers
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            Merge Manufacturers
+        </h3>
+        <?php if (!empty($this->result) && count($this->result) > 0) { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <form name="ajax-batches" id="ajax-batches" method="post">
+                        <table class="table table-striped table-bordered table-condensed">
+                            <tr>
+                                <th class="center">S.No</th>
+                                <th>Check</th>
+                                <th>Merge into</th>
+                                <th>Stakeholder Name</th>
+                                <th>Type</th>
+                                <th>Purpose</th>
+                            </tr>               
+                            <?php
+                            $count = 1;
+                            foreach ($this->result as $row) {
+                                ?>
+                                <tr>
+                                    <td class="center"><?php echo $count; ?></td>
+                                    <td><input type="checkbox" class="mergecheck" value="<?php echo $row->getPkId(); ?>" /></td>
+                                    <td><input type="radio" name="mergeinto" class="mergeinto" value="<?php echo $row->getPkId(); ?>" /></td>
+                                    <td><?php echo $row->getPkId(); ?> | <?php echo $row->getStakeholderName(); ?></td>
+                                    <td><?php echo $row->getStakeholderType()->getStakeholderTypeName(); ?></td>
+                                    <td><?php echo $row->getStakeholderActivity()->getActivity(); ?></td>
+                                </tr>
+                                <?php
+                                $count++;
+                            }
+                            ?>
+                        </table>
+                        <br>
+                        <div class="right"><input type="button" class="btn btn-success" name="merge" id="merge" value="Merge" /></div>
+                    </form>
+                </div>
+            </div>
+        <?php } else { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>No Data Available</h4>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+</div>

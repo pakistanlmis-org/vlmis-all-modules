@@ -1,0 +1,63 @@
+EpiAmc:
+  type: entity
+  table: epi_amc
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    amc:
+      type: decimal
+      nullable: true
+    amcYear:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: amc_year
+    remarks:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+    createdBy:
+      type: integer
+      unsigned: false
+      nullable: false
+      column: created_by
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+    modifiedBy:
+      type: integer
+      unsigned: false
+      nullable: false
+      column: modified_by
+    modifiedDate:
+      type: datetime
+      nullable: false
+      column: modified_date
+  oneToOne:
+    warehouse:
+      targetEntity: Warehouses
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        warehouse_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    item:
+      targetEntity: ItemPackSizes
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        item_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

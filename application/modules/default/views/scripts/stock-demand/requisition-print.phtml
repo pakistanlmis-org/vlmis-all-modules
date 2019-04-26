@@ -1,0 +1,184 @@
+<?php
+/**
+ *  phtml for Print Requisition
+ */
+?>
+<?php
+ob_start();
+?>
+<style>
+    #content_print {
+        margin-left: 55px;
+        width: 624px;
+    }
+    table#mytable {
+        border: 1px solid #444;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table#mytable tr td {
+        border: 1px solid #444;
+    }
+    table#mytable tr th {
+        border: 1px solid #444;
+    }
+</style>
+
+<style type="text/css" media="print">
+    .page{
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print{    
+        #printButt{
+            display: none !important;
+        }
+    }
+</style>
+<?php
+$row = $this->result[0];
+$transaction_number = $row['requisitionNumber'];
+$transaction_date = $row['createdDate'];
+$warehouse_name = $row['fromWH'];
+$reference = $row['requisitionReference'];
+$master_id = $row['pkId'];
+$comments = $row['comments'];
+$purpose = $row['activity'];
+$status = $row['draft'];
+$month = date("m", strtotime($row['fromDate']));
+$year = date("Y", strtotime($row['fromDate']));
+if ($month <= 3) {
+    $requsitionPeriod = "1st Quarter of " . $year;
+} else if ($month <= 6) {
+    $requsitionPeriod = "2nd Quarter of " . $year;
+} else if ($month <= 9) {
+    $requsitionPeriod = "3rd Quarter of " . $year;
+} else if ($month <= 9) {
+    $requsitionPeriod = "4th Quarter of " . $year;
+}
+
+$status_desc = '';
+
+if ($status == '0') {
+    $status_desc = 'Pending';
+} else if ($row['draft'] == '2') {
+    $status_desc = 'Approved';
+} else if ($row['draft'] == '3') {
+    $status_desc = 'Issued';
+} else if ($row['draft'] == '4') {
+    $status_desc = 'UnApproved';
+}
+?>
+<div class="row">
+    <div class="col-md-12">
+        <table style="width:100%;">
+            <tr>
+                <td class="center" colspan="4"><b style="font-size: 16px;"><?php echo $this->print_title; ?></b></td>
+            </tr>
+            <tr>
+                <td colspan="4" class="right"><b style="font-size: 16px;">Requisition # <span style="font-family: Verdana; "><?php echo $transaction_number; ?></span> </b></td>
+            </tr>
+            <tr>               
+                <td ><b>Requisition Date:</b> <?php echo $transaction_date; ?></td>
+                <td ><b>Status:</b> <?php echo $status_desc; ?></td>
+                <td ><b>Requisition Period:</b> <?php echo $requsitionPeriod; ?></td>
+            </tr>
+            <tr>
+                <?php if (!empty($purpose)) { ?>
+                    <td><b>Purpose:</b> <?php echo $purpose; ?></td>
+                <?php } ?>
+                <td><b>Ref. Number:</b> <?php echo (!empty($reference)) ? $reference : 'N/A'; ?></td>
+                <td><b>Requisition From:</b> <?php echo $warehouse_name; ?></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-10">
+        <table id="mytable" cellpadding="2">
+            <tr >
+                <th width="5%"><?php echo $this->translate("S.No"); ?></th>
+                <th><?php echo $this->translate("Product"); ?></th>
+                <th><?php echo $this->translate("Demand Qty"); ?></th>
+                <th><?php echo $this->translate("Approved Qty"); ?></th>                
+                <th><?php echo $this->translate("Approved Date"); ?></th>
+                <th><?php echo $this->translate("Pickup/Delivery Date"); ?></th>                             
+            </tr>           
+            <tbody>
+                <?php
+                $i = 0;
+                if (!empty($this->result)) {
+                    foreach ($this->result as $val) {
+                        $i++;
+                        ?>
+                        <tr>
+                            <td align="center"><?php echo $i; ?></td>
+                            <td align="left" nowrap><?php echo $val['itemName']; ?></td>	    
+                            <td align="right"><?php echo number_format($val['quantity']); ?></td>                            
+                            <td align="right" nowrap><?php
+                                if ($val['approvedQuantity'] > 0) {
+                                    echo number_format($val['approvedQuantity']);
+                                }
+                                ?></td>
+                            <td align="center"> 
+                                <?php
+                                if (!empty($row['approvedDate'])) {
+                                    echo date("d/m/Y", strtotime($row['approvedDate']));
+                                }
+                                ?>
+                            </td>
+                            <td align="center"> <?php echo date("d/m/Y", strtotime($val['suggestedDate'])); ?></td>                           
+                        </tr>
+                        <?php
+                    }
+                }
+                ?>
+            </tbody>
+        </table>
+        <br />
+    </div>
+</div>
+<?php if (!empty($comments)) { ?>
+    <div class="row">
+        <div class="col-md-12">
+            <b>Notes:</b> <?php echo $comments; ?>
+        </div>
+    </div>
+<?php } ?>
+<div class="row"> 
+    <div style="width:100%; clear:both; margin-top:30px;">
+        <table width="100%" cellpadding="5" style="float:left; border:0px solid #E5E5E5 !important; border-collapse:collapse;">
+            <tr>
+                <td><b>Approved by: </b></td>
+                <td>.........................................................</td>
+            </tr>
+            <tr>
+                <td>Name:</td>
+                <td>.........................................................</td>
+            </tr>
+            <tr>
+                <td>Designation:</td>
+                <td>.........................................................</td>
+            </tr>
+            <tr>
+                <td>Date:</td>
+                <td>.........................................................</td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+<div class="row" style="clear: both;">
+    <table width="100%">
+        <tr>           
+            <td width="33%"><b>Printed By:</b> <?php echo $this->username; ?></td>            
+            <td width="33%"><b>Print Date:</b> <?php echo date("d/m/Y"); ?></td>
+        </tr>
+    </table>
+</div>
+
+<div class="col-md-12" class="widget">
+    <div class="widget-body right">
+        <button id="print" name="print" value="1" type="button" class="btn btn-primary" ><?php echo $this->translate("Print"); ?></button>
+    </div>
+</div>

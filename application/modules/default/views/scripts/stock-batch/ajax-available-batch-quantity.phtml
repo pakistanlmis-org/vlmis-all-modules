@@ -1,0 +1,18 @@
+<?php
+/**
+*  phtml for Ajax Available Batch Quantity
+*/
+?>
+<div class="col-md-3">
+    <label class="control-label" for="firstname"><?php echo $this->translate("Total available batch quantity"); ?></label>
+    <div class="controls">
+        <input type="text" class="form-control" name="available_quantity" id="available_quantity" readonly="" value="<?php echo $this->batch_expiry['qty']; ?>" />
+        <input type="hidden" class="form-control" name="hdn_available_quantity" id="hdn_available_quantity" value="<?php str_replace(",", "", $this->batch_expiry['qty']) ?>"/>
+    </div>
+</div>
+<div class="col-md-3" id="expiry_div" <?php if ($this->batch_expiry['cat'] == '2') { ?> style="display: none;" <?php } ?> >
+    <label class="control-label" for="expiry_date"><?php echo $this->translate("Expiry Date"); ?></label>
+    <div class="controls">
+        <input type="text" class="form-control" name="expiry_date" id="expiry_date" readonly="" value="<?php echo $this->batch_expiry['date'] ?>" />
+    </div>
+</div>

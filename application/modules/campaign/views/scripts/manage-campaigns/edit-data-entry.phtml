@@ -1,0 +1,421 @@
+<?php
+/**
+*  phtml for Edit Data Entry
+*/
+?>
+<?php
+$_fc = Zend_Controller_Front::getInstance()->getRequest();
+$notify = $_fc->getParam('notify');
+// If National user
+if ($this->role_id == $this->campaign_user_type && empty($this->warehouse_id) || $this->day != 'all') {
+    $disabled = 'disabled="disabled"';
+} else {
+    $disabled = '';
+}
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate($this->page_heading); ?></h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                if (isset($notify) && !empty($notify)) {
+                                    ?>
+                                    <div class="alert alert-success" id="alert-message" >
+                                        <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                        <?php echo $this->translate($notify); ?>
+                                    </div>
+                                    <?php
+                                } 
+                                ?>
+                                <form method="POST" name="campaign_form" id="campaign_form" action="">
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Campaign"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->campaign_id; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Product"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->item_id; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Day"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->campaign_day; ?>
+                                                        <input type="hidden" name="hdn_campaign_date" id="hdn_campaign_date" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("UC"); ?></label>
+                                                    <div class="controls">
+                                                        <?php
+                                                        if (!empty($this->id)) {
+                                                            ?>
+                                                            <input type="hidden" name="wh_id" id="wh_id" value="<?php echo $this->wh_id; ?>" />
+                                                            <?php echo $this->form->wh_name; ?>
+                                                            <?php
+                                                        } else {
+                                                            ?>
+                                                            <?php echo $this->form->wh_id; ?>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Daily Target"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->daily_target; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3" style="margin-top: 25px;">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("No of Teams Reported"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->teams_reported; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9" style=" background: none repeat scroll 0 0 #ffc; padding-left: 1px; border: 1px solid #ccc;  margin-top: 25px; width: 74% !important;  padding-bottom: 10px;">
+                                                <div class="col-md-4">
+                                                    <div class="control-group">
+                                                        <label id="age_group1" class="control-label">Age 0-11 Months</label>
+                                                        <div class="controls">
+                                                            <?php echo $this->form->target_age_six_months; ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="control-group">
+                                                        <label id="age_group2" class="control-label">Age 12-59 Months</label>
+                                                        <div class="controls">
+                                                            <?php echo $this->form->target_age_sixty_months; ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="control-group">
+                                                        <label class="control-label"><?php echo $this->translate("Total Coverage"); ?></label>
+                                                        <div class="controls" id="total_coverages">
+                                                            <?php echo $this->form->total_coverage; ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12" id="house_hold">
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Households Visited"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->household_visited; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Households with multiple families"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->multiple_family_household; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12" style="margin-top:25px;">
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Recorded NA/Missed"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->record_not_accessible; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Recorded Refusal"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->record_refusal; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Covered NA/Missed"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->coverage_not_accessible; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Refusal Covered"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->refusal_covered; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Covered Mobile Children"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->coverage_mobile_children; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Reported with weakness"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->reported_with_weakness; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3" id="zero_doses">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Zero Dose Year"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->zero_dose; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3" id="inaccessible_children">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Inaccessible Coverage"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->inaccessible_coverage; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12" style="background-color:#ccffcc; border:1px solid #CCC; padding-left: 10px; margin-top: 25px;  padding-bottom: 10px;
+                                             margin-left: 29px !important;
+                                             width: 95% !important;">
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Vials Given"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->vials_given; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Vials Used"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->vials_used; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Vials with stage 3 or 4"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->vials_expired; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Vials Returned"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->vials_returned; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+
+                                        <div class="col-md-12" style="margin-top: 20px;">
+                                            <div class="col-md-3" id="ad_syr_wasted_span" style="display:none;">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("No. of AD/Disposable Syringes Wasted"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->ad_syr_wasted; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3" id="recon_syr_wasted_span" style="display:none;">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("No. of Reconstitution Syringes  Wasted"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->recon_syr_wasted; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <?php
+                                    if (empty($this->warehouse_id) && $this->day != 'all' && $this->action != 'view') {
+                                        ?>
+                                        <div class="row">
+                                            <div class="col-md-12" style="text-align:right;">
+                                                <div class="control-group">
+                                                    <label class="control-label">&nbsp;</label>
+                                                    <div class="controls">
+                                                        <button data-loading-text="Please Wait ..." type="submit" class="btn btn-primary" name="submit" id="save"><?php echo $this->translate($this->btn_txt); ?></button>
+                                                        <?php
+                                                        if ($this->action == 'add') {
+                                                            ?>
+
+                                                            <?php
+                                                        } else {
+                                                            ?>
+                                                            <button data-loading-text="Please Wait ..." type="button" class="btn btn-info" onclick="window.location = '/campaign/manage-campaigns/new-data-entry'"><?php echo $this->translate("Cancel"); ?></button>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+                                    <input type="hidden" name="district_id" id="district_id" value="<?php echo $this->district_id; ?>" />
+                                    <input type="hidden" name="created_date"  id="created_date" value="<?php echo $this->created_date; ?>" />
+                                    <input type="hidden" name="campaign_pk_id" id="campaign_pk_id" value="<?php echo $this->id; ?>" />
+                                    <input type="hidden" name="action" id="action" value="<?php echo $this->action; ?>" />
+                                </form>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                if (isset($this->day) && $this->day != 'all' && !empty($this->day) && $this->action != 'view' && $this->type != 'view') {
+                                    ?>
+                                    <table class="dynamicTable table table-striped table-bordered table-condensed" id="sample_2">
+
+                                        <thead>
+                                            <tr>
+                                                <th><?php echo $this->translate("Sr No"); ?></th>
+                                                <th><?php echo $this->translate("UC"); ?></th>
+                                                <th><?php echo $this->translate("Daily Target"); ?></th>
+                                                <th><?php echo $this->translate("Reported Teams"); ?></th>
+                                                <th><?php echo $this->translate("Age 06 Months"); ?></th>
+                                                <th><?php echo $this->translate("Age 660 Months"); ?></th>
+                                                <th><?php echo $this->translate("Total Coverage"); ?></th>
+                                                <th><?php echo $this->translate("Action"); ?></th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <?php
+                                            $i = 1;
+                                            if ($this->paginator && count($this->paginator) > 0) :
+                                                foreach ($this->paginator as $campaign) {
+                                                    $do_view = App_Controller_Functions::encrypt('view|' . $campaign['pk_id']);
+                                                    $do_edit = App_Controller_Functions::encrypt('edit|' . $campaign['pk_id']);
+                                                    $do_del = App_Controller_Functions::encrypt('del|' . $campaign['pk_id'] . '|' . $campaign['campaign_id'] . '|' . $campaign['campaign_day']);
+                                                    ?>
+
+                                                    <tr class="gradeX">
+                                                        <td class="center"><?php echo $i++; ?></td>
+                                                        <td><?php echo $campaign['warehouse_name']; ?></td>
+                                                        <td class="right"><?php echo number_format($campaign['daily_target']); ?></td>
+                                                        <td class="right"><?php echo number_format($campaign['teams_reported']); ?></td>
+                                                        <td class="right"><?php echo number_format($campaign['target_age_six_months']); ?></td>
+                                                        <td class="right"><?php echo number_format($campaign['target_age_sixty_months']); ?></td>
+                                                        <td class="right"><?php echo number_format($campaign['total_coverage']); ?></td>
+                                                        <td class="center" style="width:80px;">
+                                                            <?php
+                                                            if ($this->role_id == $this->campaign_user_type && empty($this->warehouse_id)) {
+                                                                ?>
+                                                                <a href="javascript: doEdit('<?php echo $do_view; ?>')">View</a>
+                                                                <?php
+                                                            } else {
+                                                                ?>
+
+                                                                <a href="javascript: doEdit('<?php echo $campaign['campaign_id']; ?>', '<?php echo $campaign['campaign_day']; ?>', '<?php echo $campaign['district_id']; ?>', '<?php echo $do_edit; ?>', '<?php echo $campaign['warehouses_id']; ?>','<?php echo $campaign['item_id']; ?>')">Edit</a> |
+
+                                                                <a href="javascript: doDel('<?php echo $do_del; ?>')">Del</a>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                }
+                                            endif;
+                                            ?>
+                                        </tbody>
+                                    </table>
+
+                                    <?php
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

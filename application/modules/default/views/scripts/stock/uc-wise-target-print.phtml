@@ -1,0 +1,136 @@
+<?php
+/**
+ *  phtml for Target Issuance Print
+ */
+?>
+<!-- Content -->
+
+<style>
+    #content_print {
+        margin-left: 50px;
+        width: 624px;
+    }
+    table#mytable {
+        border: 1px solid #e5e5e5;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table#mytable tr td {
+        border: 1px solid #e5e5e5;
+    }
+    table#mytable tr th {
+        border: 1px solid #e5e5e5;
+    }
+</style>
+<!-- Content -->
+
+<style type="text/css" media="print">
+    .page
+    {
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print
+    {    
+        #printButt
+        {
+            display: none !important;
+        }
+    }
+</style>
+
+
+<?php
+if ($this->result && count($this->result) > 0) {
+    $monthNum = $this->m;
+    $monthName = date("F", mktime(0, 0, 0, $monthNum, 10));
+    ?>
+
+    <table style="width:100%;">
+        <tr>
+            <td class="left"><b style="font-size: 16px;">UC wise Targets for "<?php echo $this->province_name; ?>" for year "<?php echo $this->year; ?>"</b> </td>
+        </tr> 
+    </table>
+    <table id="mytable">
+        <!-- Table heading -->
+        <thead>
+            <tr>
+                <th>
+                    <?php echo $this->translate("S.No"); ?>
+                </th>
+                <th>
+                    <?php echo $this->translate("District"); ?>
+                </th>
+                <th>
+                    <?php echo $this->translate("Tehsil"); ?>
+                </th>
+                <th>
+                    <?php echo $this->translate("UC"); ?>
+                </th>
+                <th>
+                    <?php echo $this->m . $this->translate("Population"); ?>
+                </th>
+                <th>
+                    <?php echo $this->m . $this->translate("Target"); ?>
+                </th>
+            </tr>
+
+
+        </thead>
+        <!-- // Table heading END -->
+
+        <!-- Table body -->
+        <tbody>
+
+            <!-- Table row -->
+            <?php
+            $j = 1;
+            foreach ($this->result as $row) {
+                ?>
+                <tr>
+                    <td align="center">
+                        <?php echo $j; ?>
+                    </td>
+                    <td >
+                        <?php echo $row['district_name'] ?>
+                    </td>
+                    <td >
+                        <?php echo $row['tehsil_name'] ?>
+                    </td>
+                    <td >
+                        <?php echo $row['uc_name'] ?>
+                    </td>
+                    <td align="right">
+                        <?php echo number_format($row['population']) ?>
+                    </td>
+                    <td align="right">
+                        <?php echo number_format($row['target']) ?>
+                    </td>
+
+                </tr>
+                <?php
+                $j ++;
+            }
+            ?>
+            <!-- // Table row END -->
+        </tbody>
+        <!-- // Table body END -->                                      
+
+    </table>
+
+
+    <?php
+}
+?>
+<div style="float:left;">
+    <div class="col-md-12 left">
+        <b>Printed By:</b> <?php echo $this->username ?><br> 
+        <b>Print Date:</b> <?php echo date("d/m/Y"); ?>
+    </div>
+</div>
+<div>
+    <div class="widget-body right">
+        <button name="print" id="print" value="1" type="button" class="btn btn-primary"><?php echo $this->translate("Print"); ?></button> 
+    </div>
+</div>  
+

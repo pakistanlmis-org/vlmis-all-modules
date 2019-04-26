@@ -1,0 +1,144 @@
+<?php
+/**
+ *  phtml for Print Issue
+ */
+?>
+<?php
+ob_start();
+
+
+?>
+<style>
+    #content_print {
+        margin-left: 55px;
+        width: 624px;
+    }
+    table#mytable {
+        border: 1px solid #444;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table#mytable tr td {
+        border: 1px solid #444;
+    }
+    table#mytable tr th {
+        border: 1px solid #444;
+    }
+</style>
+
+<style type="text/css" media="print">
+    .page{
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print{    
+        #printButt{
+            display: none !important;
+        }
+    }
+</style>
+
+<div class="row">
+    <div class="scroller" style="min-height:200px" data-always-visible="1" data-rail-visible1="1">
+
+        <h4 class="form-section">AEFI Case</h4>
+        <strong>Entry Date : </strong><?php echo $this->data[0]['date']; ?>&nbsp;&nbsp;&nbsp;<strong>Week : </strong> <?php echo $this->data[0]['week']; ?>&nbsp;&nbsp;&nbsp;<strong>Case Reported : </strong> <?php
+        if ($this->data[0]['type_case'] == 1) {
+            echo "Yes";
+        } else {
+            echo "No";
+        }
+        ?>
+        <br><br>
+        <?php
+         if ($this->data[0]['type_case'] == 1) {?>
+        <h4 class="form-section">Reporting Sites</h4>
+        <strong>Date of Notification : </strong> <?php echo $this->data[0]['date_notification']; ?>&nbsp;&nbsp;&nbsp;
+        <strong>Case Reported from Health Facility : </strong> <?php echo $this->data[0]['hf_id']; ?>  &nbsp;&nbsp;&nbsp; 
+        <strong>Other (Health Facility) : </strong> <?php echo $this->data[0]['hf_name']; ?>  
+        <br><br>
+           
+        <h4 class="form-section">Case Details</h4>
+        <strong>Province : </strong> <?php echo $this->data[0]['province']; ?> &nbsp;&nbsp;&nbsp;<strong>District : </strong> <?php echo $this->data[0]['district_case']; ?>&nbsp;&nbsp;&nbsp;<strong>Tehsil : </strong> <?php echo $this->data[0]['tehsil_case']; ?>&nbsp;&nbsp;&nbsp;<strong>UC : </strong> <?php echo $this->data[0]['uc_case']; ?><br>
+       <strong>Village : </strong> <?php echo $this->data[0]['address_village']; ?>&nbsp;&nbsp;&nbsp; <strong>Address : </strong><?php echo $this->data[0]['address1']; ?><br>
+      
+        <strong>Child Name : </strong> <?php echo $this->data[0]['child_name']; ?>&nbsp;&nbsp;&nbsp;<strong>Father Name : </strong> <?php echo $this->data[0]['father_name']; ?>&nbsp;&nbsp;&nbsp;
+        <strong>Contact Number : </strong> <?php echo $this->data[0]['contact_number']; ?> &nbsp;&nbsp;&nbsp;<strong>Gender : </strong><?php
+        if ($this->data[0]['gender'] == 1) {
+            echo 'Male';
+        } else {
+            echo 'Female';
+        }
+        ?><br>
+        <strong>Date of Birth : </strong> <?php echo $this->data[0]['dob']; ?>&nbsp;&nbsp;&nbsp;<strong>Age : </strong> <?php
+        echo $this->data[0]['age'] . '';
+        if ($this->data[0]['age_unit'] == 1) {
+            echo " month/s";
+        } else if ($this->data[0]['age_unit'] == 2) {
+            echo " day/s";
+        } else {
+            echo " year/s";
+        }
+        ?>    <br><br>
+        <h4 class="form-section">Clinical Information</h4>
+         <strong>Date of Investigation : </strong><?php echo $this->data[0]['date_of_investigation']; ?>&nbsp;&nbsp;&nbsp;<br>
+        <strong>AEFI : </strong><?php echo $this->data[0]['aefi']; ?>&nbsp;&nbsp;&nbsp;
+        <strong>Other  : </strong><?php echo $this->data[0]['aefi_other']; ?>
+        <br>
+        <strong>Date of AEFI Onset : </strong> <?php echo $this->data[0]['date_aefi_onset']; ?><br>
+        <strong>Hospitalization : </strong> <?php if ($this->data[0]['hospitalization'] == 1) {
+            echo "Yes";
+        } else {
+            echo "No";
+        } ?>&nbsp;&nbsp;&nbsp;
+        <strong>Death : </strong> <?php if ($this->data[0]['death'] == 1) {
+            echo "Yes";
+        } else {
+            echo "No";
+        } ?>    <br><br>
+  <h4 class="form-section">Vaccination</h4>
+  <strong>Date of Vaccine Given : </strong><?php echo $this->data[0]['date_vaccine_given']; ?>
+<strong>&nbsp;&nbsp;&nbsp;Vaccine Received: </strong> <?php echo $this->data[0]['vaccine']; ?>&nbsp;&nbsp;&nbsp;
+<strong>Batch No: </strong> <?php echo $this->data[0]['batch_id']; ?>&nbsp;&nbsp;&nbsp;
+<strong>Other: </strong> <?php echo $this->data[0]['batch_number']; ?>&nbsp;&nbsp;&nbsp;
+<strong>Expiry Date : </strong> <?php echo $this->data[0]['expiry_date']; ?>&nbsp;&nbsp;&nbsp;
+<strong>District : </strong> <?php echo $this->data[0]['district']; ?>&nbsp;&nbsp;&nbsp;<strong>Tehsil : </strong> <?php echo $this->data[0]['tehsil']; ?>&nbsp;&nbsp;&nbsp;<strong>UC : </strong> <?php echo $this->data[0]['uc']; ?>
+     <strong>Case Vaccinated From EPI Center : </strong> <?php echo $this->data[0]['case_epi']; ?> &nbsp;&nbsp;&nbsp;
+       <strong>Other (EPI Center)  : </strong> <?php echo $this->data[0]['other_case_epi']; ?> &nbsp;&nbsp;&nbsp;
+      
+    <strong>Name of Vaccinator : </strong> <?php echo $this->data[0]['vaccinator_name']; ?> &nbsp;&nbsp;&nbsp;
+       <strong>Designation : </strong> <?php echo $this->data[0]['designation']; ?> &nbsp;&nbsp;&nbsp;
+       
+    
+    <?php 
+    
+         }?>
+    </div>
+</div>
+
+<div class="col-md-12" class="widget">
+    <div class="widget-body right">
+        <button id="print" name="print" value="1" type="button" class="btn btn-primary" ><?php echo $this->translate("Print"); ?></button>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        //printCont();
+        $("#print").click(function () {
+            printCont();
+        });
+    });
+
+    function printCont()
+    {
+        $("a").hide();
+        $('#print').hide();
+        window.print();
+        setTimeout(function () {
+            // Do something after 5 seconds
+            $('#print').show();
+            $("a").show();
+        }, 5000);
+    }
+</script>

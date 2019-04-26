@@ -1,0 +1,28 @@
+<?php
+/**
+*  Layout for Ajax Calls.
+*/
+
+?>
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>    <html class="ie lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>    <html class="ie lt-ie9"> <![endif]-->
+<!--[if gt IE 8]> <html class="ie gt-ie8"> <![endif]-->
+<!--[if !IE]><!--><html><!-- <![endif]-->
+    <head>
+        <?php echo $this->headLink(); ?>
+        <?php echo $this->headScript(); ?>
+    </head>
+    <body>
+        <?php echo $this->layout()->content; ?>
+        <!-- JQuery -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/system/jquery.min.js"></script>
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/forms/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/notifications/notyfy/jquery.notyfy.js"></script>
+        <script src="<?php echo $this->baseUrl(); ?>/js/jquery.inlineEdit.js"></script>
+        <script src="<?php echo $this->baseUrl(); ?>/common/assets/plugins/jquery.pulsate.min.js" type="text/javascript"></script>
+        <?php echo $this->inlineScript(); ?>
+    </body>
+</html>
+

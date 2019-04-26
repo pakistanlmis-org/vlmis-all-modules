@@ -1,0 +1,10 @@
+.modal {
+    width: 900px !important;
+}
+.controls label {
+    float: left;
+    margin-right: 20px;
+}
+#modal-update-campaign{
+    width: 600px !important;
+}

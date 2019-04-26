@@ -1,0 +1,220 @@
+<?php
+/**
+ *  phtml for Index
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Location Population") ?>  </h3>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Location Population Search") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="locations" action="" >
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-12 margin-bottom">
+                                            <?php echo $this->locationsCombo($this->combos, 2); ?>
+                                            <div class="col-md-3">
+                                                <div class="control-group ">
+                                                    <label class="control-label" ><?php echo $this->translate("Year"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->year1; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="control-label" >&nbsp;</label>
+                                            <button class="btn btn-primary" type="submit" name="search"><?php echo $this->translate("Search"); ?></button>
+                                            <button type="reset" class="btn btn-info" id="reset">Reset</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Locations Population List") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dataTables_wrapper form-inline">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="dataTables_filter">
+                                                <label>
+                                                    <a class="btn btn-primary input-sm" data-toggle="modal" href="#add-asset-sub-type"><?php echo $this->translate("Add Location Population") ?></a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_2">
+                                        <!-- Table heading -->
+                                        <?php
+                                        $fields = array(
+                                            's_no' => 'S.No',
+                                            'location' => 'Location',
+                                            'Situated_in' => 'Situated In',
+                                            'administrative_level' => 'Administrative Level',
+                                            'population' => 'Population',
+                                            'estimation_date' => 'Estimation Date'
+                                        );
+                                        $this->tableHeading($this->order, $this->sort, $fields);
+                                        ?>
+                                        <!-- // Table heading END -->
+                                        <!-- Table body -->
+
+                                        <!-- // Table body END -->
+                                        <tbody>
+                                            <?php
+                                            $m_res = array();
+                                            $i = 1;
+                                            if ($this->paginator && count($this->paginator) > 0) :
+                                                foreach ($this->paginator as $row):
+//                                            print_r($row);
+//                                        exit;
+                                                    ?>
+                                                    <tr class="<?php if ($i % 2 == 0) { ?>gradeX even<?php } else { ?> gradeA odd<?php } ?>">
+                                                        <td class="center" width="25"><?php echo $i; ?></td>
+                                                        <td><?php echo $row['locationName']; ?></td>
+                                                        <td><?php echo $row['ProvName']; ?></td>
+                                                        <td><?php echo $row['geoLevelName']; ?></td>
+                                                        <td><?php echo $row['population']; ?></td>
+                                                        <td><?php echo $row['estimationDate']; ?></td>
+                                                        <td>
+                                                            <a itemid="<?php echo $row['locId']; ?>" prov="<?php echo $row['ProvName']; ?>" geolevelname="<?php echo $row['geoLevelName']; ?>" locPopId="<?php echo $row['locPopId']; ?>" population="<?php echo $row['population']; ?>" estimationDate="<?php echo $row['estimationDate']; ?>" class="btn update-locations btn-link btn-success input-sm" data-toggle="modal" href="#modal-update-locations"><?php echo $this->translate("Edit") ?>
+                                                            </a>
+                                                        </td>
+
+                                                        <!-- // Table row END --><?php
+                                                        $i++;
+
+                                                    endforeach;
+
+                                                endif;
+                                                ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // modal box for add -->
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/iadmin/manage-locations/add-population" id="locations-add">
+            <div class="modal fade" id="add-asset-sub-type" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Add Location Population</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="row">
+
+                                <div class="col-md-12">
+                                    <div class="col-md-4">
+                                        <div class="control-group ">
+                                            <label class="control-label" ><?php echo $this->translate("Estimation Year"); ?></label>
+                                            <div class="controls">
+                                                <?php echo $this->form->year; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php echo $this->locationsCombo($this->combos, 1); ?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-4">
+                                        <div class="control-group ">
+                                            <label class="control-label" ><?php echo $this->translate("Location Name"); ?></label>
+                                            <div class="controls">
+                                                <?php echo $this->form->location_name; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="control-group ">
+                                            <label class="control-label" ><?php echo $this->translate("Population"); ?></label>
+                                            <div class="controls">
+                                                <?php echo $this->form->population; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <input class="btn btn-primary" type="submit" value="<?php echo $this->translate("Save"); ?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- // modal box for update -->
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/iadmin/manage-locations/update-population" id="update-locations">
+            <div class="modal fade" id="modal-update-locations"tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Edit Locations Population</h4>
+                        </div>
+
+                        <div class="modal-body" id="modal-body-contents">
+                            <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                        </div>
+                        <div class="modal-footer " id="update-button">
+                            <input class="btn btn-primary" type="submit" value="<?php echo $this->translate("Update"); ?>">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+    </div>
+</div>
+<!-- // Content END -->
+

@@ -1,0 +1,161 @@
+<?php
+/**
+*  phtml for Product Location
+*/
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Product Location"); ?></h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="tab1-2" class="tab-pane active">
+                                    <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                                        <div class="alert alert-success">
+                                            <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                            <strong>Data</strong> has been saved successfully!
+                                        </div>
+                                    <?php } ?>
+                                    <?php if (isset($_GET['error']) && $_GET['error'] == 1) { ?>
+                                        <div class="alert alert-error">
+                                            <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                            <strong>Location name</strong> has already exist, Please add another location name.
+                                        </div>
+                                    <?php }
+                                    ?>
+                                    <form method="POST" name="product_location" id="product_location" action="" >
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="product"><?php echo $this->translate("Product"); ?></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->item_pack_size_id; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="product"><?php echo $this->translate("Batch No"); ?></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->stock_batch_id; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="unallocatedquantity"><?php echo $this->translate("Unallocated Quantity"); ?></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->unallocated_quantity; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="totalquantity"><?php echo $this->translate("Product Quantity"); ?></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->total_quantity; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="cartonquantity"><?php echo $this->translate("Carton Quantity"); ?><span class="red">*</span></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->quantity; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="estimatedpalletfilled"><?php echo $this->translate("Estimated Pallet Filled"); ?></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->estimated_pallet_filled; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3"></div>
+                                        </div>
+                                        <div class="widget">
+                                            <div class="widget-body right">
+                                                <?php echo $this->form->placement_location_id; ?>
+                                                <?php echo $this->form->itemId; ?>
+                                                <?php echo $this->form->batchId; ?>
+                                                <button class="btn btn-primary" type="submit" id="add" name="add">Add Product</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <table class="productLocation table table-striped table-bordered table-condensed"  >
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th><?php echo $this->translate("Product"); ?></th>
+                                                <th><?php echo $this->translate("Batch No"); ?></th>
+                                                <th><?php echo $this->translate("Carton Quantity"); ?></th>
+                                                <th><?php echo $this->translate("Product Quantity"); ?></th>
+                                                <th><?php echo $this->translate("Quantity Remove"); ?></th>
+                                                <th><?php echo $this->translate("Transfer Stock"); ?></th>
+                                            </tr>
+                                        </thead>
+                                        <!-- // Table heading END -->
+                                        <!-- Table body -->
+                                        <tbody>
+                                            <!-- Table row -->
+                                            <?php
+                                           
+                                            if ($this->result && count($this->result) > 0) :
+                                                foreach ($this->result as $row):
+                                                    ?>
+                                                    <tr class="gradeX">
+                                                        <?php $carton_quantity = $row['quantity'] / $row['quantity_per_pack']; ?>
+                                                        <td><?php echo $row['item_name']; ?></td>
+                                                        <td><?php echo $row['number']; ?></td>
+                                                        <td><?php echo $carton_quantity; ?></td>
+                                                        <td><?php echo $row['quantity']; ?></td>
+                                                        <td><?php echo $this->form->quantity1; ?>&nbsp;<button class="btn btn-primary" type="submit" id="add" name="add"><?php echo $this->translate("Remove"); ?></button>
+                                                            <a editid="<?php echo $row['pkId'] ?>" class="btn transfer-stock btn-link btn-success btn-mini" data-toggle="modal" href="#modal-transfer-stock"><?php echo $this->translate("Transfer") ?></a> </td>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                endforeach;
+                                            endif;
+                                            ?>
+                                            <!-- // Table row END -->
+                                        </tbody>
+                                        <!-- // Table body END -->
+                                    </table>
+                                    <!-- // Table END -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <form method="post" action="<?php echo $this->baseUrl(); ?>/stock/transfer-stock" id="transfer-stock">
+                                <div class="modal hide fade" id="modal-transfer-stock">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h3>Transfer Stock</h3>
+                                    </div>
+                                    <div class="modal-body" id="modal-body-contents">
+                                        <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                                    </div>
+                                    <div class="modal-footer hide" id="transfer-button">
+                                        <input class="btn btn-primary" type="submit" value="<?php echo $this->translate("Transfer"); ?>">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

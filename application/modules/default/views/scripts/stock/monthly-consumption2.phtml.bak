@@ -1,0 +1,1705 @@
+<?php
+/**
+ *  phtml for Monthly Consumption 2
+ */
+?>
+<style>
+    input.col-md-2 {
+        width:50px !important;
+    }
+</style>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <input type="hidden" name="province_id_hdn" id="province_id_hdn" value="<?php echo $this->province_id; ?>">
+        <?php
+        if ($this->is_new_report == 1) {
+            $res_issue_voucher = $this->monthlyConsumtion2()->getIssueVoucher($this->wh_id, $this->rpt_date);
+            $res_stock_on = $this->monthlyConsumtion2()->getStockOnHand($this->wh_id, $this->prev_month_date);
+        }
+       
+        //if ($this->is_new_report == 1 && empty($res_issue_voucher) && $this->province_id == 2 && $this->wh_id != 10337) {
+            //$pov = explode('-', $this->rpt_date);
+            ?>
+<!--            <div class="note note-danger">
+                <h3 align="right">???? ?????? ?????? ????. ??? ????? ??????? ????</h3>
+                <h4 class="block"><span class="label label-danger"> NOTE! </span>  As per direction of Director EPI Program, vLMIS has linked vaccine supply with vaccine consumption/coverage.</h4>
+                <p style="color:red">
+                    You cannot add consumption for the month of  (<?php echo date('F', mktime(0, 0, 0, $pov[1])) ?>-<?php echo $pov[0] ?>). First transfer vaccine and other items from Taluka to EPI Centers.
+                </p>
+
+                <a  class="btn btn-primary" href="<?php echo $this->baseUrl(); ?>/stock/issue?stname=<?php echo $this->warehouse_name; ?>">
+                    Click here To Issue</a>
+            </div>-->
+
+            <!--        <?php
+            //  }
+            //  else if ($this->is_new_report == 1 && count($res_stock_on) <= 1) {
+            //     $pov = explode('-', $this->rpt_date);
+            ?>
+
+
+                               <div class="note note-danger">
+                                   <h3 align="right">???? ?????? ?????? ????. ??? ????? ??????? ????</h3>
+                                    <h4 class="block"><span class="label label-danger"> NOTE! </span>  As per direction of Director EPI Sindh Program, vLMIS has linked vaccine supply with vaccine consumption/coverage. </h4>
+                                   <p style="color:red">
+                                       You cannot add consumption for the month of  (<?php // echo date('F', mktime(0, 0, 0, $pov[1]))                                    ?>-<?php //echo $pov[0]                                    ?>). First transfer vaccine and other items from Taluka to EPI Centers.
+                                   </p>
+
+                                    <a  class="btn btn-primary" href="<?php // echo $this->baseUrl();                                                                                                                                                                                                 ?>/stock/issue?stname=<?php echo $this->warehouse_name; ?>">
+                                        Click here To Issue</a>
+
+                                </div>-->
+
+            <?php
+        //} else {
+            ?>
+
+            <?php
+            if (isset($this->error)) {
+                ?>
+                <div class="alert alert-danger alert-dismissable">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button"></button>
+                    <?php
+                    foreach ($this->msg as $res) {
+                        ?>
+                        <?php $item_name = $this->monthlyConsumtion2()->getItemName($res) ?>
+                        <strong>Error!</strong> <?php echo $item_name . ": Incorrect Closing Balance"; ?><br>
+                    <?php } ?>
+                </div>
+            <?php } ?>
+            <?php if (isset($this->do) && !empty($this->do)) { ?>
+                <!--            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-7">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="well">
+                                            <div class="control-group">
+                                                <label class="control-label" for="firstname">
+                <?php //echo $this->translate("View Monthly Consumption Report for")  ?>
+                                                </label>
+                                                <div class="controls">
+
+                <?php // echo $this->form->monthly_report;  ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>-->
+                <input type="hidden" name="monthly_report" id="monthly_report" value="<?php echo $this->monthly_report; ?>" >
+                <style>
+                    *{
+                        font-family: sans-serif;
+                    }
+                    td{
+                        border: 1px solid gray;
+                    }
+                    th{
+                        border: 1px solid gray;
+                        background-color: #F1F1F1;
+                    }
+                    h2{
+                        text-align: center;
+                    }
+                    table{
+                        border-collapse: collapse;
+                    }
+                    input{
+                        width: 96%;
+                    }
+                    input:focus{
+                        border: 1px solid red;
+                        background-color: #FFE4E1;
+                    }
+
+
+                    thead,tr,th {
+                        border-bottom: 1px !important;
+                    }
+                    table.table-bordered,thead,th, table.table-bordered,thead,td {
+                        border-left-width: 1px !important;
+                        border-top-width: 1px !important;
+                    }
+                    table,thead,tr,td {
+                        border-bottom-width: 1px !important;
+                    }
+
+                    table.info td{
+                        padding: 5px;
+                    }
+
+                    table.targets td{
+                        padding: 3px;
+                    }
+                    table.edit{
+                        padding: 20px;
+                    }
+                </style>
+                <form name="frmF7" id="dataEntryfrm" action="" method="POST" enctype="multipart/form-data" >
+                    <div style="width: 54%;  float: left; margin-top: 24px; padding-bottom: 10px;" >
+
+                        <table style="width:100%;" class="info">
+                            <thead>
+                                <tr>
+                                    <th class="center">Month</th>
+                                    <td><?php echo date('F', mktime(0, 0, 0, $this->mm, 1)); ?></td>
+                                    <th class="center">Year</th>
+                                    <td><?php echo $this->year ?></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th class="center">District</th>
+                                    <td ><?php echo $this->district_name; ?></td>
+
+                                    <th class="center">Taluka</th>
+                                    <td ><?php echo $this->tehsil_name; ?></td>
+                                </tr>
+                                <tr>
+                                    <th class="center">UC</th>
+                                    <td><?php echo $this->uc_name; ?></td>
+
+                                    <th class="center">EPI Center</th>
+                                    <td ><?php echo $this->warehouse_name; ?></td>
+                                </tr>
+                                <tr>
+                                    <?php
+                                    if ($this->province_id == 1) {
+                                        $col_size = "colspan='4'";
+                                        $height = "22px";
+                                        $style = "style='height: 27px'";
+                                    } else {
+                                        $col_size = "colspan='2'";
+                                        $height = "35px";
+                                        $style = "";
+                                    }
+                                    ?>
+
+                                    <?php if ($this->province_id != 1) { ?>
+                                        <th <?php echo $col_size; ?> class="center" style="height: <?php echo $height; ?>" >Fixed Vaccinations Sessions</th>
+                                    <?php } ?>
+                                    <th <?php echo $col_size; ?> class="center" style="height: <?php echo $height; ?>">Outreach Vaccination Session</th>
+                                </tr>
+
+                                <tr style="height: <?php echo $height; ?>">
+                                    <?php if ($this->province_id != 1) { ?>
+                                        <th colspan="1" class="center" >Planned <?php if ($this->province_id == 2) { ?><span style="color:red">* </span><?php } ?></th>
+
+                                        <th colspan="1" class="center">Actually Held  <?php if ($this->province_id == 2) { ?><span style="color:red">* </span><?php } ?></th>
+                                    <?php } ?>
+                                    <?php
+                                    if ($this->province_id == 1) {
+                                        $col_size1 = "colspan='2'";
+                                    } else {
+                                        $col_size1 = "colspan='1'";
+                                    }
+                                    ?>
+                                    <th <?php echo $col_size1; ?> class="center" >Planned  <?php if ($this->province_id == 2) { ?><span style="color:red">* </span><?php } ?></th>
+
+                                    <th <?php echo $col_size1; ?> class="center">Actually Held  <?php if ($this->province_id == 2) { ?><span style="color:red">* </span><?php } ?></th>
+                                </tr>
+                                <?php
+                                $row_hf = $this->monthlyConsumtion2()->monthlyConsumtion2HfSessions($this->wh_id, $this->rpt_date);
+
+
+                                if ($this->province_id == 1) {
+                                    $col_md = "form-control col-md-2";
+                                } else {
+                                    $col_md = "form-control col-md-1'";
+                                }
+
+
+                                if ($this->is_new_report == 1 && count($row_hf) < 0) {
+                                    ?>
+                                    <tr>
+                                        <?php if ($this->province_id != 1) { ?>
+                                            <td  <?php echo $col_size1; ?>  class="center"  ><input   type="text" name="fixed_planned_sessions" id="fixed_planned_sessions" class="<?php echo $col_md; ?>" <?php echo $style; ?> value="" ></td>
+                                            <td  <?php echo $col_size1; ?> class="center"><input   type="text" name="fixed_actually_held_sessions" id="fixed_actually_held_sessions" class="<?php echo $col_md; ?>" <?php echo $style; ?> value=""></td>
+                                        <?php } ?>
+                                        <td <?php echo $col_size1; ?>  class="center"><input type="text" name="outreach_planned_sessions" id="outreach_planned_sessions" class="<?php echo $col_md; ?>" <?php echo $style; ?> value=""></td>
+                                        <td <?php echo $col_size1; ?> class="center"><input type="text" name="outreach_actually_held_sessions" id="outreach_actually_held_sessions" class="<?php echo $col_md; ?>" <?php echo $style; ?> value=""></td>
+
+                                    </tr>
+
+                                <?php } else if ($this->is_new_report == 1 && count($row_hf) > 0) {
+                                    ?>
+                                    <tr>
+                                        <?php if ($this->province_id != 1) { ?>
+                                            <td  <?php echo $col_size1; ?>  class="center"><input   type="text" name="fixed_planned_sessions" id="fixed_planned_sessions" class="<?php echo $col_md; ?>" <?php echo $style; ?> readonly="readonly" value="<?php echo (!empty($row_hf['fixed_planned_sessions'])) ? $row_hf['fixed_planned_sessions'] : '0'; ?>"></td>
+                                            <td <?php echo $col_size1; ?>  class="center"><input   type="text" name="fixed_actually_held_sessions" id="fixed_actually_held_sessions" class="<?php echo $col_md; ?>" <?php echo $style; ?> readonly="readonly" value="<?php echo (!empty($row_hf['fixed_actually_held_sessions'])) ? $row_hf['fixed_actually_held_sessions'] : '0'; ?>"></td>
+                                        <?php } ?>
+                                        <td <?php echo $col_size1; ?>  class="center"><input type="text" name="outreach_planned_sessions" id="outreach_planned_sessions" class="<?php echo $col_md; ?>" <?php echo $style; ?> readonly="readonly" value="<?php echo (!empty($row_hf['outreach_planned_sessions'])) ? $row_hf['outreach_planned_sessions'] : '0'; ?>"></td>
+                                        <td <?php echo $col_size1; ?>  class="center"><input type="text" name="outreach_actually_held_sessions" id="outreach_actually_held_sessions" class="<?php echo $col_md; ?>" <?php echo $style; ?> readonly="readonly" value="<?php echo (!empty($row_hf['outreach_actually_held_sessions'])) ? $row_hf['outreach_actually_held_sessions'] : '0'; ?>"></td>
+
+                                    </tr>
+                                <?php } else if ($this->is_new_report == 2 && count($row_hf) > 0) {
+                                    ?>
+                                    <tr>
+                                        <?php if ($this->province_id != 1) { ?>
+                                            <td <?php echo $col_size1; ?>  class="center"><?php echo (!empty($row_hf['fixed_planned_sessions'])) ? $row_hf['fixed_planned_sessions'] : '0'; ?></td>
+                                            <td <?php echo $col_size1; ?>  class="center"><?php echo (!empty($row_hf['fixed_actually_held_sessions'])) ? $row_hf['fixed_actually_held_sessions'] : '0'; ?></td>
+                                        <?php } ?>
+                                        <td <?php echo $col_size1; ?>  class="center"><?php echo (!empty($row_hf['outreach_planned_sessions'])) ? $row_hf['outreach_planned_sessions'] : '0'; ?></td>
+                                        <td <?php echo $col_size1; ?>  class="center"><?php echo (!empty($row_hf['outreach_actually_held_sessions'])) ? $row_hf['outreach_actually_held_sessions'] : '0'; ?></td>
+
+                                    </tr>
+                                <?php } else { ?>
+                                    <tr>
+                                        <?php if ($this->province_id != 1) { ?>
+                                            <td <?php echo $col_size1; ?>  class="center"><input   type="text" name="fixed_planned_sessions" id="fixed_planned_sessions" <?php echo $style; ?> class="<?php echo $col_md; ?>"  value="<?php echo (!empty($row_hf['fixed_planned_sessions'])) ? $row_hf['fixed_planned_sessions'] : '0'; ?>"></td>
+                                            <td <?php echo $col_size1; ?>  class="center"><input   type="text" name="fixed_actually_held_sessions" id="fixed_actually_held_sessions" <?php echo $style; ?> class="<?php echo $col_md; ?>"  value="<?php echo (!empty($row_hf['fixed_actually_held_sessions'])) ? $row_hf['fixed_actually_held_sessions'] : '0'; ?>"></td>
+                                        <?php } ?>
+                                        <td <?php echo $col_size1; ?>  class="center"><input type="text" name="outreach_planned_sessions" id="outreach_planned_sessions" <?php echo $style; ?> class="<?php echo $col_md; ?>"  value="<?php echo (!empty($row_hf['outreach_planned_sessions'])) ? $row_hf['outreach_planned_sessions'] : '0'; ?>"></td>
+                                        <td <?php echo $col_size1; ?>  class="center"><input type="text" name="outreach_actually_held_sessions" id="outreach_actually_held_sessions" <?php echo $style; ?> class="<?php echo $col_md; ?>"  value="<?php echo (!empty($row_hf['outreach_actually_held_sessions'])) ? $row_hf['outreach_actually_held_sessions'] : '0'; ?>"></td>
+
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="width: 44%; float: right; padding-bottom: 10px;">
+                        <table style="width:100%" class="targets">
+                            <caption><h4>MONTHLY TARGETS</h4></caption>
+
+                            <?php
+                            $row0 = $this->monthlyConsumtion2()->monthlyConsumtion2Targets($this->wh_id, $this->rpt_date);
+
+                            if ($this->is_new_report == 1 && count($row0) < 0) {
+                                ?>
+                                <thead>
+                                    <?php if ($this->province_id != 1) { ?>
+                                        <tr>
+                                            <td class="center">CBAs</td>
+                                            <td><input style="height: 27px" type="text" name="cba" id="cba" class="form-control col-md-1"></td>
+                                        </tr>
+                                    <?php } else { ?>
+                                        <tr>
+                                            <td class="center">Total Population of UC</td>
+                                            <td><input style="height: 27px" type="text" name="total_population" id="total_population" class="form-control col-md-1"></td>
+                                        </tr>
+                                    <?php } ?>
+
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td class="center">Pregnant Women</td>
+                                        <td><input style="height: 27px" type="text" name="pregnant_women1" id="pregnant_women1" class="form-control col-md-1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center">Children Live Birth</td>
+                                        <td><input style="height: 27px" type="text" name="children_live_birth" id="children_live_birth" class="form-control col-md-1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center">Surviving Children (0-11 M)</td>
+                                        <td><input style="height: 27px" type="text" name="surviving_children_0_11_M" id="surviving_children_0_11_M" class="form-control col-md-1"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center">Children Aged (12-23 M)</td>
+                                        <td><input style="height: 27px" type="text" name="children_aged_12_23_M" id="children_aged_12_23_M" class="form-control col-md-1"></td>
+                                    </tr>
+                                    <?php if ($this->province_id != 1) { ?>
+                                        <tr>
+                                            <td class="center">2 year and Above</td>
+                                            <td><input style="height: 27px" type="text" name="2_year_above" id="2_year_above" class="form-control col-md-1"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="center">Number of Fully Immunized Children</td>
+                                            <td><input style="height: 27px" type="text" name="f_im_children" id="f_im_children" class="form-control col-md-1"></td>
+                                        </tr>
+                                    <?php } ?>
+
+
+                                </tbody>
+                            <?php } else if ($this->is_new_report == 1 && count($row0) > 0) {
+                                ?>
+                                <thead>
+                                    <?php if ($this->province_id != 1) { ?>
+                                        <tr>
+                                            <td class="center">CBAs</td>
+                                            <td><input style="height: 27px" type="text" name="cba" id="cba" class="form-control col-md-1" readonly="readonly" value="<?php echo (!empty($row0['cbas'])) ? $row0['cbas'] : '0'; ?>"></td>
+                                        </tr>
+                                    <?php } else { ?>
+                                        <tr>
+                                            <td class="center">Total Population of UC</td>
+                                            <td><input style="height: 27px" type="text" name="total_population" id="total_population" class="form-control col-md-1" readonly="readonly" value="<?php echo (!empty($row0['facility_total_pouplation'])) ? $row0['facility_total_pouplation'] : '0'; ?>"></td>
+                                        </tr>
+                                    <?php } ?>
+
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="center">Pregnant Women</td>
+                                        <td><input style="height: 27px" type="text" name="pregnant_women1" id="pregnant_women1" class="form-control col-md-1" readonly="readonly" value="<?php echo (!empty($row0['pregnant_women'])) ? $row0['pregnant_women'] : '0'; ?>"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center">Children Live Birth</td>
+                                        <td><input style="height: 27px" type="text" name="children_live_birth" id="children_live_birth" class="form-control col-md-1" readonly="readonly" value="<?php echo (!empty($row0['children_live_birth'])) ? $row0['children_live_birth'] : '0'; ?>"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center">Surviving Children (0-11 M)</td>
+                                        <td><input style="height: 27px" type="text" name="surviving_children_0_11_M" id="surviving_children_0_11_M" class="form-control col-md-1" readonly="readonly" value="<?php echo (!empty($row0['surviving_children_0_11'])) ? $row0['surviving_children_0_11'] : '0'; ?>"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center">Children Aged (12-23 M)</td>
+                                        <td><input style="height: 27px" type="text" name="children_aged_12_23_M" id="children_aged_12_23_M" class="form-control col-md-1" readonly="readonly" value="<?php echo (!empty($row0['children_aged_12_23'])) ? $row0['children_aged_12_23'] : '0'; ?>"></td>
+                                    </tr>
+                                    <?php if ($this->province_id != 1) { ?>
+                                        <tr>
+                                            <td class="center">2 year and Above</td>
+                                            <td><input style="height: 27px" type="text" name="2_year_above" id="2_year_above" class="form-control col-md-1" readonly="readonly" value="<?php echo (!empty($row0['above_2_year'])) ? $row0['above_2_year'] : '0'; ?>"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="center">Number of Fully Immunized Children</td>
+                                            <td><input style="height: 27px" type="text" name="f_im_children" id="f_im_children" class="form-control col-md-1" value="<?php echo (!empty($row_hf['fully_immunized_children'])) ? $row_hf['fully_immunized_children'] : '0'; ?>"/></td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            <?php } else if ($this->is_new_report == 2 && count($row0) > 0) {
+                                ?>
+                                <thead>
+                                    <?php if ($this->province_id != 1) { ?>
+                                        <tr>
+                                            <td class="center" style="padding: 6px;">CBAs</td>
+                                            <td class="center" style="padding: 6px;"><?php echo (!empty($row0['cbas'])) ? $row0['cbas'] : '0'; ?></td>
+                                        </tr>
+                                    <?php } else { ?>
+                                        <tr>
+                                            <td class="center" style="padding: 6px;">Total Population of UC</td>
+                                            <td class="center" style="padding: 6px;"><?php echo (!empty($row0['facility_total_pouplation'])) ? $row0['facility_total_pouplation'] : '0'; ?></td>
+                                        </tr>
+                                    <?php } ?>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="center" style="padding: 6px;">Pregnant Women</td>
+                                        <td class="center" style="padding: 6px;"><?php echo (!empty($row0['pregnant_women'])) ? $row0['pregnant_women'] : '0'; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center" style="padding: 6px;">Children Live Birth</td>
+                                        <td class="center" style="padding: 6px;"><?php echo (!empty($row0['children_live_birth'])) ? $row0['children_live_birth'] : '0'; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center" style="padding: 6px;">Surviving Children (0-11 M)</td>
+                                        <td class="center" style="padding: 6px;"><?php echo (!empty($row0['surviving_children_0_11'])) ? $row0['surviving_children_0_11'] : '0'; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center" style="padding: 6px;">Children Aged (12-23 M)</td>
+                                        <td class="center" style="padding: 6px;"><?php echo (!empty($row0['children_aged_12_23'])) ? $row0['children_aged_12_23'] : '0'; ?></td>
+                                    </tr>
+                                    <?php if ($this->province_id != 1) { ?>
+                                        <tr>
+                                            <td class="center" style="padding: 6px;">2 year and Above</td>
+                                            <td class="center" style="padding: 6px;"><?php echo (!empty($row0['above_2_year'])) ? $row0['above_2_year'] : '0'; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="center">Number of Fully Immunized Children</td>
+                                            <td class="center" style="padding: 6px;"><?php echo (!empty($row_hf['fully_immunized_children'])) ? $row_hf['fully_immunized_children'] : '0'; ?></td>
+                                        </tr>
+                                    <?php } ?>
+
+
+
+                                </tbody>
+                            <?php } else { ?>
+                                <thead>
+                                    <?php if ($this->province_id != 1) { ?>
+                                        <tr>
+                                            <td class="center">CBAs</td>
+                                            <td><input style="height: 27px"  type="text" name="cba" id="cba" class="form-control col-md-1"  value="<?php echo (!empty($row0['cbas'])) ? $row0['cbas'] : '0'; ?>"></td>
+                                        </tr>
+                                    <?php } else { ?>
+                                        <tr>
+                                            <td class="center">Total Population of UC</td>
+                                            <td><input style="height: 27px"  type="text" name="total_population" id="total_population" class="form-control col-md-1"  value="<?php echo (!empty($row0['facility_total_pouplation'])) ? $row0['facility_total_pouplation'] : '0'; ?>"></td>
+                                        </tr>
+                                    <?php } ?>
+
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="center">Pregnant Women</td>
+                                        <td><input style="height: 27px"  type="text" name="pregnant_women1" id="pregnant_women1" class="form-control col-md-1" value="<?php echo (!empty($row0['pregnant_women'])) ? $row0['pregnant_women'] : '0'; ?>"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center" >Children Live Birth</td>
+                                        <td><input style="height: 27px" type="text" name="children_live_birth" id="children_live_birth" class="form-control col-md-1"  value="<?php echo (!empty($row0['children_live_birth'])) ? $row0['children_live_birth'] : '0'; ?>"></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="center">Surviving Children (0-11 M)</td>
+                                        <td><input style="height: 27px"  type="text" name="surviving_children_0_11_M" id="surviving_children_0_11_M" class="form-control col-md-1" value="<?php echo (!empty($row0['surviving_children_0_11'])) ? $row0['surviving_children_0_11'] : '0'; ?>"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="center">Children Aged (12-23 M)</td>
+                                        <td><input style="height: 27px"  type="text" name="children_aged_12_23_M" id="children_aged_12_23_M" class="form-control col-md-1" value="<?php echo (!empty($row0['children_aged_12_23'])) ? $row0['children_aged_12_23'] : '0'; ?>"></td>
+                                    </tr>
+                                    <?php if ($this->province_id != 1) { ?>
+                                        <tr>
+                                            <td class="center">2 year and Above</td>
+                                            <td><input style="height: 27px"  type="text" name="2_year_above" id="2_year_above" class="form-control col-md-1"  value="<?php echo (!empty($row0['above_2_year'])) ? $row0['above_2_year'] : '0'; ?>"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="center">Number of Fully Immunized Children</td>
+                                            <td><input style="height: 27px" type="text" name="f_im_children" id="f_im_children" class="form-control col-md-1" value="<?php echo (!empty($row_hf['fully_immunized_children'])) ? $row_hf['fully_immunized_children'] : '0'; ?>"/></td>
+                                        </tr>
+                                    <?php } ?>
+
+
+                                </tbody>
+                            <?php } ?>
+                        </table>
+                    </div>
+                    <div class="row margin-top-10 margin-bottom-10">
+                        <div class="col-md-12">
+                            <?php
+                            //echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                            ?>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div  class="vac_div" style="overflow:auto">
+                            <div class="portlet box green">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <?php echo $this->translate("Routine Immunization Monthly Vaccination Reporting Form") ?>  (<?php echo $this->month . "-" . $this->year; ?>)
+                                    </div>
+                                    <div class="tools">
+                                        <a href="javascript:;" class="collapse">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="portlet-body" style="   <?php if ($this->is_new_report == 2) { ?> width:1600px; <?php
+                                } else if ($this->rpt_date >= '2018-01-01' && $this->rpt_date <= '2018-12-01' && $this->province_id == 2) {
+                                    echo "width:1600px";
+                                } else {
+                                    ?> width:2000px; <?php } ?> overflow:auto;" >
+                                    <div>
+                                        <div>
+                                            <?php if ($this->is_new_report == 2) { ?>
+                                                <!--                                            <div style="width:100%;text-align:right; margin-bottom:10px;"><a id="print-monthly-conumption" href="#" ><button type="button" class="btn btn-primary">Print</button></a></div>-->
+                                                <div class="right" style="padding-right:450px;">
+                                                    <button type="button" id="print-monthly-consumption" class="btn btn-warning input-sm"><?php echo $this->translate("Print") ?></button>
+                                                </div>
+                                                <div style="clear:both;"></div>
+                                                </br>
+                                            <?php } ?>
+
+                                            <?php if ($this->is_new_report != 2) { ?>
+                                                <h6><b><a style="color:#027c02; text-decoration: underline;" href="#" onclick="getPreMonthCB(<?php echo $this->wh_id ?>,<?php echo $this->mm ?>,<?php echo $this->year ?>,<?php echo $this->rpt_date ?>)">Refresh Closing Balance from previous month</a></b></h6>
+                                                <a style="display:none;" href="#" id="refresh_receive" onclick="getAutoPreMonthReceive(<?php echo $this->wh_id ?>,<?php echo $this->mm ?>,<?php echo $this->year ?>,<?php echo $this->is_new_report ?>)"></a>
+                                            <?php } ?>
+
+                                            <!-- Table -->
+                                            <table class="table table-striped table-bordered table-condensed"  >
+                                                <thead  style="background-color: lightgray;">
+                                                    <tr>
+                                                        <th rowspan="4" class="center" >Product</th>
+                                                        <th rowspan="4" class="center" >Opening Balance (Doses)</th>
+                                                        <th rowspan="4" class="center" >Received (Doses)</th>
+                                                        <th rowspan="4" class="center" >#</th>
+                                                        <?php if ($this->rpt_date >= '2018-01-01' && $this->rpt_date <= '2018-12-01' && $this->province_id == 2) { ?>
+                                                            <th colspan="8" class="center" style="background-color: #66FF66; ">Number of Children Vaccinated (0-11 Months)</th>
+                                                            <th colspan="8" class="center" style="background-color: #FFFF66; ">Number of Children Vaccinated (12-23 Months)</th>
+                                                        <?php } else if ($this->rpt_date >= '2019-01-01' && $this->province_id == 2) { ?>
+                                                            <th colspan="12" class="center" style="background-color: #66FF66; ">Number of Children Vaccinated (0-11 Months)</th>
+                                                            <th colspan="12" class="center" style="background-color: #FFFF66; ">Number of Children Vaccinated (12-23 Months)</th>
+                                                            <th colspan="12" class="center" style="background-color: #66FFFF;">2 Years and Above</th>
+                                                        <?php } else if ($this->province_id == 1) { ?>
+                                                            <th colspan="8" class="center" style="background-color: #66FF66; ">Number of Children Vaccinated (0-11 Months)</th>
+                                                            <th colspan="8" class="center" style="background-color: #FFFF66; ">Number of Children Vaccinated (12-23 Months)</th>
+                                                            <th colspan="8" class="center" style="background-color: #66FFFF;">2 Years and Above</th>
+                                                        <?php } else { ?>
+                                                            <th colspan="6" class="center" style="background-color: #66FF66; ">Number of Children Vaccinated (0-11 Months)</th>
+                                                            <th colspan="6" class="center" style="background-color: #FFFF66; ">Number of Children Vaccinated (12-23 Months)</th>
+                                                            <th colspan="6" class="center" style="background-color: #66FFFF;">2 Years and Above</th>                  
+                                                        <?php } ?>
+                                                        <th rowspan="4" class="center" >Unusable (Doses)</th>
+                                                        <th rowspan="4" class="center" >Closing Balance (Doses)</th>
+                                                    </tr>
+                                                    <tr>
+
+                                                        <th colspan="4" class="center"  style="background-color: #66FF66; ">Fixed</th>
+                                                        <?php if ($this->province_id == 1) { ?>
+                                                            <th colspan="4"  class="center"  style="background-color: #66FF66; ">Outreach</th>
+                                                        <?php } else { ?>
+                                                            <th colspan="2"  class="center"  style="background-color: #66FF66; ">Outreach</th>
+
+                                                        <?php } ?>
+                                                        <?php if ($this->rpt_date >= '2018-01-01' && $this->province_id == 2) { ?>
+                                                            <th colspan="2"  class="center"  style="background-color: #66FF66; ">Defaulter<br>Covered</th>
+                                                        <?php } ?>
+                                                            <?php if ($this->rpt_date >= '2019-01-01' && $this->province_id == 2) { ?>
+                                                            <th colspan="2"  class="center"  style="background-color: #66FF66; ">Mobile</th>
+                                                            <th colspan="2"  class="center"  style="background-color: #66FF66; ">Health House LHWs</th>
+                                                        <?php } ?>
+                                                        <th colspan="4" class="center" style="background-color: #FFFF66; ;">Fixed</th>
+                                                        <?php if ($this->province_id == 1) { ?>
+                                                            <th colspan="4"  class="center" style="background-color: #FFFF66; ">Outreach</th>
+                                                        <?php } else { ?>
+                                                            <th colspan="2"  class="center" style="background-color: #FFFF66; ">Outreach</th>
+
+                                                        <?php } ?>
+                                                        <?php if ($this->rpt_date >= '2018-01-01'  && $this->province_id == 2) { ?>
+                                                            <th colspan="2"  class="center"  style="background-color: #FFFF66; ">Defaulter<br>Covered</th>
+                                                        <?php } ?>
+                                                             <?php if ($this->rpt_date >= '2019-01-01'  && $this->province_id == 2) { ?>
+                                                            <th colspan="2"  class="center"  style="background-color: #FFFF66; ">Mobile</th>
+                                                            <th colspan="2"  class="center"  style="background-color: #FFFF66; ">Health House LHWs</th>
+                                                        <?php } ?>
+                                                        <?php if (strtotime($this->rpt_date) < strtotime('2018-01-01') && strtotime($this->rpt_date) > strtotime('2018-12-01') && $this->province_id == 2) { ?>
+                                                            <th colspan="4" class="center" style="background-color: #66FFFF; ">Fixed</th>
+                                                            <th colspan="2"  class="center" style="background-color: #66FFFF; ">Outreach</th>
+
+
+                                                        <?php } else if (strtotime($this->rpt_date) >= strtotime('2018-01-01') && strtotime($this->rpt_date) <= strtotime('2018-12-01') && $this->province_id == 2) { ?>
+
+
+                                                        <?php } else { ?>
+                                                            <th colspan="4" class="center" style="background-color: #66FFFF; ">Fixed</th>
+                                                            <?php if ($this->province_id == 1) { ?>
+                                                                <th colspan="4"  class="center" style="background-color: #66FFFF; ">Outreach</th>
+                                                            <?php } else { ?>
+                                                                <th colspan="2"  class="center" style="background-color: #66FFFF; ">Outreach</th>
+                                                            <?php } ?>   
+                                                        <?php } ?>
+                                                            <?php if ($this->rpt_date >= '2019-01-01'  && $this->province_id == 2) { ?>
+                                                                <th colspan="2"  class="center"  style="background-color: #66FFFF; ">Defaulter<br>Covered</th>
+                                                            <th colspan="2"  class="center"  style="background-color: #66FFFF; ">Mobile</th>
+                                                            <th colspan="2"  class="center"  style="background-color: #66FFFF; ">Health House LHWs</th>
+                                                        <?php } ?>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="2" class="center" style="background-color: #66FF66; ">Inside <br> UC</th>
+                                                        <th colspan="2" class="center" style="background-color: #66FF66; ">Outside <br> UC</th>
+                                                        <th colspan="2" class="center" style="background-color: #66FF66; ">Inside <br> UC</th>
+                                                        <?php if ($this->rpt_date >= '2018-01-01' && $this->province_id == 2) { ?>
+                                                            <th colspan="2" class="center" style="background-color: #66FF66; ">Inside <br> UC</th>
+                                                        <?php } ?>
+                                                            <?php if ($this->rpt_date >= '2019-01-01' && $this->province_id == 2) { ?>
+                                                            <th colspan="2" class="center" style="background-color: #66FF66; ">Inside <br> UC</th>
+                                                            <th colspan="2" class="center" style="background-color: #66FF66; ">Inside <br> UC</th>
+                                                        <?php } ?>
+                                                        <?php if ($this->province_id == 1) { ?>
+                                                            <th colspan="2" class="center" style="background-color: #66FF66; ">Outside <br> UC</th>
+                                                        <?php } ?>
+                                                        <th colspan="2" class="center" style="background-color: #FFFF66; ">Inside <br> UC</th>
+                                                        <th colspan="2" class="center" style="background-color: #FFFF66; ">Outside <br> UC</th>
+                                                        <th colspan="2" class="center" style="background-color: #FFFF66; ">Inside <br> UC</th>
+                                                        <?php if ($this->rpt_date >= '2018-01-01' && $this->province_id == 2) { ?>
+                                                            <th colspan="2" class="center" style="background-color: #FFFF66; ">Inside <br> UC</th>
+                                                        <?php } ?>
+                                                            <?php if ($this->rpt_date >= '2019-01-01' && $this->province_id == 2) { ?>
+                                                            <th colspan="2" class="center" style="background-color: #FFFF66; ">Inside <br> UC</th>
+                                                            <th colspan="2" class="center" style="background-color: #FFFF66; ">Inside <br> UC</th>
+                                                        <?php } ?>
+                                                        <?php if ($this->province_id == 1) { ?>
+                                                            <th colspan="2" class="center" style="background-color: #FFFF66; ">Outside <br> UC</th>
+                                                        <?php } ?>
+                                                        <?php if (strtotime($this->rpt_date) < strtotime('2018-01-01') && $this->province_id == 2) { ?>
+                                                            <th colspan="2" class="center" style="background-color: #66FFFF;  ">Inside <br> UC</th>
+                                                            <th colspan="2" class="center" style="background-color: #66FFFF; ">Outside <br> UC</th>
+                                                            <th colspan="2" class="center" style="background-color: #66FFFF; ">Inside <br> UC</th>
+                                                        <?php } else if (strtotime($this->rpt_date) >= strtotime('2018-01-01') && strtotime($this->rpt_date) <= strtotime('2018-12-01') && $this->province_id == 2) { ?>
+                                                        <?php } else { ?>
+                                                            <th colspan="2" class="center" style="background-color: #66FFFF;  ">Inside <br> UC</th>
+                                                            <th colspan="2" class="center" style="background-color: #66FFFF; ">Outside <br> UC</th>
+                                                            <th colspan="2" class="center" style="background-color: #66FFFF; ">Inside <br> UC</th>
+                                                            <th colspan="2" class="center" style="background-color: #66FFFF; ">Inside <br> UC</th>
+                                                            <th colspan="2" class="center" style="background-color: #66FFFF; ">Inside <br> UC</th>
+                                                            <th colspan="2" class="center" style="background-color: #66FFFF; ">Inside <br> UC</th>
+                                                            <?php if ($this->province_id == 1) { ?>
+                                                                <th colspan="2" class="center" style="background-color: #66FFFF; ">Outside <br> UC</th>
+                                                            <?php } ?>
+                                                        <?php } ?>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="center" style="background-color: #66FF66; ">M</th>
+                                                        <th class="center" style="background-color: #66FF66; ">F</th>
+                                                        <th class="center" style="background-color: #66FF66; ">M</th>
+                                                        <th class="center" style="background-color: #66FF66; ">F</th>
+                                                        <th class="center" style="background-color: #66FF66; ">M</th>
+                                                        <th class="center" style="background-color: #66FF66; ">F</th>
+                                                        <?php if ($this->rpt_date >= '2018-01-01' && $this->province_id == 2) { ?>
+                                                            <th class="center" style="background-color: #66FF66; ">M</th>
+                                                            <th class="center" style="background-color: #66FF66; ">F</th>
+                                                        <?php } ?>
+                                                            <?php if ($this->rpt_date >= '2019-01-01' && $this->province_id == 2) { ?>
+                                                            <th class="center" style="background-color: #66FF66; ">M</th>
+                                                            <th class="center" style="background-color: #66FF66; ">F</th>
+                                                            <th class="center" style="background-color: #66FF66; ">M</th>
+                                                            <th class="center" style="background-color: #66FF66; ">F</th>
+                                                        <?php } ?>
+                                                        <?php if ($this->province_id == 1) { ?>
+                                                            <th class="center" style="background-color: #66FF66; ">M</th>
+                                                            <th class="center" style="background-color: #66FF66; ">F</th>
+                                                        <?php } ?>
+                                                        <th class="center" style="background-color: #FFFF66; ">M</th>
+                                                        <th class="center" style="background-color: #FFFF66; ">F</th>
+                                                        <th class="center" style="background-color: #FFFF66; ">M</th>
+                                                        <th class="center" style="background-color: #FFFF66; ">F</th>
+                                                        <th class="center" style="background-color: #FFFF66; ">M</th>
+                                                        <th class="center" style="background-color: #FFFF66; ">F</th>
+                                                        <?php if ($this->rpt_date >= '2018-01-01' && $this->province_id == 2) { ?>
+                                                            <th class="center" style="background-color: #FFFF66; ">M</th>
+                                                            <th class="center" style="background-color: #FFFF66; ">F</th>
+                                                        <?php } ?>
+                                                            <?php if ($this->rpt_date >= '2019-01-01' && $this->province_id == 2) { ?>
+                                                            <th class="center" style="background-color: #FFFF66; ">M</th>
+                                                            <th class="center" style="background-color: #FFFF66; ">F</th>
+                                                            <th class="center" style="background-color: #FFFF66; ">M</th>
+                                                            <th class="center" style="background-color: #FFFF66; ">F</th>
+                                                        <?php } ?>
+                                                        <?php if ($this->province_id == 1) { ?>
+                                                            <th class="center" style="background-color: #FFFF66; ">M</th>
+                                                            <th class="center" style="background-color: #FFFF66; ">F</th>
+                                                        <?php } ?>
+                                                        <?php if (strtotime($this->rpt_date) < strtotime('2018-01-01') && strtotime($this->rpt_date) > strtotime('2018-12-01') && $this->province_id == 2) { ?>
+                                                            <th class="center" style="background-color: #66FFFF; ">M</th>
+                                                            <th class="center" style="background-color: #66FFFF; ">F</th>
+
+                                                            <th class="center" style="background-color: #66FFFF; ">M</th>
+                                                            <th class="center" style="background-color: #66FFFF; ">F</th>
+                                                            <th class="center" style="background-color: #66FFFF; ">M</th>
+                                                            <th class="center" style="background-color: #66FFFF; ">F</th>
+                                                        <?php } else if (strtotime($this->rpt_date) >= strtotime('2018-01-01') && strtotime($this->rpt_date) <= strtotime('2018-12-01') && $this->province_id == 2) { ?>
+
+
+                                                        <?php } else { ?>
+                                                            <th class="center" style="background-color: #66FFFF; ">M</th>
+                                                            <th class="center" style="background-color: #66FFFF; ">F</th>
+
+                                                            <th class="center" style="background-color: #66FFFF; ">M</th>
+                                                            <th class="center" style="background-color: #66FFFF; ">F</th>
+                                                            <th class="center" style="background-color: #66FFFF; ">M</th>
+                                                            <th class="center" style="background-color: #66FFFF; ">F</th>
+                                                            <th class="center" style="background-color: #66FFFF; ">M</th>
+                                                            <th class="center" style="background-color: #66FFFF; ">F</th>
+                                                            <th class="center" style="background-color: #66FFFF; ">M</th>
+                                                            <th class="center" style="background-color: #66FFFF; ">F</th>
+                                                            <th class="center" style="background-color: #66FFFF; ">M</th>
+                                                            <th class="center" style="background-color: #66FFFF; ">F</th>
+                                                            <?php if ($this->province_id == 1) { ?>
+                                                                <th class="center" style="background-color: #66FFFF; ">M</th>
+                                                                <th class="center" style="background-color: #66FFFF; ">F</th>
+                                                            <?php } ?>
+                                                        <?php } ?>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    foreach ($this->items as $result):
+                                                        if ($result['pk_id'] == 26 && $this->mm > 4 && $this->year > 2015) {
+                                                            continue;
+                                                        }
+                                                        ?>
+                                                    <input type="hidden" name="item_category[]" id="<?php echo $result['pk_id']; ?>-item_category" value="1" />
+                                                    <?php
+                                                    //  App_Controller_Functions::pr($row);
+                                                    if ($this->is_new_report == 1) {
+                                                        $row2 = $this->monthlyConsumtion2()->monthlyConsumtion2Vaccines($this->wh_id, $this->prev_month_date, $result['pk_id'], Model_ListDetail::AGE_0_11);
+                                                    } else {
+                                                        $row2 = $this->monthlyConsumtion2()->monthlyConsumtion2Vaccines($this->wh_id, $this->rpt_date, $result['pk_id'], Model_ListDetail::AGE_0_11);
+                                                        $row3 = $this->monthlyConsumtion2()->monthlyConsumtion2Vaccines($this->wh_id, $this->rpt_date, $result['pk_id'], Model_ListDetail::AGE_12_23);
+                                                        $row4 = $this->monthlyConsumtion2()->monthlyConsumtion2Vaccines($this->wh_id, $this->rpt_date, $result['pk_id'], Model_ListDetail::AGE_24);
+                                                    }
+                                                    $style = "";
+                                                    $counter = 1;
+                                                    $nod = $result['no_of_doses'];
+                                                    $max_i;
+                                                    ?>
+                                                    <?php if ($this->is_new_report == 1) { ?>
+                                                        <?php
+                                                        for ($i = $result['start_no']; $i <= $result['no_of_doses']; $i++) {
+                                                            if ($i == 0) {
+                                                                $nod += 1;
+                                                            }
+                                                            if ($result['pk_id'] == 6) {
+                                                                $style = '';
+                                                                $s = "";
+                                                            } else {
+                                                                $style = '';
+                                                                $s = "";
+                                                            }
+                                                            ?>
+                                                            <tr>
+                                                                <?php if ($counter == 1) { ?>
+                                                                    <td rowspan="<?php echo $nod ?>" class="center"><?php echo $result['item_name'] ?></td>
+                                                                <input type="hidden" name="item_name[]" id="<?php echo $result['pk_id']; ?>-item_name" value="<?php echo $result['item_name']; ?>" />
+                                                                <input type="hidden" name="flitm_id[]" value="<?php echo $result['pk_id']; ?>" />
+                                                                <input type="hidden" name="doses_per_unit[]" id="<?php echo $result['pk_id']; ?>-doses" value="<?php echo $result['description']; ?>" />
+                                                                <input type="hidden" name="start_no[]" id="<?php echo $result['pk_id']; ?>-start_no" value="<?php echo $result['start_no']; ?>" />
+                                                                <input type="hidden" name="no_of_doses[]" id="<?php echo $result['pk_id']; ?>-no_of_doses" value="<?php echo $result['no_of_doses']; ?>" />
+                                                                <input type = "hidden" name = "dispensed[]" id="<?php echo $result['pk_id'] ?>-dispensed" class = "form-control col-md-1"  value="0">
+
+                                                                <?php if ($this->prev_month_date == $this->first_month) { ?>
+                                                                    <td rowspan="<?php echo $nod ?>"><input type="text" name="opening_balance[]" id="<?php echo $result['pk_id']; ?>-opening_balance"  class="form-control col-md-1" <?php if (strtotime($this->year . "-" . $this->mm) > strtotime('2015-12') && $this->province_id != 1 && $this->province_id != 4 && $this->province_id != 8) { ?>readonly="readonly" <?php } ?>   value="<?php echo (!empty($row2[0]['closingBalance'])) ? $row2[0]['closingBalance'] : '0'; ?>"></td>
+
+                                                                <?php } else { ?>
+                                                                    <td rowspan="<?php echo $nod ?>"><input type="text" name="opening_balance[]" id="<?php echo $result['pk_id']; ?>-opening_balance"  class="form-control col-md-1" <?php if (strtotime($this->year . "-" . $this->mm) > strtotime('2015-12') && $this->province_id != 1 && $this->province_id != 4 && $this->province_id != 8) { ?>readonly="readonly" <?php } ?>  value="<?php echo (!empty($row2[0]['closingBalance'])) ? $row2[0]['closingBalance'] : '0'; ?>"></td>
+
+                                                                <?php } ?>
+                                                                <td rowspan="<?php echo $nod ?>"><input type="text" name="received[]" id="<?php echo $result['pk_id']; ?>-received"  class="form-control col-md-1"  value="0"></td>
+
+                                                            <?php } ?>
+                                                            <input type="hidden" name="vaccine_schedule_id[]" value="<?php echo ($i == 1 && $i == $nod) ? '' : $i; ?>" />
+                                                            <td style="vertical-align: middle;"><?php
+                                                                echo ($i == 1 && $i == $nod) ? '' : $i;
+                                                                if ($result['pk_id'] == '40') {
+                                                                    echo '1';
+                                                                }
+                                                                ?> </td>
+                                                            <?php
+                                                            if ($result['pk_id'] == 26 && $i == 0) {
+                                                                $style1 = 'readonly="readonly"';
+                                                                $s1 = "STYLE='color: #F9F9F9;background-color: #F9F9F9;'";
+                                                            } else {
+                                                                $style1 = '';
+                                                                $s1 = '';
+                                                            }
+                                                            ?>
+                                                            <?php
+                                                            if ($result['pk_id'] == 45) {
+                                                                $style_dt = 'readonly="readonly"';
+                                                                $s_dt = "STYLE='color: #F9F9F9;background-color: #F9F9F9;'";
+                                                            } else {
+                                                                $style_dt = '';
+                                                                $s_dt = '';
+                                                            }
+                                                            ?>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="fix_inuc_m_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_inuc_m_11" class="form-control col-md-2"  value="0"></td>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="fix_inuc_f_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_inuc_f_11" class="form-control col-md-2"  value="0"></td>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="fix_outuc_m_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_outuc_m_11" class="form-control col-md-2"  value="0"></td>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="fix_outuc_f_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_outuc_f_11" class="form-control col-md-2"  value="0"></td>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="outreach_m_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_m_11" class="form-control col-md-2"  value="0"></td>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="outreach_f_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_f_11" class="form-control col-md-2"  value="0"></td>
+                                                            <?php if ($this->rpt_date >= '2018-01-01' && $this->province_id == 2) { ?>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="outreach_outuc_m_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_m_11" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="outreach_outuc_f_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_f_11" class="form-control col-md-2"  value="0"></td>
+
+                                                            <?php } ?>
+                                                                <?php if ($this->rpt_date >= '2019-01-01' && $this->province_id == 2) { ?>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="mobile_inside_m_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-mobile_inside_m_11" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="mobile_inside_f_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-mobile_inside_f_11" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="lhw_inside_m_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-lhw_inside_m_11" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="lhw_inside_f_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-lhw_inside_f_11" class="form-control col-md-2"  value="0"></td>
+
+                                                            <?php } ?>
+                                                                <?php if ($this->province_id == 1) { ?>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="outreach_outuc_m_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_m_11" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="outreach_outuc_f_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_f_11" class="form-control col-md-2"  value="0"></td>
+                                                            <?php } ?>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?> name="fix_inuc_m_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_inuc_m_23" class="form-control col-md-2"  value="0"></td>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?> name="fix_inuc_f_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_inuc_f_23" class="form-control col-md-2"  value="0"></td>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>   name="fix_outuc_m_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_outuc_m_23" class="form-control col-md-2"  value="0"></td>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="fix_outuc_f_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_outuc_f_23" class="form-control col-md-2"  value="0"></td>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_m_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_m_23" class="form-control col-md-2"  value="0"></td>
+                                                            <td ><input type="text"  <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_f_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_f_23" class="form-control col-md-2"  value="0"></td>
+                                                            <?php if ($this->rpt_date >= '2018-01-01' && $this->province_id == 2) { ?>
+                                                                <td ><input type="text"  <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_outuc_m_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_m_23" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_outuc_f_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_f_23" class="form-control col-md-2"  value="0"></td>
+
+                                                            <?php } ?>
+                                                                <?php if ($this->rpt_date >= '2019-01-01' && $this->province_id == 2) { ?>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?> name="mobile_inside_m_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-mobile_inside_m_23" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?> name="mobile_inside_f_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-mobile_inside_f_23" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?> name="lhw_inside_m_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-lhw_inside_m_23" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?> name="lhw_inside_f_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-lhw_inside_f_23" class="form-control col-md-2"  value="0"></td>
+
+                                                            <?php } ?>
+                                                            <?php if ($this->province_id == 1) { ?>
+                                                                <td ><input type="text"  <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_outuc_m_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_m_23" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_outuc_f_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_f_23" class="form-control col-md-2"  value="0"></td>
+                                                                
+                                                            <?php } ?>
+                                                            <?php if (strtotime($this->rpt_date) < strtotime('2018-01-01') && strtotime($this->rpt_date) > strtotime('2018-12-01') && $this->province_id == 2) { ?>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?> name="fix_inuc_m_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_inuc_m_24" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?> name="fix_inuc_f_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_inuc_f_24" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>   name="fix_outuc_m_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_outuc_m_24" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="fix_outuc_f_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_outuc_f_24" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_m_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_m_24" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_f_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_f_24" class="form-control col-md-2"  value="0"></td>
+                                                            <?php } else if (strtotime($this->rpt_date) >= strtotime('2018-01-01')  && strtotime($this->rpt_date) <= strtotime('2018-12-01') && $this->province_id == 2) { ?>
+
+
+                                                            <?php } else { ?> 
+
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?> name="fix_inuc_m_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_inuc_m_24" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?> name="fix_inuc_f_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_inuc_f_24" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>   name="fix_outuc_m_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_outuc_m_24" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="fix_outuc_f_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_outuc_f_24" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_m_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_m_24" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_f_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_f_24" class="form-control col-md-2"  value="0"></td>
+                                                                <?php //if ($this->province_id == 1) { ?>
+                                                                    <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_outuc_m_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_m_24" class="form-control col-md-2"  value="0"></td>
+                                                                    <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_outuc_f_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_f_24" class="form-control col-md-2"  value="0"></td>
+                                                                    <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?> name="mobile_inside_m_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-mobile_inside_m_24" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="mobile_inside_f_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-mobile_inside_f_24" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="lhw_inside_m_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-lhw_inside_m_24" class="form-control col-md-2"  value="0"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="lhw_inside_f_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-lhw_inside_f_24" class="form-control col-md-2"  value="0"></td>
+
+                                                                <?php //} ?> 
+
+
+                                                            <?php } ?>
+                                                            <?php if ($counter == 1) { ?>
+                                                                <td rowspan="<?php echo $nod ?>"><input type="text" name="unusable_vials[]" id="<?php echo $result['pk_id'] ?>-unusable" class="form-control col-md-1"  value="0"></td>
+
+                                                                <td  rowspan="<?php echo $nod ?>"><input type="text" name="closing_balance[]" id="<?php echo $result['pk_id'] ?>-closing_balance" class="form-control col-md-1"  value="0"></td>
+                                                            <?php } ?> </tr>
+
+                                                            <?php
+                                                            $counter++;
+                                                        }
+                                                        ?>
+                                                    <?php } else if ($this->is_new_report == 2) {
+                                                        ?>
+                                                        <?php
+                                                        $j = 0;
+                                                        for ($i = $result['start_no']; $i <= $result['no_of_doses']; $i++) {
+                                                            if ($i == 0) {
+                                                                $nod += 1;
+                                                            }
+                                                            if ($result['pk_id'] == 6) {
+                                                                $style = '';
+                                                                $s = "";
+                                                            } else {
+                                                                $style = '';
+                                                                $s = "";
+                                                            }
+                                                            ?>
+                                                            <tr>
+                                                                <?php if ($counter == 1) { ?>
+                                                                    <td rowspan="<?php echo $nod ?>" class="center"><?php echo $result['item_name'] ?></td>
+                                                                <input type="hidden" name="item_name[]" id="<?php echo $result['pk_id']; ?>-item_name" value="<?php echo $result['item_name']; ?>" />
+                                                                <input type="hidden" name="flitm_id[]" value="<?php echo $result['pk_id']; ?>" />
+                                                                <input type="hidden" name="doses_per_unit[]" id="<?php echo $result['pk_id']; ?>-doses" value="<?php echo $result['description']; ?>" />
+                                                                <input type="hidden" name="start_no[]" id="<?php echo $result['pk_id']; ?>-start_no" value="<?php echo $result['start_no']; ?>" />
+                                                                <input type="hidden" name="no_of_doses[]" id="<?php echo $result['pk_id']; ?>-no_of_doses" value="<?php echo $result['no_of_doses']; ?>" />
+
+                                                                <td rowspan="<?php echo $nod ?>">
+                                                                    <?php echo (!empty($row2[0]['openingBalance'])) ? number_format($row2[0]['openingBalance']) : '0'; ?>
+                                                                </td>
+
+
+                                                                <td rowspan="<?php echo $nod ?>">
+                                                                    <?php echo (!empty($row2[0]['receivedBalance'])) ? number_format($row2[0]['receivedBalance']) : '0'; ?>
+                                                                </td>
+
+                                                            <?php } ?>
+                                                            <input type="hidden" name="vaccine_schedule_id[]" value="<?php echo ($i == 1 && $i == $nod) ? '' : $i; ?>" />
+                                                            <td><?php
+                                                                echo ($i == 1 && $i == $nod) ? '' : $i;
+                                                                if ($result['pk_id'] == '40') {
+                                                                    echo '1';
+                                                                }
+                                                                ?></td>
+                                                            <?php
+                                                            if ($result['pk_id'] == 26 && $i == 0) {
+                                                                $style1 = 'readonly="readonly"';
+                                                                $s1 = "STYLE='color: #F9F9F9;background-color: #F9F9F9;'";
+                                                            } else {
+                                                                $style1 = '';
+                                                                $s1 = '';
+                                                            }
+                                                            ?>
+                                                            <td > <?php echo (!empty($row2[$j]['fixed_inside_uc_male']) ) ? number_format($row2[$j]['fixed_inside_uc_male']) : '0'; ?></td>
+                                                            <td > <?php echo (!empty($row2[$j]['fixed_inside_uc_female']) ) ? number_format($row2[$j]['fixed_inside_uc_female']) : '0'; ?> </td>
+                                                            <td> <?php echo (!empty($row2[$j]['fixed_outside_uc_male']) ) ? number_format($row2[$j]['fixed_outside_uc_male']) : '0'; ?> </td>
+                                                            <td > <?php echo (!empty($row2[$j]['fixed_outside_uc_female'])) ? number_format($row2[$j]['fixed_outside_uc_female']) : '0'; ?>  </td>
+                                                            <td > <?php echo (!empty($row2[$j]['outreach_male']) ) ? number_format($row2[$j]['outreach_male']) : '0'; ?>  </td>
+                                                            <td > <?php echo (!empty($row2[$j]['outreach_female']) ) ? number_format($row2[$j]['outreach_female']) : '0'; ?>  </td>
+                                                            <?php if ($this->rpt_date >= '2018-01-01' && $this->province_id == 2) { ?>
+                                                                <td > <?php echo (!empty($row2[$j]['outreach_outside_male']) ) ? number_format($row2[$j]['outreach_outside_male']) : '0'; ?>  </td>
+                                                                <td > <?php echo (!empty($row2[$j]['outreach_outside_female']) ) ? number_format($row2[$j]['outreach_outside_female']) : '0'; ?>  </td>
+
+                                                            <?php } ?>
+                                                                <?php if ($this->rpt_date >= '2019-01-01' && $this->province_id == 2) { ?>
+                                                                <td > <?php echo (!empty($row2[$j]['mobile_inside_male']) ) ? number_format($row2[$j]['mobile_inside_male']) : '0'; ?>  </td>
+                                                                <td > <?php echo (!empty($row2[$j]['mobile_inside_female']) ) ? number_format($row2[$j]['mobile_inside_female']) : '0'; ?>  </td>
+                                                                <td > <?php echo (!empty($row2[$j]['lhw_inside_male']) ) ? number_format($row2[$j]['lhw_inside_male']) : '0'; ?>  </td>
+                                                                <td > <?php echo (!empty($row2[$j]['lhw_inside_female']) ) ? number_format($row2[$j]['lhw_inside_female']) : '0'; ?>  </td>
+                                                            <?php } ?>
+                                                            <?php if ($this->province_id == 1) { ?>
+                                                                <td > <?php echo (!empty($row2[$j]['outreach_outside_male']) ) ? number_format($row2[$j]['outreach_outside_male']) : '0'; ?>  </td>
+                                                                <td > <?php echo (!empty($row2[$j]['outreach_outside_female']) ) ? number_format($row2[$j]['outreach_outside_female']) : '0'; ?>  </td>
+                                                            <?php } ?>
+                                                            <td > <?php echo (!empty($row3[$j]['fixed_inside_uc_male'])) ? number_format($row3[$j]['fixed_inside_uc_male']) : '0'; ?></td>
+                                                            <td > <?php echo (!empty($row3[$j]['fixed_inside_uc_female']) ) ? number_format($row3[$j]['fixed_inside_uc_female']) : '0'; ?> </td>
+                                                            <td > <?php echo (!empty($row3[$j]['fixed_outside_uc_male']) ) ? number_format($row3[$j]['fixed_outside_uc_male']) : '0'; ?> </td>
+                                                            <td > <?php echo (!empty($row3[$j]['fixed_outside_uc_female'])) ? number_format($row3[$j]['fixed_outside_uc_female']) : '0'; ?>  </td>
+                                                            <td > <?php echo (!empty($row3[$j]['outreach_male'])) ? number_format($row3[$j]['outreach_male']) : '0'; ?>  </td>
+                                                            <td > <?php echo (!empty($row3[$j]['outreach_female'])) ? number_format($row3[$j]['outreach_female']) : '0'; ?>  </td>
+                                                            <?php if ($this->rpt_date >= '2018-01-01' && $this->province_id == 2) { ?>
+                                                                <td > <?php echo (!empty($row3[$j]['outreach_outside_male']) ) ? number_format($row3[$j]['outreach_outside_male']) : '0'; ?>  </td>
+                                                                <td > <?php echo (!empty($row3[$j]['outreach_outside_female'])) ? number_format($row3[$j]['outreach_outside_female']) : '0'; ?>  </td>
+
+                                                            <?php } ?>
+                                                                <?php if ($this->rpt_date >= '2019-01-01' && $this->province_id == 2) { ?>
+                                                                <td > <?php echo (!empty($row3[$j]['mobile_inside_male']) ) ? number_format($row3[$j]['mobile_inside_male']) : '0'; ?>  </td>
+                                                                <td > <?php echo (!empty($row3[$j]['mobile_inside_female']) ) ? number_format($row3[$j]['mobile_inside_female']) : '0'; ?>  </td>
+                                                                <td > <?php echo (!empty($row3[$j]['lhw_inside_male']) ) ? number_format($row3[$j]['lhw_inside_male']) : '0'; ?>  </td>
+                                                                <td > <?php echo (!empty($row3[$j]['lhw_inside_female']) ) ? number_format($row3[$j]['lhw_inside_female']) : '0'; ?>  </td>
+
+                                                            <?php } ?>
+                                                            <?php if ($this->province_id == 1) { ?>
+                                                                <td > <?php echo (!empty($row3[$j]['outreach_outside_male']) ) ? number_format($row3[$j]['outreach_outside_male']) : '0'; ?>  </td>
+                                                                <td > <?php echo (!empty($row3[$j]['outreach_outside_female'])) ? number_format($row3[$j]['outreach_outside_female']) : '0'; ?>  </td>
+                                                            <?php } ?>
+                                                            <?php if (strtotime($this->rpt_date) < strtotime('2018-01-01') && strtotime($this->rpt_date) > strtotime('2018-12-01') && $this->province_id == 2) { ?>
+                                                                <td > <?php echo (!empty($row4[$j]['fixed_inside_uc_male'])) ? number_format($row4[$j]['fixed_inside_uc_male']) : '0'; ?></td>
+                                                                <td > <?php echo (!empty($row4[$j]['fixed_inside_uc_female']) ) ? number_format($row4[$j]['fixed_inside_uc_female']) : '0'; ?> </td>
+                                                                <td > <?php echo (!empty($row4[$j]['fixed_outside_uc_male']) ) ? number_format($row4[$j]['fixed_outside_uc_male']) : '0'; ?> </td>
+                                                                <td > <?php echo (!empty($row4[$j]['fixed_outside_uc_female'])) ? number_format($row4[$j]['fixed_outside_uc_female']) : '0'; ?>  </td>
+                                                                <td > <?php echo (!empty($row4[$j]['outreach_male']) ) ? number_format($row4[$j]['outreach_male']) : '0'; ?>  </td>
+                                                                <td > <?php echo (!empty($row4[$j]['outreach_female'])) ? number_format($row4[$j]['outreach_female']) : '0'; ?>  </td>
+                                                            <?php } else if (strtotime($this->rpt_date) >= strtotime('2018-01-01') && strtotime($this->rpt_date) <= strtotime('2018-12-01') && $this->province_id == 2) { ?>
+
+
+                                                            <?php } else { ?> 
+
+                                                                <td > <?php echo (!empty($row4[$j]['fixed_inside_uc_male'])) ? number_format($row4[$j]['fixed_inside_uc_male']) : '0'; ?></td>
+                                                                <td > <?php echo (!empty($row4[$j]['fixed_inside_uc_female']) ) ? number_format($row4[$j]['fixed_inside_uc_female']) : '0'; ?> </td>
+                                                                <td > <?php echo (!empty($row4[$j]['fixed_outside_uc_male']) ) ? number_format($row4[$j]['fixed_outside_uc_male']) : '0'; ?> </td>
+                                                                <td > <?php echo (!empty($row4[$j]['fixed_outside_uc_female'])) ? number_format($row4[$j]['fixed_outside_uc_female']) : '0'; ?>  </td>
+                                                                <td > <?php echo (!empty($row4[$j]['outreach_male']) ) ? number_format($row4[$j]['outreach_male']) : '0'; ?>  </td>
+                                                                <td > <?php echo (!empty($row4[$j]['outreach_female'])) ? number_format($row4[$j]['outreach_female']) : '0'; ?>  </td>
+                                                                <?php //if ($this->province_id == 1) { ?>
+                                                                    <td > <?php echo (!empty($row4[$j]['outreach_outside_male']) ) ? number_format($row4[$j]['outreach_outside_male']) : '0'; ?>  </td>
+                                                                    <td > <?php echo (!empty($row4[$j]['outreach_outside_female'])) ? number_format($row4[$j]['outreach_outside_female']) : '0'; ?>  </td>
+                                                                <?php //} ?>
+                                                                    <td > <?php echo (!empty($row4[$j]['mobile_inside_male']) ) ? number_format($row4[$j]['mobile_inside_male']) : '0'; ?>  </td>
+                                                                <td > <?php echo (!empty($row4[$j]['mobile_inside_female']) ) ? number_format($row4[$j]['mobile_inside_female']) : '0'; ?>  </td>
+                                                                <td > <?php echo (!empty($row4[$j]['lhw_inside_male']) ) ? number_format($row4[$j]['lhw_inside_male']) : '0'; ?>  </td>
+                                                                <td > <?php echo (!empty($row4[$j]['lhw_inside_female']) ) ? number_format($row4[$j]['lhw_inside_female']) : '0'; ?>  </td>
+                                                            <?php } ?>
+                                                            <?php if ($counter == 1) { ?>
+                                                                <td> <?php echo (!empty($row2[0]['adjustments']) ? number_format($row2[0]['adjustments']) : '0' ); ?> </td>
+
+                                                                <td>
+                                                                    <?php echo (!empty($row2[0]['closingBalance'])) ? number_format($row2[0]['closingBalance']) : '0'; ?>
+                                                                </td>
+                                                            <?php } ?> </tr>
+
+                                                            <?php
+                                                            $counter++;
+                                                            $j++;
+                                                        }
+                                                        ?>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <!-- <input type="hidden" data-date="<?php //echo $date;                                                                                                                                                                                                                                                                                     ?>" data-item="<?php //echo $item;                                                                                                                                                                                                                                                                                     ?>" data-wh="<?php //echo $wh;                                                                                                                                                                                                                                                                                     ?>" id="updateamc" /> -->
+                                                        <?php //$is_view = 1;     ?>
+                                                    <?php } else { ?>
+
+                                                        <?php
+                                                        $j = 0;
+                                                        for ($i = $result['start_no']; $i <= $result['no_of_doses']; $i++) {
+                                                            if ($i == 0) {
+                                                                $nod += 1;
+                                                            }
+                                                            if ($result['pk_id'] == 6) {
+                                                                $style = '';
+                                                                $s = "";
+                                                            } else {
+                                                                $style = '';
+                                                                $s = "";
+                                                            }
+                                                            ?>
+                                                            <tr>
+                                                                <?php if ($counter == 1) { ?>
+
+                                                                    <td rowspan="<?php echo $nod ?>" class="center"><?php echo $result['item_name'] ?></td>
+                                                                <input type="hidden" name="item_name[]" id="<?php echo $result['pk_id']; ?>-item_name" value="<?php echo $result['item_name']; ?>" />
+                                                                <input type="hidden" name="flitm_id[]" value="<?php echo $result['pk_id']; ?>" />
+
+                                                                <input type="hidden" name="doses_per_unit[]" id="<?php echo $result['pk_id']; ?>-doses" value="<?php echo $result['description']; ?>" />
+                                                                <input type="hidden" name="start_no[]" id="<?php echo $result['pk_id']; ?>-start_no" value="<?php echo $result['start_no']; ?>" />
+                                                                <input type="hidden" name="no_of_doses[]" id="<?php echo $result['pk_id']; ?>-no_of_doses" value="<?php echo $result['no_of_doses']; ?>" />
+                                                                <input type = "hidden" name = "dispensed[]" id="<?php echo $result['pk_id'] ?>-dispensed" class = "form-control col-md-1"  value="0">
+
+                                                                <?php if ($this->prev_month_date == $this->first_month) { ?>
+                                                                    <td rowspan="<?php echo $nod ?>"><input type="text" name="opening_balance[]" id="<?php echo $result['pk_id']; ?>-opening_balance"  class="form-control col-md-1" <?php if (strtotime($this->year . "-" . $this->mm) > strtotime('2015-12') && $this->province_id != 1 && $this->province_id != 4 && $this->province_id != 8) { ?>readonly="readonly" <?php } ?> value="<?php echo (!empty($row2[0]['openingBalance'])) ? $row2[0]['openingBalance'] : '0'; ?>"></td>
+
+                                                                <?php } else { ?>
+                                                                    <td rowspan="<?php echo $nod ?>"><input type="text" name="opening_balance[]" id="<?php echo $result['pk_id']; ?>-opening_balance"  class="form-control col-md-1" <?php if (strtotime($this->year . "-" . $this->mm) > strtotime('2015-12') && $this->province_id != 1 && $this->province_id != 4 && $this->province_id != 8) { ?>readonly="readonly" <?php } ?> value="<?php echo (!empty($row2[0]['openingBalance'])) ? $row2[0]['openingBalance'] : '0'; ?>"></td>
+
+                                                                <?php } ?>
+                                                                <td rowspan="<?php echo $nod ?>"><input type="text" name="received[]" id="<?php echo $result['pk_id']; ?>-received"  class="form-control col-md-1"  value=" <?php echo (!empty($row2[0]['receivedBalance'])) ? ($row2[0]['receivedBalance']) : '0'; ?>"></td>
+
+                                                            <?php } ?>
+                                                            <input type="hidden" name="vaccine_schedule_id[]" value="<?php echo ($i == 1 && $i == $nod) ? '' : $i; ?>" />
+                                                            <td style="vertical-align: middle;"><?php
+                                                                echo ($i == 1 && $i == $nod) ? '' : $i;
+                                                                if ($result['pk_id'] == '40') {
+                                                                    echo '1';
+                                                                }
+                                                                ?></td>
+                                                            <?php
+                                                            if ($result['pk_id'] == 26 && $i == 0) {
+                                                                $style1 = 'readonly="readonly"';
+                                                                $s1 = "STYLE='color: #F9F9F9;background-color: #F9F9F9;'";
+                                                            } else {
+                                                                $style1 = '';
+                                                                $s1 = '';
+                                                            }
+                                                            ?>
+                                                            <?php
+                                                            if ($result['pk_id'] == 45) {
+                                                                $style_dt = 'readonly="readonly"';
+                                                                $s_dt = "STYLE='color: #F9F9F9;background-color: #F9F9F9;'";
+                                                            } else {
+                                                                $style_dt = '';
+                                                                $s_dt = '';
+                                                            }
+                                                            ?>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="fix_inuc_m_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_inuc_m_11" class="form-control col-md-2"  value="<?php echo (!empty($row2[$j]['fixed_inside_uc_male']) ) ? $row2[$j]['fixed_inside_uc_male'] : '0'; ?>"></td>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="fix_inuc_f_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_inuc_f_11" class="form-control col-md-2"  value="<?php echo (!empty($row2[$j]['fixed_inside_uc_female']) ) ? $row2[$j]['fixed_inside_uc_female'] : '0'; ?>"></td>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="fix_outuc_m_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_outuc_m_11" class="form-control col-md-2"  value="<?php echo (!empty($row2[$j]['fixed_outside_uc_male']) ) ? $row2[$j]['fixed_outside_uc_male'] : '0'; ?>"></td>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="fix_outuc_f_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_outuc_f_11" class="form-control col-md-2"  value="<?php echo (!empty($row2[$j]['fixed_outside_uc_female'])) ? $row2[$j]['fixed_outside_uc_female'] : '0'; ?> "></td>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="outreach_m_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_m_11" class="form-control col-md-2"  value="<?php echo (!empty($row2[$j]['outreach_male']) ) ? $row2[$j]['outreach_male'] : '0'; ?>"></td>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="outreach_f_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_f_11" class="form-control col-md-2"  value="<?php echo (!empty($row2[$j]['outreach_female']) ) ? $row2[$j]['outreach_female'] : '0'; ?> "></td>
+                                                            <?php if ($this->rpt_date >= '2018-01-01' && $this->province_id == 2) { ?>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="outreach_outuc_m_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_m_11" class="form-control col-md-2"  value="<?php echo (!empty($row2[$j]['outreach_outside_male']) ) ? $row2[$j]['outreach_outside_male'] : '0'; ?>"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="outreach_outuc_f_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_f_11" class="form-control col-md-2"  value="<?php echo (!empty($row2[$j]['outreach_outside_female']) ) ? $row2[$j]['outreach_outside_female'] : '0'; ?> "></td>
+
+                                                            <?php } ?>
+                                                                <?php if ($this->rpt_date >= '2019-01-01' && $this->province_id == 2) { ?>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="mobile_inside_m_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-mobile_inside_m_11" class="form-control col-md-2"  value="<?php echo (!empty($row2[$j]['mobile_inside_male']) ) ? $row2[$j]['mobile_inside_male'] : '0'; ?>"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="mobile_inside_f_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-mobile_inside_f_11" class="form-control col-md-2"  value="<?php echo (!empty($row2[$j]['mobile_inside_female']) ) ? $row2[$j]['mobile_inside_female'] : '0'; ?>"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="lhw_inside_m_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-lhw_inside_m_11" class="form-control col-md-2"  value="<?php echo (!empty($row2[$j]['lhw_inside_male']) ) ? $row2[$j]['lhw_inside_male'] : '0'; ?>"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="lhw_inside_f_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-lhw_inside_f_11" class="form-control col-md-2"  value="<?php echo (!empty($row2[$j]['lhw_inside_female']) ) ? $row2[$j]['lhw_inside_female'] : '0'; ?>"></td>
+
+                                                            <?php } ?>
+                                                            <?php if ($this->province_id == 1) { ?>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="outreach_outuc_m_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_m_11" class="form-control col-md-2"  value="<?php echo (!empty($row2[$j]['outreach_outside_male']) ) ? $row2[$j]['outreach_outside_male'] : '0'; ?>"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="outreach_outuc_f_11_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_f_11" class="form-control col-md-2"  value="<?php echo (!empty($row2[$j]['outreach_outside_female']) ) ? $row2[$j]['outreach_outside_female'] : '0'; ?> "></td>
+
+                                                            <?php } ?>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="fix_inuc_m_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_inuc_m_23" class="form-control col-md-2"  value="<?php echo (!empty($row3[$j]['fixed_inside_uc_male'])) ? $row3[$j]['fixed_inside_uc_male'] : '0'; ?>"></td>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="fix_inuc_f_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_inuc_f_23" class="form-control col-md-2"  value="<?php echo (!empty($row3[$j]['fixed_inside_uc_female']) ) ? $row3[$j]['fixed_inside_uc_female'] : '0'; ?>"></td>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="fix_outuc_m_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_outuc_m_23" class="form-control col-md-2"  value="<?php echo (!empty($row3[$j]['fixed_outside_uc_male']) ) ? $row3[$j]['fixed_outside_uc_male'] : '0'; ?>"></td>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="fix_outuc_f_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_outuc_f_23" class="form-control col-md-2"  value="<?php echo (!empty($row3[$j]['fixed_outside_uc_female'])) ? $row3[$j]['fixed_outside_uc_female'] : '0'; ?>"></td>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_m_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_m_23" class="form-control col-md-2"  value=" <?php echo (!empty($row3[$j]['outreach_male']) ) ? $row3[$j]['outreach_male'] : '0'; ?> "></td>
+                                                            <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_f_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_f_23" class="form-control col-md-2"  value="<?php echo (!empty($row3[$j]['outreach_female'])) ? $row3[$j]['outreach_female'] : '0'; ?>"></td>
+                                                            <?php if ($this->rpt_date >= '2018-01-01' && $this->province_id == 2) { ?>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_outuc_m_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_m_23" class="form-control col-md-2"  value=" <?php echo (!empty($row3[$j]['outreach_outside_male']) ) ? $row3[$j]['outreach_outside_male'] : '0'; ?> "></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_outuc_f_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_f_23" class="form-control col-md-2"  value="<?php echo (!empty($row3[$j]['outreach_outside_female'])) ? $row3[$j]['outreach_outside_female'] : '0'; ?>"></td>
+
+                                                            <?php } ?>
+                                                                <?php if ($this->rpt_date >= '2019-01-01' && $this->province_id == 2) { ?>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="mobile_inside_m_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-mobile_inside_m_23" class="form-control col-md-2"  value="<?php echo (!empty($row3[$j]['mobile_inside_male']) ) ? $row3[$j]['mobile_inside_male'] : '0'; ?>"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="mobile_inside_f_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-mobile_inside_f_23" class="form-control col-md-2"  value="<?php echo (!empty($row3[$j]['mobile_inside_female']) ) ? $row3[$j]['mobile_inside_female'] : '0'; ?>"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="lhw_inside_m_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-lhw_inside_m_23" class="form-control col-md-2"  value="<?php echo (!empty($row3[$j]['lhw_inside_male']) ) ? $row3[$j]['lhw_inside_male'] : '0'; ?>"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="lhw_inside_f_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-lhw_inside_f_23" class="form-control col-md-2"  value="<?php echo (!empty($row3[$j]['lhw_inside_female']) ) ? $row3[$j]['lhw_inside_female'] : '0'; ?>"></td>
+                                                            <?php } ?>
+                                                                    <?php if ($this->province_id == 1) { ?>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_outuc_m_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_m_23" class="form-control col-md-2"  value=" <?php echo (!empty($row3[$j]['outreach_outside_male']) ) ? $row3[$j]['outreach_outside_male'] : '0'; ?> "></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_outuc_f_23_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_f_23" class="form-control col-md-2"  value="<?php echo (!empty($row3[$j]['outreach_outside_female'])) ? $row3[$j]['outreach_outside_female'] : '0'; ?>"></td>
+
+
+                                                            <?php } ?>
+                                                            <?php if (strtotime($this->rpt_date) < strtotime('2018-01-01') && strtotime($this->rpt_date) > strtotime('2018-12-01') && $this->province_id == 2) { ?>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="fix_inuc_m_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_inuc_m_24" class="form-control col-md-2"  value="<?php echo (!empty($row4[$j]['fixed_inside_uc_male'])) ? $row4[$j]['fixed_inside_uc_male'] : '0'; ?>"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="fix_inuc_f_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_inuc_f_24" class="form-control col-md-2"  value="<?php echo (!empty($row4[$j]['fixed_inside_uc_female']) ) ? $row4[$j]['fixed_inside_uc_female'] : '0'; ?>"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="fix_outuc_m_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_outuc_m_24" class="form-control col-md-2"  value="<?php echo (!empty($row4[$j]['fixed_outside_uc_male']) ) ? $row4[$j]['fixed_outside_uc_male'] : '0'; ?>"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="fix_outuc_f_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_outuc_f_24" class="form-control col-md-2"  value="<?php echo (!empty($row4[$j]['fixed_outside_uc_female'])) ? $row4[$j]['fixed_outside_uc_female'] : '0'; ?>"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_m_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_m_24" class="form-control col-md-2"  value=" <?php echo (!empty($row4[$j]['outreach_male']) ) ? $row4[$j]['outreach_male'] : '0'; ?> "></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_f_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_f_24" class="form-control col-md-2"  value="<?php echo (!empty($row4[$j]['outreach_female'])) ? $row4[$j]['outreach_female'] : '0'; ?>"></td>
+                                                            <?php } else if (strtotime($this->rpt_date) >= strtotime('2018-01-01') && strtotime($this->rpt_date) <= strtotime('2018-12-01') && $this->province_id == 2) { ?>
+
+
+                                                            <?php } else { ?> 
+
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="fix_inuc_m_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_inuc_m_24" class="form-control col-md-2"  value="<?php echo (!empty($row4[$j]['fixed_inside_uc_male'])) ? $row4[$j]['fixed_inside_uc_male'] : '0'; ?>"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="fix_inuc_f_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_inuc_f_24" class="form-control col-md-2"  value="<?php echo (!empty($row4[$j]['fixed_inside_uc_female']) ) ? $row4[$j]['fixed_inside_uc_female'] : '0'; ?>"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="fix_outuc_m_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_outuc_m_24" class="form-control col-md-2"  value="<?php echo (!empty($row4[$j]['fixed_outside_uc_male']) ) ? $row4[$j]['fixed_outside_uc_male'] : '0'; ?>"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="fix_outuc_f_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-fixed_outuc_f_24" class="form-control col-md-2"  value="<?php echo (!empty($row4[$j]['fixed_outside_uc_female'])) ? $row4[$j]['fixed_outside_uc_female'] : '0'; ?>"></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_m_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_m_24" class="form-control col-md-2"  value=" <?php echo (!empty($row4[$j]['outreach_male']) ) ? $row4[$j]['outreach_male'] : '0'; ?> "></td>
+                                                                <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_f_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_f_24" class="form-control col-md-2"  value="<?php echo (!empty($row4[$j]['outreach_female'])) ? $row4[$j]['outreach_female'] : '0'; ?>"></td>
+                                                                <?php //if ($this->province_id == 1) { ?>
+                                                                    <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_outuc_m_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_m_24" class="form-control col-md-2"  value=" <?php echo (!empty($row4[$j]['outreach_outside_male']) ) ? $row4[$j]['outreach_outside_male'] : '0'; ?> "></td>
+                                                                    <td ><input type="text" <?php echo $style; ?><?php echo $style1; ?><?php echo $s; ?><?php echo $s1; ?>  name="outreach_outuc_f_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-outreach_outuc_f_24" class="form-control col-md-2"  value="<?php echo (!empty($row4[$j]['outreach_outside_female'])) ? $row4[$j]['outreach_outside_female'] : '0'; ?>"></td>
+
+                                                                <?php //} ?> 
+                                                                    <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="mobile_inside_m_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-mobile_inside_m_24" class="form-control col-md-2"  value="<?php echo (!empty($row4[$j]['mobile_inside_male']) ) ? $row4[$j]['mobile_inside_male'] : '0'; ?>"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="mobile_inside_f_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-mobile_inside_f_24" class="form-control col-md-2"  value="<?php echo (!empty($row4[$j]['mobile_inside_female']) ) ? $row4[$j]['mobile_inside_female'] : '0'; ?>"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="lhw_inside_m_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-lhw_inside_m_24" class="form-control col-md-2"  value="<?php echo (!empty($row4[$j]['lhw_inside_male']) ) ? $row4[$j]['lhw_inside_male'] : '0'; ?>"></td>
+                                                                <td ><input type="text" <?php echo $style_dt; ?><?php echo $s_dt; ?> name="lhw_inside_f_24_<?php echo $result['pk_id']; ?>_<?php echo $i; ?>" id="<?php echo $i; ?>-<?php echo $result['pk_id'] ?>-lhw_inside_f_24" class="form-control col-md-2"  value="<?php echo (!empty($row4[$j]['lhw_inside_female']) ) ? $row4[$j]['lhw_inside_female'] : '0'; ?>"></td>
+
+                                                            <?php } ?>
+                                                            <?php if ($counter == 1) { ?>
+                                                                <td rowspan="<?php echo $nod ?>"><input type="text" name="unusable_vials[]" id="<?php echo $result['pk_id'] ?>-unusable" class="form-control col-md-1"  value="<?php echo (!empty($row2[0]['adjustments']) ? $row2[0]['adjustments'] : '0' ); ?>"></td>
+
+                                                                <td  rowspan="<?php echo $nod ?>"><input type="text" name="closing_balance[]" id="<?php echo $result['pk_id'] ?>-closing_balance" class="form-control col-md-1"  value=" <?php echo (!empty($row2[0]['closingBalance'])) ? $row2[0]['closingBalance'] : '0'; ?>"></td>
+                                                            <?php } ?> </tr>
+
+                                                            <?php
+                                                            $counter++;
+                                                            $j++;
+                                                        }
+                                                        ?>
+                                                    <?php } ?>
+                                                <?php endforeach; ?>
+
+
+                                                </tbody>
+                                            </table>
+
+
+                                            <h3>TT- Coverage</h3>
+                                            <table style="width:100%" class="table table-striped table-bordered table-condensed">
+                                                <thead>
+                                                    <tr>
+                                                        <th rowspan="2" class="center">Product</th>
+
+                                                        <th rowspan="2" class="center">Opening Balance (Doses)</th>
+                                                        <th rowspan="2" class="center">Received (Doses)</th>
+                                                        <th rowspan="2" class="center">S. No</th>
+                                                        <?php if ($this->province_id == 1) { ?>
+                                                            <th colspan="2"  class="center">Fixed</th>
+                                                            <th colspan="2"  class="center">Outreach</th>
+                                                        <?php } else { ?>
+                                                            <th colspan="2"  class="center">Pregnant Women</th>
+                                                            <th colspan="2"  class="center">CBAs</th>
+                                                        <?php } ?>
+                                                        <th rowspan="2" class="center">Unusable (Doses)</th>
+                                                        <th rowspan="2" class="center">Closing Balance (Doses)</th>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <?php if ($this->province_id == 1) { ?>
+                                                            <th  class="center"  >Pregnant Women</th>
+                                                            <th  class="center" >CBA (15-45 Years)</th>
+                                                            <th  class="center" >Pregnant Women</th>
+                                                            <th   class="center" >CBA (15-45 Years)</th>
+                                                        <?php } else { ?>
+                                                            <th  class="center"  >Inside UC</th>
+                                                            <th  class="center" >Outside UC</th>
+                                                            <th  class="center" >Inside UC</th>
+                                                            <th   class="center" >Outside UC</th>
+                                                        <?php } ?>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                    foreach ($this->items_tt as $result) {
+                                                        if ($this->is_new_report == 1) {
+                                                            $row2 = $this->monthlyConsumtion2()->monthlyConsumtion2VaccinesTt($this->wh_id, $this->prev_month_date, $result['pk_id']);
+                                                        } else {
+                                                            $row2 = $this->monthlyConsumtion2()->monthlyConsumtion2VaccinesTt($this->wh_id, $this->rpt_date, $result['pk_id']);
+                                                        }
+                                                        //  App_Controller_Functions::pr($row2);
+                                                        ?>
+
+                                                    <input type="hidden" name="item_name[]" id="<?php echo $result['pk_id']; ?>-item_name" value="<?php echo $result['item_name']; ?>" />
+                                                    <input type="hidden" name="item_category[]" id="<?php echo $result['pk_id']; ?>-item_category" value="2" />
+                                                    <input type="hidden" name="flitm_id[]" value="<?php echo $result['pk_id']; ?>" />
+                                                    <input type="hidden" name="doses_per_unit[]" id="<?php echo $result['pk_id']; ?>-doses" value="<?php echo $result['description']; ?>" />
+
+                                                    <?php
+                                                    if ($this->is_new_report == 1) {
+
+                                                        for ($i = 1; $i <= 6; $i++) {
+                                                            ?>
+                                                            <tr>
+                                                                <?php
+                                                                if ($i == 1) {
+                                                                    ?>
+                                                                    <td rowspan = "6" class="center"><?php echo $result['item_name'] ?></td>
+                                                                    <td rowspan = "6"><input type = "text" name="opening_balance[]" id="<?php echo $result['pk_id']; ?>-opening_balance" class = "form-control col-md-1" <?php if (strtotime($this->year . "-" . $this->mm) > strtotime('2015-12') && $this->province_id != 1 && $this->province_id != 4 && $this->province_id != 8) { ?>readonly="readonly" <?php } ?> value="<?php echo (!empty($row2[0]['closingBalance'])) ? $row2[0]['closingBalance'] : '0'; ?>"></td>
+                                                                    <td rowspan = "6"><input type = "text" name="received[]" id="<?php echo $result['pk_id']; ?>-received" class = "form-control col-md-1"  value="0"></td>
+                                                                <input type = "hidden" name = "dispensed[]" id="<?php echo $result['pk_id'] ?>-dispensed" class = "form-control col-md-1"  value="0">
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                            <?php
+                                                            if ($i <= 5) {
+                                                                ?>
+                                                                <input type="hidden" name="vaccine_schedule_id[]" value="<?php echo $i; ?>" />
+                                                                <input type="hidden" name="serial_id[]" value="<?php echo $i; ?>" />
+                                                                <td class="center"><?php echo $i ?></td>
+                                                                <td><input type="text"  name="pregenant_women[]"  id="<?php echo $result['pk_id']; ?>-pregenant_women" class="pregenant_women form-control col-md-1"  value="0"></td>
+                                                                <td><input type="text"  name="outside_pregenant_women[]"  id="<?php echo $result['pk_id']; ?>-outside_pregenant_women" class="outside_pregenant_women form-control col-md-1"  value="0"></td>
+
+                                                            <?php } ?>
+                                                            <?php
+                                                            if ($i == 6) {
+                                                                ?>
+                                                                <td class="center">Total</td>
+                                                                <td><input type="text" name="pregenant_women_total"  id="pregenant_women_total"  readonly="readonly" class="form-control col-md-1"  value="0"></td>
+                                                                <td><input type="text" name="outside_pregenant_women_total"  id="outside_pregenant_women_total"  readonly="readonly" class="form-control col-md-1"  value="0"></td>
+                                                            <?php } ?>
+                                                            <?php
+                                                            if ($i <= 5) {
+                                                                ?>
+
+
+                                                                <td><input type="text"  name="non_pregenant_women[]"  id="<?php echo $result['pk_id']; ?>-non_pregenant_women" class="non_pregenant_women form-control col-md-1"  value="0"></td>
+                                                                <td><input type="text"  name="outside_non_pregenant_women[]"  id="<?php echo $result['pk_id']; ?>-outside_non_pregenant_women" class="outside_non_pregenant_women form-control col-md-1"  value="0"></td>
+
+                                                            <?php } ?>
+                                                            <?php
+                                                            if ($i == 6) {
+                                                                ?>
+
+                                                                <td><input type="text" name="non_pregenant_women_total"  id="non_pregenant_women_total"  readonly="readonly" class="form-control col-md-1"  value="0"></td>
+                                                                <td><input type="text" name="outside_non_pregenant_women_total"  id="outside_non_pregenant_women_total"  readonly="readonly" class="form-control col-md-1"  value="0"></td>
+
+                                                            <?php } ?>
+
+
+                                                            <?php
+                                                            if ($i == 1) {
+                                                                ?>
+                                                                <td rowspan="6"><input type="text"  name="unusable_vials[]" id="<?php echo $result['pk_id'] ?>-unusable" class="form-control col-md-1"  value="0"></td>
+
+                                                                <td rowspan="6"><input type="text" name="closing_balance[]"  id="<?php echo $result['pk_id'] ?>-closing_balance" class="form-control col-md-1"  value="0"></td>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                            </tr>
+                                                            <?php
+                                                        }
+                                                    } else if ($this->is_new_report == 2) {
+
+                                                        $j = 0;
+                                                        for ($i = 1; $i <= 6; $i++) {
+                                                            ?>
+                                                            <tr>
+                                                                <?php
+                                                                if ($i == 1) {
+                                                                    ?>   <td rowspan = "6" class="center"><?php echo $result['item_name'] ?></td>
+                                                                    <td rowspan = "6"> <?php echo (!empty($row2[0]['openingBalance'])) ? number_format($row2[0]['openingBalance']) : '0'; ?></td>
+                                                                    <td rowspan = "6"> <?php echo (!empty($row2[0]['receivedBalance'])) ? number_format($row2[0]['receivedBalance']) : '0'; ?></td>     <?php
+                                                                }
+                                                                ?>
+                                                                <?php
+                                                                if ($i <= 5) {
+                                                                    ?>
+                                                                <input type="hidden" name="vaccine_schedule_id[]" value="<?php echo $i; ?>" />
+                                                                <input type="hidden" name="serial_id[]" value="<?php echo $i; ?>" />
+                                                                <td class="center"><?php echo $i ?></td>
+
+                                                                <td >
+                                                                    <input type="hidden"  name="pregenant_women[]"  id="<?php echo $result['pk_id']; ?>-pregenant_women" class="pregenant_women form-control col-md-1"  value="<?php echo (!empty($row2[$j]['pregnant_women'])) ? number_format($row2[$j]['pregnant_women']) : '0'; ?>">
+
+
+                                                                    <?php echo (!empty($row2[$j]['pregnant_women'])) ? number_format($row2[$j]['pregnant_women']) : '0'; ?></td>
+                                                                <td >
+                                                                    <input type="hidden"  name="outside_pregenant_women[]"  id="<?php echo $result['pk_id']; ?>-outside_pregenant_women" class="outside_pregenant_women form-control col-md-1"  value="<?php echo (!empty($row2[$j]['outside_pregnant_women'])) ? number_format($row2[$j]['outside_pregnant_women']) : '0'; ?>">
+
+
+                                                                    <?php echo (!empty($row2[$j]['outside_pregnant_women'])) ? number_format($row2[$j]['outside_pregnant_women']) : '0'; ?></td>
+
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                            <?php
+                                                            if ($i == 6) {
+                                                                ?>
+                                                                <td class="center">Total</td>
+                                                                <td id="pregenant_women_total_view"></td>
+                                                                <td id="outside_pregenant_women_total_view"></td>
+
+                                                                <?php
+                                                            }
+                                                            ?>
+
+                                                            <?php
+                                                            if ($i <= 5) {
+                                                                ?>
+
+                                                                <td class="non_pregnant_women">
+                                                                    <input type="hidden"  name="non_pregnant_women[]"  id="<?php echo $result['pk_id']; ?>-non_pregenant_women" class="non_pregenant_women form-control col-md-1"  value="<?php echo (!empty($row2[$j]['non_pregnant_women'])) ? number_format($row2[$j]['non_pregnant_women']) : '0'; ?>">
+                                                                    <?php echo (!empty($row2[$j]['non_pregnant_women'])) ? number_format($row2[$j]['non_pregnant_women']) : '0'; ?></td>
+                                                                <td class="outside_non_pregnant_women">
+                                                                    <input type="hidden"  name="outside_non_pregnant_women[]"  id="<?php echo $result['pk_id']; ?>-outside_non_pregenant_women" class="outside_non_pregenant_women form-control col-md-1"  value="<?php echo (!empty($row2[$j]['outside_non_pregnant_women'])) ? number_format($row2[$j]['outside_non_pregnant_women']) : '0'; ?>">
+                                                                    <?php echo (!empty($row2[$j]['outside_non_pregnant_women'])) ? number_format($row2[$j]['outside_non_pregnant_women']) : '0'; ?></td>
+
+                                                                <?php
+                                                                $j++;
+                                                            }
+                                                            ?>
+                                                            <?php
+                                                            if ($i == 6) {
+                                                                ?>
+
+                                                                <td  id="non_pregenant_women_total_view"></td>
+                                                                <td  id="outside_non_pregenant_women_total_view"></td>
+
+                                                                <?php
+                                                            }
+                                                            ?>
+
+
+                                                            <?php
+                                                            if ($i == 1) {
+                                                                ?>
+                                                                <td rowspan="6"><?php echo (!empty($row2[0]['adjustments']) ? number_format($row2[0]['adjustments']) : '0' ); ?></td>
+                                                                <td rowspan="6"> <?php echo (!empty($row2[0]['closingBalance'])) ? number_format($row2[0]['closingBalance']) : '0'; ?></td>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                            </tr>
+                                                            <?php
+                                                        }
+                                                    } else {
+                                                        ?>
+                                                        <?php
+                                                        $j = 0;
+                                                        for ($i = 1; $i <= 6; $i++) {
+                                                            ?>
+                                                            <tr>
+                                                                <?php
+                                                                if ($i == 1) {
+                                                                    ?> <td rowspan = "6" class="center"><?php echo $result['item_name'] ?></td>
+                                                                    <td rowspan = "6"><input type = "text" name="opening_balance[]" id="<?php echo $result['pk_id']; ?>-opening_balance" class = "form-control col-md-1" <?php if (strtotime($this->year . "-" . $this->mm) > strtotime('2015-12') && $this->province_id != 1 && $this->province_id != 4 && $this->province_id != 8) { ?>readonly="readonly" <?php } ?>  value="<?php echo (!empty($row2[0]['openingBalance'])) ? $row2[0]['openingBalance'] : '0'; ?>"></td>
+                                                                    <td rowspan = "6"><input type = "text" name="received[]" id="<?php echo $result['pk_id']; ?>-received" class = "form-control col-md-1"  value="<?php echo (!empty($row2[0]['receivedBalance'])) ? ($row2[0]['receivedBalance']) : '0'; ?>"></td>
+                                                                <input type = "hidden" name = "dispensed[]" id="<?php echo $result['pk_id'] ?>-dispensed" class = "form-control col-md-1"  value="0">
+
+                                                                <?php
+                                                            }
+                                                            ?>
+
+                                                            <?php
+                                                            if ($i <= 5) {
+                                                                ?>
+                                                                <input type="hidden" name="vaccine_schedule_id[]" value="<?php echo $i; ?>" />
+                                                                <input type="hidden" name="serial_id[]" value="<?php echo $i; ?>" />
+                                                                <td class="center"><?php echo $i ?></td>
+                                                                <td><input type="text"  name="pregenant_women[]"  id="<?php echo $result['pk_id']; ?>-pregenant_women" class="pregenant_women form-control col-md-1"  value="<?php echo (!empty($row2[$j]['pregnant_women'])) ? ($row2[$j]['pregnant_women']) : '0'; ?>"></td>
+                                                                <td><input type="text"  name="outside_pregenant_women[]"  id="<?php echo $result['pk_id']; ?>-outside_pregenant_women" class="outside_pregenant_women form-control col-md-1"  value="<?php echo (!empty($row2[$j]['outside_pregnant_women'])) ? ($row2[$j]['outside_pregnant_women']) : '0'; ?>"></td>
+
+
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                            <?php
+                                                            if ($i == 6) {
+                                                                ?>
+                                                                <td class="center">Total</td>
+                                                                <td><input type="text" name="pregenant_women_total"  id="pregenant_women_total" class="form-control col-md-1" readonly="readonly" value=""></td>
+                                                                <td><input type="text" name="outside_pregenant_women_total"  id="outside_pregenant_women_total" class="form-control col-md-1" readonly="readonly" value=""></td>
+
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                            <?php
+                                                            if ($i <= 5) {
+                                                                ?>
+
+
+                                                                <td><input type="text"  name="non_pregenant_women[]"  id="<?php echo $result['pk_id']; ?>-non_pregenant_women" class="non_pregenant_women form-control col-md-1"  value="<?php echo (!empty($row2[$j]['non_pregnant_women'])) ? ($row2[$j]['non_pregnant_women']) : '0'; ?>"></td>
+                                                                <td><input type="text"  name="outside_non_pregenant_women[]"  id="<?php echo $result['pk_id']; ?>-outside_non_pregenant_women" class="outside_non_pregenant_women form-control col-md-1"  value="<?php echo (!empty($row2[$j]['outside_non_pregnant_women'])) ? ($row2[$j]['outside_non_pregnant_women']) : '0'; ?>"></td>
+
+                                                                <?php
+                                                                $j++;
+                                                            }
+                                                            ?>
+                                                            <?php
+                                                            if ($i == 6) {
+                                                                ?>
+
+                                                                <td><input type="text" name="non_pregenant_women_total"  id="non_pregenant_women_total" class="form-control col-md-1" readonly="readonly" value=""></td>
+                                                                <td><input type="text" name="outside_non_pregenant_women_total"  id="outside_non_pregenant_women_total" class="form-control col-md-1" readonly="readonly" value=""></td>
+
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                            <?php
+                                                            if ($i == 1) {
+                                                                ?>
+                                                                <td rowspan="6"><input type="text"  name="unusable_vials[]" id="<?php echo $result['pk_id'] ?>-unusable" class="form-control col-md-1"  value="<?php echo (!empty($row2[0]['adjustments'])) ? ($row2[0]['adjustments']) : '0'; ?>"></td>
+                                                                <td rowspan="6"><input type="text" name="closing_balance[]"  id="<?php echo $result['pk_id'] ?>-closing_balance" class="form-control col-md-1"  value="<?php echo (!empty($row2[0]['closingBalance'])) ? ($row2[0]['closingBalance']) : '0'; ?>"></td>
+
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                            </tr>
+
+                                                        <?php }
+                                                        ?>
+                                                    <?php }
+                                                    ?>
+                                                <?php } ?>
+                                                </tbody>
+                                            </table>
+
+                                            <h3>Other Items</h3>
+                                            <table style="width:100%" class="table table-striped table-bordered table-condensed">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Product</th>
+                                                        <th>Opening Balance (No)</th>
+                                                        <th>Received (No)</th>
+                                                        <th>Dispensed (No)</th>
+                                                        <th>Closing Balance (No)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <?php
+                                                    foreach ($this->items_non_vaccinces as $result) {
+
+                                                        if ($this->is_new_report == 1) {
+                                                            $row2 = $this->monthlyConsumtion2()->monthlyConsumptionNonVaccinces($this->wh_id, $this->prev_month_date, $result['pk_id']);
+                                                        } else {
+                                                            $row2 = $this->monthlyConsumtion2()->monthlyConsumptionNonVaccinces($this->wh_id, $this->rpt_date, $result['pk_id']);
+                                                        }
+                                                        ?>
+
+                                                    <input type="hidden" name="item_name[]" id="<?php echo $result['pk_id']; ?>-item_name" value="<?php echo $result['item_name']; ?>" />
+                                                    <input type="hidden" name="item_category[]" id="<?php echo $result['pk_id']; ?>-item_category"  value="3" />
+                                                    <input type="hidden" name="flitm_id[]" value="<?php echo $result['pk_id']; ?>" />
+                                                    <input type="hidden" name="doses_per_unit[]" id="<?php echo $result['pk_id']; ?>-doses" value="<?php echo $result['description']; ?>" />
+                                                    <input type="hidden" name="hf_master_id[]" value="<?php echo $row2['pkId']; ?>" />
+                                                    <?php if ($this->is_new_report == 1) { ?>
+                                                        <tr>
+
+                                                            <td><?php echo $result['item_name'] ?></td>
+                                                            <td><input type = "text" name="opening_balance[]" id="<?php echo $result['pk_id']; ?>-opening_balance" class = "form-control col-md-1" <?php if (strtotime($this->year . "-" . $this->mm) > strtotime('2015-12') && $this->province_id != 1 && $this->province_id != 4 && $this->province_id != 8) { ?>readonly="readonly" <?php } ?> value="<?php echo (!empty($row2['closingBalance'])) ? $row2['closingBalance'] : '0'; ?>"></td>
+                                                            <td><input type = "text" name = "received[]" id="<?php echo $result['pk_id'] ?>-received" class = "form-control col-md-1"  value="0"></td>
+                                                            <td><input type = "text" name = "dispensed[]" id="<?php echo $result['pk_id'] ?>-dispensed" class = "form-control col-md-1"  value="0"></td>
+                                                            <td><input type = "text" name="closing_balance[]" id="<?php echo $result['pk_id'] ?>-closing_balance" class = "form-control col-md-1"  value="0"></td>
+
+                                                        </tr>
+
+                                                        <!-- // Table heading END -->
+
+
+                                                    <?php } else if ($this->is_new_report == 2) { ?>
+                                                        <tr>
+                                                            <td><?php echo $result['item_name'] ?></td>
+                                                            <td><?php echo (!empty($row2['openingBalance'])) ? number_format($row2['openingBalance']) : '0'; ?></td>
+                                                            <td><?php echo (!empty($row2['receivedBalance'])) ? number_format($row2['receivedBalance']) : '0'; ?></td>
+                                                            <td><?php echo (!empty($row2['issueBalance'])) ? number_format($row2['issueBalance']) : '0'; ?></td>
+                                                            <td><?php echo (!empty($row2['closingBalance'])) ? number_format($row2['closingBalance']) : '0'; ?></td>
+
+                                                            <!-- // Table heading END -->
+
+
+
+                                                        </tr>
+                                                    <?php } else { ?>
+                                                        <tr>
+                                                            <td><?php echo $result['item_name'] ?></td>
+                                                            <td><input type = "text" name="opening_balance[]" id="<?php echo $result['pk_id']; ?>-opening_balance" class = "form-control col-md-1" <?php if (strtotime($this->year . "-" . $this->mm) > strtotime('2015-12') && $this->province_id != 1 && $this->province_id != 4 && $this->province_id != 8) { ?>readonly="readonly" <?php } ?>  value="<?php echo (!empty($row2['openingBalance'])) ? $row2['openingBalance'] : '0'; ?>"></td>
+                                                            <td><input type = "text" name="received[]" id="<?php echo $result['pk_id'] ?>-received" class = "form-control col-md-1"  value="<?php echo (!empty($row2['receivedBalance'])) ? $row2['receivedBalance'] : '0'; ?>"></td>
+                                                            <td><input type = "text" name="dispensed[]" id="<?php echo $result['pk_id'] ?>-dispensed" class = "form-control col-md-1"  value="<?php echo (!empty($row2['issueBalance'])) ? $row2['issueBalance'] : '0'; ?>"></td>
+                                                            <td><input type = "text" name="closing_balance[]" id="<?php echo $result['pk_id'] ?>-closing_balance" class = "form-control col-md-1"  value="<?php echo (!empty($row2['closingBalance'])) ? $row2['closingBalance'] : '0'; ?>"></td>
+
+                                                        </tr>
+
+                                                        <!-- // Table heading END -->
+
+
+                                                        <?php
+                                                    }
+                                                }
+                                                if ($this->getAssets()->getAssetsQuanity($this->wh_id) && count($this->getAssets()->getAssetsQuanity($this->wh_id)) > 0) {
+                                                    ?>
+                                                    <!-- Table row -->
+                                                    <?php
+                                                    $i = 0;
+                                                    if ($this->getAssets()->getAssetsQuanity($this->wh_id) && count($this->getAssets()->getAssetsQuanity($this->wh_id)) > 0) {
+                                                        foreach ($this->getAssets()->getAssetsQuanity($this->wh_id) as $row):
+                                                            ?>
+                                                            <tr class="gradeX">
+                                                            <input type="hidden" name="asset_id_q[]" value="<?= $row['ccmAssetId'] ?>">
+                                                            <input type="hidden" name="ccm_id_q[]" value="<?= $row['pkId'] ?>">
+                                                            <input class="total_quantity" type="hidden" id="<?= $i ?>-total_quantity" name="total_quantity[<?= $i ?>]" value="<?= $row['quantity'] ?>">
+                                                            <td><?php echo $row['assetTypeName'] . "(" . $row['ccmModelName'] . ")"; ?></td>
+
+                                                            <td><?php
+                                                                if ($row['quantity'] == "") {
+                                                                    $qu = 0;
+                                                                } else {
+                                                                    $qu = $row['quantity'];
+                                                                }
+                                                                echo $qu;
+                                                                ?></td>
+                                                            <td>
+
+                                                            </td>
+                                                            <td>
+                                                            </td>
+                                                            <td>
+                                                                <?php if ($this->is_new_report == 2) { ?>
+                                                                    <?php echo $qu; ?>
+
+                                                                <?php } else { ?>
+                                                                    <input class="working_quantity form-control"  type="text" id="<?= $i ?>-work_quantity" name="work_quantity[<?= $i ?>]"  value="<?= $qu ?>">
+
+                                                                <?php } ?>
+                                                            </td>
+
+                                                            </tr>
+
+                                                            <?php
+                                                            $i++;
+                                                        endforeach;
+                                                    }
+                                                }
+                                                ?>
+
+                                                </tbody>
+                                                <!-- Table Footer -->
+                                                <?php if ($this->is_new_report != 2) { ?>
+                                                    <tfoot>
+                                                        <tr style="background-color: lightgray">
+                                                            <td colspan="8" class="center">
+                                                                <button data-loading-text="Validating and saving your data ..." class="btn btn-primary input-sm" id="btn-loading" type="submit">
+                                                                    <?php echo $this->translate("Save") ?>
+                                                                </button>
+                                                                <a href="monthly-consumption2"><button class="btn btn-primary input-sm" type="button">
+                                                                        <?php echo $this->translate("Go back to main") ?>
+                                                                    </button></a>
+                                                            </td>
+                                                        </tr>
+                                                    </tfoot>
+                                                <?php } ?>
+                                                <?php if ($this->is_new_report == 2) { ?>
+                                                    <tfoot>
+                                                        <tr style="background-color: lightgray">
+                                                            <td colspan="8" class="right">
+                                                                <a href="monthly-consumption2"><button class="btn btn-primary input-sm" type="button">
+                                                                        <?php echo $this->translate("Go back to main") ?>
+                                                                    </button></a>
+                                                            </td>
+                                                        </tr>
+                                                    </tfoot>
+                                                <?php } ?>
+                                            </table>
+                                            <!-- // Table END -->
+                                            <input type="hidden" name="rpt_date" value="<?php echo $this->rpt_date; ?>">
+                                            <input type="hidden" name="wh_id" id="wh_id" value="<?php echo $this->wh_id; ?>">
+                                            <input type="hidden" name="loc_id" value="<?php echo $this->locid; ?>">
+                                            <input type="hidden" name="do" id="do" value="<?php echo $this->do; ?>">
+                                            <input type="hidden" name="yearmonth" id="yearmonth" value="<?php echo $this->year . "-" . $this->mm; ?>">
+                                            <input type="hidden" name="is_new_report" id="isNewRpt" value="<?php echo $this->is_new_report; ?>" />
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
+                } else {
+                    ?>
+                    <?php if ($this->user_level != 6) { ?>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- BEGIN SAMPLE TABLE PORTLET-->
+                                <div class="portlet box green">
+                                    <div class="portlet-title">
+                                        <div class="caption">
+                                            <i class="fa fa-arrow-down"></i>Data Entry
+                                        </div>
+                                    </div>
+                                    <div class="portlet-body">
+                                        <div class="table-scrollable">
+                                            <table class="table table-striped table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="vertical-align: top;">Reporting Months<br/><h5>Click month to add/view reported data</h5></th>
+                                                        <th style="vertical-align: top;" >Last Update</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr>
+                                                        <td><b>Cold Chain Status: </b><?php echo $this->loadLast3Months2()->loadColdChainMonths($this->user_id, 1); ?></br>
+
+                                                        <td colspan="3"><?php
+                                                            echo $this->loadLast3Months2()->getWarehouseNamesAssetTehsilStatusColdChain($this->cold_chain_warehouse_id);
+                                                            ?> </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END SAMPLE TABLE PORTLET-->
+                            </div>
+                        </div>
+                    <?php } ?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- BEGIN SAMPLE TABLE PORTLET-->
+                            <div class="portlet box green">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <i class="fa fa-arrow-down"></i>Data Entry
+                                    </div>
+                                </div>
+                                <div class="portlet-body">
+                                    <div class="table-scrollable">
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th style="vertical-align: top;" >#</th>
+                                                    <th style="vertical-align: top;" >Tehsil</th>
+                                                    <th style="vertical-align: top;" >Union Council</th>
+                                                    <th style="vertical-align: top;">EPI Center / Health Facility</th>
+                                                    <th style="vertical-align: top;">Reporting Months<br/><h5>Click month to add/view reported data</h5></th>
+                                                    <th style="vertical-align: top;" >Last Update</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                if ($this->province_id != 1 && $this->province_id != 3 && $this->province_id != 5 && $this->province_id != 6 && $this->province_id != 7) {
+                                                    $rowspan = "rowspan='2' ";
+                                                } else {
+                                                    $rowspan = "rowspan='1' ";
+                                                }
+                                                ?>
+                                                <?php
+                                                $count = 1;
+                                                foreach ($this->warehouses as $row) {
+                                                    ?>
+                                                    <tr>
+                                                        <td <?php echo $rowspan; ?>><?php echo $count; ?></td>
+                                                        <td <?php echo $rowspan; ?>> <?php echo $row['Tehsil']; ?></td>
+                                                        <td <?php echo $rowspan; ?>> <?php echo $row['locationName']; ?></td>
+                                                        <td <?php echo $rowspan; ?>><?php echo $row['warehouseName']; ?></td>
+                                                        <td><b>Consumption Reporting: </b><?php echo $this->loadLast3Months2()->loadReportedMonths($row['pkId'], 1); ?></br>
+                                                        </td>
+                                                        <td ><?php echo $this->loadLast3Months2()->loadLastReportedDate($row['pkId']); ?></td>
+                                                    </tr>
+                                                    <?php if ($this->province_id != 1 && $this->province_id != 3 && $this->province_id != 5 && $this->province_id != 6 && $this->province_id != 7) { ?>
+                                                        <tr>
+
+                                                            <td>
+                                                                <b>Log Book: </b><?php echo $this->loadLast3Months2()->loadLogMonths($row['pkId'], 1); ?>
+                                                            </td>
+
+
+                                                            <td colspan="2"><?php echo $this->loadLast3Months2()->loadLastLogReportedDate($row['pkId']); ?></td>
+                                                        </tr>
+                                                    <?php } ?>
+
+                                                    <?php
+                                                    $count++;
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- END SAMPLE TABLE PORTLET-->
+                        </div>
+                    </div>
+                <?php } ?>
+        </div>
+    </div>
+    <a id="notific8_show" href="javascript:;" class="hide"></a>
+    <div id="notific8_heading" class="hide">Your Data</div>
+    <div id="notific8_life" class="hide">5000</div>
+    <div id="notific8_text" class="hide">has been saved as draft.</div>
+<?php //} ?>

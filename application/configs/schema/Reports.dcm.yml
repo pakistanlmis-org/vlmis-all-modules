@@ -1,0 +1,112 @@
+Reports:
+  type: entity
+  table: reports
+  fields:
+    reportId:
+      id: true
+      type: string
+      length: 60
+      fixed: false
+      nullable: false
+      column: report_id
+      generator:
+        strategy: IDENTITY
+    reportGroup:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+      column: report_group
+    reportType:
+      type: decimal
+      nullable: true
+      column: report_type
+    reportTitle:
+      type: string
+      length: 60
+      fixed: false
+      nullable: true
+      column: report_title
+    reportXaxis:
+      type: string
+      length: 60
+      fixed: false
+      nullable: true
+      column: report_xaxis
+    reportYaxis:
+      type: string
+      length: 60
+      fixed: false
+      nullable: true
+      column: report_yaxis
+    reportUnits:
+      type: string
+      length: 60
+      fixed: false
+      nullable: true
+      column: report_units
+    reportFactor:
+      type: decimal
+      nullable: true
+      column: report_factor
+    reportField:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+      column: report_field
+    reportDescription:
+      type: text
+      nullable: true
+      column: report_description
+    staticpage:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+    footerStaticpage:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+      column: footer_staticpage
+    reportOrder:
+      type: smallint
+      nullable: true
+      column: report_order
+    reportShowSimple:
+      type: smallint
+      nullable: true
+      column: report_show_simple
+    reportShowComp:
+      type: smallint
+      nullable: true
+      column: report_show_comp
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: false
+      column: modified_date
+  oneToOne:
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

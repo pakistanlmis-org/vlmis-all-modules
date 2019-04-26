@@ -1,0 +1,79 @@
+GeoIndicatorValues:
+  type: entity
+  table: geo_indicator_values
+  fields:
+    id:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      generator:
+        strategy: IDENTITY
+    startValue:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: start_value
+    endValue:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: end_value
+    interval:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+    description:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: false
+      column: modified_date
+  oneToOne:
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    geoIndicator:
+      targetEntity: GeoIndicators
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        geo_indicator_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    geoColor:
+      targetEntity: GeoColor
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        geo_color_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

@@ -1,0 +1,26 @@
+<?php
+/**
+*  phtml for Wastages Comparison
+*/
+?>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div id="sample_2_filter" class="dataTables_filter">
+            <label>View By: 
+                <select id="wastages-combo" class="form-control input-inline">
+                    <?php foreach ($this->combo as $key => $row) { ?>
+                        <option value="<?php echo $key; ?>" <?php if ($key == 'N') { ?>selected=""<?php } ?>><?php echo $row; ?></option>
+                    <?php } ?>                 
+                </select>
+            </label>
+        </div>
+    </div>
+    <div class="col-md-12" id="after-filter10">
+        <?php
+        FC_SetRenderer('javascript');
+        echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Column2D.swf", "", $this->xmlstore, 'WastagesComparison', '100%', 350, false, false);
+        ?>
+    </div>
+</div>
+<div class="center">Please co-relate wastage with reporting and permissable wastage allowances.</div>
+<div style="clear:both;"></div>

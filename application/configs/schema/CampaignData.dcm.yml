@@ -1,0 +1,221 @@
+CampaignData:
+  type: entity
+  table: campaign_data
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    campaignDay:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: campaign_day
+    dailyTarget:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: daily_target
+    targetAgeSixMonths:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: target_age_six_months
+    targetAgeSixtyMonths:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: target_age_sixty_months
+    householdVisited:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: household_visited
+    multipleFamilyHousehold:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: multiple_family_household
+    totalCoverage:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: total_coverage
+    refusalCovered:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: refusal_covered
+    recordReference:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: record_reference
+    coverageNotAccessible:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: coverage_not_accessible
+    recordNotAccessible:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: record_not_accessible
+    recordRefusal:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: record_refusal
+    coverageMobileChildren:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: coverage_mobile_children
+    reportedWithWeakness:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: reported_with_weakness
+    zeroDoses:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: zero_doses
+    coverageReference:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: coverage_reference
+    inaccessibleCoverage:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: inaccessible_coverage
+    teamsReported:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: teams_reported
+    vialsGiven:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: vials_given
+    vialsUsed:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: vials_used
+    vialsReturned:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: vials_returned
+    vialsExpired:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: vials_expired
+    reconSyrWasted:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: recon_syr_wasted
+    adSyrWasted:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: ad_syr_wasted
+    unionCouncilId:
+      type: integer
+      unsigned: false
+      nullable: false
+      column: union_council_id
+    campaignTargetId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: campaign_target_id
+    createdDate:
+      type: datetime
+      nullable: false
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: true
+      column: modified_date
+  oneToOne:
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    warehouse:
+      targetEntity: Warehouses
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        warehouse_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    itemPackSize:
+      targetEntity: ItemPackSizes
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        item_pack_size_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    campaign:
+      targetEntity: Campaigns
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        campaign_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    district:
+      targetEntity: Locations
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        district_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

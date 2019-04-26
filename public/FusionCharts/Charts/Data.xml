@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<chart caption="Sales Summary" subCaption="For the year 2010" numberPrefix="$" sformatNumberScale="1" sNumberPrefix="$" syncAxisLimits="1" rotateValues="1" showSum="0">
+<!-- Data for single series chart -->
+	<set label="Quarter 1" value="232400"/>
+	<set label="Quarter 2" value="339800"/>
+	<set label="Quarter 3" value="411900"/>
+	<set label="Quarter 4" value="398400"/>
+<!-- Data for multi-series stacked and combination chart -->
+</chart>

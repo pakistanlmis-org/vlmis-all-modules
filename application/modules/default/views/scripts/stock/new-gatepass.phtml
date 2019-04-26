@@ -1,0 +1,176 @@
+<?php
+/**
+ *  phtml for New Gatepass
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper" xmlns="http://www.w3.org/1999/html">
+    <div class="page-content">
+        <h3 class="page-title"> <?php echo $this->translate("Manage Gatepass") ?></h3>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("New Gatepass") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="succdiv" style="display: none;">
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                        <strong>Gatepass</strong> has been saved successfully!
+                                    </div>
+                                </div>
+                                <form method="POST" name="gatepass" action="" id="gatepass">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <!-- Group -->
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="datefrom"><?php echo $this->translate("Date From") ?><span class="red">*</span></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->date_from; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="dateto"><?php echo $this->translate("Date To") ?><span class="red">*</span></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->date_to; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="search">&nbsp</label>
+                                                <div class="controls">
+                                                    <button type="submit" id="search" name="search" value="search" class="btn btn-success"><?php echo $this->translate("Search") ?></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <?php if ($this->ispost == "true") { ?>
+                                    <form method="POST" name="gatepasspost" action="" id="gatepasspost">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <!-- Group -->
+                                                <div class="col-md-3">
+                                                    <label class="control-label" for="vehicletype"><?php echo $this->translate("Vehicle Type") ?><span class="red">*</span></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->vehicle_type_id; ?>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="control-label" for="vehicle"><?php echo $this->translate("Vehicle") ?><span class="red">*</span></label>
+                                                    <div class="controls">
+                                                        <span id="vehicle_span">
+                                                            <?php echo $this->form->gatepass_vehicle_id; ?>
+                                                        </span>
+                                                        <span style="display:none;" id="other_span">
+                                                            <?php echo $this->form->vehicle_other; ?></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label class="control-label" for="checkbox">&nbsp;</label>
+                                                    <div class="controls">
+                                                        <span style="float:left;"><?php echo $this->form->other; ?></span> <span style="float:left; padding-left: 5px; margin-top: 10px;"><?php echo $this->translate("Other") ?></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <!-- Group -->
+                                                <div class="col-md-3">
+                                                    <label class="control-label" for="issueno"><?php echo $this->translate("Issue No") ?></label>
+                                                    <div class="controls">
+                                                        <select name="stock_master_id" id="stock_master_id" multiple="multiple">
+                                                            <?php
+                                                            if (isset($this->data)) {
+                                                                ?>
+                                                                <?php
+                                                                foreach ($this->data as $row) {
+                                                                    ?>
+                                                                    <option value="<?php echo $row['pkId']; ?>" ><?php echo $row['transactionNumber']; ?></option>
+                                                                    <?php
+                                                                }
+                                                            } else {
+                                                                ?>
+                                                                <option value=""><?php echo $this->translate("Select"); ?></option>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                        <div style="font-size: 10px; width: 135px; float:right; padding-right: 10px; color:green;">Select multiple items by hold down control key [CTRL] </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label class="control-label" for="date"><?php echo $this->translate("Date") ?><span class="red">*</span></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->transaction_date; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                </br>
+
+
+                                                <!--                                                <div class="col-md-6">
+                                                
+                                                                                                    <input type="checkbox" name="for_repair" id="for_repair"> For Repair
+                                                                                                        <input type="checkbox" name="issue" id="issue"> Issue
+                                                                                                            <input type="checkbox" name="borrowed_return" id="borrowed_return"> Borrowed Return
+                                                                                                                <input type="checkbox" name="borrowed" id="borrowed"> Borrowed
+                                                
+                                                                                                                    </div>-->
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                </br>
+
+                                                <div class="col-md-6">
+                                                    <label class="control-label" for="date"><?php echo $this->translate("Remarks") ?></label>
+                                                    <div class="controls">
+                                                        <textarea id="comments" class="form-control" name="comments" rows="2" maxlength="300" cols="80"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-body">
+                                            <div id="ajax_tbl_data">
+                                            </div>                                            
+                                        </div>
+                                        <div class="form-actions fluid right" id="button_gatepass" style="display:none;">
+                                            <div class="col-md-offset-3 col-md-9">
+                                                <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit"><?php echo $this->translate("Save"); ?></button>
+                                                <!-- <button class="btn btn-primary" type="button" id="save" name="save">Save</button> -->
+                                            </div>
+                                        </div>
+                                    </form>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // Content END -->

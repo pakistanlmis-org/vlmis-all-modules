@@ -1,0 +1,173 @@
+
+ .boldText{
+            font-weight: bold;
+            font-size:12px;
+        }
+
+td, th{
+            padding:1.2px;
+   }
+
+#image{
+            cursor:pointer;
+            z-index:100;
+            display:block;
+            width: 28px;
+            height: 28px;
+            position:absolute;
+            left:92%;
+            top:2%;
+}
+
+#print{
+             cursor:pointer;
+             z-index:100;
+             display:block;
+             width: 28px;
+             height: 28px;
+             position:absolute;
+             left:95%;
+             top:2%;
+}
+
+
+ #infoStyle{
+            width:100%;
+            font-size:12px;
+            color:black;
+            font-family: "Open Sans",sans-serif;
+            background-color:white;
+            padding:4px;
+ }
+    
+  #info tr:hover {
+          background-color: #C7F610;
+          width:100%;
+  }
+     
+  #info2 tr:hover {
+          background-color: #C7F610;
+          width:100%;
+  }
+  
+  #infoStyle tr td{
+      width:100px;
+      font-family: "Open Sans",sans-serif;
+      padding-left: 5px;
+  }
+  
+  #loader {
+      display:none;
+      width: 80px;
+      height: 80px;
+      position:absolute;
+      left:45%;
+      top:40%;
+      z-index:1000;
+  }
+  
+   #loader2 {
+      display:none;
+      width: 80px;
+      height: 80px;
+      position:absolute;
+      left:45%;
+      top:40%;
+      z-index:1000;
+  }
+  
+
+ 
+  #wastagesMap{
+      width:100%;
+      height:440px;
+  }
+  
+   #reportingMap{
+      width:100%;
+      height:440px;
+  }
+  
+  #wastagesInfoDiv{
+      display:block;
+      position:absolute;
+      padding:2px;
+      font-family: "Open Sans",sans-serif;
+      border-radius:5px;
+      background-color:green;
+      color:white;
+      border:1px solid #d3d3d3;
+      width:auto;
+      height:auto;
+      top:4%;
+      left:5%;
+      z-index: 2000;
+  }
+  
+  #reportingInfoDiv{
+      display:block;
+      position:absolute;
+      padding:2px;
+      font-family: "Open Sans",sans-serif;
+      border-radius:5px;
+      background-color:green;
+      color:white;
+      border:1px solid #d3d3d3;
+      width:auto;
+      height:auto;
+      top:4%;
+      left:5%;
+      z-index: 2000;
+  }
+  
+  #L1{
+      display: block; 
+      position: absolute;
+      padding: 3px; 
+      border-radius: 5px;
+      border: 1px solid green; 
+      width: auto;
+      height: auto;
+      top: 57%; 
+      left: 73%; 
+      z-index: 5000;
+      font-size:10px;
+      font-weight:bold;
+      font-family: "Open Sans",sans-serif;
+  }
+  
+  #wastageLegend{
+      width: auto;
+  }
+  
+  #reportingLegend{
+      width: auto;
+  }
+  
+   #L2{
+     display: block; 
+      position: absolute;
+      padding: 3px; 
+      border-radius: 5px;
+      border: 1px solid green; 
+      width: auto;
+      height: auto;
+      top: 57%; 
+      left: 73%; 
+      z-index: 5000;
+      font-size:10px;
+      font-weight:bold;
+      font-family: "Open Sans",sans-serif;
+  }
+  
+   .undo{
+        border-radius: 0 !important;
+        border-width: 0;
+        box-shadow: none !important;
+        font-size: 10px;
+        outline: medium none !important;
+        padding: 4px 5px;
+        color:white;
+        text-shadow: none;
+        background-color : rgb(53, 170, 71);
+    }

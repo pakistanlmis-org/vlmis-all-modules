@@ -1,0 +1,103 @@
+.getting-started-wrapper {
+    margin: 25px;
+}
+.getting-started-wrapper h1 {
+    font-size: 25px;
+    font-weight: normal;
+    margin-bottom: 14px;
+}
+.getting-started-wrapper hr {
+    height: 1px;
+    border: none;
+    border-top: 1px solid #bbb;	
+    margin-bottom: 20px;
+    width: 100%;
+}
+.info-box {
+    border-left: 1px solid #BBBBBB;
+    float: left;
+    margin: 20px 0;
+    max-width: 25%;
+    min-width: 10%;
+    padding: 0 40px;
+}
+.getting-started-wrapper h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+.getting-started-wrapper .info-box img {
+    float: left;
+    margin-right: 8px;
+    position: relative;
+    top: 0px;
+}
+ul.landingul {
+    margin: 10px 0;
+    padding: 0;
+}
+ul.landingul li {
+    list-style: none outside none;
+    padding-bottom: 12px;
+    background:url(../../../images/icon-tick-green.png) left top no-repeat;
+    padding-left: 27px;
+    font-size: 12px;
+}
+
+.portlet-body {
+    overflow: auto;
+    height: 375px;
+}
+
+.spinner {
+  margin: 100px auto;
+  width: 50px;
+  height: 30px;
+  text-align: center;
+  font-size: 10px;
+}
+
+.spinner > div {
+  background-color: #333;
+  height: 100%;
+  width: 6px;
+  display: inline-block;
+  
+  -webkit-animation: stretchdelay 1.2s infinite ease-in-out;
+  animation: stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner .rect2 {
+  -webkit-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+.spinner .rect4 {
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+  -webkit-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+
+@-webkit-keyframes stretchdelay {
+  0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
+  20% { -webkit-transform: scaleY(1.0) }
+}
+
+@keyframes stretchdelay {
+  0%, 40%, 100% { 
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }  20% { 
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
+  }
+}

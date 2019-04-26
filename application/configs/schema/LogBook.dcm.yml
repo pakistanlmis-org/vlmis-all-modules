@@ -1,0 +1,112 @@
+LogBook:
+  type: entity
+  table: log_book
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    name:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+    fatherName:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: father_name
+    gender:
+      type: string
+      length: null
+      fixed: false
+      nullable: true
+    age:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+    contact:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+    address:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+    unionCouncilId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: union_council_id
+    vaccinationDate:
+      type: datetime
+      nullable: true
+      column: vaccination_date
+    referToWarehouseId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: refer_to_warehouse_id
+    remarks:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+    createdDate:
+      type: datetime
+      nullable: false
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: true
+      column: modified_date
+    reportingStartDate:
+      type: datetime
+      nullable: true
+      column: reporting_start_date
+  oneToOne:
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    district:
+      targetEntity: Locations
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        district_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    warehouse:
+      targetEntity: Warehouses
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        warehouse_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

@@ -1,0 +1,85 @@
+<?php
+/**
+*  phtml for Pipeline Report
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            Pipeline Report (Federal EPI Store)
+        </h3>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="control-group">
+                    <label class="control-label" for="ason">As On</label>
+                    <div class="controls">
+                        <input name="ason" id="ason" value="<?php echo date("d/m/Y"); ?>" type="text" class="form-control"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="control-group">
+                    <label class="control-label" for="period">Period</label>
+                    <div class="controls">
+                        <select class="form-control" name="period" id="period">
+                            <option value="1">Half year</option>
+                            <option value="2">Annual</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="padding-top: 26px;">
+                <div class="control-group">
+                    <input name="submit" id="submit" class="btn btn-success col-md-2" value="Go"/>
+                </div>
+            </div>
+        </div>
+        <?php if (count($this->result) > 0) { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped table-bordered table-condensed" id="stkledger">
+                        <thead>
+                            <tr>
+                                <th>S.No</th>
+                                <th class="col-md-2">Product</th>
+                                <th class="col-md-2">Requirement <h6>in next 6 months</h6></th>
+                        <th class="col-md-2">Stock On Hand</th>
+                        <th class="col-md-2" style="background-color: #CDFFA5;">Pipeline <h6>Consignment</h6></th>
+                        <th class="center col-md-2" style="background-color: #CDFFA5;">Advertised</th>
+                        <th class="col-md-2" style="background-color: #C0DDF9;">Remaining</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $count = 1;
+                            foreach ($this->result as $row) {
+                                $month6 = ROUND($row['soh'] / $row['amc'], 1);
+                                ?>
+                                <tr>
+                                    <td><?php echo $count; ?></td>
+                                    <td><?php echo $row['item_name']; ?></td>
+                                    <td class="right"><?php echo number_format($row['calculated_amc']); ?></td>
+                                    <td class="right"><?php echo number_format($row['soh']); ?></td>
+                                    <td class="center" style="background-color: #CDFFA5;"><?php echo number_format($row['quantity']); ?></td>
+                                    <td class="right" style="background-color: #CDFFA5;"><?php echo number_format(0); ?></td>
+                                    <td class="right" style="background-color: #C0DDF9;"><?php echo number_format($row['calculated_amc'] - ($row['soh'] + $row['quantity'] + 0)); ?></td>
+                                </tr>
+                                <?php
+                                $count++;
+                            }
+                            ?>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <?php } else { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>Transactions not found</h4>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+</div>

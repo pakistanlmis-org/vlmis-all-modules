@@ -1,0 +1,21 @@
+<?php
+/**
+ *  phtml for Ajax Running Batches
+ */
+?>
+<?php
+if ($this->all_running_batches != false) {
+    ?>
+    <option value=""><?php echo $this->translate("Select"); ?></option>
+    <?php
+    foreach ($this->all_running_batches as $row) {
+        ?>
+        <option value="<?php
+        echo $row['pkId'];
+        ?>">
+                <?php echo $row['number']; ?> 
+        </option>
+        <?php
+    }
+}
+?>

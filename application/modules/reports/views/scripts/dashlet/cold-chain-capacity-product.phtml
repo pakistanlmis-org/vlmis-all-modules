@@ -1,0 +1,125 @@
+<?php
+/**
+ *  phtml for Cold Chain Capacity Product
+ */
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <!-- BEGIN PAGE HEADER-->
+        <?php if ($this->user_role == 4 || $this->user_role == 5 || $this->user_role == 6 || $this->user_role == 7) { ?>
+            <?php if (!empty($this->pending_receive)) { ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <small style="font-weight: bold;color:red;"><?php
+                            echo "Pending Vouchers for " . $this->warehouse_name . " : ";
+                            foreach ($this->pending_receive as $pending_receive) {
+                                ?> 
+                                <a style="color:red" href="<?php echo $this->baseUrl(); ?>/stock/receive-warehouse?issue_no=<?php echo $pending_receive['transaction_number']; ?>&search=true"><?php echo $pending_receive['transaction_number'] ?></a>,
+                            <?php } ?>                        
+                        </small>
+                        <hr>
+                    </div>
+                </div>
+                <?php
+            }
+        }
+        ?>
+        <div class="row">
+            <h3 class="col-md-8">
+                <?php echo $this->warehousename; ?>  <small>dashboard & statistics</small>
+            </h3>
+            <!--<form method="post" name="mystore" id="mystore" action="">
+                <div class="col-md-3">
+                    <input class="form-control" type="text" name="to_date" id="to_date" value="<?php echo $this->to_date; ?>"/>
+                </div>
+                <div class="col-md-1 right">
+                    <button class="btn btn-success" type="submit" id="camp_btn" name="camp_btn" value="camp">GO</button>
+                </div>
+            </form>-->
+        </div>
+        <div class="row">&nbsp;</div>
+        <!-- END PAGE HEADER-->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="widget widget-tabs">
+                    <div class="widget-head dashboard-widget">
+                        <ul>
+                            <li class="">
+                                <a href="<?php echo $this->baseUrl(); ?>/reports/dashlet/cold-chain-capacity?to_date=<?php echo $this->to_date; ?>">
+                                    <div class="dashboard-stat_custom">
+                                        <div style="width: auto;" class="visual">
+                                            <i class="fa fa-routine-immunization"></i>
+                                        </div>
+                                        <div style="float: left;" class="details">
+                                            <div class="dashboard-title-1">Capacity by:</div>
+                                            <div class="dashboard-title-2">Utilization</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="active">
+                                <a href="<?php echo $this->baseUrl(); ?>/reports/dashlet/cold-chain-capacity-product?to_date=<?php echo $this->to_date; ?>">
+                                    <div class="dashboard-stat_custom">
+                                        <div style="width: auto;" class="visual">
+                                            <i class="fa fa-inventory-management"></i>
+                                        </div>
+                                        <div style="float: left;" class="details">
+                                            <div class="dashboard-title-1">Capacity by:</div>
+                                            <div class="dashboard-title-2">Vaccine</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>                            
+                        </ul>
+                    </div>
+                    <div class="widget-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php
+                                        FC_SetRenderer('javascript');
+                                        echo renderChart($this->baseUrl() . "/FusionCharts/Charts/StackedColumn2DLine.swf", "", $this->xmlstore2, "coldchainCapacity28", '100%', 350, false, false);
+                                        ?>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <?php
+                                        FC_SetRenderer('javascript');
+                                        echo renderChart($this->baseUrl() . "/FusionCharts/Charts/StackedColumn2DLine.swf", "", $this->xmlstore1, "coldchainCapacity20", '100%', 350, false, false);
+                                        ?>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <table class="table table-condensed table-hover">
+                                            <tr>
+                                                <th>Sr.No</th>
+                                                <th>Cold Room</th>
+                                                <th>Product</th>
+                                                <th class="right">Quantity (Litres)</th>
+                                                <th class="right">Quantity (Vials)</th>
+                                            </tr>
+                                            <?php
+                                            $i = 1;
+                                            foreach ($this->data as $row) {
+                                                ?>
+                                                <tr>
+                                                    <td><?php echo $i; ?></td>
+                                                    <td><?php echo $row['asset_id']; ?></td>
+                                                    <td><?php echo $row['item_name']; ?></td>
+                                                    <td class="right"><?php echo number_format($row['quantity']); ?></td>
+                                                    <td class="right"><?php echo number_format($row['quantityvials']); ?></td>                                                    
+                                                </tr><?php
+                                                $i++;
+                                            }
+                                            ?>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- // Tabs END -->                
+            </div>
+        </div>
+    </div>
+</div>

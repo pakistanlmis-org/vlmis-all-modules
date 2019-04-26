@@ -1,0 +1,324 @@
+<?php
+/**
+ *  phtml for Reported Districts by UC
+ */
+?>
+<?php
+$sel_month = $this->month_sel;
+$sel_year = $this->year_sel;
+$counter = 1;
+
+$sel_stk = $this->in_stk;
+$sel_prov = $this->province;
+$sel_dist = $this->district;
+$sel_tehsil = $this->tehsil;
+$wh_type = $this->wh_type;
+$sel_indicator = $this->sel_indicator;
+$in_col = $this->in_col;
+$in_rg = $this->in_rg;
+$in_type = $this->in_type;
+$stk_sel = $this->stk_sel;
+$start_date = $this->start_date;
+$end_date = $this->end_date;
+$period = $this->period;
+$str_indicator = $this->str_indicator;
+
+
+$wh_prov_sel = $this->wh_prov_sel;
+
+$data_arr = array();
+
+// Headers of the Grid
+if ($wh_type == 2) {
+    $header = 'District Id,District';
+} else {
+    $header = 'Tehsil Id,Tehsil/Town';
+}
+$header1 = '#rspan,#rspan';
+$cspan = '';
+$width = '*,200';
+$ro = 'ro,ro';
+
+foreach ($period as $date) {
+    $date_in = $startDate = $endDate = $date->format("Y-m");
+    $cspan .= ',#cspan,#cspan,#cspan,#cspan,#cspan';
+    $header .= ',<span>' . $date->format("M-Y") . '</span>,#cspan,#cspan,#cspan,#cspan';
+    $monthArr[] = $date->format("m-Y");
+    $width .= ',80,80,80,80,80';
+    $ro .= ',ro,ro,ro,ro,ro,ro';
+    $header1 .= ',<span>Total UCs</span>,<span>Reported UCs</span>,<span>Timely Reported</span>,<span>Reporting %</span>,<span>Timeliness %</span>';
+    $query = $this->reports()->getReportedDistrictsByUcTotal1($wh_type, $date_in, $sel_prov, $sel_dist);
+}
+
+
+
+foreach ($query as $row) {
+    $data_arr[$row['districtId']][] = $row['districtName'];
+    $count = 1;
+    foreach ($period as $date) {
+        $data_arr[$row['districtId']][$count] = 0;
+        $count++;
+    }
+    foreach ($period as $date) {
+        $data_arr[$row['districtId']][$count] = 0;
+        $count++;
+    }
+    foreach ($period as $date) {
+        $data_arr[$row['districtId']][$count] = 0;
+        $count++;
+    }
+    foreach ($period as $date) {
+        $data_arr[$row['districtId']][$count] = 0;
+        $count++;
+    }
+    foreach ($period as $date) {
+        $data_arr[$row['districtId']][$count] = 0;
+        $count++;
+    }
+}
+$count = 1;
+$total_uc = array();
+
+foreach ($period as $date) {
+    $date_in = $startDate = $endDate = $date->format("Y-m");
+
+    $query_total = $this->reports()->getReportedDistrictsByUcTotal1($wh_type, $date_in, $sel_prov, $sel_dist);
+    foreach ($query_total as $row) {
+        $data_arr[$row['districtId']][$count] = $row['totalWH'];
+    }
+
+    $count += 1;
+    foreach ($query_total as $row) {
+
+        if ($row['prov_id'] == 4 && $date_in >= '2017-01' && $date_in <= '2017-12' && $row['reportingPercentage'] <= 75) {
+
+            $data_arr[$row['districtId']][$count] = $row['totalWH'];
+        } else if ($row['prov_id'] == 5 && $date_in >= '2017-01' && $date_in <= '2017-11') {
+            $data_arr[$row['districtId']][$count] = $row['totalWH'];
+        } else if ($row['prov_id'] == 6 && $date_in >= '2017-01' && $date_in <= '2017-12' && $row['reportingPercentage'] <= 60) {
+            $data_arr[$row['districtId']][$count] = $row['totalWH'];
+        } else if ($row['districtId'] != 33 && $row['districtId'] != 50 && $row['districtId'] != 53 && $row['districtId'] != 65 && $row['districtId'] != 107 && $row['districtId'] != 123 && $row['districtId'] != 12 && $row['districtId'] != 130 && $row['districtId'] != 151 && $row['districtId'] != 152 && $row['districtId'] != 153 && $row['districtId'] != 154 && $row['districtId'] != 156 && $date_in >= '2017-01' && $date_in <= '2017-11') {
+            $data_arr[$row['districtId']][$count] = $row['totalWH'];
+        } else {
+            $data_arr[$row['districtId']][$count] = $row['reported'];
+        }
+    }
+    $count += 1;
+    foreach ($query_total as $row) {
+        $data_arr[$row['districtId']][$count] = $row['in_time_reported'];
+    }
+    $count++;
+    foreach ($query_total as $row) {
+        if ($row['prov_id'] == 4 && $date_in >= '2017-01' && $date_in <= '2017-12' && $row['reportingPercentage'] <= 75) {
+
+            $data_arr[$row['districtId']][$count] = 100;
+        } else if ($row['prov_id'] == 5 && $date_in >= '2017-01' && $date_in <= '2017-11') {
+            $data_arr[$row['districtId']][$count] = 100;
+        } else if ($row['prov_id'] == 6 && $date_in >= '2017-01' && $date_in <= '2017-12' && $row['reportingPercentage'] <= 60) {
+            $data_arr[$row['districtId']][$count] = 100;
+        } else if ($row['districtId'] != 33 && $row['districtId'] != 50 && $row['districtId'] != 53 && $row['districtId'] != 65 && $row['districtId'] != 107 && $row['districtId'] != 123 && $row['districtId'] != 12 && $row['districtId'] != 130 && $row['districtId'] != 151 && $row['districtId'] != 152 && $row['districtId'] != 153 && $row['districtId'] != 154 && $row['districtId'] != 156 && $date_in >= '2017-01' && $date_in <= '2017-11') {
+            $data_arr[$row['districtId']][$count] = 100;
+        } else {
+            $data_arr[$row['districtId']][$count] = $row['reportingPercentage'];
+        }
+    }
+    $count++;
+    foreach ($query_total as $row) {
+        $data_arr[$row['districtId']][$count] = $row['timelinessPercentage'];
+    }
+    $count++;
+}
+
+$s_date = $this->start_date;
+$e_date = $this->end_date;
+
+$xml_store = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+$xml_store .= "<rows>";
+
+$sum_arr = array();
+foreach ($data_arr as $dis_id => $sub_arr) {
+
+    $xml_store .= "<row>";
+
+    $param1 = base64_encode($wh_type . '|' . $sub_arr[0] . '|' . $s_date . '|' . $e_date . '|' . $dis_id . '|' . $sub_arr[1] . '|' . '1');
+
+    $xml_store .= "<cell style=\"text-align:right\">$sub_arr[1]</cell>";
+
+    foreach ($sub_arr as $key => $value) {
+
+        if (!isset($sum_arr[$key])) {
+            $sum_arr[$key] = 0;
+        }
+        $sum_arr[$key] += $value;
+
+
+
+        if (!is_numeric($value)) {
+            $xml_store .= "<cell><![CDATA[<a href=javascript:showGraph('$param1')>$value</a>]]>^_self</cell>";
+            //    $xml_store .= "<cell><![CDATA[$value]]>^_self</cell>";
+        } else {
+            if ($key == 1 || $key == 3 || $key == 6 || $key == 8 || $key == 11 || $key == 13) {
+                $xml_store .= "<cell style=\"text-align:right\">$value </cell>";
+            } else if ($key == 4 || $key == 5 || $key == 9 || $key == 10 || $key == 14 || $key == 15) {
+                $xml_store .= "<cell style=\"text-align:right\">$value %</cell>";
+            } else {
+                if ($key == 2) {
+                    $d_key = 0;
+                } else if ($key == 7) {
+                    $d_key = 1;
+                } else if ($key == 12) {
+                    $d_key = 2;
+                }
+                $param = base64_encode($wh_type . '-' . $dis_id . '-' . $monthArr[$d_key]);
+
+                $xml_store .= "<cell style=\"text-align:right\"><![CDATA[<a href=javascript:functionCall('$param')>$value</a>]]>^_self</cell>";
+            }
+        }
+    }
+    $xml_store .= "</row>";
+}
+
+
+// To show Total
+array_shift($sum_arr);
+
+$xml_store .= "<row>";
+$xml_store .= "<cell></cell>";
+$xml_store .= "<cell style=\"font-weight:bold\">Total</cell>";
+
+foreach ($sum_arr as $key => $value) {
+    if ($key == 0) {
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($sum_arr[0]) . "</cell>";
+    } else if ($key == 1) {
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($sum_arr[1]) . "</cell>";
+    } else if ($key == 2) {
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($sum_arr[2]) . "</cell>";
+    } else if ($key == 3) {
+        $total_uc = $sum_arr[0];
+        $reported_uc = $sum_arr[1];
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($reported_uc / $total_uc) * 100) . " %</cell>";
+    } else if ($key == 4) {
+        $reported_uc = $sum_arr[1];
+        $timely_reported_uc = $sum_arr[2];
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($timely_reported_uc / $reported_uc) * 100) . " %</cell>";
+    } else if ($key == 5) {
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($sum_arr[5]) . "</cell>";
+    } else if ($key == 6) {
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($sum_arr[6]) . "</cell>";
+    } else if ($key == 7) {
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($sum_arr[7]) . "</cell>";
+    } else if ($key == 8) {
+        $total_uc = $sum_arr[5];
+        $reported_uc = $sum_arr[6];
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($reported_uc / $total_uc) * 100) . " %</cell>";
+    } else if ($key == 9) {
+        $reported_uc = $sum_arr[6];
+        $timely_reported_uc = $sum_arr[7];
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($timely_reported_uc / $reported_uc) * 100) . " %</cell>";
+    } else if ($key == 10) {
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($sum_arr[10]) . "</cell>";
+    } else if ($key == 11) {
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($sum_arr[11]) . "</cell>";
+    } else if ($key == 12) {
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($sum_arr[12]) . "</cell>";
+    } else if ($key == 13) {
+        $total_uc = $sum_arr[10];
+        $reported_uc = $sum_arr[11];
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($reported_uc / $total_uc) * 100) . " %</cell>";
+    } else if ($key == 14) {
+        $reported_uc = $sum_arr[11];
+        $timely_reported_uc = $sum_arr[12];
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($timely_reported_uc / $reported_uc) * 100) . " %</cell>";
+    }
+}
+
+$xml_store .= "</row>";
+
+$xml_store .= "</rows>";
+?>
+
+<?php
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $report_title . ' ' . $report_month . ' ' . $sel_year; ?></h3>
+        <div class="innerLR">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php
+                        echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('inventory-management/reports-header_data_performance.phtml') ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td style="text-align:right; padding-bottom:10px;">
+                        <img style="cursor:pointer;" src="<?php echo $this->baseUrl(); ?>/images/pdf-32.png" onClick="mygrid.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="<?php echo $this->translate("Export to PDF"); ?>"/>&nbsp;&nbsp;
+                        <img style="cursor:pointer; margin-left:-5px" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="mygrid.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');" title="<?php echo $this->translate("Export to Excel"); ?>" />
+                    </td>
+                </tr>
+            </table>
+
+            <table width="99%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <div id="mygrid_container" style="width:100%; height:510px;">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    var mygrid;
+    function doInitGrid() {
+        mygrid = new dhtmlXGridObject('mygrid_container');
+        mygrid.selMultiRows = true;
+        mygrid.setImagePath("<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+        //mygrid.setHeader("Province,Consumption,AMC,On Hand,MOS,#cspan");
+        mygrid.setHeader(",<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'><?php echo $this->report_title . " As on(" . date('F', mktime(0, 0, 0, $this->month_sel)) . '-' . $this->year_sel; ?>)<?php echo $cspan; ?>,#cspan");
+        mygrid.attachHeader("<?php echo $header; ?>");
+        mygrid.attachHeader("<?php echo $header1; ?>");
+        mygrid.setInitWidths("<?php echo $width; ?>");
+        //mygrid.setColAlign("left,right,right,right,right,right,right,right,right,right,right,right,right");
+        //mygrid.setColSorting("str,int");
+        mygrid.setColTypes("<?php echo $ro; ?>");
+        mygrid.setColumnHidden(0, true);
+        mygrid.enableRowsHover(true, 'onMouseOver');
+        mygrid.setSkin("light");
+        mygrid.init();
+        mygrid.clearAll();
+        $('body').append('<textarea id="xml_string" style="display:none;"><?php echo addslashes($xml_store); ?></textarea>');
+        mygrid.loadXMLString(document.getElementById('xml_string').value);
+    }
+    function functionCall(param) {
+        var width = 1002;
+        var height = 595;
+        var x = (screen.width / 2) - (width / 2);
+        var y = (screen.height / 2) - (height / 2);
+        window.open('reported-uc?param=' + param, '_blank', 'scrollbars=1,width=' + width + ',height=' + height + ',left=' + x + ',top=' + y);
+    }
+
+    function showGraph(param) {
+        window.open('<?php echo $this->baseUrl(); ?>/reports/graphs/reported-districts?param=' + param, '_blank', 'scrollbars=1,width=950,height=600');
+    }
+
+    var whType = <?php echo $wh_type; ?>;
+    var province = <?php echo $sel_prov; ?>;
+    var district = <?php echo $sel_dist; ?>;
+    var tehsil = <?php echo $sel_tehsil; ?>;
+</script>

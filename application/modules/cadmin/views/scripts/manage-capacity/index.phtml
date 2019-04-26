@@ -1,0 +1,168 @@
+<?php
+/**
+ * @package phtml for Index
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Manage Capacity") ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("ColdRooms/Freezers Search") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+
+                            <form method="POST" name="search_form" action="" id="search_form">
+                                <!-- Row -->
+
+                                <div class="col-md-12">
+
+                                    <div class="row">
+                                        <?php $this->AllLevelCombo("Office", "3"); ?>
+                                        <?php echo $this->form->office_id; ?>
+                                        <?php echo $this->form->combo1_id; ?>
+                                        <?php echo $this->form->combo2_id; ?>
+                                        <?php echo $this->form->warehouse_id; ?>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="control-group ">
+                                                <label class="control-label" ><?php echo $this->translate("Asset Type"); ?></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->ccm_asset_type_id; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3 margin-top-25">
+                                            <label class="control-label" >&nbsp;</label>
+                                            <button class="btn btn-primary" type="submit" name="search"><?php echo $this->translate("Search") ?></button>
+                                            <button type="reset" class="btn btn-info" id="reset">Reset</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- end -->
+                            </form>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <?php echo $this->translate("ColdRoom/Freezers List") ?>
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="dataTables_wrapper form-inline">
+                                            <div class="row">
+
+
+                                            </div>
+                                            <table class="table table-striped table-bordered table-condensed dataTable" id="sample_2">
+                                                <!-- Table heading -->
+
+                                                <thead>
+                                                    <tr>
+                                                        <th class="center"><?php echo $this->translate("Sr.No.") ?></th>
+                                                        <th class="center"><?php echo $this->translate("Asset") ?></th>
+                                                        <th class="center"><?php echo $this->translate("Asset Type") ?></th>
+                                                        <th class="center"><?php echo $this->translate("Asset Sub Type") ?></th>
+                                                        <th class="center"><?php echo $this->translate("Gross Capacity") ?></th>
+                                                        <th class="center"><?php echo $this->translate("Net Useable") ?></th>
+                                                        <th class="center"><?php echo $this->translate("Action") ?></th>
+
+                                                    </tr>
+
+                                                </thead>
+                                                <!-- // Table heading END -->
+
+                                                <!-- Table body -->
+                                                <tbody>
+                                                    <?php
+                                                    $i = 1;
+                                                    if ($this->paginator && count($this->paginator) > 0) :
+                                                        foreach ($this->paginator as $row):
+                                                            ?>
+                                                            <tr class="<?php if ($i % 2 == 0) { ?>gradeX even<?php } else { ?> gradeA odd<?php } ?>">
+                                                                <td class="center"><?php echo $i; ?></td>
+                                                                <td class="center"><?php echo $row['asset_id'] ?></td>
+                                                                <td class="center"><?php echo $row['asset_type_name'] ?></td>
+                                                                <td class="center"><?php echo $row['asset_sub_type_name'] ?></td>
+                                                                <td class="right"><?php echo number_format($row['gross']) ?></td>
+                                                                <td class="right"><?php echo number_format($row['net_usable']) ?></td>
+
+                                                                <td class="center">
+                                                                    <a itemid="<?php echo $row['pkId'] ?>" class="btn update-model btn-link btn-success btn-mini" data-toggle="modal" href="#modal-update-model"><?php echo $this->translate("Edit") ?></a>
+
+                                                                </td>
+                                                            </tr>
+                                                            <!-- // Table row END --><?php
+                                                            $i++;
+                                                        endforeach;
+                                                    endif;
+                                                    ?>
+                                                </tbody>
+                                                <!-- // Table body END -->
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <form method="post" action="<?php echo $this->baseUrl(); ?>/cadmin/manage-capacity/update" id="update-model">
+                <div class="modal fade" id="modal-update-model" tabindex="-1" role="basic" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h3><?php echo $this->translate("Edit Capacity"); ?></h3>
+                            </div>
+                            <div class="modal-body" id="modal-body-contents">
+                                <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                            </div>
+                            <div class="modal-footer" id="update-button">
+                                <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit"><?php echo $this->translate("Update"); ?></button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+
+
+
+        </div>
+    </div>
+    <!-- // Content END -->
+
+
+

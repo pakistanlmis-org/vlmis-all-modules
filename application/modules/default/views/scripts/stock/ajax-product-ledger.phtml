@@ -1,0 +1,199 @@
+<?php
+/**
+ *  phtml for Ajax Product Ledger
+ */
+?>
+<?php if (count($this->result) > 0) { ?>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered table-condensed" id="stkledger">
+                <thead>
+                    <tr>
+                        <th rowspan="2">S.No</th>
+                        <th rowspan="2">Voucher Date</th>
+                        <th rowspan="2">Voucher Number</th>
+                        <th rowspan="2">Type</th>
+                        <th rowspan="2">Particulars (<?php echo $this->result[0]->getStockBatchWarehouse()->getStockBatch()->getPackInfo()->getStakeholderItemPackSize()->getItemPackSize()->getItemName(); ?>)</th>
+                        <th rowspan="2">Batch No.</th>
+                        <th rowspan="2">Expiry</th>
+                        <th colspan="2" class="center">Quantity</th>
+                        <th colspan="2" class="center">Batch Balance</th>
+                        <th colspan="2" class="center">Product Balance</th>
+                        <th rowspan="2">Created Date</th>
+                        <th rowspan="2">Created By</th>
+                    </tr>
+                    <tr>
+                        <th>Vials Receive</th>
+                        <th>Vials Issue</th>
+                        <th>Doses</th>
+                        <th>Vials</th>
+                        <th>Doses</th>
+                        <th>Vials</th>
+                        <!--<th>Doses</th> -->
+                    </tr>
+                </thead>
+                <?php
+                $balance_vials = $this->ob;
+                $balance_doses = $this->ob * $this->result[0]->getStockBatchWarehouse()->getStockBatch()->getPackInfo()->getStakeholderItemPackSize()->getItemPackSize()->getNumberOfDoses();
+                ?>
+                <tbody>                    
+                    <?php
+                    $count = 1;
+                    $batch_cb = array();
+
+                    foreach ($this->ob_batch as $b) {
+                        ?>                    
+                        <tr >
+                            <th><?php echo $count; ?></th>
+                            <th><?php echo $this->from_date; ?></th>
+                            <th></th>
+                            <th></th>
+                            <th>Opening Balance (<?php echo $b['number']; ?>)</th>
+                            <th><?php echo $b['number']; ?></th>
+                            <th></th>                    
+                            <th class="right"><?php ?></th>
+                            <th class="right"></th>
+                            <th class="right"><?php echo number_format($b['qty_doses']); ?></th>
+                            <th class="right"><?php echo number_format($b['qty']); ?></th>
+                            <th class="right"></th>
+                            <th class="right"><?php ?></th>
+                            <th class="right"></th>
+                            <th class="right"><?php ?></th>
+                            <!-- <th class="right"><?php ?></th> -->
+                        </tr>
+                        <?php
+                        $count++;
+                    }
+                    ?>
+                    <tr >
+                        <th><?php echo $count; ?></th>
+                        <th><?php echo $this->from_date; ?></th>
+                        <th></th>
+                        <th></th>
+                        <th>Opening Balance (<?php echo $this->result[0]->getStockBatchWarehouse()->getStockBatch()->getPackInfo()->getStakeholderItemPackSize()->getItemPackSize()->getItemName(); ?>)</th>
+                        <th></th>
+                        <th></th>                    
+                        <th class="right"><?php ?></th>
+                        <th class="right"></th>
+                        <th class="right"><?php ?></th>
+                        <th class="right"></th>
+                        <th class="right"><?php echo number_format($balance_doses); ?></th>
+                        <th class="right"><?php echo number_format($balance_vials); ?></th>
+                        <th class="right"></th>
+                        <th class="right"><?php ?></th>
+                        <!-- <th class="right"><?php ?></th> -->
+                    </tr>
+                    <?php
+                    $count++;
+                    foreach ($this->result as $row) {
+                        $nature = $row->getStockMaster()->getTransactionType()->getNature();
+                        $quantity_vials = $row->getQuantity();
+                        $quantity_doses = $quantity_vials * $row->getStockBatchWarehouse()->getStockBatch()->getPackInfo()->getStakeholderItemPackSize()->getItemPackSize()->getNumberOfDoses();
+                        $balance_vials = $balance_vials + ($nature . ABS($quantity_vials));
+                        $balance_doses = $balance_doses + ($nature . ABS($quantity_doses));
+                        $created_date = $row->getStockMaster()->getCreatedDate()->format("d/m/Y");
+                        $created_by = $row->getStockMaster()->getCreatedBy()->getUserName();
+
+                        if (array_key_exists($row->getStockBatchWarehouse()->getPkId(), $batch_cb)) {
+                            $batch_cb[$row->getStockBatchWarehouse()->getPkId()] = $batch_cb[$row->getStockBatchWarehouse()->getPkId()] + ($nature . ABS($quantity_vials));
+                            $batch_cb_doses = $batch_cb[$row->getStockBatchWarehouse()->getPkId()] * $row->getStockBatchWarehouse()->getStockBatch()->getPackInfo()->getStakeholderItemPackSize()->getItemPackSize()->getNumberOfDoses();
+                        } else {
+                            $batch_cb[$row->getStockBatchWarehouse()->getPkId()] = $this->getBatchOB($row->getStockBatchWarehouse()->getPkId(), App_Controller_Functions::dateToDbFormat($this->from_date)) + ($nature . ABS($quantity_vials));
+                            $batch_cb_doses = $batch_cb[$row->getStockBatchWarehouse()->getPkId()] * $row->getStockBatchWarehouse()->getStockBatch()->getPackInfo()->getStakeholderItemPackSize()->getItemPackSize()->getNumberOfDoses();
+                        }
+
+                        if ($row->getStockMaster()->getTransactionType()->getpkId() == 2) {
+                            $print_link = 'print-issue?id=' . $row->getStockMaster()->getPkId();
+                            $warehouse_name = "To " . $row->getStockMaster()->getToWarehouse()->getWarehouseName();
+                        } else {
+                            $print_link = 'print-receive?id=' . $row->getStockMaster()->getPkId() . '&type=' . $row->getStockMaster()->getTransactionType()->getPkId();
+                            $warehouse_name = "From " . $row->getStockMaster()->getFromWarehouse()->getWarehouseName();
+                        }
+                          $tran_type = $row->getAdjustmentType();
+                        if ($tran_type == 1) {
+                            $color = '#E6E6FA';
+                        } else if ($tran_type == 2) {
+                            $color = '#FAEBD7';
+                        } else {
+                            $color = '#E0FFFF';
+                        }
+                        ?>
+                        <tr style="background-color:<?php echo $color; ?>">
+                            <td><?php echo $count; ?></td>
+                            <td title="<?php echo $row->getStockMaster()->getTransactionNumber(); ?>" <?php if ($this->role_id == 2 || $this->role_id == 22) { ?>class="editableSingle expiry id<?php echo $row->getStockMaster()->getPkId(); ?>"<?php } ?>><?php echo $row->getStockMaster()->getTransactionDate()->format("d/m/Y"); ?></td>
+                            <td><a onclick="window.open('<?php echo $print_link; ?>', '_blank', 'scrollbars=1,width=860,height=595');" href="javascript:void(0);"><?php echo $row->getStockMaster()->getTransactionNumber(); ?></a></td>
+                            <td><?php echo $row->getStockMaster()->getTransactionType()->getTransactionTypeName(); ?></td>
+                            <td><?php echo $warehouse_name; ?></td>
+                            <td title="<?php ?>"><?php ?><?php echo $row->getStockBatchWarehouse()->getStockBatch()->getNumber(); ?></td>
+                            <td><?php echo $row->getStockBatchWarehouse()->getStockBatch()->getExpiryDate()->format("d/m/Y"); ?></td>  
+                            <?php if ($row->getQuantity() > 0) { ?>
+                                <td class="right"><?php echo number_format(ABS($quantity_vials)); ?></td>
+                                <td class="right"></td>
+                            <?php } else { ?>
+                                <td class="right"></td>
+                                <td class="right"><?php echo number_format(ABS($quantity_vials)); ?></td>
+                            <?php } ?>
+                            <td class="right"><?php echo number_format($batch_cb_doses); ?></td>
+                            <td class="right"><?php echo number_format($batch_cb[$row->getStockBatchWarehouse()->getPkId()]); ?></td>
+                            <td class="right"><?php echo number_format($balance_doses); ?></td>
+                            <td class="right"><?php echo number_format($balance_vials); ?></td>
+                            <td><?php echo $created_date; ?></td>
+                            <td><?php echo $created_by; ?></td>
+                            <!-- <td class="right"><?php ?></td> -->
+                        </tr>
+                        <?php
+                        $count++;
+                    }
+                    foreach ($this->cb_batch as $cb) {
+                        ?>                    
+                        <tr>
+                            <th><?php echo $count; ?></th>
+                            <th><?php echo $this->to_date; ?></th>
+                            <th></th>
+                            <th></th>
+                            <th>Closing Balance (<?php echo $cb['number']; ?>)</th>
+                            <th><?php echo $cb['number']; ?></th>
+                            <th></th>                    
+                            <th class="right"><?php ?></th>
+                            <th class="right"></th>
+                            <th class="right"><?php echo number_format($cb['qty_doses']); ?></th>
+                            <th class="right"><?php echo number_format($cb['qty']); ?></th>
+                            <th class="right"></th>
+                            <th class="right"><?php ?></th>
+                            <th class="right"></th>
+                            <th class="right"><?php ?></th>
+                            <!-- <th class="right"><?php ?></th> -->
+                        </tr>
+                        <?php
+                        $count++;
+                    }
+                    ?>
+                    <tr>
+                        <th><?php echo $count; ?></th>
+                        <th><?php echo $this->to_date; ?></th>
+                        <th></th>
+                        <th></th>
+                        <th>Closing Balance</th>
+                        <th></th>
+                        <th></th>
+                        <th class="right"><?php ?></th>
+                        <th class="right"></th>
+                        <th class="right"><?php ?></th>
+                        <th class="right"></th>
+                        <th class="right"><?php echo number_format($balance_doses); ?></th>
+                        <th class="right"><?php echo number_format($balance_vials); ?></th>
+                        <th class="right"></th>
+                        <th class="right"><?php ?></th>
+                        <!-- <th class="right"><?php ?></th> -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<?php } else { ?>
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Transactions not found</h4>
+        </div>
+    </div>
+<?php } ?>

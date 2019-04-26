@@ -1,0 +1,245 @@
+<?php
+/**
+ *  Layout for Header Reports.
+ */
+?>
+
+<!DOCTYPE html>
+<!--
+Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.2.0
+Version: 3.1.2
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Like: www.facebook.com/keenthemes
+Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+-->
+<!--[if lt IE 7]> <html class="ie lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>    <html class="ie lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>    <html class="ie lt-ie9"> <![endif]-->
+<!--[if gt IE 8]> <html class="ie gt-ie8"> <![endif]-->
+<!--[if !IE]><!--><html><!-- <![endif]-->
+    <head>
+        <?php echo $this->headTitle('Pakistan Logistics Management Information System'); ?>
+        <!-- Meta -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+    <!--<script src="http://openlayers.org/api/2.13.1/OpenLayers.js"></script>-->
+        <!-- Custom Theme Implementation -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/css/fonts/custom.css" rel="stylesheet" type="text/css">
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+        <!-- Bootstrap -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+
+        <!-- BEGIN THEME STYLES -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/css/style-metronic.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/css/style.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/css/style-responsive.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/css/plugins.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/css/pages/tasks.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/admin/layout/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/css/print.css" rel="stylesheet" type="text/css" media="print"/>
+        <link href="<?php echo $this->baseUrl(); ?>/common/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+
+        <!--*Existing*-->
+
+
+        <!-- Main Theme Stylesheet :: CSS -->
+        <!-- Notyfy Notifications Plugin -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/notifications/notyfy/jquery.notyfy.css" rel="stylesheet" />
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/notifications/notyfy/themes/default.css" rel="stylesheet" />
+
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/tables/DataTables/extras/TableTools/media/css/TableTools.css" rel="stylesheet" />
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/tables/DataTables/extras/TableTools/media/css/TableTools_JUI.css" rel="stylesheet" />
+
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/tables/DataTables/media/css/DT_bootstrap.css" rel="stylesheet" />
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/css/style-light.css?1369414385" rel="stylesheet" />
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/css/style-green.css" rel="stylesheet" />
+        <!-- LESS.js Library -->
+        <![if !IE]>
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/system/less.min.js"></script>
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/css/google-fonts.css" rel="stylesheet" />
+        <![endif]>
+<!--        <link href="<?php // echo $this->baseUrl();    ?>/js/OL/style.css" rel="stylesheet" />
+        <script src="<?php // echo $this->baseUrl();    ?>/js/OL/OpenLayers.js"></script>-->
+
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/css/google-fonts.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/dhtmlxgrid.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/skins/dhtmlxgrid_dhx_blue.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxToolbar/codebase/skins/dhtmlxtoolbar_dhx_skyblue.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/skins/dhtmlxgrid_dhx_skyblue.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/ext/dhtmlxgrid_pgn_bricks.css">
+
+        <!-- Glyphicons Font Icons -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/css/glyphicons.css" rel="stylesheet" />
+        <!--[if !IE]>
+        <!-- Column Filter Widgets Css -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/css/ColumnFilterWidgets.css" rel="stylesheet" />
+        <!-- PrettyPhoto -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/gallery/prettyphoto/css/prettyPhoto.css" rel="stylesheet" />
+        <!-- DateTimePicker Plugin -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/forms/bootstrap-datetimepicker/css/datetimepicker.css" rel="stylesheet" />
+        <!-- JQueryUI -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/system/jquery-ui/css/smoothness/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" />
+        <!--[endif]> 
+        <!--[if lt IE 9]>
+        <script src="<?php echo $this->baseUrl(); ?>/common/assets/global/plugins/respond.min.js"></script>
+        <script src="<?php echo $this->baseUrl(); ?>/common/assets/global/plugins/excanvas.min.js"></script>
+        <![endif]-->
+
+        <!-- JQuery -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/system/jquery.min.js"></script>
+
+        <!-- Fusion Charts -->
+        <!--[if !IE]>
+        <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/FusionCharts/Charts/FusionCharts.js"></script>
+        <script type="text/javascript" language="Javascript" src="<?php echo $this->baseUrl(); ?>/FusionCharts/Code/assets/ui/js/lib.js"></script>
+        <![endif]-->
+
+        <script src="<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/dhtmlxcommon.js"></script>
+        <script src="<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/dhtmlxgrid.js"></script>
+        <script src="<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/dhtmlxgridcell.js"></script>
+        <script src='<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/client/dhtmlxgrid_export.js'></script>
+        <script src="<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/excells/dhtmlxgrid_excell_link.js"></script>
+        <script src="<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/ext/dhtmlxgrid_filter.js"></script>
+        <script src="<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/ext/dhtmlxgrid_pgn.js"></script>
+        <script src="<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/ext/dhtmlxgrid_splt.js"></script>
+        <script src="<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxToolbar/codebase/dhtmlxtoolbar.js"></script>
+<?php if ($this->layout()->user_role == 35 || $this->layout()->user_role == 36 || $this->layout()->user_record == 'SUPERUSER') { ?>
+            <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/all_level_combos_superuser.js"></script>
+        <?php } ?>
+
+        <?php echo $this->headLink(); ?>
+        <?php echo $this->headScript(); ?>
+    </head>
+    <body  style="overflow-y: scroll; overflow-x: hidden;" class=""<?php if (isset($child) && $child == 1) { ?> onunload="window.opener.location.reload();" <?php } ?> onLoad="doInitGrid(); <?php if (isset($stkholder) && $stkholder == 1) : ?>showstkHolders(); <?php endif; ?><?php if (isset($_POST['go'])): ?> showProvinces(); showDistricts(); <?php endif; ?><?php if (isset($func) && $func == 1) : ?> func(); <?php endif; ?>">
+        <!-- Main Container Fluid -->
+        <div class="header navbar">
+            <!-- BEGIN TOP NAVIGATION BAR -->
+            <div class="header-inner">
+                <!-- BEGIN LOGO -->
+                <a class="navbar-brand" href="<?php echo $this->baseUrl(); ?>/dashboard/" style="margin-top: -10px;">
+                    <img src="<?php echo $this->baseUrl(); ?>/common/assets/admin/layout/img/landing-images/vaccine_logo.png" height="55" width="323" alt="vaccine LMIS" />
+                </a>
+                <!-- END LOGO -->
+                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+                <a href="javascript:;" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <img src="<?php echo $this->baseUrl(); ?>/common/assets/img/menu-toggler.png" alt=""/>
+                </a>
+                <ul class="nav navbar-nav pull-right">
+                    <li>
+                        <a href="" class="ul-header">
+                            <img src="<?php echo $this->baseUrl(); ?>/common/assets/img/header-icon/epi_directory.png" alt=""/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" class="ul-header">
+                            <img src="<?php echo $this->baseUrl(); ?>/common/assets/img/header-icon/training_manuals.png" alt=""/>
+                        </a>
+
+                    </li>
+                </ul>
+                <!-- END RESPONSIVE MENU TOGGLER -->
+            </div>
+            <!-- END TOP NAVIGATION BAR -->
+        </div>
+        <div class="header-menu">
+            <!-- BEGIN TOP NAVIGATION BAR -->
+            <div class="row"   style="margin:0px !important; background:#f7f7f7 !important;">
+                <div class="col-md-12">
+                    <ul class="page-breadcrumb breadcrumb">
+                        <li class="btn-group pull-right">
+                            <button type="button" class="btn lightgrey dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
+                                <span><?php echo $this->layout()->user_name; ?></span><i class="fa fa-angle-down"></i>
+                            </button>
+                            <ul class="dropdown-menu pull-right" role="menu">
+                                <li>
+                                    <a href="<?php echo $this->baseUrl(); ?>/index/change-password">
+                                        Change Password
+                                    </a>
+                                </li>
+                                <li class="divider">
+                                </li>
+                                <li>
+                                    <a href="<?php echo $this->baseUrl(); ?>/index/logout">
+                                        Sign Out
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="white breadcrumb-border-left"><img src="<?php echo $this->baseUrl(); ?>/common/assets/admin/layout/img/landing-images/paki-fla.png" alt=""/></li>
+                        <li>
+                            <i class="fa fa-home"></i>
+                            <a href="<?php echo $this->baseUrl(); ?>/reports/dashlet/cold-chain-capacity">Home</a>
+                            <i class="fa fa-angle-right"></i>
+                        </li>
+                       
+                    <?php if ($this->layout()->user_role == 35 || $this->layout()->user_role == 36 || $this->layout()->user_record == 'SUPERUSER') { ?>                            
+                        <li class="pull-right">
+                            <a href="<?php echo $this->baseUrl(); ?>/stock/change-store"><?php echo $this->layout()->user_store; ?></a>
+                        </li>
+                        <li class="pull-right"><i class="fa fa-refresh"></i>
+                            <b>Change Store:</b></li>                                               
+                    <?php } ?>                        
+                    <?php if ($this->layout()->user_record == 'SUPERUSER') { ?>                        
+                        <li class="pull-right">
+                            <select style="border:1px solid #d4d4d4; background-color: #F2F2F2; width: 160px;" id="changerole" name="changerole">
+                                <?php
+                                $em = Zend_Registry::get("doctrine");
+                                $rolesList = $em->getRepository('Roles')->findAll();
+                                foreach ($rolesList as $key => $value) {
+                                    $role_name = $value->getDescription();
+                                    $role_id = $value->getPkId();                                    
+                                    if ($role_id == 40) {
+                                        continue;
+                                    }
+                                    ?>
+                                <option value="<?php echo $role_id; ?>" <?php if($role_id == $this->layout()->user_role) { ?>selected="selected"<?php } ?>><?php echo $role_name; ?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </li>
+                        <li class="pull-right"><i class="fa fa-rocket"></i>
+                            <b>Change User Role:</b></li>
+                    <?php } ?>
+                    </ul>
+                </div>
+
+
+            </div>
+            <!-- END TOP NAVIGATION BAR -->
+        </div>
+        <div class="page-container">
+            <!-- Top navbar
+            <div class="navbar main hidden-print">-->
+            <!-- Brand -->
+
+            <!-- Menu Toggle Button
+            <button type="button" class="btn btn-navbar"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>-->
+            <!-- // Menu Toggle Button END -->
+            <!-- Top Menu Right
+            <ul class="topnav pull-right">-->
+            <!-- Profile / Logout menu
+            <li class="account"> <a data-toggle="dropdown" href="#" class="glyphicons logout lock"><span class="hidden-phone text"><?php echo $this->layout()->user_name; ?></span><i></i></a>
+              <ul class="dropdown-menu pull-right">
+                <li class="highlight profile"> <span> <span class="heading">Profile <a href="#" class="pull-right">edit</a></span> <span class="img"></span> <span class="details"> <a href="#"><?php echo $this->layout()->user_name; ?></a> <?php echo (!empty($_SESSION['email']) ? $_SESSION['email'] : ''); ?> </span> <span class="clearfix"></span> </span> </li>
+                <li> <span style="display: inline;"> <a style="margin-right: 5px;" class="btn btn-default btn-mini pull-right" href="<?php echo $this->baseUrl(); ?>/index/logout">Sign Out</a> </span>
+                 <span style="display: inline;"> <a  style="margin-left: 5px;" class="btn btn-default btn-mini pull-left" href="<?php echo $this->baseUrl(); ?>/index/change-password">Change Password</a> </span>
+                </li>
+              </ul>
+            </li>-->
+            <!-- // Profile / Logout menu END
+          </ul>-->
+            <!-- // Top Menu Right END
+          </div>-->
+            <!-- Top navbar END -->
+            <!-- Sidebar menu & content wrapper -->
+            <div class="page-sidebar-wrapper">

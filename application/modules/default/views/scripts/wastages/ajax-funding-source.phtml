@@ -1,0 +1,21 @@
+<?php
+/**
+ *  phtml for Ajax Batch Number
+ */
+?>
+<?php
+if ($this->data != false) {
+    ?>
+   
+    <?php
+    foreach ($this->data as $row) {
+        ?>
+        <option value="<?php echo $row['pk_id']; ?>"><?php echo $row['warehouse_name'] . '|' . $row['unit_price']; ?></option>
+        <?php
+    }
+} else {
+    ?>
+    <option value=""><?php echo $this->translate("Select"); ?></option>
+    <?php
+}
+?>

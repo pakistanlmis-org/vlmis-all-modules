@@ -1,0 +1,27 @@
+<?php
+/**
+*  phtml for Ajax Edit Campaigns 
+*/
+?>
+<div class="row">
+    <?php echo $this->usersEditCombo($this->combos_1); ?>  
+</div>
+<div class="row">
+<div class="col-md-6">
+    <div class="control-group ">
+        <label class="control-label" ><?php echo $this->translate("Username"); ?></label>
+        <div class="controls">
+            <?php echo $this->form->user_name_update; ?>
+        </div>
+    </div>
+</div>
+</div>
+<?php echo $this->form->user_id; ?>
+<?php echo $this->form->office_id_edit; ?>
+<?php echo $this->form->province_id_edit; ?>
+<?php echo $this->form->district_id_edit; ?> 
+<?php echo $this->form->tehsil_id_edit; ?> 
+<?php echo $this->form->parent_id_edit; ?>
+<?php echo $this->form->warehouse_users_id_edit; ?>
+<?php echo $this->form->user_name_update_hidden; ?>
+

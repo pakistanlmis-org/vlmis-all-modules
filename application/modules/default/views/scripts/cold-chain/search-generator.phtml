@@ -1,0 +1,361 @@
+<?php
+/**
+*  phtml for Search Generator
+*/
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Cold Chain"); ?></h3>
+        <button class="btn red btn-xs" type="button" title="Click here" id="last-updated" pkId="6">Last Updated</button>
+        <span id="l_update"> </span>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Search Generator"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="add_generator" id="add_generator" action="">
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Working Status"); ?> 
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->ccm_status_list_id; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Serial Number"); ?> 
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->serial_number; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Source of Supply"); ?> 
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->source_id; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Equipment ID Asset Code"); ?>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->asset_id; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Make"); ?>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->ccm_make_id; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Model"); ?> 
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->ccm_model_id; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Year of Supply From"); ?> 
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->working_since_from; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Year of Supply To"); ?>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->working_since_to; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="control-group" id="placed_at_radio">
+                                                <label class="control-label" for="placedat">
+                                                    <?php echo $this->translate('Placed at'); ?> 
+                                                </label> 
+                                                <div class="widget-body uniformjs">
+                                                    <?php echo $this->form->placed_at; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                         <div class="col-md-12">
+                                        <?php $this->allLevelCombo(); ?>
+                                              </div>
+                                    </div>
+                                    <div class="widget">
+                                        <div class="widget-body right">
+                                            <button class="btn btn-primary" type="submit" id="search" name="search"><?php echo $this->translate('Search'); ?></button>
+                                            <button id="reset" class="btn btn-info" type="reset"><?php echo $this->translate('Reset'); ?></button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12"></div>
+                                    </div>                    
+                                    <?php echo $this->form->office_id; ?>
+                                    <?php echo $this->form->combo1_id; ?>
+                                    <?php echo $this->form->warehouse_id; ?>
+                                    <?php echo $this->form->model_id; ?>
+                                </form>
+                                <div class="row">
+                                    <div class="col-md-6" >
+                                        <div class="control-group" id="placed_at_radio">
+                                            <label class="control-label" for="report_type">
+                                                <?php echo $this->translate('Report Tpe'); ?> 
+                                            </label> 
+                                            <div class="widget-body uniformjs" id="report_type_radio">
+                                                <?php echo $this->form->report_type; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row-fluid" id="details_div">
+                                    <table class="receiveSearch table table-striped table-bordered table-condensed"  >
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2"><?php echo $this->translate("S.No") ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("District") ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Facility") ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Make") ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Model") ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Serial Number") ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Working Status") ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Working Since") ?></th>
+                                                <th rowspan="2" class="center">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <!-- // Table heading END -->
+
+                                        <!-- Table body -->
+                                        <tbody>				
+                                            <!-- Table row -->
+                                            <?php
+                                            $i = 1;
+                                            if ($this->result && count($this->result) > 0) :
+                                                foreach ($this->result as $row):
+                                                    $doEdit = App_Controller_Functions::encrypt('edit|' . $row['pkId']);
+                                                    ?>
+                                                    <tr class="gradeX">
+                                                        <td class="center"><?php echo $i; ?></td>
+                                                        <td><?php echo (($row['district'] == "") ? '-' : $row['district']); ?></td>
+                                                        <td><?php echo (($row['facility'] == "") ? '-' : $row['facility']); ?></td>
+                                                        <td><?= $row['ccmMakeName'] ?></td>
+                                                        <td><?= $row['ccmModelName'] ?></td>
+                                                        <td><?= $row['serialNumber'] ?></td>
+                                                        <td><?= $row['ccmStatusListName'] ?></td>
+                                                        <td><?= $row['workingSince'] ?></td>
+                                                        <td class="center">
+                                                            <a href="<?php echo $this->baseUrl(); ?>/cold-chain/add-generator?id=<?php echo $doEdit; ?>" class="fa fa-edit cursor-hand"></a>
+                                                            <!--|
+                                                            <a class="fa fa-files-o" onclick="javascript:void(0);" data-toggle="modal" href="#modal-new-catalogue_<?= $row['pkId'] ?>" title="<?php echo $this->translate("View more details"); ?>"></a>-->
+                                                            |
+                                                            <a class="fa fa-files-o cursor-hand" onclick="javascript:void(0);" id="<?= $row['pkId'] ?>print_button" title="<?php echo $this->translate("View more details"); ?>" target="_blank"></a>
+                                                            <?php
+                                                            /*
+                                                              $detail_data = $this->coldChain()->getGeneratorDetailById($row['pkId']);
+
+                                                              if ($detail_data != false) :
+                                                              $detail_row = $detail_data[0];
+                                                              ?>
+                                                              <!-- // Asset Add Popup  -->
+                                                              <div id="modal-new-catalogue_<?= $row['pkId'] ?>" class="modal fade" tabindex="-1" role="basic" aria-hidden="true">
+                                                              <div class="modal-dialog">
+                                                              <div class="modal-content">
+                                                              <!-- Modal heading -->
+                                                              <div class="modal-header">
+                                                              <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                                                              <h3><?php echo $this->translate("Generator Details"); ?></h3>
+                                                              </div>
+                                                              <!-- // Modal heading END -->
+
+                                                              <!-- Modal body -->
+                                                              <div class="modal-body">
+                                                              <!-- BODY HERE -->
+                                                              <div class="row">
+                                                              <div class="col-md-6" id="detail">
+                                                              <label class="control-label" ><strong><?php echo $this->translate("Asset ID"); ?></strong>:</label>
+                                                              <div class="controls text-left" id="detail_div">
+                                                              <?php echo $detail_row['assetId']; ?>
+                                                              </div>
+                                                              </div>
+                                                              <div class="col-md-6" id="detail">
+                                                              <label class="control-label" ><strong><?php echo $this->translate("Source of Supply"); ?></strong>:</label>
+                                                              <div class="controls text-left" id="detail_div">
+                                                              <?php echo $detail_row['stakeholderName']; ?>
+                                                              </div>
+                                                              </div>
+                                                              </div>
+                                                              <div class="row">
+                                                              <div class="col-md-6" id="detail">
+                                                              <label class="control-label" ><strong><?php echo $this->translate("Serial Number"); ?></strong>:</label>
+                                                              <div class="controls text-left" id="detail_div">
+                                                              <?php echo $detail_row['serialNumber']; ?>
+                                                              </div>
+                                                              </div>
+                                                              <div class="col-md-6" id="detail">
+                                                              <label class="control-label" ><strong><?php echo $this->translate("Working Status"); ?></strong>:</label>
+                                                              <div class="controls text-left" id="detail_div">
+                                                              <?php echo $detail_row['ccmStatusListName']; ?>
+                                                              </div>
+                                                              </div>
+                                                              </div>
+                                                              <div class="row">
+                                                              <div class="col-md-6" id="detail">
+                                                              <label class="control-label" ><strong><?php echo $this->translate("Make"); ?></strong>:</label>
+                                                              <div class="controls text-left" id="detail_div">
+                                                              <?php echo $detail_row['ccmMakeName']; ?>
+                                                              </div>
+                                                              </div>
+                                                              <div class="col-md-6" id="detail">
+                                                              <label class="control-label" ><strong><?php echo $this->translate("Model"); ?></strong>:</label>
+                                                              <div class="controls text-left" id="detail_div">
+                                                              <?php echo $detail_row['ccmModelName']; ?>
+                                                              </div>
+                                                              </div>
+                                                              </div>
+                                                              <div class="row">
+                                                              <div class="col-md-6" id="detail">
+                                                              <label class="control-label" ><strong><?php echo $this->translate("Year of Supply"); ?></strong>:</label>
+                                                              <div class="controls text-left" id="detail_div">
+                                                              <?php echo $detail_row['workingSince']; ?>
+                                                              </div>
+                                                              </div>
+                                                              </div>
+                                                              <div class="row">
+                                                              <div class="col-md-10" id="detail">
+                                                              <label class="control-label" ><strong><?php echo $this->translate("Placed At"); ?></strong>:</label>
+                                                              <div class="controls text-left" id="detail_div">
+                                                              <?php echo $this->translate("District Province"); ?>: <?php echo $detail_row['district']; ?>&nbsp;
+                                                              <?php echo $this->translate("Facility Store"); ?>: <?php echo $detail_row['facility']; ?>&nbsp;
+                                                              </div>
+                                                              </div>
+                                                              </div>
+                                                              </div>
+                                                              <!-- // Modal body END -->
+
+                                                              <!-- Modal footer -->
+                                                              <div class="modal-footer">
+                                                              <a data-dismiss="modal" class="btn btn-default" href="#"><?php echo $this->translate("Close"); ?></a>
+                                                              </div>
+                                                              <!-- // Modal footer END -->
+                                                              </div>
+                                                              </div>
+                                                              </div>
+                                                              <!-- // Asset Add Popup END  -->
+                                                              <?php
+                                                              endif;
+                                                             */
+                                                            ?>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                    $i++;
+                                                endforeach;
+                                            endif;
+                                            ?>
+                                            <!-- // Table row END -->
+                                        </tbody>
+                                        <!-- // Table body END -->
+                                    </table>
+                                    <!-- // Table END -->
+                                </div>
+                                <div class="row-fluid hidden" id="summary_div">
+                                    <table class="receiveSearch table table-striped table-bordered table-condensed"  >
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2"><?php echo $this->translate("Store") ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Cold Chain Type") ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Working Status") ?></th>
+                                                <!--<th rowspan="2"><?php echo $this->translate("Quantity"); ?></th>-->
+                                            </tr>
+                                        </thead>
+                                        <!-- // Table heading END -->
+
+                                        <!-- Table body -->
+                                        <tbody>				
+                                            <!-- Table row -->
+                                            <?php
+                                            $i = 1;
+                                            if ($this->result && count($this->result) > 0) :
+                                                foreach ($this->result as $row):
+                                                    ?>
+                                                    <tr class="gradeX">
+                                                        <td><?= $row['facility'] ?></td>
+                                                        <td><?= $row['assetTypeName'] ?></td>
+                                                        <td><?= $row['ccmStatusListName'] ?></td>
+                                                        <!--<td><?= $row['quantity'] ?></td>-->
+                                                    </tr>
+                                                    <?php
+                                                endforeach;
+                                            endif;
+                                            ?>
+                                            <!-- // Table row END -->
+                                        </tbody>
+                                        <!-- // Table body END -->
+                                    </table>
+                                    <!-- // Table END -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

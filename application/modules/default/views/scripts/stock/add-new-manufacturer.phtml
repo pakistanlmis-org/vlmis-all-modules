@@ -1,0 +1,15 @@
+<?php
+/**
+*  phtml for Add New Manufacturer
+*/
+?>
+<option value="">Select</option>
+<?php
+if ($this->associated) {
+    foreach ($this->associated as $row) {
+        ?>
+        <option value="<?php echo $row['pkId']; ?>"><?php echo $row['stakeholderName']; ?></option>
+        <?php
+    }
+}
+?>

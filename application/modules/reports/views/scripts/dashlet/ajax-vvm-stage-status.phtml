@@ -1,0 +1,48 @@
+<?php
+/**
+*  phtml for Ajax VVM Stage Status
+*/
+?>
+<div class="portlet box blue">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-picture"></i>Vvm Stage Status
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-scrollable">
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            S.No
+                        </th>
+                        <th>
+                            Batch Name
+                        </th>
+                        <th>
+                            Quantity
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <?php
+                    $count = 1;
+                    foreach ($this->data as $row) {
+                        ?>
+                        <tr>
+                            <td><?php echo $count; ?></td>
+                            <td><?php echo $row['number']; ?></td>
+                            <td><?php echo number_format($row['Qty']); ?></td>
+                        </tr>
+                        <?php
+                        $count++;
+                    }
+                    ?>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

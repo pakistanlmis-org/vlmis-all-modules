@@ -1,0 +1,14 @@
+<?php
+
+require_once 'FusionCharts/Code/PHP/Includes/FusionCharts.php';
+if ($this->xmlstore3 != false) {
+?>
+    <?php
+
+    FC_SetRenderer('javascript');
+    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Doughnut2d.swf", "", $this->xmlstore3, 'provinciallyVaccine', '100%', 350, false, false);
+    ?>
+    <?php
+
+}
+    ?>

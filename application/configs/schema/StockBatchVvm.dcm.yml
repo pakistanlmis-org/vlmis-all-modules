@@ -1,0 +1,53 @@
+StockBatchVvm:
+  type: entity
+  table: stock_batch_vvm
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    stockBatchWarehouseId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: stock_batch_warehouse_id
+    vvmStage:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: vvm_stage
+    quantity:
+      type: decimal
+      nullable: true
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: false
+      column: modified_date
+  oneToOne:
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

@@ -1,0 +1,10 @@
+<?php
+/**
+*  phtml for Reported Wastages by Districts
+*/
+?>
+<?php
+
+FC_SetRenderer('javascript');
+echo renderChart($this->baseUrl() . "/FusionCharts/Charts/MSColumn3D.swf", "", $this->xmlstore1, 'ReportedWastages', '100%', 395, false, false);
+?>

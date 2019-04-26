@@ -1,0 +1,12 @@
+.cfc_radio label {
+    float: left;
+    margin-right: 20px;
+}
+
+.widget-body.uniformjs > label {
+    margin-right: 10px;
+}
+
+.controls > label {
+    float: left;
+}

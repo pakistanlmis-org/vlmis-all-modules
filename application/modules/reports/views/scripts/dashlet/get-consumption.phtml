@@ -1,0 +1,49 @@
+<?php
+/**
+ *  phtml for Get Consumption
+ */
+?>
+<div class="row">
+    <?php if ($this->level == 6) { ?>
+        <div class="col-md-6 col-sm-6">
+                       <div class="btn-group" data-toggle="buttons">
+
+                <label class="btn btn-default active">
+                    <input class="toggle" id="wastages1" name="wastages" value="1" type="radio"> Doses
+                </label>
+                <label class="btn btn-default ">
+                    <input class="toggle" id="wastages" name="wastages" value="2" type="radio"> Percentage
+                </label>
+
+            </div>
+           <span style='color:#BE1A1A' > Wastage Rate Allowed: <?php echo $this->wastage_rate;?>% </span>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <div id="sample_2_filter" class="dataTables_filter">
+                <label>View By: 
+                    <select id="tehsil-combo" class="form-control input-inline">
+                        <?php foreach ($this->combo as $row) { ?>
+                            <option value="<?php echo $row['key']; ?>"><?php echo $row['value']; ?></option>
+                        <?php } ?>
+                    </select>
+                </label>
+            </div>
+        </div>
+    <?php } ?>
+    <div class="col-md-12">
+        <div class="spinner" id="spinner13">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
+        <div id="after-filter13">
+            <?php
+            FC_SetRenderer('javascript');
+            echo renderChart($this->baseUrl() . "/FusionCharts/Charts/$this->xmltype", "", $this->xmlstore, 'Consumption', '100%', 395, false, false);
+            ?>
+        </div>
+    </div>
+</div>
+<div style="clear:both;"></div>

@@ -1,0 +1,69 @@
+<table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_2">
+
+    <!-- Table heading -->
+    <?php
+    $fields = array(
+        's_no' => 'S.No',
+        'store/facility' => 'Store/facility',
+        'type' => 'Office',
+        'tehsil' => 'Tehsil',
+        'district' => 'District',
+        'province' => 'Province'
+    );
+    $this->tableHeading($this->order, $this->sort, $fields);
+    ?>
+    <!-- // Table heading END -->
+    <!-- Table body -->
+
+    <!-- // Table body END -->
+    <tbody>
+        <?php
+        $m_res = array();
+        $i = 1;
+        if ($this->paginator && count($this->paginator) > 0) :
+            foreach ($this->paginator as $row):
+                ?>
+
+
+                <tr class="<?php
+                if ($row['warehouseName'] == $this->store_name_add_hdn && $this->action == 1) {
+                    echo 'danger';
+                } else if ($row['warehouseName'] == $this->store_name_edit_hdn && $this->action == 2) {
+                    echo 'danger';
+                }
+                ?>">
+                    <td class="center" width="25"> <?php
+                        if ($row['warehouseName'] == $this->store_name_add_hdn && $this->action == '1') {
+                            echo "<span class='label label-sm label-info'>New</span>";
+                        } else if ($row['warehouseName'] == $this->store_name_edit_hdn && $this->action == '2') {
+                            echo "<span class='label label-sm label-info'>Edited</span>";
+                        }
+                        ?> <?php echo $i; ?></td>
+                    <td><?php echo $row['warehouseName']; ?></td>
+                    <td><?php echo $row['stakeholderName']; ?></td>
+                    <td><?php echo $row['UC']; ?></td>
+                    <td><?php echo $row['provinceName']; ?></td>
+                    <td><?php echo $row['districtName']; ?></td>
+
+                    <td><a itemid="<?php echo $row['pkId']; ?>" class="update-stores btn btn-xs green"  data-toggle="modal" href="#modal-update-stores"><i class="fa fa-edit"></i><?php echo $this->translate("Edit") ?></a>
+                        <?php if ($this->warehouseDelete($row['pkId'])) { ?>
+                        <?php } else { ?>
+                            <a data-toggle="notyfy" data-bind="<?php echo $row['pkId']; ?>" data-status="<?php echo $row['status']; ?>" data-type="confirm" data-layout="top" class="btn btn-xs red">
+                                <?php
+                                if ($row['status'] == 1) {
+                                    echo $this->translate("In-Active");
+                                } elseif ($row['status'] == 0) {
+                                    echo $this->translate("Active");
+                                }
+                                ?>
+                            </a>
+                        <?php } ?>
+
+                    </td>
+                    <!-- // Table row END --><?php
+                    $i++;
+                endforeach;
+            endif;
+            ?>
+    </tbody>
+</table>

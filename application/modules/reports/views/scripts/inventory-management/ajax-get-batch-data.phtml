@@ -1,0 +1,130 @@
+<?php
+/**
+*  phtml for Ajax Get Batch Data
+*/
+?>
+<?php if (count($this->issue_result) > 0) { ?>
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption">
+                <?php echo $this->translate("Batch Issue List ") . " From " . $this->issue_result[0]->getStockMaster()->getFromWarehouse()->getWarehouseName() . " To " . $this->issue_result[0]->getStockMaster()->getToWarehouse()->getWarehouseName(); ?>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="col-md-12">
+                        <tr>
+                            <th>S.No</th>
+                            <th>Product</th>
+                            <th>Batch Number</th>
+                            <th>Quantity</th>
+                            <th>Transaction Date</th>
+                            <th>Voucher Number</th>
+                            <th>Expiry date</th>
+                            <th>Master * Detail</th>
+                        </tr>
+                        <?php
+                        $count = 1;
+                        $detail_array = array();
+                        $total_quantity = 0;
+                        foreach ($this->issue_result as $row) {
+                            $detail_array[] = $row->getPkId();
+                            $total_quantity += ABS($row->getQuantity());
+                            ?>
+                            <tr>
+                                <td><?php echo $count; ?></td>
+                                <td><?php echo $row->getStockBatchWarehouse()->getStockBatch()->getPackInfo()->getStakeholderItemPackSize()->getItemPackSize()->getItemName(); ?></td>
+                                <td><?php echo $row->getStockBatch()->getNumber(); ?></td>
+                                <td><?php echo number_format(ABS($row->getQuantity())); ?></td>
+                                <td><?php echo $row->getStockMaster()->getTransactionDate()->format("d/m/Y"); ?></td>
+                                <td><?php echo $row->getStockMaster()->getTransactionNumber(); ?></td>
+                                <td><?php echo $row->getStockBatch()->getExpiryDate()->format("d/m/Y"); ?></td>
+                                <td><?php echo $row->getStockMaster()->getPkId()." * ".$row->getPkId(); ?></td>
+                            </tr>
+                            <?php
+                            $count++;
+                        }
+                        ?>
+                            <tfoot style="border-top:1px solid #C4C4C4;">
+                                <tr><th colspan="2"></th><th>Total Quantity: </th><th colspan="5"><?php echo number_format($total_quantity); ?></th></tr>
+                            </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div> 
+
+<?php } ?>
+
+<?php if (count($this->receive_result) > 0) { ?>
+    <div class="portlet box green">
+        <div class="portlet-title">
+            <div class="caption">
+                <?php echo $this->translate("Batch Receive List ") . " From " . $this->issue_result[0]->getStockMaster()->getFromWarehouse()->getWarehouseName() . " To " . $this->issue_result[0]->getStockMaster()->getToWarehouse()->getWarehouseName(); ?>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-12" id="after-link-div">
+                    <table class="col-md-12">
+                        <tr>
+                            <th>S.No</th>
+                            <th>Product</th>
+                            <th>Batch Number</th>
+                            <th>Quantity</th>
+                            <th>Transaction Date</th>
+                            <th>Voucher Number</th>
+                            <th>Expiry date</th>
+                            <th>Master * Detail * Parent</th>
+                            <th>Action</th>
+                        </tr>
+                        <?php
+                        $count = 1;
+                        $total_quantity = 0;
+                        foreach ($this->receive_result as $row) {
+                            $total_quantity += ABS($row->getQuantity());
+                            ?>
+                            <tr>
+                                <td><?php echo $count; ?></td>
+                                <td><?php echo $row->getStockBatchWarehouse()->getStockBatch()->getPackInfo()->getStakeholderItemPackSize()->getItemPackSize()->getItemName(); ?></td>
+                                <td><?php echo $row->getStockBatch()->getNumber(); ?></td>
+                                <td><?php echo number_format(ABS($row->getQuantity())); ?></td>
+                                <td><?php echo $row->getStockMaster()->getTransactionDate()->format("d/m/Y"); ?></td>
+                                <td><?php echo $row->getStockMaster()->getTransactionNumber(); ?></td>
+                                <td><?php echo $row->getStockBatch()->getExpiryDate()->format("d/m/Y"); ?></td>
+                                <td><?php echo $row->getStockMaster()->getPkId()." * ".$row->getPkId()." * ".$row->getIsReceived(); ?></td>
+                                <td>
+                                    <?php if($row->getIsReceived() <= 1){ ?>
+                                    <select id="<?php echo $row->getPkId(); ?>" class="form-control input-sm linkit">
+                                        <option value="">Link it</option>
+                                        <?php $cntr = 0; foreach ($this->issue_result as $row_issue) { ?>
+                                        <option value="<?php echo $row_issue->getPkId(); ?>"><?php echo $detail_array[$cntr]." - ".number_format(abs($row_issue->getQuantity())); ?></option>
+                                        <?php $cntr++; } ?>
+                                    </select>
+                                    <?php } else {
+                                        echo "Linked";
+                                    } ?>
+                                </td>
+                            </tr>
+                            <?php
+                            $count++;
+                        }
+                        ?>
+                            <tfoot style="border-top:1px solid #C4C4C4;">
+                                <tr><th colspan="2"></th><th>Total Quantity: </th><th colspan="6"><?php echo number_format($total_quantity); ?></th></tr>
+                            </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div> 
+<?php } ?>

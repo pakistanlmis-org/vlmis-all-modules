@@ -1,0 +1,10 @@
+<?php
+/**
+*  phtml for Ajax Coldbox and Vaccine Carriers by Working Status
+*/
+?>
+<?php
+
+FC_SetRenderer('javascript');
+echo renderChart($this->baseUrl() . "/FusionCharts/Charts/" . $this->chart_type . ".swf", "", $this->xmlstore, 'chartContainer', $this->width, $this->height, false, false);
+?>

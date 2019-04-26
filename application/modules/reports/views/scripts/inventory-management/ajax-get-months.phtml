@@ -1,0 +1,13 @@
+<?php
+if ($this->year_id == date("Y")) {
+    $month_end = date("m");
+} else {
+    $month_end = 12;
+}
+
+for ($i = 1; $i <= $month_end; $i++) {
+    ?>
+    <option value="<?php echo $i; ?>"<?php echo $sel; ?> ><?php echo date('M', mktime(0, 0, 0, $i, 1)); ?></option>
+    <?php
+}
+?>

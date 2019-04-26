@@ -1,0 +1,193 @@
+FavGraphSettings:
+  type: entity
+  table: fav_graph_settings
+  fields:
+    id:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      generator:
+        strategy: IDENTITY
+    user:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+    selUser:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+      column: sel_user
+    period:
+      type: string
+      length: 25
+      fixed: false
+      nullable: true
+    selStakeholder:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+      column: sel_stakeholder
+    year:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+    arrproducts:
+      type: text
+      nullable: true
+    compareOpt:
+      type: string
+      length: 50
+      fixed: false
+      nullable: true
+      column: compare_opt
+    optvals:
+      type: string
+      length: 50
+      fixed: false
+      nullable: true
+    arryearcomp:
+      type: text
+      nullable: true
+    arrstakecomp:
+      type: text
+      nullable: true
+    titles:
+      type: text
+      nullable: true
+    allfiles:
+      type: text
+      nullable: true
+    col:
+      type: string
+      length: 200
+      fixed: false
+      nullable: true
+    unit:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+    xaxis:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+    ctype:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+    repTitle1:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+      column: rep_title1
+    repTitle2:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+      column: rep_title2
+    repTitle3:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+      column: rep_title3
+    repLogo:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+      column: rep_logo
+    periodLable:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+      column: period_lable
+    comparisonTitle:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+      column: comparison_title
+    arrgroupcomp:
+      type: text
+      nullable: true
+    count1:
+      type: integer
+      unsigned: false
+      nullable: true
+    logType:
+      type: string
+      length: null
+      fixed: false
+      nullable: true
+      column: log_type
+    arrparam:
+      type: text
+      nullable: true
+    arrleftcol:
+      type: text
+      nullable: true
+    leftcol:
+      type: string
+      length: 5
+      fixed: false
+      nullable: true
+    arrprovinces:
+      type: text
+      nullable: true
+    arrdistricts:
+      type: text
+      nullable: true
+    provinces:
+      type: text
+      nullable: true
+    districts:
+      type: text
+      nullable: true
+    selProv:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: sel_prov
+    repDesc:
+      type: text
+      nullable: true
+      column: rep_desc
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: false
+      column: modified_date
+  oneToOne:
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

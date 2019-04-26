@@ -1,0 +1,222 @@
+<?php
+/**
+*  phtml for Add Voltage Regulator
+*/
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Cold Chain"); ?></h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("New Add Voltage Regulator Asset"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                            <div class="alert alert-success">
+                                <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                <strong>Data</strong> has been saved successfully!
+                            </div>
+                        <?php } ?>
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="asset_add" id="asset_add" action="" >
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="control-group">
+                                                <label class="control-label" for="placedat">
+                                                    Placed At <span class="red">*</span>
+                                                </label>
+                                                <div class="widget-body uniformjs">
+                                                    <?php echo $this->form->placed_at; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <?php $this->allLevelCombo(); ?>
+
+                                    <div class="row">
+                                        <!--                                        <div class="col-md-3">
+                                                                                    <div class="control-group">
+                                                                                        <label class="control-label" for="catalogueid" ><?php echo $this->translate("Catalogue ID"); ?></label>
+                                        <?php echo $this->form->catalogue_id; ?>
+                                                                                    </div>
+                                                                                    <div class="form-group" style="margin-top: 10px;">
+                                                                                        <a class="btn btn-primary btn-small alignvmiddle" onclick="javascript:void(0);" data-toggle="modal" href="#modal-new-catalogue" title="<?php echo $this->translate("Add New Catalogue"); ?>">
+                                        <?php echo $this->translate("Add"); ?>
+                                                                                        </a>
+                                                                                    </div>
+                                                                                </div>-->                                        
+                                        <div class="col-md-3">
+                                            <label for="catalogueid" class="control-label"><?php echo $this->translate("Catalogue ID"); ?> <span class="red">*</span></label>
+                                            <div class="controls">
+                                                <?php echo $this->form->catalogue_id; ?>&nbsp;
+                                                <a title="<?php echo $this->translate("Add New Catalogue"); ?>" href="#modal-new-catalogue" data-toggle="modal" onclick="javascript:void(0);" class="btn btn-primary btn-small">
+                                                    <?php echo $this->translate("Add"); ?>
+                                                </a>
+                                            </div>
+                                        </div>                                        
+                                        <div class="col-md-1" id="loader_catalogue_id" style="display:none;"><img src="<?php echo Zend_Registry::get('baseurl'); ?>/images/loader.gif" style="margin-top:8px; float:left" alt="" /></div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="quantity" ><?php echo $this->translate("Quantity"); ?> <span class="red">*</span></label>
+                                            <div class="controls">
+                                                <?php echo $this->form->quantity; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3" id="div_make">
+                                            <label class="control-label" for="ccmmakeid"><?php echo $this->translate("Make"); ?> <span class="red">*</span></label>
+                                            <div class="controls">
+                                                <?php echo $this->form->ccm_make_id; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" id="div_model">
+                                            <label class="control-label" for="ccmmodelid"><?php echo $this->translate("Model"); ?> <span class="red">*</span></label>
+                                            <div class="controls">
+                                                <?php echo $this->form->ccm_model_id; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group pull-right">
+                                                <button class="btn btn-primary" type="submit" id="add" name="add"><?php echo $this->translate("Save"); ?></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- // Asset Add Popup  -->
+    <form name="asset_add_popup" id="asset_add_popup" action="" method="POST">
+        <div id="modal-new-catalogue" class="modal fade"  aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal heading -->
+                    <div class="modal-header">
+                        <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                        <h3><?php echo $this->translate("Suggest new make and model"); ?></h3>
+                    </div>
+                    <!-- // Modal heading END -->
+                    <input type="hidden" name="model_type" id="model_type" value="<?php echo Model_CcmAssetTypes::VOLTAGEREGULATOR; ?>">
+                    <input type="hidden" name="ccm_asset_type_id_popup" id="ccm_asset_type_id_popup" value="<?php echo Model_CcmAssetTypes::VOLTAGEREGULATOR; ?>">
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <!-- BODY HERE -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-3">
+                                    <label class="control-label" for="catalogueid" ><?php echo $this->translate("Catalogue ID"); ?> <span class="red">*</span></label>
+                                    <div class="controls">
+                                        <?php echo $this->form->catalogue_id_popup; ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label" for="catalogueid" ><?php echo $this->translate("Make"); ?> <span class="red">*</span></label>
+                                    <div class="controls">
+                                        <?php echo $this->form->ccm_make_popup; ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label" for="catalogueid" ><?php echo $this->translate("Model"); ?> <span class="red">*</span></label>
+                                    <div class="controls">
+                                        <?php echo $this->form->ccm_model_popup; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-3">
+                                    <label class="control-label" for="nominal_voltage" ><?php echo $this->translate("Nominal Voltage (vAC)"); ?></label>
+                                    <div class="controls">
+                                        <?php echo $this->form->nominal_voltage; ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label" for="continous_power" ><?php echo $this->translate("Continous Power(watts)"); ?> </label>
+                                    <div class="controls">
+                                        <?php echo $this->form->continous_power; ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label" for="frequency" ><?php echo $this->translate("Frequency(Hz)"); ?> </label>
+                                    <div class="controls">
+                                        <?php echo $this->form->frequency; ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label" for="frequency" ><?php echo $this->translate("Phases"); ?> </label>
+                                    <div class="controls">
+                                        <?php echo $this->form->no_of_phases; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-3">
+                                    <label class="control-label" for="Cost" ><?php echo $this->translate("Cost(US$)"); ?></label>
+                                    <div class="controls">
+                                        <?php echo $this->form->product_price; ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label" for="input_voltage_range" ><?php echo $this->translate("Input Voltage Range (vAC)"); ?> </label>
+                                    <div class="controls">
+                                        <?php echo $this->form->input_voltage_range; ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label" for="output_voltage_range" ><?php echo $this->translate("Output Voltage Range (vAC))"); ?> </label>
+                                    <div class="controls">
+                                        <?php echo $this->form->output_voltage_range; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <!-- // Modal body END -->
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <a data-dismiss="modal" class="btn btn-default" href="#"><?php echo $this->translate("Close"); ?></a>
+
+                        <button class="btn btn-primary btn-small pull-right btn-icon" type="button" id="asset_add_popup-save" name="asset_add_popup-save">
+                            <?php echo $this->translate("Save"); ?>
+                        </button>
+                    </div>
+                    <!-- // Modal footer END -->
+                </div>
+            </div>
+
+        </div></form>
+</div>
+
+<!-- // Asset Add Popup END  -->

@@ -1,0 +1,44 @@
+<table align="center">
+    <thead>
+
+        <tr>
+            <th class="serial">
+                <?php echo $this->translate("S.No"); ?>
+            </th>
+            <th class="col-md-2">
+                <?php echo $this->translate("Product"); ?>
+            </th>
+            <th class="col-md-1">
+                <?php echo $this->translate("Batch"); ?>
+            </th>                                            
+           
+        </tr>
+
+    </thead>
+    <tbody>
+
+        <?php
+        $j = 1;
+        for ($i = $this->start; $i < $this->end; $i++) {
+            $rows = "rows" . $i;
+            $j = $i + 1;
+            ?>
+            <tr class="dynamic-rows">
+                <td class="serial">
+                    <?php echo $j; ?>
+                </td>
+                <td>
+                    <?php echo $this->form->$rows->item_pack_size_id; ?>
+                </td>
+                <td>
+                    <?php echo $this->form->$rows->batch_number; ?>
+                </td>
+               
+            </tr>
+            <?php
+        }
+        ?>
+
+    </tbody>
+
+</table>    

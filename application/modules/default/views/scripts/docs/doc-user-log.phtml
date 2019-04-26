@@ -1,0 +1,116 @@
+<?php
+/**
+*  phtml for Doc User log
+*/
+?>
+<style>
+    .custom_width{
+        overflow: hidden;
+        width: 100px;
+    }
+</style>
+
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Documentation User Log") ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Documentation User Log") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php if ($this->result && count($this->result) > 0) { ?>
+
+                                    <table class="table table-striped table-bordered table-condensed" id="sample_20">
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <?php echo $this->translate("S.No"); ?>
+                                                </th>
+
+                                                <th>
+                                                    <?php echo $this->translate("Download Date"); ?>
+                                                </th>
+
+                                                <th>
+                                                    <?php echo $this->translate("User Email"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("User's System IP"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Document Title"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->m . $this->translate("Total Downloads"); ?>
+                                                </th>
+                                            </tr>
+
+
+                                        </thead>
+                                        <!-- // Table heading END -->
+
+                                        <!-- Table body -->
+                                        <tbody>
+
+                                            <!-- Table row -->
+                                            <?php
+                                            $j = 1;
+                                            foreach ($this->result as $row) {
+                                                ?>
+                                                <tr class="dynamic-rows">
+                                                    <td class="serial" style="font-size:12px" align="center">
+                                                        <?php echo $j; ?>
+                                                    </td>
+                                                    <td style="font-size:12px;" align="center" nowrap>
+                                                        <?php echo date("d/m/Y", strtotime($row['download_date'])); ?>
+                                                    </td>
+                                                    <td style="font-size:12px" nowrap>
+                                                        <?php echo $row['login_id'] ?>
+                                                    </td>
+                                                    <td style="font-size:12px" nowrap align="right">
+                                                        <?php echo $row['system_ip'] ?>
+                                                    </td>
+                                                    <td style="font-size:12px" align="left">
+                                                        <a href="<?php echo $row['doc_path']?>" target="_blank"><?php echo $row['doc_title'] ?></a>
+                                                    </td>
+                                                    <td style="font-size:12px"  align="right">
+                                                        <?php echo $row['total_download'] ?>
+                                                    </td>
+
+                                                </tr>
+                                                <?php
+                                                $j ++;
+                                            }
+                                            ?>
+                                            <!-- // Table row END -->
+                                        </tbody>
+                                        <!-- // Table body END -->                                      
+
+                                    </table>
+
+
+                                <?php } ?>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- // Content END -->
+

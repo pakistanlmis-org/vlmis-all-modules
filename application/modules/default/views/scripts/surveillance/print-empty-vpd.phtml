@@ -1,0 +1,165 @@
+<?php
+/**
+ *  phtml for Print Issue
+ */
+?>
+<?php
+ob_start();
+?>
+<style>
+    #content_print {
+        margin-left: 55px;
+        width: 624px;
+    }
+    table#mytable {
+        border: 1px solid #444;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table#mytable tr td {
+        border: 1px solid #444;
+    }
+    table#mytable tr th {
+        border: 1px solid #444;
+    }
+</style>
+
+<style type="text/css" media="print">
+    .page{
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print{    
+        #printButt{
+            display: none !important;
+        }
+    }
+</style>
+
+<div class="row">
+    <div class="scroller" style="min-height:200px" data-always-visible="1" data-rail-visible1="1">
+        <i id="print" style="align-content: right" class="fa fa-print" ></i>
+        <h4 class="form-section">Type of Case</h4>
+        <strong>Date : </strong><?php echo'__________'?><strong>Week : </strong>  <?php echo'__________'?><strong>Type of Case : </strong>  <?php echo'__________'?>
+        <br><br>
+        <h4 class="form-section">Reporting Sites</h4>
+
+        <strong>Reporting UC : </strong> <?php echo'__________'?><strong>Surveillance Site : </strong>  <?php echo'__________'?><strong>Cross Notification : </strong><?php echo'__________'?>
+         
+        <br>
+        <strong>Patient Visited Date : </strong>  <?php echo'__________'?><strong>Date of Notification : </strong>  <?php echo'__________'?><br>
+
+        <strong>Date of Onset :</strong> <?php echo'__________'?>
+        <strong>EPID Number : </strong> <?php echo'__________'?>
+        <br><br>
+        <h4 class="form-section">Case Details</h4>
+        <strong>Province : </strong>  <?php echo'__________'?><strong>District : </strong>  <?php echo'__________'?><strong>Tehsil : </strong>  <?php echo'__________'?><strong>UC : </strong>  <?php echo'__________'?><br>
+        <strong>Village : </strong> <?php echo'__________'?> <strong>Address : </strong> <?php echo'___________________________________'?><br>
+
+        <strong>Child Name : </strong>  <?php echo'__________'?><strong>Father Name : </strong>  <?php echo'__________'?>
+        <strong>Contact Number : </strong> <?php echo'__________'?><strong>Gender : </strong> 
+        <?php echo'__________'?><br>
+        <strong>Date of Birth : </strong>  <?php echo'__________'?><strong>Age : </strong>  
+        <?php echo'__________'?>
+        <strong>Place of Birth :</strong><?php echo'__________'?>&nbsp;&nbsp;&nbsp;
+        <strong>Birth Attendee :</strong><?php echo'__________'?>
+       <br>
+        <br>
+        <h4 class="form-section">Investigation Detail</h4>
+        <strong>Date of Investigation : </strong>  <?php echo'__________'?>
+        <strong>No. of Months Before : </strong> <?php echo'__________'?>
+
+        <br>
+        <strong>Specific Doses Received : </strong> <?php echo'__________'?><strong>Date of Last Vaccine Received : </strong> <?php echo'__________'?><br><strong>Sign & Symptoms : </strong>  <?php echo'__________'?><br>
+        <br>
+        <h4 class="form-section">Specimen Collection & Result</h4>
+        <strong>Specimen Collection : </strong> <?php echo'__________'?>
+       
+        <br>
+       
+        <strong>Childhood TB </strong> <br>
+         <strong>Date of Sputum Sent 1: </strong> <?php echo'__________'?>
+         <strong>Date of Sputum Sent 2: </strong> <?php echo'__________'?>
+         <br>
+        <strong>Sputum Collection Date 1</strong>  <?php echo'__________'?>
+        <strong>Sputum Collection Date 2</strong> <?php echo'__________'?> 
+        
+             <br><strong>Diptheria </strong> <br>
+       <strong>Date of Throat-Swab Sent 1: </strong>  <?php echo'__________'?>
+         <strong>Date of Naso Pharyngeal Sent 2: </strong>  <?php echo'__________'?>
+        <br>
+        <strong>Throat-Swab Collection Date </strong> <?php echo'__________'?>
+         <strong>Naso Pharyngeal Swab Date </strong> <?php echo'__________'?>
+        
+            
+              <br><strong>Measles </strong> <br>
+        <strong>Date of Blood Sample Sent 1: </strong> <?php echo'__________'?>
+        <strong>Date of Throat-Swab Sent 2: </strong>  <?php echo'__________'?>
+        <br>
+        <strong>Blood Sample Collection Date </strong> <?php echo'__________'?>
+         <strong>Throat-Swab Collection Date </strong>  <?php echo'__________'?>
+        
+         
+         <br><strong>NNT </strong> <br>
+         <strong>Date of Blood Sample Sent 1: </strong>  <?php echo'__________'?>
+        <strong>Date of Throat-Swab Sent 2: </strong>  <?php echo'__________'?>
+        <br>
+        <strong>Blood Sample Collection Date </strong>  <?php echo'__________'?> 
+         <strong>Throat-Swab Collection Date </strong> <?php echo'__________'?>
+        
+        
+             <br><strong>Pertussis </strong> <br>
+         <strong>Date of Throat-Swab Sent 1: </strong>  <?php echo'__________'?>
+         <strong>Date of Naso Pharyngeal Sent 2: </strong> <?php echo'__________'?>
+        
+        <br>
+        <strong>Throat-Swab Collection Date  </strong> <?php echo'__________'?>
+         <strong>Naso Pharyngeal Swab Date </strong> <?php echo'__________'?> 
+      
+             <br> <strong>AFP </strong> <br>
+         <strong>Date of Stool Sample Sent 1: </strong>  <?php echo'__________'?>
+         <strong>Date of Stool Sample Sent 2: </strong>  <?php echo'__________'?>
+        <br>
+        <strong>Stool Sample Date 1</strong> <?php echo'__________'?>
+        <strong>Stool Sample Date 2</strong>  
+       <?php echo'__________'?> 
+        
+        
+
+
+        <br> 
+        <h4 class="form-section">Present Status</h4>
+        <strong>Lab Result of Test : </strong>  <?php echo'__________'?><strong>Date of Lab result received : </strong><?php echo'__________'?>
+        <br><strong>Final Classification : </strong> <?php echo'__________'?><strong>Outcome : </strong>  <?php echo'__________'?>
+        <br>
+
+
+    </div> 
+</div>
+
+<div class="col-md-12" class="widget">
+    <div class="widget-body right">
+        <button id="print" name="print" value="1" type="button" class="btn btn-primary" ><?php echo $this->translate("Print"); ?></button>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        //printCont();
+        $("#print").click(function () {
+            printCont();
+        });
+    });
+
+    function printCont()
+    {
+        $("a").hide();
+        $('#print').hide();
+        window.print();
+        setTimeout(function () {
+            // Do something after 5 seconds
+            $('#print').show();
+            $("a").show();
+        }, 5000);
+    }
+</script>

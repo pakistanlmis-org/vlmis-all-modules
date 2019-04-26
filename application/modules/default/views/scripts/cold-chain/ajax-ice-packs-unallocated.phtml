@@ -1,0 +1,56 @@
+<?php
+/**
+*  phtml for Ajax Ice Packs Unallocated
+*/
+?>
+<?php if (isset($this->icePackQuantity) && !empty($this->icePackQuantity)) { ?>
+    <div class="col-md-3">
+        <div class="form-group">
+            <div class="col-md-12">
+                <label class="control-label" for="firstname">
+                    Ice Pack Sizes
+                </label>
+            </div>
+            <div class="col-md-12">
+                <?php
+                $i = 1;
+                if ($this->icePackQuantity && count($this->icePackQuantity) > 0) :
+                    foreach ($this->icePackQuantity as $row):
+                        ?>
+                        <?php echo $row['ccmModelName']; ?><br/><br/>
+                        <?php
+                    endforeach;
+                endif;
+                ?>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <div class="col-md-12">
+                <label class="control-label" for="firstname">
+                    Quantity
+                </label>
+            </div>
+            <div class="col-md-12">
+                <?php
+                $i = 1;
+                if ($this->icePackQuantity && count($this->icePackQuantity) > 0) :
+                    foreach ($this->icePackQuantity as $row):
+                        ?>
+                        <?php echo $row['quantity']; ?><br/><br/>
+                        <?php
+                    endforeach;
+                endif;
+                ?>
+            </div>
+
+        </div>
+    </div>
+    <?php
+}
+else {
+    
+}
+?>

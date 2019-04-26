@@ -1,0 +1,73 @@
+<?php
+/**
+*  phtml for Ajax Quantity Data Issue No.
+*/
+?>
+<table class="gatepass table table-striped table-bordered table-hover dataTable no-footer"  >
+    <!-- Table heading -->
+    <thead>
+        <tr>
+             <th rowspan="2"><?php echo $this->translate("S.No") ?></th>
+            <th rowspan="2"><?php echo $this->translate("Product") ?></th>
+            <th rowspan="2"><?php echo $this->translate("Batch No") ?></th>
+            <th rowspan="2"><?php echo $this->translate("Issued Quantity") ?></th>
+            <th rowspan="2"><?php echo $this->translate("Quantity") ?></th>
+            <th rowspan="2"><?php echo $this->translate("Remaining Quantity") ?></th>       
+        </tr>      
+    </thead>
+    <!-- // Table heading END -->
+
+    <!-- Table body -->
+    <tbody>				
+        <!-- Table row -->
+        <?php
+        $remianing_qty = "";
+        if ($this->data && count($this->data) > 0) :
+            $i = 1;
+            foreach ($this->data as $row):
+                ?>
+                <tr class="gradeX">
+                    <td class="center"><?php echo $i; ?></td>
+                    <td><?php echo $row['item_name']; ?></td>
+                    <td><?php echo $row["number"]; ?></td>
+                    <td align="right"><?php echo $row["Qty"]; ?></td>
+     
+   <td align="right"><input max="<?php echo $row["Qty"];?>" type="text" class="qty form-control" onkeyup="updateQty(this.name, this.max)" max="<?php echo $row['Qty'];?>" name="quantity[<?php echo $row['pk_id']."_".$row['masterId'];?>]" id="quantity"></td>
+                                      
+                    <td><?php echo $row["Qty"]; ?></td>
+                </tr>
+                <?php
+                $i++;
+            endforeach;
+        endif;
+        ?>
+        <!-- // Table row END -->
+    </tbody>
+    <!-- // Table body END -->
+</table>
+<script>
+$(function(){
+	$('.qty').keydown(function(e) {
+		if (e.shiftKey || e.ctrlKey || e.altKey) { // if shift, ctrl or alt keys held down
+            e.preventDefault();         // Prevent character input
+        } else {
+            var n = e.keyCode;
+            if (!((n == 8)              // backspace
+            || (n == 9)                // Tab
+            || (n == 46)                // delete
+            || (n >= 35 && n <= 40)     // arrow keys/home/end
+            || (n >= 48 && n <= 57)     // numbers on keyboard
+            || (n >= 96 && n <= 105))   // number on keypad
+            ) {
+                e.preventDefault();     // Prevent character input
+            }
+        }
+	});
+})
+function updateQty(qtyFld, maxVal)
+{
+	var userQty = $('input[name="'+qtyFld+'"]').val();
+	var remaining = parseInt(maxVal) - ((userQty != '') ? parseInt(userQty) : 0);
+	$('input[name="'+qtyFld+'"]').parent().next('td').html(remaining);
+}
+</script>

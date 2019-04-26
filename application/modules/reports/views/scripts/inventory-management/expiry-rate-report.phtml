@@ -1,0 +1,155 @@
+<?php
+/**
+ *  phtml for Central Provincial Warehouse
+ */
+?>
+<?php
+$sel_month = $this->month_sel;
+$sel_year = $this->year_sel;
+
+$counter = 1;
+
+$sel_stk = $this->in_stk;
+$sel_prov = $this->prov_sel;
+$sel_dist = $this->in_dist;
+$sel_indicator = $this->sel_indicator;
+$in_col = $this->in_col;
+$in_rg = $this->in_rg;
+$in_type = $this->in_type;
+$stk_sel = $this->stk_sel;
+$start_date = $this->start_date;
+$end_date = $this->end_date;
+$period = $this->period;
+$str_indicator = $this->str_indicator;
+$wh_type = $this->wh_type;
+
+
+$warehouse_id = $this->warehouse_id;
+$from_date = $this->from_date;
+$to_date = $this->to_date;
+
+$getWHName = $this->reports()->getWarehousename($warehouse_id);
+$whName = $getWHName[0]['warehouse_name'];
+
+$data_arr = array();
+foreach ($this->item_id as $row) {
+    $data_arr[$row['pkId']]['name'] = $row['itemName'];
+    $data_arr[$row['pkId']]['received_qty'] = 0;
+    $data_arr[$row['pkId']]['expired_qty'] = 0;
+    $data_arr[$row['pkId']]['expiry_rate'] = 0;
+}
+
+
+
+$received_qty_array = $this->reports()->getReceiveQuantity($to_date, $warehouse_id);
+$expired_qty_array = $this->reports()->getExpiredQuantity($from_date, $to_date, $warehouse_id);
+foreach ($received_qty_array as $row) {
+    $data_arr[$row['item_pack_size_id']]['received_qty'] = $row['ReceivedQty'];
+}
+foreach ($expired_qty_array as $row) {
+    $data_arr[$row['item_pack_size_id']]['expired_qty'] = $row['ExpiredQty'];
+}
+//Calculate Expiry Rate
+foreach ($this->item_id as $row) {
+    $received_qty = (int) $data_arr[$row['pkId']]['received_qty'];
+    $expired_qty = (int) $data_arr[$row['pkId']]['expired_qty'];
+    if($received_qty != 0){
+    $expiry_rate = (($expired_qty / $received_qty)) * 100;
+    }
+    else{
+        $expiry_rate = 0;
+    }
+    $data_arr[$row['pkId']]['expiry_rate'] = $expiry_rate;
+}
+
+// Headers of the Grid
+$header = 'Product';
+$width = '*';
+$ro = 'ro';
+$header .= ',<span>' . "Received Quantity" . '</span>';
+$width .= ',250';
+$ro .= ',ro';
+$header .= ',<span>' . "Expired Quantity" . '</span>';
+$width .= ',250';
+$ro .= ',ro';
+$header .= ',<span>' . "Expiry Rate %" . '</span>';
+$width .= ',250';
+$ro .= ',ro';
+
+$xml_store = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+$xml_store .= "<rows>";
+foreach ($data_arr as $row) {
+    $xml_store .= "<row>";
+    $xml_store .= "<cell>" . $row['name'] . "</cell>";
+    $xml_store .= "<cell style=\"text-align:right\">" . number_format($row['received_qty']) . "</cell>";
+    $xml_store .= "<cell style=\"text-align:right\">" . number_format($row['expired_qty']) . "</cell>";
+    $xml_store .= "<cell style=\"text-align:right\">" . number_format($row['expiry_rate'], 2) . " %</cell>";
+    $xml_store .="</row>";
+}
+$xml_store .="</rows>";
+?>
+
+<?php
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $report_title . ' From ' . date('M, Y', strtotime($from_date)) . ' To ' . date('M, Y', strtotime($to_date)); ?></h3>
+        <div class="innerLR">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+<?php
+echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+<?php echo $this->render('inventory-management/reports-header.phtml') ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td style="text-align:right; padding-bottom:10px;">
+                        <img style="cursor:pointer;" src="<?php echo $this->baseUrl(); ?>/images/pdf-32.png" onClick="mygrid.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="<?php echo $this->translate("Export to PDF"); ?>"/>&nbsp;&nbsp;
+                        <img style="cursor:pointer; margin-left:-5px" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="mygrid.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');" title="<?php echo $this->translate("Export to Excel"); ?>" />
+                    </td>
+                </tr>
+            </table>
+            <table width="99%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <div id="mygrid_container" style="width:100%; height:363px;">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    var mygrid;
+    function doInitGrid() {
+        mygrid = new dhtmlXGridObject('mygrid_container');
+        mygrid.selMultiRows = true;
+        mygrid.setImagePath("<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+        mygrid.setHeader("<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'><?php echo "$whName : Expiry Rate"; ?></div>,#cspan,#cspan,#cspan");
+        mygrid.attachHeader("<?php echo $header; ?>");
+        mygrid.setInitWidths("<?php echo $width; ?>");
+        mygrid.setColTypes("<?php echo $ro; ?>");
+        mygrid.enableRowsHover(true, 'onMouseOver');
+        mygrid.setSkin("light");
+        mygrid.init();
+        mygrid.clearAll();
+        $('body').append('<textarea id="xml_string" style="display:none;"><?php echo addslashes($xml_store); ?></textarea>');
+        mygrid.loadXMLString(document.getElementById('xml_string').value);
+    }
+</script>

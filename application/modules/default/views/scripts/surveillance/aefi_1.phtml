@@ -1,0 +1,577 @@
+<?php
+/**
+ *  phtml for Vpd
+ */
+?>
+<style>
+    .error {color: #FF0000;}
+</style>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            <?php echo $this->translate("AEFI Case Entry Form"); ?>
+        </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+
+                            <?php echo $this->translate('Fill Form') ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse"></a>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="portlet-body">
+
+                        <?php if (!empty($this->arr_data['success']) && $this->arr_data['success'] == 1) { ?>
+                            <div class="alert alert-success">
+                                <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                <strong><?php echo $this->translate("Data"); ?></strong> <?php echo $this->translate("has been saved successfully"); ?>!
+                            </div>
+                        <?php } ?>
+
+
+
+                        <form action="" method="post" id="register-form">
+                             <h4 class="form-section">Section 1</h4>
+                            <div class="row">
+                                <input type="hidden" id="tehsil_id_hidden" name="tehsil_id_hidden" value="<?php
+                                if (!empty($this->result)) {
+                                    echo $this->result[0]['tehsil_id'];
+                                }
+                                ?>">
+                                <input type="hidden" id="uc_id_hidden" name="uc_id_hidden" value="<?php
+                                if (!empty($this->result)) {
+                                    echo $this->result[0]['uc_id'];
+                                }
+                                ?>">
+
+                                <input type="hidden" id="hf_id_hidden" name="hf_id_hidden" value="<?php
+                                if (!empty($this->result)) {
+                                    echo $this->result[0]['hf_id'];
+                                }
+                                ?>">
+                                <input type="hidden" id="batch_no_hidden" name="batch_no_hidden" value="<?php
+                                if (!empty($this->result)) {
+                                    echo $this->result[0]['batch_id'];
+                                }
+                                ?>">
+                                <input type="hidden" id="aefi_id" name="aefi_id" value="<?php
+                                if (!empty($this->result)) {
+                                    echo $this->result[0]['pk_id'];
+                                }
+                                ?>">
+                                  <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="date">
+                                            Date:  <span style="color:red;">*</span>
+                                        </label>
+                                        <br>
+
+
+                                        <div class="input-group input-medium date date-picker" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode="years">
+                                            <input class="form-control" type="text"  id="date" name="date" readonly="" value="<?php
+                                            if (!empty($this->result)) {
+                                                echo $this->result[0]['date'];
+                                            }
+                                            ?>">
+                                            <span class="input-group-btn">
+                                                <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="type_case">
+                                            Case Reported:  <span style="color:red;">*</span>
+                                        </label>
+                                        <br>
+
+
+                                        <select class="form-control" id="type_of_case" name="type_of_case">
+
+                                            <?php
+                                            if ($this->result[0]['type_case'] == 0) {
+                                                $sel = "selected='selected'";
+                                            } else {
+                                                $sel = "";
+                                            }
+                                            ?>
+                                            <option value="1" <?php echo $sel; ?>>Yes</option>
+                                            <option value="0"  <?php echo $sel; ?>>No</option>
+                                            <?php
+                                            ?>
+
+                                        </select>
+
+                                    </div>
+                                </div>
+                              
+                            </div>
+                            <div id="div_case">
+                                 <h4 class="form-section">Section 2</h4>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="district">
+                                                District  <span style="color:red;">*</span>
+                                            </label> 
+                                            <select class="form-control" id="district" name="district">
+                                                <option value=""><?php echo $this->translate("Select"); ?></option>
+                                                <?php
+                                                foreach ($this->district as $row) {
+                                                    if ($this->result[0]['district_id'] == $row['pkId']) {
+                                                        $sel = "selected='selected'";
+                                                    } else {
+                                                        $sel = "";
+                                                    }
+                                                    ?>
+                                                    <option value="<?php echo $row['pkId']; ?>"  <?php echo $sel; ?>>
+                                                        <?php echo $row['locationName']; ?>
+                                                    </option>
+                                                    <?php
+                                                }
+                                                ?>
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="tehsil">
+                                                Tehsil/Taluka 
+                                            </label>
+                                            <select class="form-control" id="tehsil" name="tehsil">
+                                                <option value=""><?php echo $this->translate("Please Select District"); ?></option>
+
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="uc">
+                                                UC 
+                                            </label>
+                                            <select class="form-control" id="uc" name="uc">
+                                                <option value=""><?php echo $this->translate("Please Select Tehsil"); ?></option>
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                  <h4 class="form-section">Section 3</h4>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <?php
+                                            if ($this->result[0]['gender'] == 1) {
+                                                $sel = "checked";
+                                                $sel1 = "";
+                                                $sel2 = "";
+                                            } else if ($this->result[0]['gender'] == 0) {
+                                                $sel1 = "checked";
+                                                $sel2 = "";
+                                                $sel = "";
+                                            } else {
+                                                $sel2 = "checked";
+                                                $sel = "";
+                                                $se11 = "";
+                                            }
+                                            ?>
+                                            <label class="control-label" for="gender">
+                                                Gender <br>
+
+                                                <input type="radio" name="gender" value="1" id="male" <?php echo $sel; ?> <?php echo $sel2; ?>> 
+                                                <label class="control-label" for="male"> Male       </label>
+                                                <input type="radio" name="gender" value="0" id="female" <?php echo $sel1; ?>> 
+                                                <label class="control-label" for="female"> Female</label><br>
+                                            </label>
+                                            <br>
+                    <!--                        <textarea style="display:none;" class="form-control" name="data_difficulty"id="data_difficulty"cols="80" rows="3"> </textarea>-->
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="birth_date">
+                                                Date of Birth
+                                            </label>
+
+
+                                            <div class="input-group input-medium date date-picker" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode="years">
+                                                <input class="form-control" type="text"  id="birth_date" name="birth_date" readonly="" value="<?php
+                                                if (!empty($this->result)) {
+                                                    echo $this->result[0]['dob'];
+                                                }
+                                                ?>">
+                                                <span class="input-group-btn">
+                                                    <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="age_month">
+                                                Age in Month
+                                            </label>
+                                            <span style="color:red;">*</span>
+                                            <input class="form-control"  type="text" name="age_month" id="age_month" value="<?php
+                                            if (!empty($this->result)) {
+                                                echo $this->result[0]['age_in_months'];
+                                            }
+                                            ?>">                   
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="cash_reported_from_h_f">
+                                                Case Reported From Health Facility
+                                            </label>
+
+                                            <select class="form-control" id="cash_reported_from_h_f" name="cash_reported_from_h_f">
+                                                <option >Select</option>
+
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group" >
+
+                                            <label class="control-label" for="check_cash_reported_from_h_f">
+                                                Other (Health Facility)
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <span class=""><input type="checkbox" id="check_cash_reported_from_h_f" name="check_cash_reported_from_h_f"></span>
+                                                </span>
+                                                <input class="form-control" type="text"  id="other_case_health_facility" name="other_case_health_facility" readonly="">
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="case_vaccinated_epi">
+                                                Case Vaccinated From EPI Center
+                                            </label>
+
+                                            <select class="form-control"  id="case_vaccinated_epi" name="case_vaccinated_epi">
+                                                <option >Select</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+
+                                            <label class="control-label" for="check_case_vaccinated_epi">
+                                                Other (EPI Center)
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <span class=""><input type="checkbox" id="check_case_vaccinated_epi" name="check_case_vaccinated_epi"></span>
+                                                </span>
+                                                <input class="form-control" type="text"  id="other_case_vaccinated_epi" name="other_case_vaccinated_epi" readonly="">
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="aefi">
+                                                AEFI
+                                            </label>
+                                            <span style="color:red;">*</span>
+
+                                            <select class="form-control"  id="aefi" name="aefi">
+                                                <option value=""><?php echo $this->translate("Select"); ?></option>
+                                                <?php
+                                                foreach ($this->result_aefi as $row) {
+                                                    if ($this->result[0]['aefi'] == $row['pkId']) {
+                                                        $sel = "selected='selected'";
+                                                    } else {
+                                                        $sel = "";
+                                                    }
+                                                    ?>
+                                                    <option value="<?php echo $row['pkId']; ?>"  <?php echo $sel; ?>>
+                                                        <?php echo $row['listValue']; ?>
+                                                    </option>
+                                                    <?php
+                                                }
+                                                ?>
+
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+
+                                            <label class="control-label" for="check_aefi">
+                                                Other
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <span class=""><input type="checkbox" id="check_aefi" name="check_aefi"></span>
+                                                </span>
+                                                <input class="form-control" type="text"  id="other_aefi" name="other_aefi" readonly="">
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="vaccine_antigen">
+                                                Vaccine Antigen
+                                            </label>
+
+
+                                            <select class="form-control" id="vaccine_antigen" name="vaccine_antigen">
+                                                <?php
+                                                foreach ($this->product as $row) {
+                                                    if ($this->result[0]['vaccine_antigen'] == $row['pkId']) {
+                                                        $sel = "selected='selected'";
+                                                    } else {
+                                                        $sel = "";
+                                                    }
+                                                    ?>
+                                                    <option value="<?php echo $row['pkId']; ?>" <?php echo $sel; ?>>
+                                                        <?php echo $row['itemName']; ?>
+                                                    </option>
+                                                    <?php
+                                                }
+                                                ?>
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="batch_no">
+                                                Batch No/Lot No
+                                            </label>
+                                            <select class="form-control"  id="batch_no" name="batch_no">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+
+                                            <label class="control-label" for="check_batch_no">
+                                                Other
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                    <span class=""><input type="checkbox" id="check_batch_no" name="check_batch_no"></span>
+                                                </span>
+                                                <input class="form-control" type="text"  id="other_batch_no" name="other_batch_no" readonly="">
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="date_vaccine_given">
+                                                Date of Vaccine Given
+                                            </label>
+                                            <span style="color:red;">*</span>
+                                            <br>
+
+                                            <div class="input-group input-medium date date-picker" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode="years">
+                                                <input class="form-control" type="text"  id="date_vaccine_given" name="date_vaccine_given" readonly="" value="<?php
+                                                if (!empty($this->result)) {
+                                                    echo $this->result[0]['date_vaccine_given'];
+                                                }
+                                                ?>">
+                                                <span class="input-group-btn">
+                                                    <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="date_aefi_onset">
+                                                Date of AEFI onset
+                                            </label>
+                                            <span style="color:red;">*</span>
+                                            <br>
+
+                                            <div class="input-group input-medium date date-picker" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode="years">
+                                                <input class="form-control" type="text"  id="date_aefi_onset" name="date_aefi_onset" readonly="" value="<?php
+                                                if (!empty($this->result)) {
+                                                    echo $this->result[0]['date_aefi_onset'];
+                                                }
+                                                ?>">
+                                                <span class="input-group-btn">
+                                                    <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+                                                </span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="date_Investigation">
+                                                Date of Investigation
+                                            </label>
+                                            <span style="color:red;">*</span>
+                                            <br>
+
+                                            <div class="input-group input-medium date date-picker" data-date="12-02-2012" data-date-format="dd-mm-yyyy" data-date-viewmode="years">
+                                                <input class="form-control" type="text"  id="date_Investigation" name="date_Investigation" readonly="" value="<?php
+                                                if (!empty($this->result)) {
+                                                    echo $this->result[0]['date_of_investigation'];
+                                                }
+                                                ?>">
+                                                <span class="input-group-btn">
+                                                    <button class="btn default" type="button"><i class="fa fa-calendar"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="hospitalization">
+                                                Hospitalization <span style="color:red;"> *</span><br>
+                                                <?php
+                                                if ($this->result[0]['hospitalization'] == 1) {
+                                                    $sel = "checked";
+                                                    $sel1 = "";
+                                                    $sel2 = "";
+                                                } else if ($this->result[0]['hospitalization'] == 0) {
+                                                    $sel1 = "checked";
+                                                    $sel2 = "";
+                                                    $sel = "";
+                                                } else {
+                                                    $sel2 = "checked";
+                                                    $sel = "";
+                                                    $se11 = "";
+                                                }
+                                                ?>
+                                                <input type="radio" name="hospitalization" value="1" id="yes" <?php echo $sel; ?> <?php echo $sel2; ?>> 
+                                                <label class="control-label" for="yes"> Yes      </label>
+                                                <input type="radio" name="hospitalization" value="0" id="no" <?php echo $sel1; ?>> 
+                                                <label class="control-label" for="no"> No</label><br>
+                                            </label>
+                                            <br>
+                    <!--                        <textarea style="display:none;" class="form-control" name="data_difficulty"id="data_difficulty"cols="80" rows="3"> </textarea>-->
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <?php
+                                            if ($this->result[0]['death'] == 1) {
+                                                $sel = "checked";
+                                                $sel2 = "";
+                                                $sel1 = "";
+                                            } else if ($this->result[0]['death'] == 0) {
+                                                $sel1 = "checked";
+                                                $sel = "";
+                                            } else {
+                                                $sel2 = "checked";
+                                                $sel = "";
+                                                $se11 = "";
+                                            }
+                                            ?>
+                                            <label class="control-label" for="death">
+                                                Death <span style="color:red;"> *</span><br>
+
+                                                <input type="radio" name="death" value="1" id="yes" <?php echo $sel; ?> > 
+                                                <label class="control-label" for="yes"> Yes      </label>
+                                                <input type="radio" name="death" value="0" id="no" <?php echo $sel1; ?> <?php echo $sel2; ?>> 
+                                                <label class="control-label" for="no"> No</label><br>
+                                            </label>
+                                            <br>
+                    <!--                        <textarea style="display:none;" class="form-control" name="data_difficulty"id="data_difficulty"cols="80" rows="3"> </textarea>-->
+
+                                        </div>
+                                    </div>
+                                </div></div>
+                            <div class="row">
+                                <div class="col-md-12 right">
+
+
+                                    <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit">
+                                        <?php echo $this->translate("Save"); ?>
+                                    </button>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </form>
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- // Content END -->

@@ -1,0 +1,93 @@
+<?php
+/**
+ *  Paginator
+*/
+
+/**
+ *  Paginator Algorithm
+*/
+
+$param_string = '';
+$params = $this->params;
+if (count($params) > 0) {
+    foreach ($params as $key => $value) {
+        $param_string .= $key . "=" . $value . "&";
+    }
+}
+?>
+<div class="row">
+    <div class="col-md-4">
+        <input type="hidden" name="current" id="current" value="<?php echo $this->current; ?>"/>
+        <div class="dataTables_info">Showing <?php echo $this->firstItemNumber; ?> to <?php echo $this->lastItemNumber; ?> of <?php echo $this->totalItemCount; ?> entries</div>
+    </div>
+    <div class="col-md-8">
+        <div class="dataTables_paginate paging_bootstrap pagination">   
+            <?php if ($this->pageCount > 1): ?>
+                <ul class="pagination">
+                    <!-- Previous page link -->
+                    <li class="prev <?php if (!isset($this->previous)) { ?> disabled <?php } ?>"><a href="<?php echo $this->url(array('page' => $this->previous)); ?>?<?php
+                        echo $param_string;
+                        if (isset($_REQUEST["order"])) {
+                            echo "&order=" . $_REQUEST["order"];
+                        } if (isset($_REQUEST["sort"])) {
+                            echo "&sort=" . $_REQUEST["sort"];
+                        } if (isset($_REQUEST["counter"])) {
+                            echo "&counter=" . $_REQUEST["counter"];
+                        }
+                        ?>">← Previous</a></li>
+                    <li class=""><a href="<?php echo $this->url(array('page' => $this->first)); ?>?<?php
+                        echo $param_string;
+                        if (isset($_REQUEST["order"])) {
+                            echo "order=" . $_REQUEST["order"];
+                        } if (isset($_REQUEST["sort"])) {
+                            echo "&sort=" . $_REQUEST["sort"];
+                        } if (isset($_REQUEST["counter"])) {
+                            echo "&counter=" . $_REQUEST["counter"];
+                        }
+                        ?>">First</a></li>
+
+                    <!-- Numbered page links -->
+                    <?php foreach ($this->pagesInRange as $page): ?>
+                        <?php if ($page != $this->current): ?>
+                            <li><a href="<?php echo $this->url(array('page' => $page)); ?>?<?php
+                                echo $param_string;
+                                if (isset($_REQUEST["order"])) {
+                                    echo "order=" . $_REQUEST["order"];
+                                } if (isset($_REQUEST["sort"])) {
+                                    echo "&sort=" . $_REQUEST["sort"];
+                                } if (isset($_REQUEST["counter"])) {
+                                    echo "&counter=" . $_REQUEST["counter"];
+                                }
+                                ?>"><?php echo $page; ?></a></li>
+                            <?php else: ?>
+                            <li class="active"><a href="#"><?php echo $page; ?></a></li>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+
+                    <li class=""><a href="<?php echo $this->url(array('page' => $this->last)); ?>?<?php
+                        echo $param_string;
+                        if (isset($_REQUEST["order"])) {
+                            echo "order=" . $_REQUEST["order"];
+                        } if (isset($_REQUEST["sort"])) {
+                            echo "&sort=" . $_REQUEST["sort"];
+                        } if (isset($_REQUEST["counter"])) {
+                            echo "&counter=" . $_REQUEST["counter"];
+                        }
+                        ?>">Last</a></li>
+                    <!-- Next page link -->
+                    <li class="next <?php if (!isset($this->next)) { ?> disabled <?php } ?>">
+                        <a href="<?php echo $this->url(array('page' => $this->next)); ?>?<?php
+                        echo $param_string;
+                        if (isset($_REQUEST["order"])) {
+                            echo "order=" . $_REQUEST["order"];
+                        } if (isset($_REQUEST["sort"])) {
+                            echo "&sort=" . $_REQUEST["sort"];
+                        } if (isset($_REQUEST["counter"])) {
+                            echo "&counter=" . $_REQUEST["counter"];
+                        }
+                        ?>">Next → </a></li>
+                </ul>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>

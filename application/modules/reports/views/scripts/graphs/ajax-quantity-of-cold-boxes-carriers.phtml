@@ -1,0 +1,10 @@
+<?php
+/**
+*  phtml for Ajax Cold Quantity of Cold Boxes Carriers
+*/
+?>
+<?php
+
+FC_SetRenderer('javascript');
+echo renderChart($this->baseUrl() . "/FusionCharts/Charts/" . $this->chart_type . ".swf", "", $this->xmlstore, 'chartContainer', $this->width, $this->height, false, false);
+?>

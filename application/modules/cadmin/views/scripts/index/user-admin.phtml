@@ -1,0 +1,47 @@
+<?php
+/**
+*  phtml for User Admin
+*/
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+    <h3></h3>
+    <div class="innerLR">
+        <div class="widget">
+            <div class="widget-body">
+                <div class="row-fixed">
+                    <div class="getting-started-wrapper">
+                        <p><?php echo $this->translate("Welcome"); ?>, <span style="color: #128000;"><?php echo $this->layout()->user_name; ?>!</span></p>
+                        <h1>Getting Started <img src="<?php echo $this->baseUrl(); ?>/images/logo-pak.png" alt="" style="float: right; position: relative; right: 68px; top: -33px;" /></h1>
+                        <hr />
+                        <p>with Vaccine Logistics Managment Information System (vLMIS)</p>
+                        <div class="info-box" style="border-left: none;">
+                            <h4><img src="<?php echo $this->baseUrl(); ?>/images/icon-inventory.png" alt="" /><?php echo $this->translate("Inventory Management"); ?></h4>
+                            <p>For Managing your inventory, you can:</p>
+                            <strong>To do's</strong>
+                            <ul class="landingul">
+                                <li>Receive Stock from Supplier</li>
+                                <li>Receive Stock from Warehouse</li>
+                                <li>Issue Stock</li>
+                            </ul>
+                        </div>
+
+                        <div class="info-box">
+                            <h4><img src="<?php echo $this->baseUrl(); ?>/images/icon-cold.png" alt="" /><?php echo $this->translate("Cold chain"); ?></h4>
+                            <p>For managing the cold chain, ,you can:</p>
+                            <strong>To do's</strong>
+                            <ul class="landingul">
+                                <li>Add assets to cold chain-inventory</li>
+                                <li>Transfer assets from cold-chain inventory</li>
+                                <li>Search for assets</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div style="clear: both;"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>

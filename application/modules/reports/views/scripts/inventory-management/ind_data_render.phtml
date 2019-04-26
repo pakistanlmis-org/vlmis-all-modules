@@ -1,0 +1,48 @@
+<?php
+/**
+*  phtml for Ind Data Render
+*/
+?>
+<?php
+
+// retrieve values from values string
+$v_mos1 = 0;
+$v_id = (isset($tmp[0])) ? $tmp[0] : 0;;
+if ($v_id != 'UNK') {
+    $v_id = number_format($tmp[0] / 1, 0);
+}
+
+$v_amc = (isset($tmp[1])) ? $tmp[1] : 0;
+if ($v_amc != 'UNK') {
+    $v_amc = number_format($tmp[1] / 1, 1);
+}
+
+$v_cb = (isset($tmp[2])) ? $tmp[2] : 0;;
+if ($v_cb != 'UNK') {
+    $v_cb = number_format($tmp[2] / 1, 0);
+}
+
+$v_mos = (isset($tmp[3])) ? $tmp[3] : 0;
+if ($v_mos != 'UNK') {
+    $v_mos1 = ($v_mos / 1);
+    $v_mos = number_format($v_mos / 1, 1);
+}
+
+$v_cyp = (isset($tmp[4])) ? $tmp[4] : 0;
+if ($v_cyp != 'UNK') {
+    $v_cyp = number_format($tmp[4] / 1, 1);
+}
+
+
+$b_col = $this->reports()->reportsMos($v_mos1, $sel_item, 1, $sel_lvl);
+
+foreach ($b_col as $result) {
+    $bg_color = $result['col'];
+}
+$xml_store .="<cell>" . $v_id . "</cell>";
+$xml_store .="<cell>" . $v_amc . "</cell>";
+$xml_store .="<cell>" . $v_cb . "</cell>";
+$xml_store .="<cell><![CDATA[<div style=\"width:10px; height:12px; background-color:$bg_color;\"></div>]]></cell>";
+$xml_store .="<cell>" . $v_mos . "</cell>";
+$xml_store .="<cell>" . $v_cyp . "</cell></row>";
+?>

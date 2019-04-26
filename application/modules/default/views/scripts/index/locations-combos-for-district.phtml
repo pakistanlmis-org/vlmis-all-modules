@@ -1,0 +1,16 @@
+<?php
+/**
+ *  phtml for All Level Combos four 
+ */
+var_dump($this->result);
+?>
+<?php if ($this->result != false) { ?>
+    <option value=""><?php echo $this->translate("Select"); ?></option>
+    <?php foreach ($this->result as $row) {
+        ?>
+        <option value="<?php echo $row['pkId']; ?>" >
+            <?php echo $row['locationName']; ?></option>
+        <?php
+    }
+}
+?>

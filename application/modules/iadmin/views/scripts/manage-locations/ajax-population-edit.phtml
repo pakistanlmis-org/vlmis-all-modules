@@ -1,0 +1,57 @@
+<?php
+/**
+ *  phtml for Ajax Edit
+ */
+?>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Location"); ?></label>
+            <div class="controls">
+                <?php echo $this->form->location_pop_name_update; ?>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Situated In"); ?></label>
+            <div class="controls">
+                <?php echo $this->form->location_province; ?> 
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Administrative Level"); ?></label>
+            <div class="controls">
+                <?php echo $this->form->location_geo_level; ?>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Estimation Date"); ?></label>
+            <div class="controls">
+                <?php echo $this->form->location_pop_estimation_date; ?>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Population"); ?></label>
+            <div class="controls">
+                <?php echo $this->form->population; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php echo $this->form->location_population_id; ?>
+<?php echo $this->form->location_id; ?>
+<?php echo $this->form->location_type; ?>
+<?php echo $this->form->province_id_edit; ?>
+<?php echo $this->form->district_id_edit; ?> 
+<?php echo $this->form->parent_id_edit; ?>
+<?php echo $this->form->location_type_id_update_hidden; ?>
+

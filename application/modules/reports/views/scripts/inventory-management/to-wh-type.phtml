@@ -1,0 +1,34 @@
+<?php
+/**
+*  phtml for To WH Type
+*/
+?>
+<?php
+$wh_type = $this->wh_type;
+
+if ($wh_type == 1) {
+    ?>
+    <option value="2" <?php
+    if (!empty($to_wh_type) && $to_wh_type == 2) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("Provincial"); ?></option>
+        <?php } ?>
+        <?php
+        if ($wh_type == 2) {
+            ?>
+    <option value="4" <?php
+    if (!empty($to_wh_type) && $to_wh_type == 4) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("District"); ?></option>
+        <?php } ?>
+        <?php
+        if ($wh_type == 2 || $wh_type == 4) {
+            ?>
+    <option value="5" <?php
+    if (!empty($to_wh_type) && $to_wh_type == 5) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("Tehsil"); ?></option>
+<?php } ?>

@@ -1,0 +1,58 @@
+<?php
+/**
+*  phtml for Transfer Stock Vaccines
+*/
+?>
+<form method="POST" name="transfer_stock_vaccines" id="transfer_stock_vaccines" action="<?php echo $this->baseUrl(); ?>/stock/save-transfer-stock-vaccines" >
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label" for="product"><?php echo $this->translate("Product"); ?></label>
+                <?php echo $this->form->item_pack_size_id; ?>
+            </div>
+        </div> 
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label" for="batchno"><?php echo $this->translate("Batch No"); ?></label>
+                <?php echo $this->form->stock_batch_id; ?>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label" for="vvm"><?php echo $this->translate("VVM Stage"); ?></label>
+                <input class="form-control right" value="<?php echo $this->vvm; ?>" readonly="" />
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label" for="available_qty"><?php echo $this->translate("Available Quantity"); ?></label>
+                <input class="form-control right" name="available_qty" id="available_qty" value="<?php echo $this->available_qty; ?>" readonly="" />
+            </div>
+        </div>        
+    </div>  
+    <div class="row">  
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label" for="location"><?php echo $this->translate("Location"); ?><span class="red">*</span></label>
+                <?php echo $this->form->asset_id; ?>
+            </div>
+        </div> 
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label" for="quantity"><?php echo $this->translate("Quantity"); ?><span class="red">*</span></label>
+                <?php echo $this->form->quantity; ?>
+            </div>
+        </div> 
+        <div class="col-md-6"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group pull-right">
+                <button class="btn btn-primary input-sm" type="submit" id="btn-transfer" name="transfer">Transfer</button>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="bin_id" name="bin_id" value="<?php echo $this->bin_id; ?>">
+    <input type="hidden" id="bin_location_id" name="bin_location_id" value="<?php echo $this->bin_location_id; ?>">
+    <?php echo $this->form->id; ?>
+</form>

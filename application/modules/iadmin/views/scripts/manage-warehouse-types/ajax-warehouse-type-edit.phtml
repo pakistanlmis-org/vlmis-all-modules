@@ -1,0 +1,75 @@
+<?php
+/**
+ *  phtml for Ajax Item Edit
+ */
+?>
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Warehouse Type Name"); ?> <span class="red">*</span></label>
+            <div class="controls">
+                <?php echo $this->form->warehouse_type_name; ?>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Warehouse Type Category"); ?> <span class="red">*</span></label>
+            <div class="controls">
+                <?php echo $this->form->warehouse_type_category; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Geo Level"); ?> <span class="red">*</span></label>
+            <div class="controls">
+                <?php echo $this->form->geo_level; ?>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Resupply Interval"); ?> <span class="red">*</span></label>
+            <div class="controls">
+                <?php echo $this->form->resupply_interval; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Reserved Stock"); ?> <span class="red">*</span></label>
+            <div class="controls">
+                <?php echo $this->form->reserved_stock; ?>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Usage %"); ?> <span class="red">*</span></label>
+            <div class="controls">
+                <?php echo $this->form->usage_percentage; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Rank"); ?> <span class="red">*</span></label>
+            <div class="controls">
+                <?php echo $this->form->list_rank; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php
+echo $this->form->warehouse_type_id;
+echo $this->form->warehouse_type_name_hidden;
+?>

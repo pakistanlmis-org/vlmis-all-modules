@@ -1,0 +1,75 @@
+<?php
+/**
+*  phtml for Print Voltage Regulator
+*/
+?>
+<style>
+    #content_print {
+        margin-left: 50px;
+        width: 624px;
+    }
+    table#mytable {
+        border: 1px solid #e5e5e5;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table#mytable tr td {
+        border: 1px solid #e5e5e5;
+    }
+    table#mytable tr th {
+        border: 1px solid #e5e5e5;
+    }
+</style>
+
+<style type="text/css" media="print">
+    .page
+    {
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print
+    {    
+        #printButt
+        {
+            display: none !important;
+        }
+    }
+</style>
+
+
+<?php
+$detail_data = $this->coldChain()->getVoltageRegulatorDetailById($this->pkId);
+if ($detail_data != false) :
+    $detail_row = $detail_data[0];
+    ?>
+
+    <table id="mytable">
+        <tr class="gradeX">
+            <td style="width:150px;"><strong><?php echo $this->translate("Catalogue ID"); ?></strong></td>
+            <td><?php echo $detail_row['assetId']; ?></td>
+        </tr>
+        <tr class="gradeX">
+            <td style="width:150px;"><strong><?php echo $this->translate("Make"); ?></strong></td>
+            <td><?php echo $detail_row['ccmMakeName']; ?></td>
+        </tr>
+        <tr class="gradeX">
+            <td style="width:150px;"><strong><?php echo $this->translate("Model"); ?></strong></td>
+            <td><?php echo $detail_row['ccmModelName']; ?></td>
+        </tr>
+        <tr class="gradeX">
+            <td style="width:150px;"><strong><?php echo $this->translate("Placed at"); ?></strong></td>
+            <td>
+                <?php echo $detail_row['facility']; ?>, <?php echo $detail_row['district']; ?>
+                <?php /*echo $this->translate("District Province"); ?> : <br>
+                <?php echo $this->translate("Facility Store"); : */?>
+            </td>
+        </tr>
+    </table>
+    <div>
+        <div class="widget-body right">
+            <button name="print" id="print" value="1" type="button" class="btn btn-primary"><?php echo $this->translate("Print"); ?></button> 
+        </div>
+    </div>
+    <?php
+endif;
+?>

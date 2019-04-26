@@ -1,0 +1,175 @@
+<?php
+/**
+*  phtml for DS Stock Placement Comparison
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            <?php echo $this->translate("Dry Store: Stock Placement Comparison"); ?>
+        </h3>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Filters"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse"></a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12"> 
+                                                               
+                                <form method="POST" name="stock_compare" id="stock_compare" action="" >
+<?php $this->allLevelCombo("", "", 1, 11); ?>
+                                    <div class="pull-right">
+                                        <button type="submit" name="search" value="search" class="btn btn-success"><?php echo $this->translate("Search"); ?></button>
+                                        <button type="reset" class="btn btn-info" id="reset"><?php echo $this->translate("Reset"); ?></button>
+                                    </div>                                  
+                                </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12">
+                 <h3>
+                <?php echo $this->warehousename; ?>
+                </h3>
+                <?php
+                foreach ($this->batch_total as $b_total => $b_item) {
+                    $data_array[$b_item['Product']]['batch'] = $b_item['Quantity'];
+                    foreach ($this->stakeholder_total as $s_total => $s_item) {
+                        if ($b_item['Product'] == $s_item['Product']) {
+                            $data_array[$b_item['Product']]['stakeholder'] = $s_item['Quantity'];
+                        }
+                    }
+                    if (!isset($data_array[$b_item['Product']]['stakeholder'])) {
+                        $data_array[$b_item['Product']]['stakeholder'] = 0;
+                    }
+                    foreach ($this->priority_total as $p_total => $p_item) {
+                        if ($b_item['Product'] == $p_item['Product']) {
+                            $data_array[$b_item['Product']]['priority'] = $p_item['Quantity'];
+                        }
+                    }
+                    if (!isset($data_array[$b_item['Product']]['priority'])) {
+                        $data_array[$b_item['Product']]['priority'] = 0;
+                    }
+                }
+
+                $products = array();
+                if (!empty($this->batch_total) && count($this->batch_total) > 0) {
+                    ?>
+
+                    <table id="mytable" class="table table-striped table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">S. No.</th>
+                                <th rowspan="2">Product</th>
+                                <th colspan="4" style="text-align: center; background-color: #E8E8E8">Total Quantity Comparison</th>
+                            </tr>
+                            <tr style="background-color: #F8F8F8;">
+                                <th>Batch Summary</th>
+                                <th>Manufacturer Summary</th>
+                                <th>Placed Stock</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $i = 1;
+                            foreach ($data_array as $product => $data_item) {
+                                ?>
+                                <!-- Table row -->
+                                <tr>
+                                    <td align="center"><?php echo $i; ?></td>
+                                    <td align="left"><?php echo $product; ?></td>
+                                    <td align="right"><?php echo number_format($data_item['batch']); ?></td>
+
+                                    <?php
+                                    if ($data_item['batch'] == $data_item['stakeholder']) {
+                                        ?>
+                                        <td align="right" class="text-success"><?php echo number_format($data_item['stakeholder']); ?></td>
+                                    <?php
+                                    } else {
+                                        ?>
+                                        <td align="right" class="text-danger"><?php echo number_format($data_item['stakeholder']); ?></td>
+                                        <?php
+                                    }
+                                    ?>
+
+                                    <?php
+                                    if ($data_item['batch'] == $data_item['priority']) {
+                                        ?>
+                                        <td align="right" class="text-success"><?php echo number_format($data_item['priority']); ?></td>
+                                    <?php
+                                    } else {
+                                        ?>
+                                        <td align="right" class="text-danger"><?php echo number_format($data_item['priority']); ?></td>
+                                        <?php
+                                    }
+                                    ?>
+
+
+                                    <?php
+                                    if (($data_item['batch'] == $data_item['stakeholder']) && ($data_item['batch'] == $data_item['priority'])) {
+                                        ?>
+                                        <td><span class="btn-mini btn-success">Equal</span></td>
+                                    <?php
+                                    } else {
+                                        ?>
+                                        <td><span class="btn-mini btn-danger">Not Equal</span></td>
+                                        <?php
+                                    }
+                                    ?>
+
+
+                                </tr>
+                                <?php
+                                $i++;
+                            }
+                            ?>
+                            <!-- // Table row END -->
+                        </tbody>
+                    </table>
+                    <br>
+                <?php }
+                else {
+    echo "<h4>No data found</h4>";
+}
+                ?>            
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 right">
+                <a class="btn btn-success" href="javascript:void(0);" 
+                    onclick="window.open('ds-stock-placement-comparison-print?id=<?php echo $this->warehouseid; ?>', '_blank', 'scrollbars=1,width=840,height=595');">
+                       <?php echo $this->translate("Print"); ?>
+                </a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div style="display: none;">
+    <div id="clevel"><?php echo $this->params['office']; ?></div>
+    <div id="cprov"><?php echo $this->params['province']; ?></div>
+    <div id="cdist"><?php echo $this->params['district']; ?></div>
+    <div id="cwh"><?php echo $this->params['warehouse']; ?></div>
+</div>
+
+
+
+
+<!-- // Content END -->

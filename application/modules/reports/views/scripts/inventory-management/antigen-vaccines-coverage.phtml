@@ -1,0 +1,1341 @@
+<?php
+/**
+ *  phtml for BCG Coverage Detail
+ */
+error_reporting(0);
+?>
+<?php
+$from_sel_month = $this->from_month_sel;
+$from_sel_year = $this->from_year_sel;
+$year = $this->year_sel;
+$month = $this->month_sel;
+$sel_prov = $this->prov_sel;
+$sel_dist = $this->district_id;
+$sel_tehsil = $this->tehsil;
+$wh_type = $this->wh_type;
+$province = $this->prov_sel;
+$report_type = $this->report_type;
+$sel_item = $this->sel_item;
+
+$sum_arr = array();
+
+
+if ($sel_item == 'all' && $wh_type == '2') {
+    $query = $this->reports()->antigenWiseCoverageReport(6, 1, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+    $j = 1;
+
+
+    foreach ($query as $row) {
+
+        $location_id = $row['location_id'];
+        $data_arr[$location_id][] = $j;
+        if ($wh_type == 2 && $report_type == 1) {
+            $data_arr[$location_id][] = $row['location_name'];
+        }
+        $data_arr[$location_id][] = $row['population'];
+        $data_arr[$location_id][] = $row['target'];
+        $data_arr[$location_id][] = Round(($row['target'] * 92.60) / 100);
+
+
+
+
+        $j++;
+    }
+    $query_0 = $this->reports()->antigenWiseCoverageReport(6, 1, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_0 as $row) {
+
+        $location_id = $row['location_id'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+    $query_1 = $this->reports()->antigenWiseCoverageReport(43, 1, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_1 as $row) {
+
+        $location_id = $row['location_id'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+    $query_3 = $this->reports()->antigenWiseCoverageReport(43, 2, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_3 as $row) {
+
+        $location_id = $row['location_id'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+    $query_4 = $this->reports()->antigenWiseCoverageReport(43, 3, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_4 as $row) {
+
+        $location_id = $row['location_id'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+
+    $query_5 = $this->reports()->antigenWiseCoverageReport(7, 1, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_5 as $row) {
+
+        $location_id = $row['location_id'];
+        $pent1 = $row['consumption'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr1['pent1'][$location_id] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+
+    $query_544 = $this->reports()->antigenWiseCoverageReport(7, 2, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_544 as $row) {
+
+        $location_id = $row['location_id'];
+        $pent2 = $row['consumption'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr1['pent2'][$location_id] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+
+    $query_6 = $this->reports()->antigenWiseCoverageReport(7, 3, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_6 as $row) {
+
+        $location_id = $row['location_id'];
+        $pent3 = $row['consumption'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr1['pent3'][$location_id] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+
+    $query_7 = $this->reports()->antigenWiseCoverageReport(9, 1, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_7 as $row) {
+
+        $location_id = $row['location_id'];
+        $mesles1 = $row['consumption'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr1['mesles1'][$location_id] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+    $query_8 = $this->reports()->antigenWiseCoverageReport(9, 2, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_8 as $row) {
+
+        $location_id = $row['location_id'];
+        $mesles2 = $row['consumption'];
+        $data_arr1['mesles2'][$location_id] = $row['consumption'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+
+        $data_arr[$location_id][] = Round((($data_arr1[pent1][$location_id] - $data_arr1[pent3][$location_id]) / $data_arr1[pent1][$location_id]) * 100);
+        // $data_arr[$location_id][] = $data_arr1[penta1][$location_id];
+        $data_arr[$location_id][] = Round((($data_arr1[mesles1][$location_id] - $data_arr1[mesles2][$location_id]) / $data_arr1[mesles1][$location_id]) * 100);
+        $data_arr[$location_id][] = Round((($data_arr1[pent3][$location_id] - $data_arr1[mesles1][$location_id]) / $data_arr1[pent3][$location_id]) * 100);
+    }
+} else if ($sel_item == '2' && $wh_type == '2') {
+    $query = $this->reports()->antigenWiseCoverageReport(6, 1, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+    $j = 1;
+
+
+    foreach ($query as $row) {
+
+        $location_id = $row['location_id'];
+        $data_arr[$location_id][] = $j;
+        if ($wh_type == 2 && $report_type == 1) {
+            $data_arr[$location_id][] = $row['location_name'];
+        }
+        $data_arr[$location_id][] = $row['population'];
+        $data_arr[$location_id][] = $row['target'];
+        $data_arr[$location_id][] = Round(($row['target'] * 92.60) / 100);
+
+
+
+
+        $j++;
+    }
+    $query_9 = $this->reports()->antigenWiseCoverageReport(8, 1, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_9 as $row) {
+
+        $location_id = $row['location_id'];
+        $mesles1 = $row['consumption'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+
+    $query_10 = $this->reports()->antigenWiseCoverageReport(8, 2, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_10 as $row) {
+
+        $location_id = $row['location_id'];
+        $mesles1 = $row['consumption'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+
+
+    $query_11 = $this->reports()->antigenWiseCoverageReport(8, 3, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+    foreach ($query_11 as $row) {
+
+        $location_id = $row['location_id'];
+        $mesles1 = $row['consumption'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+    $query_12 = $this->reports()->antigenWiseCoverageReport(40, 1, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+    foreach ($query_12 as $row) {
+
+        $location_id = $row['location_id'];
+        $mesles1 = $row['consumption'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+} else if ($sel_item == '3' && $wh_type == '2') {
+    $query = $this->reports()->antigenWiseCoverageReport(12, 1, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+    $j = 1;
+
+
+    foreach ($query as $row) {
+
+        $location_id = $row['location_id'];
+        $data_arr[$location_id][] = $j;
+        if ($wh_type == 2 && $report_type == 1) {
+            $data_arr[$location_id][] = $row['location_name'];
+        }
+        $data_arr[$location_id][] = $row['population'];
+        $data_arr[$location_id][] = $row['target'];
+
+        $j++;
+    }
+    $query_13 = $this->reports()->antigenWiseCoverageReport(12, 1, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+    foreach ($query_13 as $row) {
+
+        $location_id = $row['location_id'];
+        $mesles1 = $row['consumption'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+    $query_14 = $this->reports()->antigenWiseCoverageReport(12, 2, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+    foreach ($query_14 as $row) {
+
+        $location_id = $row['location_id'];
+        $mesles1 = $row['consumption'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+} else if ($sel_item == 'all' && $wh_type == '4') {
+    $query_d_1 = $this->reports()->antigenWiseCoverageReport(6, 1, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+    $j = 1;
+
+
+    foreach ($query_d_1 as $row) {
+
+        $location_id = $row['location_id'];
+        $data_arr[$location_id][] = $j;
+
+        $data_arr[$location_id][] = $row['prov'];
+        $data_arr[$location_id][] = $row['location_name'];
+
+        $data_arr[$location_id][] = $row['population'];
+        $data_arr[$location_id][] = $row['target'];
+        $data_arr[$location_id][] = Round(($row['target'] * 92.60) / 100);
+
+
+
+
+        $j++;
+    }
+    $query_0 = $this->reports()->antigenWiseCoverageReport(6, 1, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_0 as $row) {
+
+        $location_id = $row['location_id'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+    $query_1 = $this->reports()->antigenWiseCoverageReport(43, 1, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_1 as $row) {
+
+        $location_id = $row['location_id'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+    $query_3 = $this->reports()->antigenWiseCoverageReport(43, 2, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_3 as $row) {
+
+        $location_id = $row['location_id'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+    $query_4 = $this->reports()->antigenWiseCoverageReport(43, 3, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_4 as $row) {
+
+        $location_id = $row['location_id'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+
+    $query_5 = $this->reports()->antigenWiseCoverageReport(7, 1, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_5 as $row) {
+
+        $location_id = $row['location_id'];
+        $data_arr1['pent1'][$location_id] = $row['consumption'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+
+    $query_54 = $this->reports()->antigenWiseCoverageReport(7, 2, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_54 as $row) {
+
+        $location_id = $row['location_id'];
+        $data_arr1['pent2'][$location_id] = $row['consumption'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+
+    $query_6 = $this->reports()->antigenWiseCoverageReport(7, 3, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_6 as $row) {
+
+        $location_id = $row['location_id'];
+        $data_arr1['pent3'][$location_id] = $row['consumption'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+
+
+
+    $query_57 = $this->reports()->antigenWiseCoverageReport(8, 1, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_57 as $row) {
+
+        $location_id = $row['location_id'];
+
+
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+
+    $query_67 = $this->reports()->antigenWiseCoverageReport(8, 2, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_67 as $row) {
+
+        $location_id = $row['location_id'];
+
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+
+    $query_78 = $this->reports()->antigenWiseCoverageReport(8, 3, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_78 as $row) {
+
+        $location_id = $row['location_id'];
+
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+
+    $query_60 = $this->reports()->antigenWiseCoverageReport(40, 1, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_60 as $row) {
+
+        $location_id = $row['location_id'];
+
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+
+    $query_7 = $this->reports()->antigenWiseCoverageReport(9, 1, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_7 as $row) {
+
+        $location_id = $row['location_id'];
+        $data_arr1['measeles1'][$location_id] = $row['consumption'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+    $query_8 = $this->reports()->antigenWiseCoverageReport(9, 2, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+
+
+
+    foreach ($query_8 as $row) {
+
+        $location_id = $row['location_id'];
+        $data_arr1['measeles2'][$location_id] = $row['consumption'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+        $data_arr[$location_id][] = Round((($data_arr1['measeles1'][$location_id] - $data_arr1['measeles2'][$location_id]) / $data_arr1['measeles1'][$location_id]) * 100);
+        $data_arr[$location_id][] = Round((( $data_arr1['pent1'][$location_id] - $data_arr1['pent3'][$location_id]) / $data_arr1['pent1'][$location_id]) * 100);
+    }
+} else if ($sel_item == '3' && $wh_type == '4') {
+    $query = $this->reports()->antigenWiseCoverageReport(12, 1, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+    $j = 1;
+
+
+    foreach ($query as $row) {
+
+        $location_id = $row['location_id'];
+        $data_arr[$location_id][] = $j;
+        $data_arr[$location_id][] = $row['prov'];
+        $data_arr[$location_id][] = $row['location_name'];
+
+        $data_arr[$location_id][] = $row['population'];
+        $data_arr[$location_id][] = $row['target'];
+
+        $j++;
+    }
+    $query_13 = $this->reports()->antigenWiseCoverageReport(12, 1, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+    foreach ($query_13 as $row) {
+
+        $location_id = $row['location_id'];
+
+        $data_arr1['tt1'][$location_id] = $row['consumption'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+    $query_14 = $this->reports()->antigenWiseCoverageReport(12, 2, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+    foreach ($query_14 as $row) {
+
+        $location_id = $row['location_id'];
+        $data_arr1['tt2'][$location_id] = $row['consumption'];
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+    $query_15 = $this->reports()->antigenWiseCoverageReport(12, 3, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+    foreach ($query_15 as $row) {
+
+        $location_id = $row['location_id'];
+
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+    $query_16 = $this->reports()->antigenWiseCoverageReport(12, 4, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+    foreach ($query_16 as $row) {
+
+        $location_id = $row['location_id'];
+
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+    $query_17 = $this->reports()->antigenWiseCoverageReport(12, 5, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+    foreach ($query_17 as $row) {
+
+        $location_id = $row['location_id'];
+
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+    }
+    $query_18 = $this->reports()->antigenWiseCoverageReport(12, 21, $wh_type, $year, $month, $from_sel_month, $from_sel_year, $province, $sel_dist, $sel_tehsil, $report_type);
+    foreach ($query_18 as $row) {
+
+        $location_id = $row['location_id'];
+
+        $data_arr[$location_id][] = $row['consumption'];
+        $data_arr[$location_id][] = Round($row['consumption'] / $row['target'] * 100);
+        $data_arr[$location_id][] = Round((($data_arr1['tt1'][$location_id] - $data_arr1['tt2'][$location_id]) / $data_arr1['tt1'][$location_id]) * 100);
+    }
+}
+?>
+<?php
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $report_title; ?></h3>
+
+
+        <div class="row">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('inventory-management/header_coverage_report.phtml') ?>
+                    </td>
+                </tr>
+            </table>
+            <div class="col-md-12 right">
+
+                <img src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="tableToExcel('export', 'sheet 1', 'Antigen')" alt="Excel" style="cursor:pointer;" />
+            </div>
+        </div>
+        <div>
+            &nbsp; &nbsp; &nbsp;
+        </div>
+        <div class="row" id="export">
+            <style>
+                table#myTable{margin-top:0px !important; color: #000;}
+                table#myTable{margin-top:20px;border-collapse: collapse;border-spacing: 0; border:1px solid #999;}
+                table#myTable tr td{font-size:11px;padding:3px; text-align:left; border:1px solid #ddd; color: #000;}
+                table#myTable tr:nth-child(even){background-color: #f2f2f2;}
+
+                table#myTable tr:hover {background-color: #ddd;}
+                table#myTable tr th{
+                    font-size:11px;
+                    padding-top: 12px;
+                    padding-bottom: 12px;
+                    text-align: center;
+                    background-color: white;
+                    border:2px solid #ddd;
+                    color: black;}
+                table#myTable tr td.TAR{text-align:right; padding:5px;width:50px !important;}
+                .sb1NormalFont {color: #444444; font-size: 11px; font-weight: bold; text-decoration: none;}
+                p{margin-bottom:5px; font-size:11px !important; line-height:1 !important; padding:0 !important; color: #000;}
+                table#headerTable tr td{ font-size:11px; color: #000;}
+                h4{margin:0; color: #000; font-size:14px;}
+                h5{margin:15px 0 5px 0; color: #000;}
+                h6{margin:0; color: #000; font-size:12px;}
+                .right{text-align:right !important;}
+                .center{text-align:center !important;}
+
+                /* Print styles */
+                @media only print
+                {
+                    table#myTable{margin-top:0px !important;}
+                    table#myTable tr th{font-size:8px;padding:3px !important; text-align:center; border:1px solid #999; color: #000;}
+                    table#myTable tr td{font-size:8px;padding:3px !important; text-align:left; border:1px solid #999; color: #000;}
+                    #doNotPrint{display: none !important;}
+                    h4{margin:0; color: #000;}
+                    h5{margin:0; color: #000;}
+                    h6{margin:0; color: #000;}
+                    p{margin-bottom:5px; font-size:11px !important; line-height:1 !important; padding:0 !important; color: #000;}
+                }
+            </style>
+
+
+            <script>
+                function printContents() {
+                    var w = 900;
+                    var h = screen.height;
+                    var left = Number((screen.width / 2) - (w / 2));
+                    var top = Number((screen.height / 2) - (h / 2));
+                    var dispSetting = "toolbar=yes,location=no,directories=yes,menubar=yes,scrollbars=yes,left=" + left + ",top=" + top + ",width=" + w + ",height=" + h;
+                    var printingContents = document.getElementById("export").innerHTML;
+                    var docprint = window.open("", "", dispSetting);
+                    docprint.document.open();
+                    docprint.document.write('<html><head>');
+                    docprint.document.write('</head><body onLoad="self.print();self.close();"><center>');
+                    docprint.document.write(printingContents);
+                    docprint.document.write('</center></body></html>');
+                    docprint.document.close();
+                    docprint.focus();
+                }
+
+            </script>
+
+            <div class="innerLR" style="overflow:auto;">
+                <table width="100%" >
+                    <tr>
+                        <td >
+                            <?php if ($from_sel_year == '2017') { ?>
+                                <h4 class="left">
+                                    Note:<b> Islamabad </b> Dose wise data is not available in Year:2017
+                                </h4>
+                            <?php } ?>
+                            <h4 class="center">
+                                <?php echo "<b>EPI-Pakistan</b> <br>Reported Vaccination Coverage of Children (0-11 Months of Age)<br> <b> " . date('F', mktime(0, 0, 0, $this->from_month_sel, 1)) . ' - ' . date('F', mktime(0, 0, 0, $this->month_sel, 1)) . ', ' . $this->from_year_sel; ?>
+                            </h4></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 10px;">
+                            <table id="myTable" style="width:2000px" cellspacing="0" align="center">
+                                <thead>
+
+                                    <?php if ($wh_type == '2') { ?>
+                                        <?php if ($sel_item == 'all') { ?>
+                                            <tr>
+                                                <th rowspan="3" width="2%">Sr.No.</th>
+                                                <th rowspan="3" width="3%">Province</th>
+                                                <th rowspan="3" width="3%">Total Population <br> <?php echo $this->from_year_sel; ?></th>
+
+                                                <th rowspan="3" width="5%">Target Live  Births @ 3.5% of Total Population </th>
+                                                <th rowspan="3" width="7%">Target Surviving  Infants @ 92.30% of Live Births</th>
+
+                                                <?php
+                                                $w1 = '5%';
+                                                $w2 = '4%';
+                                                $w2_ = '1%';
+                                                $w3 = '5%';
+                                                ?>
+                                            </tr>
+                                            <tr>
+                                                <th style='text-align:center;'  colspan="2"  width="<?php echo $w1; ?>">BCG </th>
+
+                                                <th style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">OPV-I</th>
+                                                <th  style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">OPV-II</th>
+                                                <th  style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">OPV-III</th>
+
+                                                <th   style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">Pentavalent-I</th>
+                                                <th  style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">Pentavalent-II</th>
+                                                <th  style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">Pentavalent-III</th>
+
+                                                <th  style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">Measles-I</th>
+                                                <th style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">Measles-II</th>
+
+                                                <th  rowspan="2" width="3%">Drop out <br> Penta-3 <br>(Penta1-Penta3) </th>
+                                                <th  rowspan="2" width="3%">Drop Out <br> Measles-2<br>(Measles1-Measles2)</th>
+                                                <th rowspan="2" width="3%">Drop Out <br> Measles-1<br>(Penta3-Measles1)</th>
+
+
+                                            </tr>
+
+                                            <tr>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>  </tr>
+
+                                        <?php } else if ($sel_item == 2) { ?>
+                                            <tr>
+                                                <th rowspan="3" width="2%">Sr.No.</th>
+                                                <th rowspan="3" width="3%">Province</th>
+                                                <th rowspan="3" width="3%">Total Population <br> <?php echo $this->from_year_sel; ?></th>
+
+                                                <th rowspan="3" width="5%">Target Live  Births @ 3.5% of Total Population </th>
+                                                <th rowspan="3" width="7%">Target Surviving  Infants @ 92.30% of Live Births</th>
+
+                                                <?php
+                                                $w1 = '5%';
+                                                $w2 = '4%';
+                                                $w2_ = '1%';
+                                                $w3 = '5%';
+                                                ?>
+                                            </tr>
+                                            <tr>
+
+                                                <th style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">PCV-I</th>
+                                                <th  style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">PCV-II</th>
+                                                <th  style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">PCV-III</th>
+
+                                                <th style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">IPV</th>
+
+
+
+                                            </tr>
+
+                                            <tr>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">%</th>
+                                            </tr>
+
+                                        <?php } else if ($sel_item == 3) { ?>
+                                            <tr>
+                                                <th rowspan="3" width="2%">Sr.No.</th>
+                                                <th rowspan="3" width="3%">Province</th>
+                                                <th rowspan="3" width="3%">Total Population <br> <?php echo $this->from_year_sel; ?></th>
+
+                                                <th rowspan="3" width="3%">Target Pregnant Women </th>
+
+
+                                                <?php
+                                                $w1 = '5%';
+                                                $w2 = '4%';
+                                                $w3 = '5%';
+                                                ?>
+                                            </tr>
+                                            <tr>
+
+                                                <th style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">TT-I</th>
+                                                <th  style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">TT-II+</th>
+
+
+
+                                            </tr>
+
+                                            <tr>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">%</th>
+
+                                            </tr>
+
+                                            <?php
+                                        }
+                                    } else {
+                                        ?>
+                                        <?php if ($sel_item == 'all') { ?>
+                                            <tr>
+                                                <th rowspan="3" width="2%">Sr.No.</th>
+                                                <th rowspan="3" width="3%">Province</th>
+                                                <th rowspan="3" width="3%">District</th>
+                                                <th rowspan="3" width="3%">Total Population <br> <?php echo $this->from_year_sel; ?></th>
+
+                                                <th rowspan="3" width="5%">Target Live  Births @ 3.5% of Total Population </th>
+                                                <th rowspan="3" width="7%">Target Surviving  Infants @ 92.30% of Live Births</th>
+
+                                                <?php
+                                                $w1 = '5%';
+                                                $w2 = '4%';
+                                                $w2_ = '1%';
+                                                $w3 = '5%';
+                                                ?>
+                                            </tr>
+                                            <tr>
+                                                <th style='text-align:center;'  colspan="2"  width="<?php echo $w1; ?>">BCG </th>
+
+                                                <th style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">OPV-I</th>
+                                                <th  style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">OPV-II</th>
+                                                <th  style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">OPV-III</th>
+
+                                                <th   style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">Pentavalent-I</th>
+                                                <th  style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">Pentavalent-II</th>
+                                                <th  style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">Pentavalent-III</th>
+                                                <th   style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">Pneumo-I</th>
+                                                <th  style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">Pneumo-II</th>
+                                                <th  style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">Pneumo-III</th>
+
+                                                <th  style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">IPV</th>
+                                                <th  style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">Measles-I</th>
+                                                <th style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">Measles-II</th>
+
+
+
+
+                                                <th  rowspan="4" width="4%">Drop Out <br> Measles-1<br>(Measles1-Measles2)</th>
+                                                <th rowspan="4" width="4">Drop Out <br> Penta-3<br>(Penta1-Penta3)</th>
+
+                                            </tr>
+
+                                            <tr>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2_; ?>">%</th>
+                                            </tr>
+
+
+                                        <?php } else if ($sel_item == 3) { ?>
+
+                                            <tr>
+                                                <th rowspan="3" width="2%">Sr.No.</th>
+                                                <th rowspan="3" width="3%">Province</th>
+                                                <th rowspan="3" width="3%">District</th>
+                                                <th rowspan="3" width="3%">Total Population <br> <?php echo $this->from_year_sel; ?></th>
+
+                                                <th rowspan="3" width="3%">Target  </th>
+
+
+                                                <?php
+                                                $w1 = '5%';
+                                                $w2 = '4%';
+                                                $w3 = '5%';
+                                                ?>
+                                            </tr>
+                                            <tr>
+                                                <th style='text-align:center;'  colspan="2"  width="<?php echo $w1; ?>">TT-1 </th>
+
+                                                <th style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">TT-2</th>
+                                                <th  style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">TT-3</th>
+                                                <th  style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">TT-4</th>
+
+                                                <th   style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">TT-5</th>
+                                                <th  style='text-align:center;' colspan="2" width="<?php echo $w1; ?>">TT-2+</th>
+                                                <th  style='text-align:center;' colspan="1" width="<?php echo $w1; ?>">Dropout</th>
+
+
+
+
+
+
+                                            </tr>
+
+                                            <tr>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">VACC </th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">%</th>
+                                                <th style='text-align:center;' width="<?php echo $w2; ?>">TT1-TT2 </th>
+
+                                            </tr>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    foreach ($data_arr as $dis_id => $sub_arr) {
+                                        ?>
+                                        <tr>
+                                            <?php
+                                            if ($wh_type == 2) {
+                                                ?>
+                                                <td><?php echo $sub_arr[0]; ?></td>
+                                                <td><?php echo $sub_arr[1]; ?></td>
+                                                <?php
+                                            } else if ($wh_type == 4) {
+                                                ?>
+                                                <td><?php echo $sub_arr[0]; ?></td>
+                                                <td><?php echo $sub_arr[1]; ?></td>
+                                                <td><?php echo $sub_arr[2]; ?></td>
+
+                                                <?php
+                                            }
+
+                                            foreach ($sub_arr as $key => $value) {
+                                                if (!isset($sum_arr[$key])) {
+                                                    $sum_arr[$key] = 0;
+                                                }
+                                                $sum_arr[$key] += $value;
+
+                                                if ($wh_type == 2) {
+                                                    if ($key > 1) {
+                                                        ?><td style="text-align:right;"><?php echo number_format($value); ?></td>
+
+                                                        <?php
+                                                    }
+                                                } else if ($wh_type == 4) {
+                                                    if ($key > 2) {
+                                                        ?>
+                                                        <td style="text-align:right;"><?php echo number_format($value); ?></td>
+
+                                                        <?php
+                                                    }
+                                                }
+                                            }
+                                            ?>
+                                        </tr>
+                                        <?php
+                                    }
+                                    ?>
+
+                                    <?php
+// To show Total
+                                    array_shift($sum_arr);
+                                    ?>
+                                    <tr>
+                                        <?php if ($wh_type == 2) {
+                                            ?>
+                                            <td></td>
+
+
+                                        <?php } else if ($wh_type == 4) {
+                                            ?>
+                                            <td></td>
+                                            <td></td>
+
+                                        <?php }
+                                        ?>
+                                        <td style="font-weight:bold; text-align: right;"><?php if ($wh_type == 2) { ?>Pakistan <?php } else { ?>Total<?php }php ?></td>
+                                        <?php
+                                        foreach ($sum_arr as $key => $value) {
+
+                                            if ($wh_type == 2 && $sel_item == 'all') {
+                                                if ($key == 1) {
+                                                    $total_pop = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                    <?php
+                                                } else if ($key == 2) {
+                                                    $total_target = $value;
+                                                    ?>
+
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+                                                    <?php
+                                                } else if ($key == 3) {
+                                                    ?>
+
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+                                                    <?php
+                                                } else if ($key == 4) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 5) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 6) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 7) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 8) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 9) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 10) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 11) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 12) {
+                                                    $penta_1_tot = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 13) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($penta_1_tot / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 14) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 15) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 16) {
+                                                    $penta_3_tot = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 17) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($penta_3_tot / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 18) {
+                                                    $measless_1_tot = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 19) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($measless_1_tot / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 20) {
+                                                    $measless_2_tot = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 21) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($measless_2_tot / $total_target) * 100); ?></td>
+                                                <?php } else if ($key == 22) {
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round((($penta_1_tot - $penta_3_tot) / $penta_1_tot) * 100); ?></td>
+                                                <?php } else if ($key == 23) {
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round((($measless_1_tot - $measless_2_tot) / $measless_1_tot) * 100); ?></td>
+                                                <?php } else if ($key == 24) {
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round((($penta_3_tot - $measless_1_tot) / $penta_3_tot) * 100); ?></td>
+                                                    <?php
+                                                }
+                                            } else if ($wh_type == 2 && $sel_item == '2') {
+                                                if ($key == 1) {
+                                                    $total_pop = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                    <?php
+                                                } else if ($key == 2) {
+                                                    $total_target = $value;
+                                                    ?>
+
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+                                                    <?php
+                                                } else if ($key == 3) {
+                                                    ?>
+
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+                                                    <?php
+                                                } else if ($key == 4) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 5) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 6) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 7) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 8) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 9) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 10) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 11) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                }
+                                            } else if ($wh_type == 2 && $sel_item == '3') {
+                                                if ($key == 1) {
+                                                    $total_pop = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                    <?php
+                                                } else if ($key == 2) {
+                                                    $total_target = $value;
+                                                    ?>
+
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+                                                    <?php
+                                                } else if ($key == 3) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 4) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 5) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 6) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 8) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 9) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                }
+                                            } else if ($wh_type == 4 && $sel_item == 'all') {
+                                                if ($key == 2) {
+                                                    $total_pop = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                    <?php
+                                                } else if ($key == 3) {
+                                                    $total_target = $value;
+                                                    ?>
+
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+                                                    <?php
+                                                } else if ($key == 4) {
+                                                    ?>
+
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+                                                    <?php
+                                                } else if ($key == 5) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 6) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 7) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 8) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 9) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 10) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 11) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 12) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 13) {
+                                                    $penta_1_tot = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 14) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($penta_1_tot / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 15) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 16) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 17) {
+                                                    $penta_3_tot = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 18) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($penta_3_tot / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 19) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 20) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 21) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 22) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 23) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 24) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 25) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 26) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 27) {
+                                                    $measless_1_tot = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 28) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($measless_1_tot / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 29) {
+                                                    $measless_2_tot = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 30) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($measless_2_tot / $total_target) * 100); ?></td>
+                                                <?php } else if ($key == 31) {
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round((($penta_1_tot - $penta_3_tot) / $penta_1_tot) * 100); ?></td>
+                                                <?php } else if ($key == 32) {
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round((($measless_1_tot - $measless_2_tot) / $measless_1_tot) * 100); ?></td>
+                                                <?php } else if ($key == 33) {
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round((($penta_3_tot - $measless_1_tot) / $penta_3_tot) * 100); ?></td>
+                                                    <?php
+                                                }
+                                            } else if ($wh_type == 4 && $sel_item == '3') {
+                                                if ($key == 2) {
+                                                    $total_pop = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                    <?php
+                                                } else if ($key == 3) {
+                                                    $total_target = $value;
+                                                    ?>
+
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+                                                    <?php
+                                                } else if ($key == 4) {
+                                                    $total_tt1_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 5) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_tt1_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 6) {
+                                                    $total_tt2_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 7) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 8) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 9) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 10) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 11) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 12) {
+                                                    $penta_1_tot = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 13) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($penta_1_tot / $total_target) * 100); ?></td>
+                                                    <?php
+                                                } else if ($key == 14) {
+                                                    $total_val = $value;
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+                                                <?php } else if ($key == 15) { ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round(($total_val / $total_target) * 100); ?></td>
+                                                <?php } else if ($key == 16) {
+                                                    ?>
+                                                    <td style="text-align:right; font-weight:bold"><?php echo @round((($total_tt1_val - $total_tt2_val) / $total_tt1_val) * 100); ?></td>
+                                                    <?php
+                                                }
+                                            }
+                                        }
+                                        ?>
+                                    </tr>
+                                </tbody>
+                            </table></td>
+                    </tr>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    var whType = <?php echo $wh_type; ?>;
+    var province = <?php echo $sel_prov; ?>;
+    var district = <?php echo $sel_dist; ?>;
+    var tehsil = <?php echo $sel_tehsil; ?>;
+
+</script>
+
+

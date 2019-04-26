@@ -1,0 +1,20 @@
+<?php
+/**
+*  phtml for Ajax Get Items
+*/
+?>
+<?php
+$userWH = array();
+foreach ($this->data as $row_1) {
+    array_push($userWH, $row_1['pkId']);
+}
+?>
+<select name="items[]" class="col-md-12" id="msc" multiple="multiple">
+    <?php
+    foreach ($this->data_district as $row) {
+        $sel = (in_array($row['pkId'], $userWH) ) ? 'selected="selected"' : '';
+        echo "<option value=\"$row[pkId]\" $sel>$row[itemName]</option>";
+    }
+    ?>
+</select>
+

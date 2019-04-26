@@ -1,0 +1,94 @@
+<?php
+/**
+*  phtml for Ajax Edit
+*/
+?>
+<div class="row">
+<div class="col-md-6">
+    <div class="form-group ">
+        <label class="control-label" ><?php echo $this->translate("Username"); ?></label>
+        <?php echo $this->form->login_id; ?>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group ">
+        <label class="control-label" ><?php echo $this->translate("Email"); ?></label>
+         <?php echo $this->form->email; ?>
+    </div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-6">
+    <div class="form-group ">
+        <label class="control-label" ><?php echo $this->translate("User Role"); ?> <span class="red">*</span></label>
+        <?php echo $this->form->role; ?>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group ">
+        <label class="control-label" ><?php echo $this->translate("Phone"); ?> <span class="red">*</span></label>
+        <?php echo $this->form->phone; ?>
+    </div>
+</div>
+    </div>
+<div class="row">
+<div class="col-md-6">
+    <div class="form-group ">
+        <label class="control-label" ><?php echo $this->translate("Old Password"); ?></label>
+        <?php echo $this->form->old_password; ?>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group ">
+        <label class="control-label" ><?php echo $this->translate("New Password"); ?></label>
+        <?php echo $this->form->new_password; ?>
+    </div>
+</div>
+    </div>
+<div class="row">
+<div class="col-md-6">
+    <div class="form-group ">
+        <label class="control-label" ><?php echo $this->translate("Designation"); ?></label>
+        <?php echo $this->form->designation; ?>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="form-group ">
+        <label class="control-label" ><?php echo $this->translate("Department"); ?></label>
+        <?php echo $this->form->department; ?>
+    </div>
+</div>
+    </div>
+<div class="row">
+<div class="col-md-6">
+    <div class="form-group ">
+        <label class="control-label" ><?php echo $this->translate("Address"); ?></label>
+        <?php echo $this->form->address; ?>
+    </div>
+</div>
+
+<div class="col-md-6">
+    <label class="control-label" ><?php echo $this->translate("Photo"); ?></label>
+    <div class="fileupload fileupload-new" data-provides="fileupload">
+        <span class="btn btn-default btn-file">
+            <span class="fileupload-new">Select file</span>
+            <span class="fileupload-exists">Change</span>
+            <?php echo $this->form->photo; ?>
+        </span>
+        <span class="fileupload-preview"></span>
+        <a href="#" class="close fileupload-exists" data-dismiss="fileupload" style="float: none">&times;</a>
+    </div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-6">
+    <div class="form-group ">
+        <label class="control-label" ><?php echo $this->translate("Selected Warehouse"); ?></label>
+        <?php echo $this->form->old_warehouse; ?>
+    </div>
+</div>
+    </div>
+<?php echo $this->form->id; ?>
+<div class="row">
+<?php $this->allLevelCombo("Update Office", "2"); ?>
+</div>

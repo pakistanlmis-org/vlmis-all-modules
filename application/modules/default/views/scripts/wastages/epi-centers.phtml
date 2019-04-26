@@ -1,0 +1,117 @@
+<?php
+/**
+ *  phtml for Rported UC
+ */
+?>
+<?php
+$param = $this->result;
+?>
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption"><i class="icon-comments"></i>
+                    <?php
+                    if ($this->status == 1) {
+                        ?>
+                        <?php echo $param[0]['item_name']; ?>  - Wastage Within Range  
+                    <?php } else { ?>
+                        <?php echo $param[0]['item_name']; ?>  - Over Wastage 
+                    <?php } ?>
+                </div>
+
+
+                <?php
+                if ($this->province == 'all') {
+                    echo '&nbsp' . 'Pakistan' . '&nbsp;for&nbsp;';
+                } else {
+                    echo '&nbsp' . $param['0']['province_name'] . '&nbsp;for&nbsp;';
+                }
+                ?>
+
+                <?php
+                if ($this->year == 'all') {
+                    echo 'All Years';
+                } else if (empty($this->month)) {
+                    echo $this->year;
+                } else if (!empty($this->month)) {
+                    echo date('F', mktime(0, 0, 0, $this->month)) . ' ' . $this->year;
+                }
+                ?>
+            </div>
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <?php if ($this->province == 'all') { ?>
+                                    <th style="text-align:left;">Province</th>
+                                <?php } ?>
+                                <th style="text-align:left;">District</th>
+                                <th style="text-align:left;">Tehsil</th>
+                                <th style="text-align:left;">UC</th>
+                                <th style="text-align:left;">EPI Centers</th>
+                                <th style="text-align:right;">Consumption</th>
+                                <th style="text-align:right;">Wastages</th>
+                                <?php if (!empty($this->month)) { ?>
+                                    <th style="text-align:right;">Status</th>
+                                <?php } else { ?>
+                                    <th style="text-align:right;">Reporting Rate</th>
+                                <?php } ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $i = 1;
+                            foreach ($param as $row) {
+                                ?>
+                                <tr>
+                                    <td style="text-align:left;"><?php echo $i; ?></td>
+                                    <?php if ($this->province == 'all') { ?>
+                                        <td style="text-align:left;"><?php echo $row['province_name']; ?></td>
+                                    <?php } ?>
+                                    <td style="text-align:left;"><?php echo $row['district_name']; ?></td>
+                                    <td style="text-align:left;"><?php echo $row['tehsil_name']; ?></td>
+                                    <td style="text-align:left;"><?php echo $row['uc_name']; ?></td>
+                                    <td style="text-align:left;"><?php echo $row['warehouse_name']; ?></td>
+                                    <td style="text-align:right;"><?php echo $row['consumption']; ?></td>
+                                    <td style="text-align:right;"><?php echo $row['wastage']; ?></td>
+                                    <td style="text-align:right;">
+                                        <?php if (!empty($this->month)) { ?>
+                                            <?php if ($row['reporting'] == 1) { ?>
+                                                <span class="label label-sm label-success">Reported</span>
+                                            <?php } else { ?>
+                                                <span class="label label-sm label-danger">Not Reported</span>
+                                            <?php } ?>
+                                        <?php } else { ?>
+                                            <?php
+                                            if ($row['reporting'] > 100) {
+                                                echo "100%";
+                                            } else {
+                                                echo $row['reporting'] . "%";
+                                            }
+                                        }
+                                        ?>
+
+                                    </td>
+                                </tr>
+                                <?php
+                                $i++;
+                            }
+                            ?>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+
+</div>
+
+
+
+

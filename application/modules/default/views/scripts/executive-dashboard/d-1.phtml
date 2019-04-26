@@ -1,0 +1,69 @@
+<h4 class="center">Transactional Data  (<?php echo date('M', mktime(0, 0, 0, $this->month)) . '-' . $this->year; ?>)</h4>
+<table class="table table-striped table-bordered table-advance table-hover" style="font-size: 11px;" id="tbl">
+                                        <thead>
+        <tr>
+            <th style="width:3%;">Vaccine</th>
+            <th style="width:3%;">Store</th>
+            <th style="width:3%;">SOH</th>
+            <th style="width:3%;">AMC</th>
+            <th style="width:3%;">MOS</th>
+            <th style="width:3%;">Proposed<br>Re-order</th>
+            <th style="width:3%;">Available <br> space %</th>
+            <th style="width:3%;">Expired <br> stock</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        $count = 1;
+        if (count($this->dd1) > 0) {
+            foreach ($this->dd1 as $res) {
+                ?>
+                <tr>
+                    <?php if ($res['province'] == '8') { ?>
+                        <td rowspan="8"><?php echo $res['item_name']; ?></td>
+                    <?php } ?>
+                    <td><?php
+                        if ($res['province'] == '8') {
+                            echo 'Federal EPI' . "<br>" . '(Warehouse)';
+                        } else {
+                            echo $res['province'];
+                        }
+                        ?></td>
+                    <td><?php
+                        echo number_format($res['soh']);
+                        ?></td>
+                    <td><?php
+                        echo number_format($res['amc']);
+                        ?></td>
+                    <td><?php
+                        echo Round($res['soh'] / $res['amc']);
+                        ?></td>
+                    <td><?php
+                        $mos = Round($res['soh'] / $res['amc']);
+                        if ($mos >= 6) {
+                            echo '0';
+                        } else {
+                            echo 6 - $mos;
+                        }
+                        ?></td>
+                    <td><?php echo Round($res['available_space']); ?></td>
+                    <td><?php
+                        if (!empty($res['expired_stock'])) {
+                            echo number_format($res['expired_stock']);
+                        } else {
+                            echo '0';
+                        }
+                        ?></td>
+                </tr>
+                <?php
+                $count++;
+            }
+        } else {
+            ?>
+            <tr>
+                <td colspan="8" style="text-align:center">No data found</td>
+
+            </tr>
+<?php } ?>
+    </tbody>
+</table>

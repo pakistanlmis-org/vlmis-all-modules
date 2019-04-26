@@ -1,0 +1,128 @@
+<?php
+/**
+*  phtml for DS Stock Placement Comparison Print
+*/
+?>
+<!-- Content -->
+<style>
+    #content_print {
+        margin-left: 50px;
+        width: 624px;
+    }
+    table#mytable {
+        border: 1px solid #e5e5e5;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table#mytable tr td {
+        border: 1px solid #e5e5e5;
+    }
+    table#mytable tr th {
+        border: 1px solid #e5e5e5;
+    }
+</style>
+<!-- Content -->
+
+<style type="text/css" media="print">
+    .page
+    {
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print
+    {    
+        #printButt
+        {
+            display: none !important;
+        }
+    }
+</style>
+
+<?php
+foreach ($this->batch_total as $b_total => $b_item) {
+    $data_array[$b_item['Product']]['batch'] = $b_item['Quantity'];
+    foreach ($this->stakeholder_total as $s_total => $s_item) {
+        if ($b_item['Product'] == $s_item['Product']) {
+            $data_array[$b_item['Product']]['stakeholder'] = $s_item['Quantity'];
+        }
+    }
+    if (!isset($data_array[$b_item['Product']]['stakeholder'])) {
+        $data_array[$b_item['Product']]['stakeholder'] = 0;
+    }
+    foreach ($this->priority_total as $p_total => $p_item) {
+        if ($b_item['Product'] == $p_item['Product']) {
+            $data_array[$b_item['Product']]['priority'] = $p_item['Quantity'];
+        }
+    }
+    if (!isset($data_array[$b_item['Product']]['priority'])) {
+        $data_array[$b_item['Product']]['priority'] = 0;
+    }
+}
+
+
+
+$products = array();
+if (!empty($this->batch_total) && count($this->batch_total) > 0) {
+    ?>
+    <table style="width:100%;">
+        <tr>
+            <td class="left"><b style="font-size: 16px;">Dry Store: Stock Placement Comparison</b></td>
+        </tr>        
+    </table>
+    <table id="mytable">
+        <thead>
+            <tr>
+                <th rowspan="2">S. No.</th>
+                <th rowspan="2">Product</th>
+                <th colspan="4">Total Quantity Comparison</th>
+            </tr>
+            <tr style="background-color: #F8F8F8;">
+                <th width="10%">Batch Summary</th>
+                <th width="15%">Manufacturer Summary</th>
+                <th width="15%">Placed Stock</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+    <?php
+    $i = 1;
+    foreach ($data_array as $product => $data_item) {
+        ?>
+                <!-- Table row -->
+                <tr>
+                    <td align="center"><?php echo $i; ?></td>
+                    <td align="left"><?php echo $product; ?></td>
+                    <td align="right"><?php echo number_format($data_item['batch']); ?></td>
+                    <td align="right"><?php echo number_format($data_item['stakeholder']); ?></td>
+                    <td align="right"><?php echo number_format($data_item['priority']); ?></td>
+        <?php
+        if (($data_item['batch'] == $data_item['stakeholder']) && ($data_item['batch'] == $data_item['priority'])) {
+            ?>
+                        <td><span class="btn-mini btn-success">Equal</span></td>
+                    <?php
+                    } else {
+                        ?>
+                        <td><span class="btn-mini btn-danger">Not Equal</span></td>
+                        <?php
+                    }
+                    ?>
+
+                </tr>
+                    <?php
+                    $i++;
+                }
+                ?>
+            <!-- // Table row END -->
+        </tbody>
+    </table>
+    <br>
+    <b>Print Date:</b> <?php echo date("d/m/Y h:i:s A"); ?>
+<?php }
+?>            
+<div>
+    <div class="widget-body right">
+        <button name="print" id="print" value="1" type="button" class="btn btn-primary"><?php echo $this->translate("Print"); ?></button> 
+    </div>
+</div>        
+
+<!-- // Content END -->

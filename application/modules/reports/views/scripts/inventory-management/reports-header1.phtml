@@ -1,0 +1,371 @@
+<?php
+/**
+*  phtml for Reports Header 1
+*/
+?>
+<!--  BEGIN: REPORT Header -->
+<?php
+$report_id = $this->report_id;
+
+$report_title = $this->report_title;
+$action_page = $this->actionpage;
+$parameters = $this->parameters;
+$parameter_width = $this->parameter_width;
+$sel_month = $this->month_sel;
+$sel_year = $this->year_sel;
+$sel_item = $this->sel_item;
+$sel_prov = $this->prov_sel;
+$sel_dist = $this->sel_dist;
+$in_item = $this->in_item;
+$sel_teh = $this->sel_teh;
+$sel_uc = $this->sel_uc;
+$lvl_stktype = '';
+$sel_indicator = $this->sel_indicator;
+$geo_level_id = $this->geo_level_id;
+$sel_level = $this->sel_level;
+
+$wh_type = $this->wh_type;
+
+//to warhouse
+$to_wh_type = $this->to_wh_type;
+
+
+//to warhouse end
+
+
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <?php echo $this->translate("Filters") ?>
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php
+                        echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                        ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <form name="searchfrm" id="searchfrm" action="<?php echo $this->baseUrl(); ?>/reports/inventory-management/<?php echo $action_page ?>" method="post">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Ending Month:</label>
+                                    <div class="form-group">
+                                        <select name="ending_month" id="ending_month" class="form-control">
+                                            <?php
+                                            for ($i = 1; $i <= 12; $i++) {
+                                                if ($sel_month == $i) {
+                                                    $sel = "selected='selected'";
+                                                } else if ($i == 1) {
+                                                    $sel = "selected='selected'";
+                                                } else {
+                                                    $sel = "";
+                                                }
+                                                ?>
+                                                <option value="<?php echo $i; ?>"<?php echo $sel; ?> ><?php echo date('M', mktime(0, 0, 0, $i, 1)); ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label><?php echo $this->translate("Year"); ?>:</label>
+                                        <select name="year_sel" id="year_sel"  class="form-control">
+                                            <?php if ($paramTsel == 1) { ?>
+                                                <option value=""><?php echo $this->translate("Select"); ?></option>
+                                            <?php }
+                                            ?>
+                                            <?php if ($paramTall == 1) { ?>
+                                                <option value="all"><?php echo $this->translate("All"); ?></option>
+                                            <?php }
+                                            ?>
+                                            <?php
+                                            for ($j = date('Y'); $j >= 2014; $j--) {
+                                                if ($sel_year == $j)
+                                                    $sel = "selected='selected'";
+                                                else
+                                                if ($j == date("Y"))
+                                                    $sel = "selected='selected'";
+                                                else
+                                                    $sel = "";
+                                                ?>
+                                                <option value="<?php echo $j; ?>" <?php echo $sel; ?> ><?php echo $j; ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Indicator:</label>
+                                        <select name="rep_indicators" id="rep_indicators" class="form-control">
+                                            <option value="1" <?php
+                                            if (!empty($sel_indicator) && $sel_indicator == 1) {
+                                                echo 'selected="selected"';
+                                            }
+                                            ?>><?php echo $this->translate("Issued"); ?></option>
+                                                    <?php if ($report_id == "CENTRALWAREHOUSE") { ?>
+                                                <option value="2" <?php
+                                                if (!empty($sel_indicator) && $sel_indicator == 2) {
+                                                    echo 'selected="selected"';
+                                                }
+                                                ?>><?php echo $this->translate("Stock on Hand"); ?></option>
+
+                                            <?php } ?>
+                                            <option value="3" <?php
+                                            if (!empty($sel_indicator) && $sel_indicator == 3) {
+                                                echo 'selected="selected"';
+                                            }
+                                            ?>><?php echo $this->translate("Received"); ?></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+
+                                        <label>From Store:</label>
+
+                                        <select name="wh_type" id="wh_type" class="form-control">
+                                            <!--<option value="all" <?php
+                                            if (!empty($wh_type) && $wh_type == 'all') {
+                                                echo 'selected="selected"';
+                                            }
+                                            ?>>All</option>-->
+                                            <?php
+                                            if ($this->report_id1 != 'STATUSREPORT' && $this->report_id != 'REPORTEDBYUC' && $this->report_id != 'WASTAGESREPORTING' && $this->report_id != 'SNONREPDIST' && $this->report_id != 'VCOVERAGE' && $this->report_id != 'VSTATUSWASTAGE' && $this->report_id != 'VDROPOUTRATE') {
+                                                ?>
+                                                <option value="1" <?php
+                                                if (!empty($wh_type) && $wh_type == 1) {
+                                                    echo 'selected="selected"';
+                                                }
+                                                ?>><?php echo $this->translate("Federal"); ?></option>
+
+                                            <?php } ?>
+                                            <?php if ($this->report_id != 'SNONREPDIST' && $this->report_id != 'VCOVERAGE' && $this->report_id != 'VSTATUSWASTAGE' && $this->report_id != 'VDROPOUTRATE') { ?>
+                                                <option value="2" <?php
+                                                if (!empty($wh_type) && $wh_type == 2) {
+                                                    echo 'selected="selected"';
+                                                }
+                                                ?>><?php echo $this->translate("Provincial"); ?></option>
+                                                    <?php } ?>
+                                            <option value="4" <?php
+                                            if (!empty($wh_type) && $wh_type == 4) {
+                                                echo 'selected="selected"';
+                                            }
+                                            ?>><?php echo $this->translate("District"); ?></option>
+
+
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <?php
+                                if (!empty($this->wh_prov_sel) && ($this->wh_type == 4 || $this->wh_type == 5)) {
+                                    $display1 = 'display:block  !important;';
+                                } else {
+                                    $display1 = 'display:none !important;';
+                                }
+                                ?>
+                                <div class="col-md-3" style="<?php echo $display1; ?>" id="wh_prov_col">
+                                    <div class="form-group">
+
+
+                                        <label>Province/Region:</label>
+                                        <select name="wh_prov_sel" id="wh_prov_sel" class="form-control" >
+                                            <?php
+                                            foreach ($this->location as $rowprov) {
+
+                                                if ($this->wh_prov_sel == $rowprov['pk_id'])
+                                                    $sel = "selected='selected'";
+                                                else
+                                                    $sel = "";
+                                                ?>
+                                                <option value="<?php echo $rowprov['pk_id']; ?>" <?php echo $sel; ?>><?php echo $rowprov['location_name']; ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Store:</label>
+                                        <select name="warehouse_id" id="warehouse_id" class="form-control">
+                                            <?php
+                                            $wh_type = 1;
+                                            if (!empty($this->wh_type)) {
+                                                $wh_type = $this->wh_type;
+                                            }
+                                            if (!empty($this->warehouse_id)) {
+                                                $warehouse_id = $this->warehouse_id;
+                                            }
+                                            if (!empty($this->wh_prov_sel) && ($this->wh_type == 4 || $this->wh_type == 5)) {
+                                                $and = " AND warehouses.province_id = " . $this->wh_prov_sel;
+                                            } else {
+                                                $and = "";
+                                            }
+                                            $rspro = $this->reports()->getWarehouseId($wh_type, $and);
+
+                                            foreach ($rspro as $rowpro) {
+                                                if ($rowpro['wh_id'] == $warehouse_id)
+                                                    $sel = "selected='selected'";
+                                                else
+                                                    $sel = "";
+                                                ?>
+                                                <option value="<?php echo $rowpro['wh_id']; ?>" <?php echo $sel; ?>><?php echo $rowpro['wh_name']; ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div></div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+
+
+                                        <label>To Store:</label>
+
+                                        <select name="to_wh_type" id="to_wh_type" class=" form-control">
+
+                                            <?php
+                                            if ($wh_type == 1) {
+                                                ?>
+                                                <option value="2" <?php
+                                                if (!empty($to_wh_type) && $to_wh_type == 2) {
+                                                    echo 'selected="selected"';
+                                                }
+                                                ?>><?php echo $this->translate("Provincial"); ?></option>
+                                                    <?php } ?>
+                                                    <?php
+                                                    if ($wh_type == 2) {
+                                                        ?>
+                                                <option value="4" <?php
+                                                if (!empty($to_wh_type) && $to_wh_type == 4) {
+                                                    echo 'selected="selected"';
+                                                }
+                                                ?>><?php echo $this->translate("District"); ?></option>
+                                                    <?php } ?>
+                                                    <?php
+                                                    if ($wh_type == 2 || $wh_type == 4) {
+                                                        ?>
+                                                <option value="5" <?php
+                                                if (!empty($to_wh_type) && $to_wh_type == 5) {
+                                                    echo 'selected="selected"';
+                                                }
+                                                ?>><?php echo $this->translate("Tehsil"); ?></option>
+                                                    <?php } ?>
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <?php
+                                if (!empty($this->to_wh_prov_sel) && ($this->to_wh_type == 4 || $this->to_wh_type == 5)) {
+                                    $display = 'display:block !important;';
+                                } else {
+                                    $display = 'display:none !important;';
+                                }
+                                ?>
+                                <div class="col-md-3" style="<?php echo $display; ?>" id="to_wh_prov_col">
+                                    <div class="form-group">
+
+
+                                        <label>Province/Region:</label>
+                                        <select name="to_wh_prov_sel" id="to_wh_prov_sel" class="form-control" >
+                                            <?php
+                                            foreach ($this->location as $rowprov) {
+
+                                                if ($this->to_wh_prov_sel == $rowprov['pk_id'])
+                                                    $sel = "selected='selected'";
+                                                else
+                                                    $sel = "";
+                                                ?>
+                                                <option value="<?php echo $rowprov['pk_id']; ?>" <?php echo $sel; ?>><?php echo $rowprov['location_name']; ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Store:</label>
+                                        <select name="to_warehouse_id" id="to_warehouse_id" class="form-control">
+                                            <?php
+                                            $wh_type = 1;
+                                            if (!empty($this->to_wh_type)) {
+                                                $wh_type = $this->to_wh_type;
+                                            }
+                                            if (!empty($this->to_warehouse_id)) {
+                                                $warehouse_id = $this->to_warehouse_id;
+                                            }
+                                            if (!empty($this->to_wh_prov_sel) && ($this->to_wh_type == 4 || $this->to_wh_type == 5)) {
+                                                $and = " AND warehouses.province_id = " . $this->wh_prov_sel;
+                                            } else {
+                                                $and = "";
+                                            }
+                                            $rspro = $this->reports()->getWarehouseId($wh_type, $and);
+
+                                            foreach ($rspro as $rowpro) {
+                                                if ($rowpro['wh_id'] == $warehouse_id)
+                                                    $sel = "selected='selected'";
+                                                else
+                                                    $sel = "";
+                                                ?>
+                                                <option value="<?php echo $rowpro['wh_id']; ?>" <?php echo $sel; ?>><?php echo $rowpro['wh_name']; ?></option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+
+                                        <div class="controls" style="margin: 20px 0 0 10px;" >
+                                            <button type="submit" id="go" name="go" value="GO"  class="btn btn-success"><?php echo $this->translate("Go"); ?></button>
+                                        </div>    
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</form>
+<script>
+    $(function() {
+        $('#mygrid_container').parent('td').addClass('gridBorder');
+    });
+</script>

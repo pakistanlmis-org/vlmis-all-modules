@@ -1,0 +1,59 @@
+<?php
+/**
+*  phtml for Ajax Get Placement Locations
+*/
+?>
+<div class="scroller" style="min-height:200px" data-always-visible="1" data-rail-visible1="1">
+    <strong>Product : </strong><?php echo $this->result['product']; ?>,&nbsp;&nbsp;&nbsp;<strong>Batch No : </strong> <?php echo $this->result['batch_number']; ?>,&nbsp;&nbsp;&nbsp;<strong>Expiry : </strong><?php echo date("d/m/Y", strtotime($this->result['expiray_date'])); ?>,&nbsp;&nbsp;&nbsp;
+    <br><strong>Qty Issued: </strong><?php echo $this->result['qty_issued']; ?>
+    
+    <br>
+    <?php
+    $batch_id = $this->result['batch_id'];
+    $qty_issued = $this->result['qty_issued']; 
+    $vvm_stage_id = $this->result['vvm_stage_id'];
+    ?>
+
+
+    <form id="form-delete-placement">
+        <br>
+        <br>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label" for="available_qty"><?php echo $this->translate("Select Location for placement"); ?></label>
+                <select class="form-control" name="loc_id" id="loc-id">
+                    <option value="">Select</option>
+                    <?php
+                    if (!empty($this->locations) && count($this->locations) > 0) {
+                        foreach ($this->locations as $loc) {
+                            ?>
+                            <?php
+                            if ($this->item_cat_id == 1) {
+                                $loc_cat = $loc['assetId'];
+                            } else {
+                                $loc_cat = $loc['locationName'];
+                            }
+                            ?>
+                            <option value="<?php echo $loc['pkId'] ?>"><?php echo $loc_cat?> </option>
+                            <?php
+                        }
+                    }
+                    ?>
+                </select>
+            </div>
+        </div>   
+        <input type="hidden" name="b_id" id="b_id" value="<?php echo $batch_id; ?>">
+        <input type="hidden" name="vvm_id" value="<?php echo $vvm_stage_id; ?>">
+        <input type="hidden" name="qty_issued" id="qty_issued" value="<?php echo $qty_issued; ?>">
+        <input type="hidden" name="item_cat_id" id="item_cat_id" value="<?php echo $this->item_cat_id; ?>">
+        <input type="hidden" name="p" id="p" value="<?php echo $this->p; ?>">
+        <input type="hidden" name="id" id="id" value="<?php echo $this->detail_id; ?>">
+        
+    </form>
+
+    <div style="clear: both;"></div>
+
+
+</div>
+
+

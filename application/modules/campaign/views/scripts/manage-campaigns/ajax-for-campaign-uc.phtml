@@ -1,0 +1,64 @@
+<?php
+/**
+*  phtml for Ajax for Campaign UC
+*/
+?>
+<?php
+if ($this->condition == "001") {
+    echo $this->campaign_name;
+} elseif ($this->condition == "002") {
+    echo '<option value="">' . $this->translate("Select") . '</option>';
+    foreach ($this->districts as $district) {
+        $sel = ($district['pkId'] == $this->dist_id) ? 'selected="selected"' : '';
+        ?>
+        <option value="<?php echo $district['pkId']; ?>" <?php echo $sel; ?>><?php echo $district['locationName']; ?></option>
+        <?php
+    }
+} elseif ($this->condition == "003") {
+    echo '<option value="All">' . $this->translate("All") . '</option>';
+    foreach ($this->all_warehouses as $rs_warehouses) {
+        $sel = ($this->wh_id == $rs_warehouses['pkId'] . "_" . $rs_warehouses['location_id']) ? 'selected="selected"' : '';
+        ?>
+        <option value="<?php echo $rs_warehouses['pkId']; ?>" <?php echo $sel; ?>><?php echo $rs_warehouses['warehouseName']; ?></option>
+        <?php
+    }
+} elseif ($this->condition == "004") {
+    echo '<option value="">' . $this->translate("Select") . '</option>';
+    foreach ($this->all_campaigns as $campaign) {
+        $sel = ($this->campaign_id == $campaign['pkId']) ? 'selected="selected"' : '';
+        ?>
+        <option value="<?php echo $campaign['pkId']; ?>" <?php echo $sel; ?>><?php echo $campaign['campaignName']; ?></option>
+        <?php
+    }
+} elseif ($this->condition == "005") {
+    echo '<option value="">' . $this->translate("Select") . '</option>';
+    foreach ($this->all_campaigns as $campaign) {
+        echo $sel = ($this->item_id == $campaign['pkId']) ? 'selected="selected"' : '';
+        ?>
+        <option value="<?php echo $campaign['pkId']; ?>" <?php echo $sel; ?>><?php echo $campaign['itemName']; ?></option>
+        <?php
+    }
+} elseif ($this->condition == "006") {
+    echo '<option value="">' . $this->translate("Select") . '</option>';
+    if (isset($this->show_all) && $this->show_all == 1) {
+        $sel = ($this->day == 'all') ? 'selected="selected"' : '';
+        echo "<option value=\"all\" $sel>" . $this->translate("All") . "</option>";
+    }
+    $count = 1;
+    foreach ($this->period as $date) {
+        $date->format("d/m/Y");
+        $sel = ($this->day == $count) ? 'selected="selected"' : '';
+        ?>
+        <option value="<?php echo $count; ?>" <?php echo $sel; ?>><?php echo $count . ' - ' . $date->format("d/m/Y"); ?></option>
+        <?php
+        $count++;
+    }
+} elseif ($this->condition == "007") {
+    echo '<option value="">Select</option>';
+    foreach ($this->provinces as $province) {
+        $sel = ($province['pk_id'] == $this->province_id) ? 'selected="selected"' : '';
+        ?>
+        <option value="<?php echo $province['pk_id']; ?>" <?php echo $sel; ?>><?php echo $province['location_name']; ?></option>
+        <?php
+    }
+}

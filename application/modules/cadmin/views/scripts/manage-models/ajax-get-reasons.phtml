@@ -1,0 +1,15 @@
+<?php
+/**
+*  phtml for Ajax Get Reasons
+*/
+?>
+<option value="" ><?php echo $this->translate("Select"); ?></option>
+<?php
+if (!empty($this->arr_data)) {
+    foreach ($this->arr_data as $type) {
+        ?>
+        <option value="<?= $type['pkId'] ?>"  > <?= $type['ccmStatusListName'] ?></option>
+        <?php
+    }
+}
+?>

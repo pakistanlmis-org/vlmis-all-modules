@@ -1,0 +1,876 @@
+<style>
+    table{
+        font-size: 11px;
+    }
+</style>
+<?php
+/**
+ *  phtml for van/dashlet/vaccination
+ */
+$num_Of_vaccinators = $this->num_Of_vaccinators;
+$ucs_of_district = $this->ucs_of_district;
+$period = $this->period;
+$vaccines = $this->all_vaccines;
+
+$selected_district = $this->selected_district;
+$selected_district_name = "";
+$selected_product = $this->selected_product;
+
+$number_of_ucs_late_reported_array = array();
+$vaccinated_children_array = array();
+$targets_array = array();
+$fully_immunize_children_array = array();
+$uc_wise_reporting_rate_array = array();
+$hf_wise_reporting_rate_array = array();
+$coverage_array = array();
+$uc_wise_monthly_targets_and_coverage_array = array();
+
+//$UCs_wasting_vaccines_array = array();
+//$average_ucs_array = array();
+//
+
+foreach ($period as $date) {
+    $month_year = $date->format('M-y');
+    $fully_immunize_children_array[$month_year] = 0;
+    $uc_wise_reporting_rate_array[$month_year] = 0;
+    $hf_wise_reporting_rate_array[$month_year] = 0;
+    $number_of_ucs_late_reported_array[$month_year] = 0;
+    //$uc_wise_monthly_targets_and_coverage_array[$month_year] = 0;
+}
+//echo "<pre>";
+//print_r($uc_wise_monthly_targets_and_coverage_array);
+//exit;
+foreach ($vaccines as $item) {
+    $vaccinated_children_array[$item['item_id']][] = $item['item_name'];
+    $coverage_array[$item['item_id']][] = $item['item_name'];
+
+
+    $count = 1;
+    foreach ($period as $date) {
+        $month_year = $date->format('M-y');
+        $vaccinated_children_array[$item['item_id']][$count] = null;
+        $coverage_array[$item['item_id']][$count] = null;
+        $count++;
+    }
+}
+
+//for UC wise Monthly Targets & Coverage
+foreach ($ucs_of_district as $uc) {
+    $uc_wise_monthly_targets_and_coverage_array[$uc['uc_id']][] = $uc['tehsil_name'];
+    $uc_wise_monthly_targets_and_coverage_array[$uc['uc_id']][] = $uc['uc_name'];
+
+
+    $count = 3;
+    foreach ($period as $date) {
+        $uc_wise_monthly_targets_and_coverage_array[$uc['uc_id']][$count] = null;
+        $count++;
+    }
+}
+//for UC wise Monthly Targets & Coverage
+$counter = 3;
+foreach ($period as $date) {
+    $month = $date->format("m");
+    $year = $date->format("Y");
+
+    $uc_wise_monthly_targets_and_coverage_result = $this->VanDashletViewHelper()->getUcWiseMonthlyTargetsAndCoverage($selected_district, $month, $year, $selected_product);
+
+    foreach ($uc_wise_monthly_targets_and_coverage_result as $row) {
+        $uc_wise_monthly_targets_and_coverage_array[$row['uc_id']][2] = $row['target'];
+        $uc_wise_monthly_targets_and_coverage_array[$row['uc_id']][$counter] = $row['consumptionPercentage'];
+    }
+    $counter++;
+}
+
+
+$count = 1;
+foreach ($period as $date) {
+    $month = $date->format("m");
+    $year = $date->format("Y");
+
+
+    $date_str = $date->format("Y-m");
+    $month_array[] = date('M-y', strtotime($date_str));
+    $start_date = date('Y-m-01', strtotime($date_str));
+    $end_date = date('Y-m-t', strtotime($date_str));
+
+    $query_result = $this->VanDashletViewHelper()->getVaccinationAndTarget($selected_district, $month, $year, $selected_product);
+
+    $uc_wise_reporting_rate_result = $this->VanDashletViewHelper()->getUcWiseReportingRate($selected_district, $month, $year, $selected_product);
+
+    $hf_wise_reporting_rate_result = $this->VanDashletViewHelper()->getHealthFacilityWiseReportingRate($selected_district, $month, $year, $selected_product);
+
+    $number_of_ucs_late_reported_result = $this->VanDashletViewHelper()->getNumberofUcsLateReported($selected_district, $month, $year, $selected_product);
+
+
+    foreach ($query_result as $row) {
+        $vaccinated_children_array[$row['item_id']][$count] = $row['Vaccination'];
+        $coverage_array[$row['item_id']][$count] = $row['CoveragePercentage'];
+        //Check for Measles-10
+        if ($row['item_id'] == 9) {
+            if (!empty($row['Month'])) {
+                $fully_immunize_children_array[$row['Month']] = $row['Vaccination'];
+            }
+        }
+
+        $selected_district_name = $row['location_name'];
+        $targets_array[$row['item_id']] = $row['MonthlyTarget'];
+    }
+    foreach ($uc_wise_reporting_rate_result as $row) {
+        if (!empty($row['Month'])) {
+            $uc_wise_reporting_rate_array[$row['Month']] = $row['reportingPercentage'];
+        }
+    }
+    foreach ($hf_wise_reporting_rate_result as $row) {
+        if (!empty($row['Month'])) {
+            $hf_wise_reporting_rate_array[$row['Month']] = $row['reportingPercentage'];
+        }
+    }
+    foreach ($number_of_ucs_late_reported_result as $row) {
+        if (!empty($row['Month'])) {
+            $number_of_ucs_late_reported_array[$row['Month']] = $row['late_reported'];
+        }
+    }
+    $count++;
+}
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <!-- BEGIN PAGE HEADER-->
+
+        <div class="row">
+            <h3 class="col-md-8">
+                VAN <small>dashboard & statistics</small>
+            </h3>
+
+        </div>
+        <div class="row">&nbsp;</div>
+        <!-- END PAGE HEADER-->
+        <div class="row">
+            <!-- // Tabs START -->
+            <div class="col-md-12">
+                <div class="widget widget-tabs">
+                    <div class="widget-head dashboard-widget">
+                        <ul>
+                            <li class="">
+                                <a href="<?php echo $this->baseUrl(); ?>/van/dashlet/van">
+                                    <div class="dashboard-stat_custom">
+                                        <div style="width: auto;" class="visual">
+                                            <i class="fa fa-routine-immunization"></i> 
+                                        </div>
+                                        <div style="float: left;" class="details">
+                                            <div class="dashboard-title-1"></div>
+                                            <div class="dashboard-title-2" style="padding-top: 20px">VAN</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="<?php echo $this->baseUrl(); ?>/van/dashlet/stocks">
+                                    <div class="dashboard-stat_custom">
+                                        <div style="width: auto;" class="visual">
+                                            <i class="fa fa-inventory-management"></i>
+                                        </div>
+                                        <div style="float: left;" class="details">
+                                            <div class="dashboard-title-1"></div>
+                                            <div class="dashboard-title-2" style="padding-top: 20px">Stocks</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="active">
+                                <a href="<?php echo $this->baseUrl(); ?>/van/dashlet/vaccination">
+                                    <div class="dashboard-stat_custom">
+                                        <div style="width: auto;" class="visual">
+                                            <i class="fa fa-lims-campaign"></i>
+                                        </div>
+                                        <div style="float: left;" class="details">
+                                            <div class="dashboard-title-1"></div>
+                                            <div class="dashboard-title-2" style="padding-top: 20px">Vaccination</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="<?php echo $this->baseUrl(); ?>/van/dashlet/wastage">
+                                    <div class="dashboard-stat_custom">
+                                        <i class="fa fa-trash-o" style="font-size:45px;color:red;padding-top: 20px"></i>
+
+                                        <div style="float: right;" class="details">
+                                            <div class="dashboard-title-1"></div>
+                                            <div class="dashboard-title-2" style="padding-top: 20px">Wastage</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="<?php echo $this->baseUrl(); ?>/van/dashlet/ccem">
+                                    <div class="dashboard-stat_custom">
+                                        <div style="width: auto;" class="visual">
+                                            <i class="fa fa-cold-chain"></i> 
+                                        </div>
+                                        <div style="float: left;" class="details">
+                                            <div class="dashboard-title-1"></div>
+                                            <div class="dashboard-title-2" style="padding-top: 20px">CCEM</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+
+
+                    <div class="widget-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active">
+                                <div class="row">
+                                    <form method="post" name="van-filters" id="van-filters" action="">
+                                        <div class="col-md-12 col-sm-12">
+                                            <div id="sample_2_filter" class="dataTables_filter">                                                        
+                                                <label><button class="btn btn-success" type="submit" id="go-btn" name="go-btn">GO</button></label>
+                                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                <label>Vaccines:
+                                                    <select id="items" name="items" class="form-control input-inline input-xsmall">
+                                                        <option value="" selected="selected">All</option> 
+                                                        <?php
+                                                        foreach ($vaccines as $vaccine) {
+                                                            ?>
+                                                            <option value = "<?php echo $vaccine['item_id'] ?>" <?php
+                                                            if ($vaccine['item_id'] == $this->selected_product) {
+                                                                echo "selected='selected'";
+                                                            }
+                                                            ?>><?php echo $vaccine['item_name'] ?></option>
+                                                                    <?php
+                                                                }
+                                                                ?>   
+                                                    </select>
+                                                </label>
+                                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                <label>Month:
+                                                    <select id="month-to" name="month-to" class="form-control input-inline input-xsmall">
+                                                        <option value = "">Select Month</option>
+                                                        <?php
+                                                        $months_to = $this->all_months;
+                                                        foreach ($months_to as $month) {
+                                                            ?>
+                                                            <option value = "<?php echo $month['month_code'] ?>" <?php
+                                                            if ($month['month_code'] == $this->selected_month_to) {
+                                                                echo "selected='selected'";
+                                                            }
+                                                            ?>><?php echo $month['month_name'] ?></option>
+                                                                    <?php
+                                                                }
+                                                                ?>  
+                                                    </select>
+                                                </label> 
+                                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                <label>Year:
+                                                    <select id="year-to" name="year-to" class="form-control input-inline input-xsmall">
+                                                        <option value = "">Select Year</option>
+                                                        <?php
+                                                        $years_to = $this->years;
+                                                        foreach ($years_to as $key => $value) {
+                                                            ?>
+                                                            <option value = "<?php echo $key ?>" <?php
+                                                            if ($key == $this->selected_year_to) {
+                                                                echo "selected='selected'";
+                                                            }
+                                                            ?>><?php echo $value ?></option>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                    </select>
+                                                </label> 
+                                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+
+                                                <!--                                                <label>Month From:
+                                                                                                    <select id="month-from" name="month-from" class="form-control input-inline input-xsmall">
+                                                                                                        <option value = "">Select Month</option>
+                                                <?php
+                                                $months_from = $this->all_months;
+                                                foreach ($months_from as $month) {
+                                                    ?>
+                                                                                                                                                                                                                                                                            <option value = "<?php echo $month['month_code'] ?>" <?php
+                                                    if ($month['month_code'] == $this->selected_month_from) {
+                                                        echo "selected='selected'";
+                                                    }
+                                                    ?>><?php echo $month['month_name'] ?></option>
+                                                    <?php
+                                                }
+                                                ?>  
+                                                                                                    </select>
+                                                                                                </label> 
+                                                                                                <label>Year From:
+                                                                                                    <select id="year-from" name="year-from" class="form-control input-inline input-xsmall">
+                                                                                                        <option value = "">Select Year</option>
+                                                <?php
+                                                $years_from = $this->years;
+                                                foreach ($years_from as $key => $value) {
+                                                    ?>
+                                                                                                                                                                                                                                                                            <option value = "<?php echo $key ?>" <?php
+                                                    if ($key == $this->selected_year_from) {
+                                                        echo "selected='selected'";
+                                                    }
+                                                    ?>><?php echo $value ?></option>
+                                                    <?php
+                                                }
+                                                ?>
+                                                                                                    </select>
+                                                                                                </label> 
+                                                                                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>-->
+
+                                                <label>District:
+                                                    <select id="district" name="district" class="form-control input-inline input-xsmall">
+                                                        <option value = "">Select District</option>
+                                                        <?php
+                                                        $districts = $this->districts;
+                                                        foreach ($districts as $district) {
+                                                            ?>
+                                                            <option value = "<?php echo $district['district_id'] ?>" <?php
+                                                            if ($district['district_id'] == $this->selected_district) {
+                                                                echo "selected='selected'";
+                                                            }
+                                                            ?>><?php echo $district['district_name'] ?></option>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                    </select>
+                                                </label> 
+                                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                <label>Province:
+                                                    <select id="province" name="province" class="form-control input-inline input-xsmall">
+                                                        <option value = "">Select Province</option>
+                                                        <?php
+                                                        $provinces = $this->provinces;
+                                                        foreach ($provinces as $key => $value) {
+                                                            ?>
+                                                            <option value = "<?php echo $key ?>" selected = "selected"><?php echo $value ?></option>
+                                                            <?php
+                                                        }
+                                                        ?>
+
+                                                    </select>
+                                                </label> 
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div data-toggle="collapse-widget" class="widget">
+                                            <div class="widget-head">
+                                                <h4 class="heading "><i></i>Number of UCs Late Reported</h4>
+                                            </div>
+                                            <div class="widget-body dashlets" id="473" href="reports/dashlet/reported-wastages">
+
+                                                <?php
+                                                $category1 = "";
+                                                $dataset1 = "";
+                                                foreach ($number_of_ucs_late_reported_array as $month => $number_of_ucs) {
+                                                    $category1 .= "<category label='" . $month . "' />";
+                                                    $dataset1 .="<set  value='" . $number_of_ucs . "' />";
+                                                }
+
+                                                $xmlstore1 = "
+                                                        <chart 
+                                                            exportEnabled='1' 
+                                                            slantLabels='1' 
+                                                            yAxisMaxValue='25' 
+                                                            exportAction='Download' 
+                                                            caption= 'Number of UCs Late Reported in $selected_district_name' 
+                                                            exportFileName='Number of UCs Late Reported $selected_district_name' 
+                                                            yAxisName='' 
+                                                            showValues='1' 
+                                                            formatNumberScale='0' 
+                                                            theme='fint'>
+                                                            <categories>
+                                                                $category1
+                                                            </categories>
+                                                            <dataset>
+                                                                $dataset1
+                                                            </dataset>
+                                                        </chart>";
+                                                FC_SetRenderer('javascript');
+                                                echo renderChart($this->baseUrl() . "/FusionCharts/Charts/MSLine.swf", "", $xmlstore1, "NumberOfUCsLateReported", '100%', 350, false, false);
+                                                ?>    
+                                                <div style="clear:both;"></div>            
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        <div data-toggle="collapse-widget" class="widget">
+                                            <div class="widget-head">
+                                                <h4 class="heading "><i></i>Number of Vaccinators</h4>
+                                            </div>
+                                            <div class="widget-body dashlets" id="473" href="reports/dashlet/reported-wastages">
+
+                                                <?php
+                                                $label_value = "";
+                                                foreach ($num_Of_vaccinators as $data2) {
+                                                    $label_value .= "<set  label='" . $data2['tehsil_name'] . "' value='" . $data2['no_of_vaccinators'] . "' />";
+                                                }
+                                                $xmlstore2 = "
+                                                        <chart 
+                                                            exportEnabled='1' 
+                                                            slantLabels='1' 
+                                                            exportAction='Download' 
+                                                            caption= 'Number of Vaccinators in Ghotki' 
+                                                            exportFileName='Number of Vaccinators in Ghotki' 
+                                                            showValues='1' 
+                                                            formatNumberScale='0' 
+                                                            theme='fint'>
+                                                               $label_value
+                                                        </chart>";
+                                                FC_SetRenderer('javascript');
+                                                echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie2d.swf", "", $xmlstore2, "NumberOfVaccinators", '100%', 350, false, false);
+                                                ?>    
+                                                <div style="clear:both;"></div>            
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div data-toggle="collapse-widget" class="widget">
+                                            <div class="widget-head">
+                                                <h4 class="heading "><i></i>UC wise Reporting Rate</h4>
+                                            </div>
+                                            <div class="widget-body dashlets" id="473" href="reports/dashlet/reported-wastages">
+                                                <br>
+                                                <?php
+                                                $from = $month_array[0];
+                                                $to = end($month_array);
+                                                $category3 = "";
+                                                $dataset3 = "";
+                                                echo "<table class='table table-striped table-bordered'>";
+                                                echo "<caption><h4>District $selected_district_name Reporting Rate UCs ($from to $to)</h4></caption>";
+                                                echo "<thead>";
+                                                echo "<tr>";
+                                                echo "<th>Month</th>";
+                                                foreach ($month_array as $month) {
+                                                    echo "<th>$month</th>";
+                                                }
+                                                echo "</tr>";
+                                                echo "</thead>";
+                                                echo "<tbody>";
+                                                echo "<tr>";
+                                                echo "<th>Reporting Rate</th>";
+//$measles_10_consumption_sum = 0;
+                                                foreach ($uc_wise_reporting_rate_array as $month => $reporting_percent) {
+                                                    echo "<td class='right'>$reporting_percent%</td>";
+                                                    //for chart
+                                                    $category3 .= "<category label='" . $month . "' />";
+                                                    $dataset3 .="<set  value='" . $reporting_percent . "' />";
+                                                }
+
+                                                echo "</tr>";
+                                                echo "</tbody>";
+                                                echo "</table>";
+                                                ?>                 
+                                                <br>
+
+                                                <?php
+                                                $xmlstore3 = "
+                                                        <chart 
+                                                            exportEnabled='1' 
+                                                            slantLabels='1' 
+                                                            yAxisMaxValue='100' 
+                                                            exportAction='Download' 
+                                                            caption= 'UC wise Reporting Rate' 
+                                                            exportFileName='UC wise Reporting Rate' 
+                                                            yAxisName='' 
+                                                            showValues='1' 
+                                                            formatNumberScale='0' 
+                                                            theme='fint'>
+                                                            <categories>
+                                                               $category3
+
+                                                            </categories>
+                                                            <dataset>
+                                                                $dataset3
+
+                                                            </dataset>
+                                                        </chart>";
+                                                FC_SetRenderer('javascript');
+                                                echo renderChart($this->baseUrl() . "/FusionCharts/Charts/MSLine.swf", "", $xmlstore3, "3", '100%', 350, false, false);
+                                                ?>    
+                                                <div style="clear:both;"></div>            
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div data-toggle="collapse-widget" class="widget">
+                                            <div class="widget-head">
+                                                <h4 class="heading "><i></i>Health facility wise Reporting Rate</h4>
+                                            </div>
+                                            <div class="widget-body dashlets" id="473" href="reports/dashlet/reported-wastages">
+                                                <br>
+                                                <?php
+                                                $from = $month_array[0];
+                                                $to = end($month_array);
+                                                $category4 = "";
+                                                $dataset4 = "";
+                                                echo "<table class='table table-striped table-bordered'>";
+                                                echo "<caption><h4>District $selected_district_name Reporting Rate - Health Facility ($from to $to)</h4></caption>";
+                                                echo "<thead>";
+                                                echo "<tr>";
+                                                echo "<th>Month</th>";
+                                                foreach ($month_array as $month) {
+                                                    echo "<th>$month</th>";
+                                                }
+                                                echo "</tr>";
+                                                echo "</thead>";
+                                                echo "<tbody>";
+                                                echo "<tr>";
+                                                echo "<th>Reporting Rate</th>";
+//$measles_10_consumption_sum = 0;
+                                                foreach ($hf_wise_reporting_rate_array as $month => $reporting_percent) {
+                                                    echo "<td class='right'>$reporting_percent%</td>";
+                                                    //for chart
+                                                    $category4 .= "<category label='" . $month . "' />";
+                                                    $dataset4 .="<set  value='" . $reporting_percent . "' />";
+                                                }
+
+                                                echo "</tr>";
+                                                echo "</tbody>";
+                                                echo "</table>";
+                                                ?>                 
+                                                <br>
+
+                                                <?php
+                                                $xmlstore4 = "
+                                                        <chart 
+                                                            exportEnabled='1' 
+                                                            slantLabels='1' 
+                                                            yAxisMaxValue='100' 
+                                                            exportAction='Download' 
+                                                            caption= 'Health Facility wise Reporting Rate' 
+                                                            exportFileName='Health Facility wise Reporting Rate' 
+                                                            yAxisName='' 
+                                                            showValues='1' 
+                                                            formatNumberScale='0' 
+                                                            theme='fint'>
+                                                            <categories>
+                                                               $category4
+
+                                                            </categories>
+                                                            <dataset>
+                                                                $dataset4
+
+                                                            </dataset>
+                                                        </chart>";
+                                                FC_SetRenderer('javascript');
+                                                echo renderChart($this->baseUrl() . "/FusionCharts/Charts/MSLine.swf", "", $xmlstore4, "4", '100%', 350, false, false);
+                                                ?>    
+                                                <div style="clear:both;"></div>            
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="row">
+
+                                    <div class="col-md-5">
+                                        <div data-toggle="collapse-widget" class="widget">
+                                            <div class="widget-head">
+                                                <h4 class="heading "><i></i>Number of FIC (Fully Immunize Children)</h4>
+                                            </div>
+                                            <div class="widget-body dashlets" id="473" href="reports/dashlet/reported-wastages">
+                                                <br>
+                                                <div style=" overflow: auto;  ">
+                                                    <?php
+                                                    $from = $month_array[0];
+                                                    $to = end($month_array);
+                                                    $category5 = "";
+                                                    $dataset5 = "";
+                                                    echo "<table class='table table-striped table-bordered'>";
+                                                    echo "<caption><h4>Number of FIC in  $selected_district_name ($from to $to)</h4></caption>";
+                                                    echo "<thead style='font-size:10;'>";
+                                                    echo "<tr>";
+                                                    echo "<th>District</th>";
+                                                    foreach ($month_array as $month) {
+                                                        echo "<th>$month</th>";
+                                                    }
+                                                    echo "<th>Sum</th>";
+                                                    echo "</tr>";
+                                                    echo "</thead>";
+                                                    echo "<tbody>";
+                                                    echo "<tr>";
+                                                    echo "<td>$selected_district_name</td>";
+                                                    $measles_10_consumption_sum = 0;
+                                                    foreach ($fully_immunize_children_array as $month => $measles_10_consumption) {
+                                                        $measles_10_consumption_sum += $measles_10_consumption;
+                                                        echo "<td class='right'>$measles_10_consumption</td>";
+                                                        //for chart
+                                                        $category5 .= "<category label='" . $month . "' />";
+                                                        $dataset5 .="<set  value='" . $measles_10_consumption . "' />";
+                                                    }
+                                                    echo "<td class='right'>$measles_10_consumption_sum</td>";
+                                                    $category5 .= "<category label='Sum' />";
+                                                    $dataset5 .="<set  value='" . $measles_10_consumption_sum . "' />";
+                                                    echo "</tr>";
+                                                    echo "</tbody>";
+                                                    echo "</table>";
+                                                    ?>                       
+                                                </div>
+                                                <br>
+                                                <?php
+                                                $xmlstore5 = "
+                                                        <chart 
+                                                            exportEnabled='1' 
+                                                            slantLabels='1' 
+                                                            yAxisMaxValue='" . $measles_10_consumption_sum . "' 
+                                                            exportAction='Download' 
+                                                            caption= 'Number of FIC (Fully Immunize Children)' 
+                                                            exportFileName='Number of FIC (Fully Immunize Children)' 
+                                                            yAxisName='' 
+                                                            showValues='1' 
+                                                            formatNumberScale='0' 
+                                                            theme='fint'>
+                                                            <categories>
+                                                               $category5
+
+                                                            </categories>
+                                                            <dataset>
+                                                                $dataset5
+
+                                                            </dataset>
+                                                        </chart>";
+                                                FC_SetRenderer('javascript');
+                                                echo renderChart($this->baseUrl() . "/FusionCharts/Charts/MSLine.swf", "", $xmlstore5, "5", '100%', 350, false, false);
+                                                ?> 
+                                                <div style="clear:both;"></div>            
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-7">
+                                        <div data-toggle="collapse-widget" class="widget">
+                                            <div class="widget-head">
+                                                <h4 class="heading "><i></i>Number of Children Vaccinated</h4>
+                                            </div>
+                                            <div class="widget-body dashlets" id="473" href="reports/dashlet/reported-wastages">
+
+                                                <br>
+                                                <?php
+                                                $from = $month_array[0];
+                                                $to = end($month_array);
+                                                echo "<table class='table table-striped table-bordered'>";
+                                                echo "<caption><h4>Vaccination in District  $selected_district_name ($from to $to)</h4></caption>";
+                                                echo "<thead>";
+                                                echo "<tr>";
+                                                echo "<th>Vaccine</th>";
+                                                foreach ($month_array as $month) {
+                                                    echo "<th>$month</th>";
+                                                }
+                                                echo "<th>Monthly Target </th>";
+                                                echo "</tr>";
+                                                echo "</thead>";
+                                                echo "<tbody>";
+                                                foreach ($vaccinated_children_array as $item_id => $item_data) {
+                                                    echo "<tr>";
+                                                    foreach ($item_data as $key => $value) {
+                                                        if ($key > 0) {
+                                                            if ($value != null) {
+                                                                $value = number_format($value);
+                                                                echo"<td class='right'>$value</td>";
+                                                            } else {
+                                                                echo"<td></td>";
+                                                            }
+                                                        } else {
+                                                            echo"<th>$value</th>";
+                                                        }
+                                                    }
+                                                    $monthly_target = 0;
+                                                    foreach ($targets_array as $key => $value) {
+                                                        if ($key == $item_id) {
+                                                            $monthly_target = number_format($value);
+                                                        }
+                                                    }
+                                                    echo "<td class='right'>$monthly_target</td>";
+                                                    echo "</tr>";
+                                                }
+                                                echo "</tbody>";
+                                                echo "</table>";
+                                                ?>                                                      
+                                                <div style="clear:both;"></div>            
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                </div>
+
+
+                                <div class="row">
+
+                                    <div class="col-md-12">
+                                        <div data-toggle="collapse-widget" class="widget">
+                                            <div class="widget-head">
+                                                <h4 class="heading "><i></i>District Coverage in Percentage</h4>
+                                            </div>
+                                            <div class="widget-body dashlets" id="473" href="reports/dashlet/reported-wastages">
+                                                <br>
+                                                <?php
+                                                $from = $month_array[0];
+                                                $to = end($month_array);
+                                                echo "<table class='table table-striped table-bordered'>";
+                                                echo "<caption><h4>District Coverage in Percentage:  $selected_district_name ($from to $to)</h4></caption>";
+                                                echo "<thead>";
+                                                echo "<tr>";
+                                                echo "<th>Vaccine</th>";
+                                                echo "<th>Monthly Target </th>";
+                                                foreach ($month_array as $month) {
+                                                    echo "<th>$month</th>";
+                                                }
+                                                echo "<th>Average</th>";
+                                                echo "</tr>";
+                                                echo "</thead>";
+                                                echo "<tbody>";
+                                                foreach ($coverage_array as $item_id => $item_data) {
+
+                                                    echo "<tr>";
+                                                    $monthly_target = 0;
+                                                    foreach ($targets_array as $key => $value) {
+                                                        if ($key == $item_id) {
+                                                            $monthly_target = number_format($value);
+                                                        }
+                                                    }
+                                                    $sum = 0;
+                                                    $number_of_items = 0;
+                                                    foreach ($item_data as $key => $value) {
+                                                        if ($key > 0) {
+                                                            if ($value != null) {
+                                                                $value = number_format($value);
+                                                                echo"<td class='right'>$value</td>";
+                                                                $sum = $sum + $value;
+                                                                $number_of_items++;
+                                                            } else {
+                                                                echo"<td></td>";
+                                                            }
+                                                        } else {
+                                                            echo"<th>$value</th>";
+                                                            echo "<td class='right'>$monthly_target</td>";
+                                                        }
+                                                    }
+                                                    $average = null;
+                                                    if ($number_of_items != 0) {
+                                                        $average = $sum / $number_of_items;
+                                                    }
+                                                    if ($average != null) {
+                                                        echo "<td>" . round($average) . "%</td>";
+                                                    }
+                                                    echo "</tr>";
+                                                }
+                                                echo "</tbody>";
+                                                echo "</table>";
+                                                ?>                     
+
+                                                <div style="clear:both;"></div>            
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                                <div class="row">
+
+                                    <div class="col-md-12">
+                                        <div data-toggle="collapse-widget" class="widget">
+                                            <div class="widget-head">
+                                                <h4 class="heading "><i></i>UC wise Monthly Targets &amp; Coverage </h4>
+                                            </div>
+                                            <div class="widget-body dashlets" id="473" href="reports/dashlet/reported-wastages">
+                                                <br>
+                                                <?php
+                                                $selected_product_name = "";
+                                                if ($selected_product == 0) {
+                                                    $selected_product = 26;
+                                                    $selected_product_name = "tOPV";
+                                                } else {
+                                                    foreach ($vaccines as $vaccine) {
+                                                        if ($vaccine['item_id'] == $selected_product) {
+                                                            $selected_product_name = $vaccine['item_name'];
+                                                        }
+                                                    }
+                                                }
+                                                
+                                                $from = $month_array[0];
+                                                $to = end($month_array);
+                                                echo "<table class='table table-striped table-bordered'>";
+                                                echo "<caption><h4>Target & Coverage % in District $selected_district_name by UC wise of $selected_product_name</h4></caption>";
+                                                echo "<thead>";
+                                                echo "<tr>";
+                                                echo "<th>Sr.No.</th>";
+                                                echo "<th>Tehsil/Taluka</th>";
+                                                echo "<th>UC</th>";
+                                                echo "<th>Monthly Target </th>";
+                                                foreach ($month_array as $month) {
+                                                    echo "<th>$month Coverage(%)</th>";
+                                                }
+                                                echo "</tr>";
+                                                echo "</thead>";
+                                                echo "<tbody>";
+                                                $serial_number = 1;
+                                                foreach ($uc_wise_monthly_targets_and_coverage_array as $uc_id => $uc_data) {
+
+                                                    echo "<tr>";
+                                                    echo"<td>" . $serial_number . "</td>";
+                                                    echo"<td>" . $uc_data['0'] . "</td>";
+                                                    echo"<td>" . $uc_data['1'] . "</td>";
+                                                    echo"<td class='right'>" . $uc_data['2'] . "</td>";
+                                                    foreach ($uc_data as $key => $value) {
+                                                        if ($key > 2) {
+                                                            echo"<td class='right'>" . $value . "</td>";
+                                                        }
+                                                    }
+
+                                                    echo "</tr>";
+                                                    $serial_number++;
+                                                }
+                                                echo "</tbody>";
+                                                echo "</table>";
+                                                ?>               
+
+                                                <div style="clear:both;"></div>            
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                                <input id="tabid" value="472" type="hidden">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- // Tabs END -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,135 @@
+HfDataDetailDraft:
+  type: entity
+  table: hf_data_detail_draft
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    fixedInsideUcMale:
+      type: decimal
+      nullable: true
+      column: fixed_inside_uc_male
+    fixedInsideUcFemale:
+      type: decimal
+      nullable: true
+      column: fixed_inside_uc_female
+    fixedOutsideUcMale:
+      type: decimal
+      nullable: true
+      column: fixed_outside_uc_male
+    fixedOutsideUcFemale:
+      type: decimal
+      nullable: true
+      column: fixed_outside_uc_female
+    referalMale:
+      type: decimal
+      nullable: true
+      column: referal_male
+    referalFemale:
+      type: decimal
+      nullable: true
+      column: referal_female
+    outreachMale:
+      type: decimal
+      nullable: true
+      column: outreach_male
+    outreachFemale:
+      type: decimal
+      nullable: true
+      column: outreach_female
+    pregnantWomen:
+      type: decimal
+      nullable: true
+      column: pregnant_women
+    nonPregnantWomen:
+      type: decimal
+      nullable: true
+      column: non_pregnant_women
+    vaccineScheduleId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: vaccine_schedule_id
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: false
+      column: modified_date
+    outreachOutsideMale:
+      type: decimal
+      nullable: true
+      column: outreach_outside_male
+    outreachOutsideFemale:
+      type: decimal
+      nullable: true
+      column: outreach_outside_female
+    outsidePregnantWomen:
+      type: decimal
+      nullable: true
+      column: outside_pregnant_women
+    outsideNonPregnantWomen:
+      type: decimal
+      nullable: true
+      column: outside_non_pregnant_women
+    mobileInsideMale:
+      type: decimal
+      nullable: true
+      column: mobile_inside_male
+    mobileInsideFemale:
+      type: decimal
+      nullable: true
+      column: mobile_inside_female
+    lhwInsideMale:
+      type: decimal
+      nullable: true
+      column: lhw_inside_male
+    lhwInsideFemale:
+      type: decimal
+      nullable: true
+      column: lhw_inside_female
+  oneToOne:
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    hfDataMaster:
+      targetEntity: HfDataMasterDraft
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        hf_data_master_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    ageGroup:
+      targetEntity: ListDetail
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        age_group_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

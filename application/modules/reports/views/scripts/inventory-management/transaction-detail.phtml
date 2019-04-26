@@ -1,0 +1,149 @@
+<?php
+/**
+ *  phtml for Transaction Detail
+ */
+?>
+<?php
+$param = $this->param;
+
+$whId = $param[0];
+$whName = $param[1];
+$date = $param[2];
+$type = $param[3];
+$dateArr = explode('-', $date);
+$month = $dateArr[0];
+$year = $dateArr[1];
+
+if ($type == 'Issue') {
+    $qry = $this->reports()->getShipmentTransactionIssue($whId, $date);
+    $geo_level_type = $this->reports()->getWarehouseLevel($whId);
+    $whHead = 'to';
+    $voucherLink = $this->baseUrl() . '/stock/print-issue-shipment';
+} else if ($type == 'Receive') {
+    $qry = $this->reports()->getShipmentTransactionReceive($whId, $date);
+    $geo_level_type = "";
+    $whHead = 'from';
+    $voucherLink = $this->baseUrl() . '/stock/print-receive-shipment';
+} else if ($type == 'Pending') {
+    $qry = $this->reports()->getShipmentTransactionPending($whId, $date);
+    $geo_level_type = "";
+    $whHead = 'from';
+    $voucherLink = $this->baseUrl() . '/stock/print-pending-shipment';
+}
+$qryRes = $qry;
+
+$title = $type . " Transaction Details for $whName($month/$year)";
+?>
+
+<style>
+    table#myTable{margin-top:20px;border-collapse: collapse;border-spacing: 0;}
+    table#myTable tr th{font-family:Arial,Helvetica,sans-serif; font-size:11px;padding-left:5px; border:1px solid #999;}
+    table#myTable tr td{font-family:Arial,Helvetica,sans-serif; font-size:11px;padding-left:5px; border:1px solid #999;}
+    table#myTable tr td.TAR{text-align:right; padding:5px;font-family:Arial,Helvetica,sans-serif; width:50px !important;}
+    .sb1NormalFont {
+        color: #444444;
+        font-family: Verdana,Arial,Helvetica,sans-serif;
+        font-size: 12px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+</style>
+<!-- Content -->
+<?php
+if ($type == 'Pending') {
+    $type = 'Issue';
+} else {
+    $type = $type;
+}
+?>
+<div id="content" style="margin-left:0;">
+    <h3 class="heading-mosaic"><?php echo $title; ?></h3>
+    <div class="innerLR">
+        <table width="100%" cellpadding="3" id="myTable">
+            <thead>
+                <tr>
+                    <th width="100">Sr. No.</th>
+                    <th width="100">Transaction Date</th>
+                    <th width="100">Created On</th>
+                    <th width="100">Transaction No.</th>
+                    <th><?php echo $type . ' ' . $whHead; ?></th>
+                    <?php if ($type == 'Issue') { ?>
+                        <th>Status</th>
+                        <th>Received Date</th>
+                        <th>In-Transit Days</th>
+                    <?php } ?>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $counter = 1;
+
+                foreach ($qryRes as $row) {
+                    ?>
+                    <tr>
+                        <td align="center"><?php echo $counter; ?></td>
+                        <td align="center"><?php echo $row['TranDate']; ?></td>
+                        <td align="center"><?php echo $row['createDate']; ?></td>
+                        <td><a href="javascript:void(0);" onclick="window.open('<?php echo $voucherLink; ?>?id=<?php echo $row['PkStockID']; ?>&warehouse_id=<?php echo $whId; ?>', '_blank', 'scrollbars=1,width=842,height=595');"><?php echo $row['TranNo']; ?></a></td>
+                        <td><?php echo $row['wh_name']; ?></td>
+                        <?php if (isset($row['IsReceived'])) { ?>
+                            <?php if ($geo_level_type == 5 && $row['adjustmentType'] == 2) { ?>
+                                <td><b style="color:#08B825">Received</b></td>
+                                <td align="center"><?php echo $row['TranDate']; ?></td>
+                                <td align="center">0</td>
+                            <?php } else { ?>
+                                <td><?php echo ($row['IsReceived'] != 0 && $row['adjustmentType'] == 2) ? '<b style="color:#08B825">Received</b>' : '<b style="color:#C84535">' . $this->isPartialReceived($row['PkStockID']) . '</b>'; ?></td>
+
+                                <?php if ($row['IsReceived'] != 0 && $row['adjustmentType'] == 2) { ?>
+                                    <td align="center"><?php echo $this->reports()->receivedDate($row['PkStockID']); ?></td>
+                                    <td align="center">
+                                        <?php
+                                        $d_s = $row['TranDate1'];
+                                        //changed from received date to created date in query mantis id: 0002203
+                                        $s_e = $this->reports()->receivedDate1($row['PkStockID']);
+                                        $dStart = date_create($d_s);
+                                        $dEnd = date_create($s_e);
+                                        $dDiff = date_diff($dStart, $dEnd);
+                                        echo $dDiff->format("%a");
+                                        // echo $dDiff->days;
+                                        ?>
+                                    </td>
+                                <?php } else if ($this->isPartialReceived($row['PkStockID']) == 'Partial Received') { ?>
+
+                                    <td align="center"><?php echo $this->reports()->receivedDate($row['PkStockID']); ?></td>
+                                    <td align="center">
+                                        <?php
+                                        $d_s = $row['TranDate1'];
+                                        //changed from received date to created date in query mantis id: 0002203
+                                        $s_e = $this->reports()->receivedDate1($row['PkStockID']);
+                                        $dStart = date_create($d_s);
+                                        $dEnd = date_create($s_e);
+                                        $dDiff = date_diff($dStart, $dEnd);
+                                        echo $dDiff->format("%a");
+                                        ?>
+                                    </td>
+                                <?php
+                                } else {
+                                    echo "<td align=\"center\">-</td>";
+                                    $d_s = $row['TranDate1'];
+                                    $d_e = date('Y-m-d');
+                                    $dStart = date_create($d_s);
+                                    $dEnd = date_create($d_e);
+                                    $dDiff = date_diff($dStart, $dEnd);
+                                    echo "<td align=\"center\">" . $dDiff->format("%a") . "</td>";
+                                    ?>
+
+
+
+                                <?php } ?>
+                            <?php } ?>
+                        <?php } ?>
+                    </tr>
+                    <?php
+                    $counter++;
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
+</div>

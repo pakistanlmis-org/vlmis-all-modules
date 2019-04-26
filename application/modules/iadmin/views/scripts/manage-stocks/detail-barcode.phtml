@@ -1,0 +1,158 @@
+<?php
+/**
+*  phtml for Detail Barcode
+*/
+?>
+<?php
+$result = $this->result;
+?>
+<div class="row">
+    <div class="col-md-6">
+        <label class="control-label" for="item"><strong><?php echo $this->translate("Product"); ?></strong></label>
+        <div class="controls">
+            <?php echo $result['itemName']; ?>
+        </div>
+    </div> 
+</div>    
+<div class="row"> 
+    <div class="col-md-6">
+        <label class="control-label" for="barcodetype"><strong><?php echo $this->translate("Barcode Type"); ?></strong></label>
+        <div class="controls">
+            <?php echo $result['barcodeType']; ?>&nbsp;
+        </div>
+    </div>
+</div> 
+<div class="row">
+    <div class="col-md-3">
+        <label class="control-label" for="barcode"><strong><?php echo $this->translate("Barcode"); ?></strong></label>
+    </div>
+    <div class="col-md-3">
+        <label class="control-label" for="barcodetype"><strong><?php echo $this->translate("GTIN"); ?></strong></label>
+        <div class="controls">
+            <?php
+            if ($result['gtin'] == 0) {
+                echo "No";
+            } else {
+                echo "Yes";
+            }
+            ?>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <label class="control-label" for="item"><strong><?php echo $this->translate("Batch Lot No"); ?></strong></label>
+        <div class="controls">
+            <?php echo $result['batch']; ?>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <label class="control-label" for="item"><strong><?php echo $this->translate("Expiry Date"); ?></strong></label>
+        <div class="controls">
+            <?php echo $result['expiry']; ?>&nbsp;
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <label class="control-label" for="startposition"><strong><?php echo $this->translate("Start Position"); ?></strong></label>
+    </div>
+    <div class="col-md-3">
+        <div class="controls">
+            <?php echo $result['gtinStartPosition']; ?>&nbsp;
+        </div> 
+    </div>
+    <div class="col-md-3">
+        <div class="controls">
+            <?php echo $result['batchNoStartPosition']; ?>
+        </div> 
+    </div>
+    <div class="col-md-3">
+        <div class="controls">
+            <?php echo $result['expiryDateStartPosition']; ?>
+        </div>
+    </div>
+</div> 
+<div class="row">
+    <div class="col-md-3">
+        <label class="control-label" for="endposition"><strong><?php echo $this->translate("End Position"); ?></strong></label>
+    </div>
+    <div class="col-md-3">
+        <div class="controls">
+            <?php echo $result['gtinEndPosition']; ?>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="controls">
+            <?php echo $result['batchNoEndPosition']; ?>&nbsp;
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="controls">
+            <?php echo $result['expiryDateEndPosition']; ?>
+        </div>
+    </div>
+</div> 
+<div class="row">
+    <div class="col-md-3">
+        <label class="control-label" for="packsize"><strong><?php echo $this->translate("Pack Size"); ?></strong></label>
+    </div>
+    <div class="col-md-3">
+        <div class="controls">
+            <?php echo $result['packSizeDescription']; ?> 
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="controls">
+            <?php echo $result['length']; ?>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="controls">
+            <?php echo $result['width']; ?>&nbsp;
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="controls">
+            <?php echo $result['height']; ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <label class="control-label" for="vialspcs"><strong><?php echo $this->translate("Vials Pcs"); ?></strong></label>
+        <div class="controls">
+            <?php echo $result['quantityPerPack']; ?>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <label class="control-label" for="expirydateformat"><strong><?php echo $this->translate("Expiry Date Format"); ?></strong></label>
+        <div class="controls">  
+            <?php echo $result['expiryDateFormat']; ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <label class="control-label" for="volume"><strong><?php echo $this->translate("Volume"); ?></strong></label>
+        <div class="controls">      
+            <?php echo $result['volumPerVial']; ?>&nbsp;
+        </div>
+    </div>
+</div> 
+<div class="row">
+    <div class="col-md-6">
+        <label class="control-label" for="volume"><strong><?php echo $this->translate("Barcode Pre Printed"); ?></strong></label>
+        <div class="controls">
+            <?php
+            if ($result['prePrintedBarcode'] == 0) {
+                echo "No";
+            } else {
+                echo "Yes";
+            }
+            ?>
+        </div>
+    </div>
+    <!--<div class="col-md-4">
+        <strong><?php echo $this->translate("This product does not have barcode"); ?></strong>
+    <?php echo $this->form->barcode_id; ?>
+    </div>-->
+</div>

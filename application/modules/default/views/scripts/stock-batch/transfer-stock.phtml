@@ -1,0 +1,76 @@
+<?php
+/**
+*  phtml for Transfer Stock
+*/
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+    <h3 class="page-title"><?php echo $this->translate("Transfer"); ?></h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="dynamicTable table table-striped table-bordered table-hover dataTable no-footered">
+
+                                    <!-- Table heading -->
+                                    <thead>
+                                    <tr>
+                                        <th><?php echo $this->translate("Placement Label"); ?></th>
+                                        <th><?php echo $this->translate("Carton Quantity"); ?></th>
+                                        <th><?php echo $this->translate("Quantity"); ?></th>
+                                        <th><?php echo $this->translate("Transfer"); ?></th>
+                                    </tr>
+                                    </thead>
+                                    <!-- // Table heading END -->
+
+                                    <!-- Table body -->
+                                    <tbody>
+                                    <?php
+                                    if ($this->result && count($this->result) > 0) {
+                                        foreach ($this->result as $row):
+                                            $carton_qty = $row['quantity']/$row['quantity_per_pack'];
+                                            ?>
+                                        <!-- Table row -->
+                                        <tr class="gradeX">
+                                            <td><?php echo $row['location_name']; ?></td>
+                                            <td><?php echo $carton_qty; ?></td>
+                                            <td><?php echo $row['quantity']; ?></td>
+                                            <td> <?php echo $this->form->location; ?></td>
+                                        </tr>
+                                            <?php
+                                        endforeach;
+                                    }else{
+                                        echo "No Record Found";
+                                    }    ?>
+                                    <!-- // Table row END -->
+                                    </tbody>
+                                    <!-- // Table body END -->
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

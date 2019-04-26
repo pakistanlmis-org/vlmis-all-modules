@@ -1,0 +1,101 @@
+<?php
+/**
+*  phtml for Batch Tracking
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            Batch Tracking
+        </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Search Filters"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="batch_search" action="" id="batch_search">
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="product"><?php echo $this->translate("Product") ?></label>
+                                                <?php echo $this->form->product; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="from_wh"><?php echo $this->translate("From Warehouse") ?></label>
+                                                <?php echo $this->form->from_wh; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="to_wh"><?php echo $this->translate("To Warehouse") ?></label>
+                                                <?php echo $this->form->to_wh; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="button">&nbsp;</label><br/>
+                                                <input type="submit" class="btn btn-success" name="submit" id="submit" value="Submit" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php if (count($this->result) > 0) { ?>
+        <div class="row" id="batch_tracking-div">
+                <div class="col-md-2">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <?php echo $this->translate("Batch List"); ?>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php
+                                    foreach ($this->result as $row) {
+                                        ?>
+                                        <a id="<?php echo $row['pkId']; ?>-batchlist" class="btn btn-success col-md-12"><?php echo $row['number']; ?></a><br/><br/>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                
+                </div>
+                <div class="col-md-10" id="batch_detail">
+
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+</div>
+
+<a id="notific8_show" href="javascript:;" class="hide"></a>
+<div id="notific8_heading" class="hide">Issue Voucher</div>
+<div id="notific8_life" class="hide">5000</div>
+<div id="notific8_text" class="hide">has been linked successfully!</div>

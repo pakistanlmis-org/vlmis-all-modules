@@ -1,0 +1,94 @@
+PackInfo:
+  type: entity
+  table: pack_info
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    packSizeDescription:
+      type: text
+      nullable: true
+      column: pack_size_description
+    length:
+      type: decimal
+      nullable: true
+    width:
+      type: decimal
+      nullable: true
+    height:
+      type: decimal
+      nullable: true
+    quantityPerPack:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: quantity_per_pack
+    status:
+      type: boolean
+      nullable: true
+    listRank:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: list_rank
+    volumPerVial:
+      type: decimal
+      nullable: true
+      column: volum_per_vial
+    itemGtin:
+      type: string
+      length: 20
+      fixed: false
+      nullable: true
+      column: item_gtin
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: false
+      column: modified_date
+  oneToOne:
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    stakeholderItemPackSize:
+      targetEntity: StakeholderItemPackSizes
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        stakeholder_item_pack_size_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    packagingLevel:
+      targetEntity: ListDetail
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        packaging_level:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

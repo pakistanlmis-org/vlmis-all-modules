@@ -1,0 +1,102 @@
+<?php
+/**
+*  phtml for Ajax Vaccine Storage Capacity at 2 to 8
+*/
+?>
+<div class="row">
+    <div class="col-md-12">
+        
+            <?php
+         
+            FC_SetRenderer('javascript');
+            echo renderChart($this->baseUrl() . "/FusionCharts/Charts/" . $this->chart_type . ".swf", "", $this->xmlstore, 'chartContainer', $this->width, $this->height, false, false);
+            ?>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped table-bordered table-condensed">
+            <!-- Table heading -->
+            <thead>
+                <tr>
+                    <th>
+                        <?php echo $this->translate("Facility Type"); ?>
+                    </th>
+                    <th>
+                        <?php echo $this->translate("Surplus > 30%"); ?>
+                    </th>
+                    <th>
+                        <?php echo $this->translate("Match +/- 30%"); ?>
+                    </th>
+                    <th>
+                        <?php echo $this->translate("Shortage > 30%"); ?>
+                    </th>
+                    <th>
+                        <?php echo $this->translate("Data Not Available"); ?>
+                    </th>
+                </tr>
+            </thead>
+            <!-- // Table heading END -->
+
+            <!-- Table body -->
+            <tbody>
+                <!-- Table row -->
+                <?php
+                $totalsurplus30 = 0;
+                $totalmatch10 = 0;
+                $totalshortage30 = 0;
+                $totalUnknown = 0;
+
+                foreach ($this->data as $currRow) {
+                    $totalsurplus30 = $totalsurplus30 + $currRow['surplus30'];
+                    $match30 = ($currRow['match10'] + $currRow['surplus1030'] + $currRow['shortage1030']);
+                    $totalmatch10 = $totalmatch10 + $match30;
+                    $totalshortage30 = $totalshortage30 + $currRow['shortage30'];
+                    $totalUnknown = $totalUnknown + $currRow['Unknown'];
+                    ?>
+                    <tr class="gradeX">
+                        <td>
+                            <?php echo $currRow['FacilityType']; ?>
+                        </td>
+                        <td>
+                            <?php echo $currRow['surplus30']; ?>
+                        </td>
+                        <td>
+                            <?php echo $match30; ?>
+                        </td>                        
+                        <td>
+                            <?php echo $currRow['shortage30']; ?>
+                        </td>
+                        <td>
+                            <?php echo $currRow['Unknown']; ?>
+                        </td> 
+                    </tr>
+                    <?php
+                }
+                ?>
+                <!-- // Table row END -->
+            </tbody>
+            <!-- // Table body END -->
+            <tfoot>
+                <tr style="background-color: #FFBD60">
+                    <th>
+                        <?php echo $this->translate("Grand Total"); ?>
+                    </th>
+                    <th>
+                        <?php echo $totalsurplus30; ?>
+                    </th>
+                    <th>
+                        <?php echo $totalmatch10; ?>
+                    </th>
+                    <th>
+                        <?php echo $totalshortage30; ?>
+                    </th>
+                    <th>
+                        <?php echo $totalUnknown; ?>
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

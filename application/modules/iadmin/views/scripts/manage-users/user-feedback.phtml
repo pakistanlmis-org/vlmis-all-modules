@@ -1,0 +1,129 @@
+<?php
+/**
+*  phtml for User Feedback
+*/
+?>
+<style>
+    .custom_width{
+        overflow: hidden;
+        width: 100px;
+    }
+</style>
+
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Users Feedback") ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Users Feedback") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php if ($this->result && count($this->result) > 0) { ?>
+
+                                    <table class="table table-striped table-bordered table-condensed" id="sample_20">
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <?php echo $this->translate("S.No"); ?>
+                                                </th>
+
+                                                <th>
+                                                    <?php echo $this->translate("Date"); ?>
+                                                </th>
+
+                                                <th>
+                                                    <?php echo $this->translate("Name"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Email"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->m . $this->translate("Phone"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Department") ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Message"); ?>
+                                                </th>
+
+
+
+                                            </tr>
+
+
+                                        </thead>
+                                        <!-- // Table heading END -->
+
+                                        <!-- Table body -->
+                                        <tbody>
+
+                                            <!-- Table row -->
+                                            <?php
+                                            $j = 1;
+                                            foreach ($this->result as $row) {
+                                                ?>
+                                                <tr class="dynamic-rows">
+                                                    <td class="serial" style="font-size:12px" align="center">
+                                                        <?php echo $j; ?>
+                                                    </td>
+                                                    <td style="font-size:12px;" align="left" nowrap>
+                                                        <?php echo date("d/m/y", strtotime($row['created_date'])); ?>
+                                                    </td>
+                                                    <td style="font-size:12px" nowrap>
+                                                        <?php echo $row['name'] ?>
+                                                    </td>
+                                                    <td style="font-size:12px" align="left">
+                                                        <?php echo $row['email'] ?>
+                                                    </td>
+                                                    <td style="font-size:12px"  align="right">
+                                                        <?php echo $row['phone'] ?>
+                                                    </td>
+                                                    <td style="font-size:12px" align="left">
+                                                        <?php echo $row['department'] ?>
+                                                    </td>
+                                                    <td style="font-size:12px;" align="left">
+
+                                                        <?php $str = chunk_split($row['message'], 60, "<br>");
+                                                        echo $str;
+                                                        ?>
+
+                                                    </td>
+
+                                                </tr>
+                                                <?php
+                                                $j ++;
+                                            }
+                                            ?>
+                                            <!-- // Table row END -->
+                                        </tbody>
+                                        <!-- // Table body END -->                                      
+
+                                    </table>
+
+
+<?php } ?>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- // Content END -->
+

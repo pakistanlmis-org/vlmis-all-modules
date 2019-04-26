@@ -1,0 +1,17 @@
+<?php
+/**
+*  phtml for Ajax Get District
+*/
+?>
+<?php
+if ($this->data != false) {
+    ?>
+    <option value=""><?php echo $this->translate("Select"); ?></option>
+    <?php
+    foreach ($this->data as $row) {
+        ?>
+        <option value="<?php echo $row['pk_id']; ?>"><?php echo $row['location_name']; ?></option>
+                <?php
+            }
+        } 
+?>

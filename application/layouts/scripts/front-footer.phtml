@@ -1,0 +1,45 @@
+<?php
+/**
+*  Layout for Front Footer.
+*/
+
+?>
+<div class="footer-wrapper">
+    <div class="footer-inner">
+        <!--<img src="<?php echo $this->baseUrl(); ?>/images/usa-delivered-logo.png" alt="USAID | Deliver Project" class="left" />-->
+        <p class="copyright right">&copy;  Pak LMIS.com, 2013. All Rights Reserved. </p>
+    </div>
+</div>
+<!-- Javascript -->
+
+<script src="<?php echo $this->baseUrl(); ?>/js/front/jquery-1.9.1.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/js/front/jquery-ui.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/js/front/jquery.dropdownPlain.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/js/front/unslider.min.js"></script>
+<script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/forms/jquery-validation/dist/jquery.validate.min.js"></script>
+<script>
+$(function() {
+    $('.banner').unslider({
+        speed: 600,               //  The speed to animate each slide (in milliseconds)
+        delay: 6000,              //  The delay between slide animations (in milliseconds)
+        complete: function() {},  //  A function that gets called after every slide animation
+        keys: true,               //  Enable keyboard (left, right) arrow shortcuts
+        dots: true,               //  Display dot navigation
+        fluid: false              //  Support responsive design. May break non-responsive designs
+    });
+
+    $( "#tabs" ).tabs();
+});
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-48587374-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+<script data-jsd-embedded data-key="761b7cb7-aad3-4bd1-9bf6-60108d090c0a" data-base-url="https://embedded-jsd.atlassian.io" src="https://embedded-jsd.atlassian.io/assets/embed.js"></script>
+</body>
+</html>

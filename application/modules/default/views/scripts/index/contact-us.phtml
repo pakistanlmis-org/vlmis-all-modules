@@ -1,0 +1,144 @@
+<?php
+/**
+*  phtml for Contact Us
+*/
+?>
+<!-- BEGIN CONTAINER -->
+<style>
+    .form-group{
+        padding-top:  5px;
+    }
+    textarea {
+        resize: none;
+    }
+</style>
+<div class="page-container">
+    <!-- BEGIN CONTENT -->
+    <div class=" page-content-wrapper">
+        <div class="page-content landing-content">
+            <br/>
+
+            <div class="col-md-4 col-md-offset-4">
+                <?php if ($this->saved == true) { ?>
+                    <div class="alert alert-info" id="saved">
+                        <button data-dismiss="alert" class="close" type="button">
+                            ×
+                        </button>
+                        Your feedback has been sent successfully. 
+                    </div>  
+                <?php } ?>
+            </div>
+
+
+
+            <div class="col-md-4 col-md-offset-4"> 
+
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-folder"></i>Contact Us
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <form name="contact-us" id="contact-us" method="post" action="">
+
+                            <div class="form-group">
+                                <label for="name" class="col-md-3 control-label">
+                                    <?php echo $this->translate("Name"); ?><span class="red">*</span>
+                                </label>
+                                <div class="col-md-9">
+                                    <?php echo $this->form->name; ?>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <label for="e_mail" class="col-md-3 control-label">
+                                    <?php echo $this->translate("Email"); ?><span class="red">*</span>
+                                </label>
+                                <div class="col-md-9">
+                                    <?php echo $this->form->e_mail; ?>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <label for="phone" class="col-md-3 control-label">
+                                    <?php echo $this->translate("Phone"); ?><span class="red">*</span>
+                                </label>
+                                <div class="col-md-9">
+                                    <?php echo $this->form->phone; ?>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <label for="subject" class="col-md-3 control-label">
+                                    <?php echo $this->translate("Department"); ?><span class="red">*</span>
+                                </label>
+                                <div class="col-md-9">
+                                    <?php echo $this->form->department; ?>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <label for="message" class="col-md-3 control-label">
+                                    <?php echo $this->translate("Message"); ?><span class="red">*</span>
+                                </label>
+                                <div class="col-md-9">
+                                    <?php echo $this->form->message; ?>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <label for="captcha" class="col-md-3 control-label">
+                                    <?php echo $this->translate("Please enter the code"); ?><span class="red">*</span>
+                                </label>
+                                <div class="col-md-9">
+                                    <?php echo $this->form->captcha; ?>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <div class="pull-right" style="padding-top: 5px">
+                                    <div class="col-md-6">
+                                        <button type="reset" id="reset" value="Reset" class="btn btn-info">
+                                            <?php echo $this->translate("Reset"); ?>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button name="send_contact" id="send_contact" type="submit" class="form-control btn btn-success">Send</button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <br>
+
+                        </form>
+
+                        <div class="clearfix margin-bottom-20">
+                        </div>                       
+
+                    </div>
+                </div>
+            </div>
+            <!-- BEGIN  PATNERS -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="tab-content stake-holder">stakeholders</div>
+                    <!--<div style="float:right; padding-top: 35px; padding-right: 20px;"><img src="<?php echo $this->baseUrl(); ?>/images/usa-delivered-logo.png" alt=""/></div>-->
+                    <ul class="nav nav-tabs stake-holder-list">
+                        <li> <img src="<?php echo $this->baseUrl(); ?>/common/assets/frontend/layout/img/vaccine-partners/govt-of-pak-logo.png" alt=""/></li>
+                        <li> <img src="<?php echo $this->baseUrl(); ?>/common/assets/frontend/layout/img/vaccine-partners/unicef-logo.png" alt=""/></li>
+                        <li> <img src="<?php echo $this->baseUrl(); ?>/common/assets/frontend/layout/img/vaccine-partners/us-aid-logo.png" alt=""/></li>
+                        <li> <img src="<?php echo $this->baseUrl(); ?>/common/assets/frontend/layout/img/vaccine-partners/who-logo.png" alt=""/></li>
+                    </ul>                    
+                </div>
+            </div>
+            <!-- END PATNERS -->
+        </div>
+    </div>

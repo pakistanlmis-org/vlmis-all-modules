@@ -1,0 +1,10 @@
+<?php
+
+/**
+ *  phtml for ajax-get-stock-status
+ */
+
+
+FC_SetRenderer('javascript');
+echo renderChart($this->baseUrl() . "/FusionCharts/Charts/stackedcolumn2d.swf", "", $this->xmlstore7, "7", '100%', 350, false, false);
+?>

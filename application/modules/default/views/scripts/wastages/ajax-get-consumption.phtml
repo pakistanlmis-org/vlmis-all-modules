@@ -1,0 +1,17 @@
+<?php
+
+/**
+ *  phtml for Cold Chain Capacity
+ */
+?>
+
+<?php
+if ($this->item_sel == 'all') {
+
+    FC_SetRenderer('javascript');
+    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/StackedColumn2DLine.swf ", "", $this->xmlstore1, "coldchainCapacity281", '100%', 250, false, false);
+} else {
+    FC_SetRenderer('javascript');
+    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie3d.swf", "", $this->xmlstore1, "coldchainCapacity281", '100%', 250, false, false);
+}
+?>

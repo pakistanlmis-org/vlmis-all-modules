@@ -1,0 +1,175 @@
+<?php
+/**
+*  phtml for CC Qty Add
+*/
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">Stock Placement</h3>
+        <?php
+        $qRem = '';
+        $print = FALSE;
+        $show_add = TRUE;
+        if ($this->count[0]['sumplace'] > 0) {
+            $qRem = $this->countRemaing[0]['remValue'];
+            $print = true;
+            if ($qRem == 0) {
+                $show_add = FALSE;
+            }
+        } else {
+            $qRem = $this->result['qty'];
+        }
+        ?>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="coldchian_add" action="" >
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <label class="control-label" >Product: <strong><?php echo $this->result['product']; ?></strong></label>&nbsp;
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" >Batch No: <strong><?php echo $this->batch[0]['number'] ?></strong></label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" >
+                                                    Quantiy to Place <strong> <?php echo $this->result['qty'] ?> </strong> </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" >Placed Quantity:<strong><?php echo $this->placement[0]['sumplace'] ?> </strong></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <!-- Group -->
+                                            <div class="col-md-3">
+                                                <label class="control-label" >Cold Chain</label>
+                                                <div class="controls">
+                                                    <?php
+                                                    echo $this->form->coldchain;
+                                                    ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">&nbsp;</div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" >Quantity</label>
+                                                <div class="controls">
+                                                    <input class="col-md-10" required="" id="quantity" name="quantity" value="" type="text" />
+                                                    <input  type="hidden" id="rem_quantity" name="rem_quantity" value="<?php echo $qRem; ?>"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">&nbsp;
+                                            </div>
+                                            <input type="hidden" id="stockDetailId" name="stockDetailId" value="<?php echo $this->result['stockDetailId']; ?>"/>
+                                            <input type="hidden" name="qty" value="<?php echo $this->result['qty']; ?>"/>
+                                            <input type="hidden" name="batch_id" value="<?php echo $this->result['batchID']; ?>"/>
+                                            <input type="hidden" name="product" value="<?php echo $this->result['product']; ?>"/>
+                                            <div class="col-md-3">
+                                                <br />
+                                                <button type="submit" name="add" value="1" class="btn btn-success">Add</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="control-label" >Remaining  Quantity:<strong><?php echo $qRem; ?></strong></label>
+                                            <br />
+                                            <div id="show_error" style="color:#ff0000;"><?php
+                                                if (!empty($_GET['err_msg']) && $_GET['err_msg']) {
+                                                    echo base64_decode($_GET['err_msg']);
+                                                }
+                                                ?></div>
+                                            <div id="show_error" style="color:#48ba45;"><?php
+                                                if (!empty($_GET['ok_msg']) && $_GET['ok_msg']) {
+                                                    echo base64_decode($_GET['ok_msg']);
+                                                }
+                                                ?></div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            Search Results
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="dynamicTable table table-striped table-bordered table-condensed">
+
+                                    <!-- Table heading -->
+                                    <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>Product</th>
+                                            <th>Quantity</th>
+                                            <th>Batch No.</th>
+                                            <th>Asset Types</th>
+                                        </tr>
+                                    </thead>
+                                    <!-- // Table heading END -->
+                                    <!-- Table body -->
+                                    <tbody>
+                                        <?php
+                                        $m_res = array();
+                                        $i = 1;
+                                        if (count($this->place_lis) > 0) :
+                                            foreach ($this->place_lis as $row):
+                                                
+                                                ?>
+                                                <tr class="gradeX">
+                                                    <td><?php echo $i; ?> </td>
+                                                    <td><?php echo $this->result['product']; ?>&nbsp;</td>
+                                                    <td><?php echo number_format($row['clsQty']); ?></td>
+                                                    <td><?php echo $row['StockBatch']['number']; ?>&nbsp;</td>
+                                                    <td><?php echo $row['ColdChain']['CcmAssetTypes']['asset_type_name']; ?>&nbsp;</td>
+
+                                                </tr>
+                                                <?php
+                                                $i++;
+                                            endforeach;
+                                        endif;
+                                        ?>
+                                    </tbody>
+                                    <!-- // Table body END -->
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,185 @@
+<?php
+/**
+*  phtml for Inventory Management Reporting
+*/
+?>
+<?php
+$from_sel_month = $this->from_month_sel;
+$from_sel_year = $this->from_year_sel;
+$year = $this->year_sel;
+$month = $this->month_sel;
+$sel_prov = $this->prov_sel;
+$sel_dist = $this->district_id;
+$sel_tehsil = $this->tehsil;
+$wh_type = $this->wh_type;
+
+// Headers of the Grid
+$header = 'Sr.No., Tehsil/Taluka,Total No. of EPI Centers To Issue,Voucher Issued';
+
+$cspan = '#cspan,#cspan,#cspan,#cspan';
+$width = '50,150,150,80';
+$ro = 'ro,ro,ro,ro';
+
+$cspan .= ',#cspan,#cspan,#cspan,#cspan,#cspan';
+$header .= ",<div style='text-align:center;'>%Age</div>";
+$header .= ",<div style='text-align:center;'>TT</div>";
+$header .= ",<div style='text-align:center;'>tOPV</div>";
+$header .= ",<div style='text-align:center;'>BCG</div>";
+$header .= ",<div style='text-align:center;'>Penta</div>";
+$width .= ',*,*,*,*,*,*,*,100';
+
+
+
+$xml_store = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+$xml_store .= "<rows>";
+
+$sum_arr = array();
+
+$query = $this->reports()->inventoryManagementReporting($wh_type, $year, $month, $from_sel_month, $from_sel_year, $sel_dist, $sel_tehsil);
+$j = 1;
+
+
+foreach ($query as $row) {
+
+    $location_id = $row['location_id'];
+    $data_arr[$location_id][] = $j;
+    $data_arr[$location_id][] = $row['tehsil'];
+
+    $data_arr[$location_id][] = $row['lbt'];
+
+    $data_arr[$location_id][] = $row['outreach_female'];
+    $data_arr[$location_id][] = $row['consumption'];
+    $data_arr[$location_id][] = $row['consumptionPercentage'];
+    $j++;
+}
+
+
+foreach ($data_arr as $dis_id => $sub_arr) {
+
+    $xml_store .= "<row>";
+    $xml_store .= "<cell>$sub_arr[0]</cell>";
+    $xml_store .= "<cell>$sub_arr[1]</cell>";
+
+
+    foreach ($sub_arr as $key => $value) {
+        if (!isset($sum_arr[$key])) {
+            $sum_arr[$key] = 0;
+        }
+        $sum_arr[$key] += $value;
+        if ($key > 1) {
+
+            $xml_store .= "<cell style=\"text-align:right;\">$value </cell>";
+        }
+    }
+    $xml_store .="</row>";
+}
+
+// To show Total
+array_shift($sum_arr);
+
+$xml_store .= "<row>";
+$xml_store .= "<cell></cell>";
+$xml_store .= "<cell></cell>";
+
+$xml_store .= "<cell style=\"font-weight:bold\">Total</cell>";
+foreach ($sum_arr as $key => $value) {
+    if ($key == 2) {
+        $total_wh = $value;
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+    } else if ($key > 2 && $key < 9) {
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+    } else if ($key == 9) {
+        $total_val = $value;
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value) . "</cell>";
+    } else if ($key == 10) {
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . @round(($total_val / $total_wh) * 100) . " %</cell>";
+    }
+}
+
+$xml_store .="</row>";
+
+$xml_store .="</rows>";
+
+?>
+<?php
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $report_title . ' ' . $report_month . ' ' . $sel_year; ?></h3>
+        <h5 style="color: red">
+            Note: This report is under user testing.Please check and provide feedback at support@lmis.gov.pk
+        </h5>
+        <div class="innerLR">
+            <script>
+                var mygrid;
+                function doInitGrid() {
+                    mygrid = new dhtmlXGridObject('mygrid_container');
+                    mygrid.selMultiRows = true;
+                    mygrid.setImagePath("<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+                    mygrid.setHeader(",<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'><?php echo "'$report_title at  $this->loc_name'   for (" . date('F', mktime(0, 0, 0, $this->from_month_sel)) . '-' . $this->from_year_sel . ') to (' . date('F', mktime(0, 0, 0, $this->month_sel)) . '-' . $this->year_sel; ?>)  (Doses)</div>,<?php echo substr($cspan, 0, -14); ?>");
+                    mygrid.attachHeader("<?php echo $header; ?>");
+                    mygrid.setInitWidths("<?php echo $width; ?>");
+                    mygrid.setColTypes("<?php echo $ro; ?>");
+                    mygrid.enableRowsHover(true, 'onMouseOver');
+                    mygrid.setSkin("light");
+                    mygrid.init();
+                    mygrid.clearAll();
+                    $('body').append('<textarea id="xml_string" style="display:none;"><?php echo addslashes($xml_store); ?></textarea>');
+                    mygrid.loadXMLString(document.getElementById('xml_string').value);
+                }
+            </script>
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php
+                        echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('inventory-management/reports-header_coverage.phtml') ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="text-align:right; padding-bottom:10px;">
+                        <img style="cursor:pointer;" src="<?php echo $this->baseUrl(); ?>/images/pdf-32.png" onClick="mygrid.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="<?php echo $this->translate("Export to PDF"); ?>"/>&nbsp;&nbsp;
+                        <img style="cursor:pointer; margin-left:-5px" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="mygrid.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');" title="<?php echo $this->translate("Export to Excel"); ?>" />
+                    </td>
+                </tr>
+
+            </table>
+
+            <table width="99%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <div id="mygrid_container" style="width:100%; height:700px;"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+
+    var whType = <?php echo $wh_type; ?>;
+    var province = <?php echo $sel_prov; ?>;
+    var district = <?php echo $sel_dist; ?>;
+    var tehsil = <?php echo $sel_tehsil; ?>;
+
+
+
+</script>
+
+

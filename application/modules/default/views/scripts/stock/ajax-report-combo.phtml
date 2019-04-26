@@ -1,0 +1,22 @@
+<?php
+/**
+*  phtml for Ajax Report Combo
+*/
+?>
+<option value=""><?php echo $this->translate("Month"); ?> - <?php echo $this->translate("Year"); ?></option>
+<?php
+if ($this->result != false) {
+    ?>
+    <?php
+    foreach ($this->result as $row) {
+        if($this->level == 6){
+            $do = 'Z' . base64_encode($this->warehouse_id . '|' . $row['report_year'] . '-' . str_pad($row['report_month'], 2, "0", STR_PAD_LEFT) . '-01' . '|2');
+        } else {
+            $do = 'Z' . base64_encode($this->warehouse_id . '|' . $row['location_id'] . '|' . $row['report_year'] . '-' . $row['report_month'] . '-01' . '|2');
+        }        
+        ?>
+        <option value="<?php echo $do; ?>"><?php echo $row['report_month'] . '-' . $row['report_year']; ?></option>
+        <?php
+    }
+}
+?>  

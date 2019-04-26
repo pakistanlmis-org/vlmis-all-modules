@@ -1,0 +1,13 @@
+<?php
+/**
+*  phtml for Ajax Get Batch Cold Chain
+*/
+?>
+<option value="">Select</option>
+<?php
+foreach ($this->combo as $row) {
+    ?>
+    <option value="<?php echo $row['pk_id']; ?>"><?php echo $row['ccm_make_name'] . ", " . $row['ccm_model_name'] . ", " . $row['asset_id']; ?></option>
+    <?php
+}
+?>

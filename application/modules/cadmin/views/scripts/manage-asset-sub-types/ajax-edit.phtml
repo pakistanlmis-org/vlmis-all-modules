@@ -1,0 +1,20 @@
+<?php
+/**
+*  phtml for Ajax Edit
+*/
+?>
+<div class="row">
+<div class="col-md-3">
+    <div class="form-group ">
+        <label class="control-label" ><?php echo $this->translate("Asset Type"); ?> <span class="red">*</span></label>
+        <?php echo $this->form->asset_type; ?>
+    </div>
+</div>
+<div class="col-md-3">
+    <div class="form-group ">
+        <label class="control-label" ><?php echo $this->translate("Asset Sub Type"); ?> <span class="red">*</span></label>
+        <?php echo $this->form->asset_sub_type; ?>
+    </div>
+</div>
+</div>
+<?php echo $this->form->asset_id; ?>

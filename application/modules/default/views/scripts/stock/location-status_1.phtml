@@ -1,0 +1,273 @@
+<?php
+/**
+*  phtml for Location Status 1
+*/
+?>
+<div class="page-content-wrapper">
+<div class="page-content">
+    <h3 class="page-title"><?php echo $this->translate("Location Status"); ?></h3>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget widget-tabs widget-tabs-double" style=" border-bottom: 1px solid #77e588; border-right: 1px solid #77e588; border-top: 1px solid #77e588; margin-bottom: -2px;  ">
+                <div class="widget-head">
+                    <ul>
+                        <li class=""><a data-toggle="tab" class="glyphicons table" href="#tab1-2"><i></i><span class="strong"><?php echo $this->translate("Non Vaccines"); ?></span><span>Location</span></a></li>
+                        <li class="active"><a class="glyphicons table" href="<?php echo $this->baseUrl(); ?>/stock/location-status1"><i></i><span class="strong"><?php echo $this->translate("Vaccines"); ?></span><span>Location</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-body" style="border-top: 1px solid #77e588;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                            <div class="alert alert-success">
+                                <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                <strong>Data</strong> has been saved successfully!
+                            </div>
+                            <?php } ?>
+                            <form method="POST" name="location_status" id="location_status" action="" >
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="control-label" for="area"><?php echo $this->translate("Area"); ?><span class="red">*</span></label>
+                                        <div class="controls">
+                                            <?php echo $this->form->area; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="control-label" for="level"><?php echo $this->translate("Level"); ?></label>
+                                        <div class="controls">
+                                            <?php echo $this->form->level; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6"></div>
+                                </div>
+                                <div class="widget">
+                                    <div class="widget-body right">
+                                        <button class="btn btn-primary" type="submit" id="showstatus" name="showstatus"><?php echo $this->translate("Show Status"); ?></button>
+                                    </div>
+                                </div>
+                            </form>
+                            <form method="post" action="<?php echo $this->baseUrl(); ?>/stock/product-location1" id="product-location">
+                                <div class="modal hide fade" id="modal-product-location">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h3><?php echo $this->translate("Products on Location"); ?></h3>
+                                    </div>
+
+                                    <div class="modal-body" id="modal-body-contents">
+                                        <iframe width="600" height="500" id="iframeurl" src="<?php echo $this->baseUrl() ?>/stock/product-location?id=2"></iframe>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-12">
+
+                        <table style="border: none; width:100%;">
+                            <?php
+
+                            foreach ($this->result as $row):
+                                $locname = $row['locationName'];
+                                $row1 = (int) substr($locname, 1, 2);
+                                $rack = (int) substr($locname, 3, 2);
+                                $pallet = (int) substr($locname, 5, 2);
+                                $lev = (int) substr($locname, 7, 2); //
+                                
+                                $array[$row1][$rack][$pallet] = $row;
+                            endforeach;
+                            for ($a = 1; $a <= $this->max_value_row; $a++):
+                                ?>
+                                <tr style="border: 3px solid blue; height: 100px; <?php if($a == $this->level) {?> background: none repeat scroll 0 0 #FFA500; <?php } ?>">
+                                    <?php
+                                    for ($x = 1; $x <= $this->max_value_rack; $x++): ?>
+                                        <td style="width: 100px;padding: 4px; border-right:4px solid red;">
+                                            <?php
+
+                                            if($a == $this->level || !empty($a) && $a == $row1 && $x == $rack) {
+
+                                                ?>
+                                                <table style="border: 2px solid green; width:100%;">
+                                                    <tr style="width:25%">
+                                                        <?php if(!empty($l1)){ ?>
+                                                        <td style="width:10%;border: 2px solid green; background-color: green;">
+                                                            <?php if(!empty($l1)){
+                                                            ?><a itemid="<?php echo $row['pkId'] ?>" class="btn product-location span2 btn-link btn-mini" href="<?php echo $this->baseUrl(); ?>/stock/stock-bin-placement?id=<?php echo $row['pkId'] ?>">
+                                                                <?php echo $l1;?></a>
+                                                            <?php } else {echo "&nbsp;";}?></td>
+
+                                                        <?php }else{?>
+                                                        <td style="width:10%;border: 2px solid green; background-color:yellowgreen;">
+                                                            <?php if(!empty($l1)){
+                                                            ?><a itemid="<?php echo $row['pkId']; ?>" class="btn product-location span2 btn-link btn-mini" href="<?php echo $this->baseUrl(); ?>/stock/stock-bin-placement?id=<?php echo $row['pkId'] ?>">
+                                                                <?php echo $l1;?></a>
+                                                            <?php } else {echo "&nbsp;";}?></td>
+                                                        <?php }?>
+                                                        <?php if(!empty($l2)){ ?>
+                                                        <td style="width:10%;border: 2px solid green; background-color: green;">
+                                                            <?php if(!empty($l2)){
+                                                            ?><a itemid="<?php echo $row['pkId']; ?>" class="btn product-location span2 btn-link btn-mini" href="<?php echo $this->baseUrl(); ?>/stock/stock-bin-placement?id=<?php echo $row['pkId'] ?>">
+                                                                <?php echo $l2;?></a>
+                                                            <?php } else {echo "&nbsp;";}?></td>
+
+                                                        <?php }else{?>
+                                                        <td style="width:10%;border: 2px solid green; background-color: yellowgreen;">
+                                                            <?php if(!empty($l2)){
+                                                            ?><a itemid="<?php echo $row['pkId']; ?>" class="btn product-location span2 btn-link btn-mini" href="<?php echo $this->baseUrl(); ?>/stock/stock-bin-placement?id=<?php echo $row['pkId'] ?>">
+                                                                <?php echo $l2;?></a>
+                                                            <?php } else {echo "&nbsp;";}?></td>
+                                                        <?php }?>
+
+
+                                                    </tr>
+                                                    <tr style="width:25%">
+
+                                                        <?php if(!empty($l3)){ ?>
+                                                        <td style="width:10%;border: 2px solid green; background-color: green;">
+                                                            <?php if(!empty($l3)){
+                                                            ?><a itemid="<?php echo $row['pkId'] ?>" class="btn product-location span2 btn-link  btn-mini" href="<?php echo $this->baseUrl(); ?>/stock/stock-bin-placement?id=<?php echo $row['pkId'] ?>">
+                                                                <?php echo $l3;?></a>
+                                                            <?php } else {echo "&nbsp;";}?></td>
+
+                                                        <?php }else{?>
+                                                        <td style="width:10%;border: 2px solid green; background-color: yellowgreen;">
+                                                            <?php if(!empty($l3)){
+                                                            ?><a itemid="<?php echo $row['pkId'] ?>" class="btn product-location span2 btn-link btn-mini" href="<?php echo $this->baseUrl(); ?>/stock/stock-bin-placement?id=<?php echo $row['pkId'] ?>">
+                                                                <?php echo $l3;?></a>
+                                                            <?php } else {echo "&nbsp;";}?></td>
+                                                        <?php }?>
+                                                        <?php if(!empty($l4)){ ?>
+                                                        <td style="width:10%;border: 2px solid green; background-color: green;">
+                                                            <?php if(!empty($l4)){
+                                                            ?><a itemid="<?php echo $row['pkId'] ?>" class="btn product-location span2 btn-link btn-mini" href="<?php echo $this->baseUrl(); ?>/stock/stock-bin-placement?id=<?php echo $row['pkId'] ?>">
+                                                                <?php echo $l4;?></a>
+                                                            <?php } else {echo "&nbsp;";}?></td>
+
+                                                        <?php }else{?>
+                                                        <td style="width:10%;border: 2px solid green; background-color: yellowgreen;">
+                                                            <?php if(!empty($l4)){
+                                                            ?><a itemid="<?php echo $row['pkId'] ?>" class="btn product-location span2 btn-link  btn-mini" href="<?php echo $this->baseUrl(); ?>/stock/stock-bin-placement?id=<?php echo $row['pkId'] ?>">
+                                                                <?php echo $l4;?></a>
+                                                            <?php } else {echo "&nbsp;";}?></td>
+                                                        <?php }?>
+                                                    </tr>
+                                                </table>
+                                                <?php
+                                            }
+                                            elseif($a == $this->level || !empty($a)) {
+
+                                                ?>
+                                                <table style="border: 2px solid green; width:100%;">
+                                                    <tr style="width:25%">
+                                                        <?php if(!empty($l1)){ ?>
+                                                        <td style="width:10%;border: 2px solid green; background-color: green;">
+                                                            <?php if(!empty($l1)){
+                                                            ?><a itemid="<?php echo $row['pkId'] ?>" class="btn product-location span2 btn-link btn-mini" href="<?php echo $this->baseUrl(); ?>/stock/stock-bin-placement?id=<?php echo $row['pkId'] ?>">
+                                                                <?php echo $l1;?></a>
+                                                            <?php } else {echo "&nbsp;";}?></td>
+
+                                                        <?php }else{?>
+                                                        <td style="width:10%;border: 2px solid green; background-color:yellowgreen;">
+                                                            <?php if(!empty($l1)){
+                                                            ?><a itemid="<?php echo $row['pkId']; ?>" class="btn product-location span2 btn-link btn-mini" href="<?php echo $this->baseUrl(); ?>/stock/stock-bin-placement?id=<?php echo $row['pkId'] ?>">
+                                                                <?php echo $l1;?></a>
+                                                            <?php } else {echo "&nbsp;";}?></td>
+                                                        <?php }?>
+                                                        <?php if(!empty($l2)){ ?>
+                                                        <td style="width:10%;border: 2px solid green; background-color: green;">
+                                                            <?php if(!empty($l2)){
+                                                            ?><a itemid="<?php echo $row['pkId']; ?>" class="btn product-location span2 btn-link btn-mini" href="<?php echo $this->baseUrl(); ?>/stock/stock-bin-placement?id=<?php echo $row['pkId'] ?>">
+                                                                <?php echo $l2;?></a>
+                                                            <?php } else {echo "&nbsp;";}?></td>
+
+                                                        <?php }else{?>
+                                                        <td style="width:10%;border: 2px solid green; background-color: yellowgreen;">
+                                                            <?php if(!empty($l2)){
+                                                            ?><a itemid="<?php echo $row['pkId']; ?>" class="btn product-location span2 btn-link btn-mini" href="<?php echo $this->baseUrl(); ?>/stock/stock-bin-placement?id=<?php echo $row['pkId'] ?>">
+                                                                <?php echo $l2;?></a>
+                                                            <?php } else {echo "&nbsp;";}?></td>
+                                                        <?php }?>
+
+
+                                                    </tr>
+                                                    <tr style="width:25%">
+
+                                                        <?php if(!empty($l3)){ ?>
+                                                        <td style="width:10%;border: 2px solid green; background-color: green;">
+                                                            <?php if(!empty($l3)){
+                                                            ?><a itemid="<?php echo $row['pkId'] ?>" class="btn product-location span2 btn-link  btn-mini" href="<?php echo $this->baseUrl(); ?>/stock/stock-bin-placement?id=<?php echo $row['pkId'] ?>">
+                                                                <?php echo $l3;?></a>
+                                                            <?php } else {echo "&nbsp;";}?></td>
+
+                                                        <?php }else{?>
+                                                        <td style="width:10%;border: 2px solid green; background-color: yellowgreen;">
+                                                            <?php if(!empty($l3)){
+                                                            ?><a itemid="<?php echo $row['pkId'] ?>" class="btn product-location span2 btn-link btn-mini" href="<?php echo $this->baseUrl(); ?>/stock/stock-bin-placement?id=<?php echo $row['pkId'] ?>">
+                                                                <?php echo $l3;?></a>
+                                                            <?php } else {echo "&nbsp;";}?></td>
+                                                        <?php }?>
+                                                        <?php if(!empty($l4)){ ?>
+                                                        <td style="width:10%;border: 2px solid green; background-color: green;">
+                                                            <?php if(!empty($l4)){
+                                                            ?><a itemid="<?php echo $row['pkId'] ?>" class="btn product-location span2 btn-link btn-mini" href="<?php echo $this->baseUrl(); ?>/stock/stock-bin-placement?id=<?php echo $row['pkId'] ?>">
+                                                                <?php echo $l4;?></a>
+                                                            <?php } else {echo "&nbsp;";}?></td>
+
+                                                        <?php }else{?>
+                                                        <td style="width:10%;border: 2px solid green; background-color: yellowgreen;">
+                                                            <?php if(!empty($l4)){
+                                                            ?><a itemid="<?php echo $row['pkId'] ?>" class="btn product-location span2 btn-link  btn-mini" href="<?php echo $this->baseUrl(); ?>/stock/stock-bin-placement?id=<?php echo $row['pkId'] ?>">
+                                                                <?php echo $l4;?></a>
+                                                            <?php } else {echo "&nbsp;";}?></td>
+                                                        <?php }?>
+                                                    </tr>
+                                                </table>
+                                                <?php
+                                            }
+
+
+
+                                            else {
+                                                ?>
+                                                <table style="border: 2px solid green; width:100%;">
+                                                    <tr style="width:25%">
+                                                        <td style="width:10%;border: 2px solid green; background-color: yellowgreen;">&nbsp;</td>
+                                                        <td style="width:10%;border: 2px solid green; background-color:yellowgreen;">&nbsp;
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr style="width:25%">
+                                                        <td style="width:10%;border: 2px solid green; background-color: yellowgreen;">&nbsp;</td>
+                                                        <td style="width:10%;border: 2px solid green; background-color:yellowgreen;">
+                                                        </td>
+
+                                                    </tr>
+                                                </table>
+                                                <?php
+                                            }
+
+                                            unset($l1);
+                                            unset($l2);
+                                            unset($l3);
+                                            unset($l4);
+                                            //unset($this->level);
+                                            ?>
+                                        </td>
+                                        <?php endfor; ?>
+                                </tr>
+                                <?php
+                            endfor;
+
+                            ?>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

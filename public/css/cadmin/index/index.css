@@ -1,0 +1,45 @@
+.getting-started-wrapper {
+    margin: 25px;
+}
+.getting-started-wrapper h1 {
+    font-size: 25px;
+    font-weight: normal;
+    margin-bottom: 14px;
+}
+.getting-started-wrapper hr {
+    height: 1px;
+    border: none;
+    border-top: 1px solid #bbb;	
+    margin-bottom: 20px;
+    width: 100%;
+}
+.info-box {
+    border-left: 1px solid #BBBBBB;
+    float: left;
+    margin: 20px 0;
+    max-width: 16%;
+    min-width: 10%;
+    padding: 0 40px;
+}
+.getting-started-wrapper h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+.getting-started-wrapper .info-box img {
+    float: left;
+    margin-right: 8px;
+    position: relative;
+    top: 0px;
+}
+ul.landingul {
+    margin: 10px 0;
+    padding: 0;
+}
+ul.landingul li {
+    list-style: none outside none;
+    padding-bottom: 12px;
+    background:url(../../../images/icon-tick-green.png) left top no-repeat;
+    padding-left: 27px;
+    font-size: 12px;
+}

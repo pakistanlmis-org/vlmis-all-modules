@@ -1,0 +1,157 @@
+Users:
+  type: entity
+  table: users
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    userName:
+      type: string
+      length: 100
+      fixed: false
+      nullable: false
+      column: user_name
+    password:
+      type: string
+      length: 50
+      fixed: true
+      nullable: false
+    email:
+      type: string
+      length: 50
+      fixed: false
+      nullable: false
+    cellNumber:
+      type: string
+      length: 25
+      fixed: false
+      nullable: true
+      column: cell_number
+    recordId:
+      type: string
+      length: 25
+      fixed: false
+      nullable: true
+      column: record_id
+    loginId:
+      type: string
+      length: 150
+      fixed: false
+      nullable: true
+      column: login_id
+    designation:
+      type: string
+      length: 150
+      fixed: false
+      nullable: true
+    department:
+      type: string
+      length: 150
+      fixed: false
+      nullable: true
+    photo:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+    address:
+      type: string
+      length: 200
+      fixed: false
+      nullable: true
+    phoneNumber:
+      type: string
+      length: 25
+      fixed: false
+      nullable: true
+      column: phone_number
+    status:
+      type: boolean
+      nullable: true
+    loggedAt:
+      type: datetime
+      nullable: true
+      column: logged_at
+    failedAt:
+      type: datetime
+      nullable: true
+      column: failed_at
+    failedQuantity:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: failed_quantity
+    auth:
+      type: string
+      length: 50
+      fixed: false
+      nullable: true
+    organization:
+      type: string
+      length: 50
+      fixed: false
+      nullable: true
+    country:
+      type: integer
+      unsigned: false
+      nullable: true
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: false
+      column: modified_date
+  oneToOne:
+    role:
+      targetEntity: Roles
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        role_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    stakeholder:
+      targetEntity: Stakeholders
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        stakeholder_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    location:
+      targetEntity: Locations
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        location_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

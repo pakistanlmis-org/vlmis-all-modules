@@ -1,0 +1,99 @@
+<?php
+/**
+ *  phtml for Add Main
+ */
+?>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label" for="assetid">
+                <?php echo $this->translate("Asset Id Equipment Code"); ?>
+            </label>
+            <?php echo $this->main_form->asset_id; ?>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label" for="sourceid">
+                <?php echo $this->translate("Source of Supply"); ?> <span class="red">*</span>
+            </label>
+            <?php echo $this->main_form->source_id; ?>
+        </div>
+    </div>
+    <?php if ($this->main_action == "add") { ?>
+        <div class="col-md-3">
+            <div class="form-group" id="utilization_div">
+                <label class="control-label" for="utilization">
+                    <?php echo $this->translate("Utilization"); ?> <span class="red">*</span>
+                </label>
+                <?php echo $this->main_form->utilization; ?>
+            </div>
+        </div>
+    <?php } ?>
+
+</div>
+<?php if ($this->main_action == "add") { ?>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label" for="workingstatus">
+                    <?php echo $this->translate("Working Status"); ?> <span class="red">*</span>
+                </label>
+                <?php echo $this->main_form->ccm_status_list_id; ?>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group hidden" id="reason_div">
+                <label class="control-label" for="reasons">
+                    <?php echo $this->translate("Reasons"); ?> <span class="red">*</span>
+                </label>
+                <?php echo $this->main_form->reason; ?>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3" style="display: none;">
+            <div class="form-group">
+                <label class="control-label" for="reason">
+                    <?php echo $this->translate("Reason"); ?>
+                </label>
+                <?php echo $this->main_form->reason; ?>
+            </div>
+        </div>
+
+        <div class="col-md-6"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label" for="placedat">
+                    <?php echo $this->translate("Placed At"); ?><span class="red">*</span>
+                </label>
+                <div class="widget-body uniformjs">
+                    <?php echo $this->main_form->placed_at; ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8"></div>
+    </div>
+
+    <?php
+    $auth = App_Auth::getInstance();
+    $role_id = $auth->getRoleId();
+    ?>
+    <input type="hidden" id="role_hdn" name="role_hdn" value="<?php echo $role_id; ?>">
+    <?php
+    if ($role_id == 11) {
+        $level = 9;
+    } else if ($role_id == 12) {
+        $level = 5;
+    } else if ($role_id == 13) {
+        $level = 8;
+    } else {
+        $level = 9;
+    }
+    $this->allLevelComboCcm('', '', '1', $level);
+    ?>
+
+<?php } ?>

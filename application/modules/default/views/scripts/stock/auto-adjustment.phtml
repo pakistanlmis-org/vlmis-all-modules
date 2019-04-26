@@ -1,0 +1,210 @@
+<?php
+/**
+*  phtml for Auto Adjustment
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content"> 
+        <?php if (isset($this->success)) { ?>
+            <div class="alert alert-success alert-dismissable">
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button"></button>
+                <strong>Success!</strong> <?php echo $this->success; ?>
+            </div>
+        <?php } ?>
+        <?php if (isset($this->error)) { ?>
+            <div class="alert alert-danger alert-dismissable">
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button"></button>
+                <strong>Error!</strong> <?php echo $this->error; ?>
+            </div>
+        <?php } ?>
+        <h3 class="page-title">
+            <?php echo $this->translate("Auto Adjustment"); ?>
+        </h3>
+        <form method="POST" name="stock_issue" id="stock_issue" action="" >
+            <div class="row">
+                <div class="col-md-12">
+                    <?php
+                    echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                    ?>
+                </div>
+            </div>
+            
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <?php echo $this->translate("Fill Form"); ?>
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse"></a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <div class="col-md-12">                                    
+                                        <!-- Row -->
+                                        <div class="row">
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="adjustment_date">
+                                                        <?php echo $this->translate("Adjustment Date") ?> <span class="red">*</span>
+                                                    </label>
+                                                    <?php echo $this->form->adjustment_date; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="adjustment_type">
+                                                        <?php echo $this->translate("Adjustment Type") ?> <span class="red">*</span>
+                                                    </label>
+                                                    <?php echo $this->form->adjustment_type; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="ref_no">
+                                                        <?php echo $this->translate("Ref No") ?>
+                                                    </label>
+                                                    <?php echo $this->form->ref_no; ?>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="comments">
+                                                        <?php echo $this->translate("Comments") ?>
+                                                    </label>
+                                                    <textarea name="comments" id="comments" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <br/>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+           
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <?php echo $this->translate("Fill Form"); ?>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-striped table-bordered table-condensed">
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th class="serial">
+                                                    <?php echo $this->translate("S.No"); ?>
+                                                </th>
+                                                <th class="col-md-3">
+                                                    <?php echo $this->translate("Product"); ?>
+                                                </th>
+                                                <th class="col-md-3">
+                                                    <?php echo $this->translate("Batch | Current Quantity"); ?>
+                                                </th>
+                                                <th class="col-md-2">
+                                                    <?php echo $this->translate("Available Quantity"); ?>
+                                                </th>
+                                                <th class="col-md-2">
+                                                    <?php echo $this->translate("Expiry Date"); ?>
+                                                </th>
+
+                                                <th class="quantity col-md-2">
+                                                    <?php echo $this->translate("Quantity"); ?>
+                                                    <i data-container="body" data-original-title="Quantity in Vials" class="fa fa-info-circle tooltips"></i>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <!-- // Table heading END -->
+
+                                        <!-- Table body -->
+                                        <tbody>
+                                            <!-- Table row -->
+                                            <?php
+                                            $j = 1;
+                                            for ($i = $this->start; $i < $this->end; $i++) {
+                                                $rows = "rows" . $i;
+                                                $j = $i + 1;
+                                                ?>
+                                                <tr class="dynamic-rows">
+                                                    <td class="serial">
+                                                        <?php echo $j; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->item_id; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->number; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->ava_qty; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->expiry_date; ?>
+                                                    </td>
+
+                                                    <td>
+                                                        <?php echo $this->form->$rows->quantity; ?>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                            }
+                                            ?>
+                                            <!-- // Table row END -->
+                                        </tbody>
+                                        <!-- // Table body END -->                                      
+
+                                    </table>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-md-10">   
+                                    <button id="add_stock" type="submit" class="btn btn-primary">
+                                        <?php echo $this->translate("Save"); ?>
+                                    </button>                                    
+                                    <input type="hidden" value="<?php echo $this->end; ?>" name="counter" id="counter" />
+                                </div>                                
+                                <div class="col-md-1">
+                                    <button id="add_more" type="button" class="btn blue">
+                                        <?php echo $this->translate("Add rows"); ?>
+                                    </button>
+                                </div>
+                                <div class="col-md-1 right">
+                                    <input type="text" value="5" id="default_counter" class="form-control" />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<a id="notific8_show" href="javascript:;" class="hide"></a>
+<div id="notific8_heading" class="hide">Your Data</div>
+<div id="notific8_life" class="hide">5000</div>
+<div id="notific8_text" class="hide">has been saved as draft.</div>
+

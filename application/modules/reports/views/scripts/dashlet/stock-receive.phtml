@@ -1,0 +1,44 @@
+<?php
+/**
+*  phtml for Stock Receive
+*/
+?>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div id="sample_2_filter" class="dataTables_filter">
+            <label>Vaccines: 
+                <select id="item5" class="form-control input-inline input-small">
+                    <option value="">Vaccines</option>
+                    <?php foreach ($this->items as $item) { ?>
+                        <option value="<?php echo $item['pkId']; ?>" <?php if ($item['pkId'] == $this->item) { ?>selected="selected"<?php } ?>><?php echo $item['itemName']; ?></option>   
+                    <?php } ?>                    
+                </select>
+            </label>
+            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label>Reporting Date:
+                <select id="date5" class="form-control input-inline input-small">
+                    <option value="">Month-Year</option>
+                    <?php
+                    for ($i = 2013; $i <= date("Y"); $i++) {
+                        for ($j = 1; $j <= 12; $j++) {
+                            if ($i == date("Y") && $j > date("m")) {
+                                continue;
+                            }
+                            $date = $i . "-" . str_pad($j, 2, '0', STR_PAD_LEFT);
+                            ?>
+                            <option value="<?php echo $date; ?>" <?php if ($date == $this->date) { ?>selected="selected"<?php } ?>><?php echo str_pad($j, 2, '0', STR_PAD_LEFT) . " - " . $i; ?></option>   
+                            <?php
+                        }
+                    }
+                    ?>                    
+                </select>
+            </label>
+        </div>
+    </div>
+    <div class="col-md-12" id="after-filter5">
+        <?php
+        FC_SetRenderer('javascript');
+        echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Column3D.swf", "", $this->xmlstore, 'StockReceive', '100%', 350, false, false);
+        ?>
+    </div>
+</div>

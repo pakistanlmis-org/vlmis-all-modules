@@ -1,0 +1,236 @@
+<?php
+/**
+ *  phtml for Target Issuance
+ */
+/**
+ * Target Issuance
+ */
+?>
+<!-- Content -->
+
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            <?php echo $this->translate("EPI - Provincial Requirement Vs Issuance"); ?>
+        </h3>
+        <h5 style="color: red">
+            Note: This report is under user testing.Please check and provide feedback at support@lmis.gov.pk
+        </h5>
+        <div class="row">
+            <?php if (!empty($this->voucher)) { ?>
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        <button data-dismiss="alert" class="close" type="button">
+                            ×
+                        </button>
+                        Stock has been issued successfully. Your issue voucher number is <a  onclick="window.open('<?php echo $this->baseUrl(); ?>/stock/print-issue?id=<?php echo $this->master_id; ?>', '_blank', 'scrollbars=1,width=840,height=595');" href="javascript:void(0);"> <strong><?php echo $this->voucher; ?></strong></a>
+                    </div>                                
+                </div>
+            <?php } ?>
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Filters"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse"></a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <form name="search-logbook" id="target-issue-search" method="post" action="">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <!-- Group Receive No-->
+                                    <div class="control-group">
+                                        <label class="control-label" for="month">
+                                            <?php echo $this->translate("Month"); ?><span class="red">*</span>
+
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->month; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <!-- Group Receive No-->
+                                    <div class="control-group">
+                                        <label class="control-label" for="year">
+                                            <?php echo $this->translate("Year"); ?><span class="red">*</span>
+
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->year; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <!-- Group Receive No-->
+                                    <div class="control-group">
+                                        <label class="control-label" for="province_region">
+                                            <?php echo $this->translate("Province/Region"); ?><span class="red">*</span>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->province_region; ?>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 right">
+                                    <label class="control-label">&nbsp;</label>  
+                                    <div class="controls">
+                                        <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit">
+                                            <?php echo $this->translate("Search"); ?>
+                                        </button>
+                                        <button  class="btn btn-info" id="reset" type="reset">
+                                            <?php echo $this->translate("Reset"); ?>
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                    </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <?php if ($this->result && count($this->result) > 0) { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <?php
+                                $monthNum = $this->m;
+                                $monthName = date("F", mktime(0, 0, 0, $monthNum, 10));
+
+                                echo $this->translate("$this->w_name" . " (January, $this->y" . " to " . "$monthName, " . $this->y . ")");
+                                ?>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <table class="table table-striped table-bordered table-condensed" id="sample_2">
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <?php echo $this->translate("S.No"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Product"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Monthly<br> Requirement (Doses)"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->m . $this->translate(" Month(s)<br> Requirement (Doses)"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Issued To ") . $this->w_name; ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Remaining Balance (Doses)<br>") . " for " . $this->m . " month(s) $this->y"; ?>
+                                                </th>
+
+
+
+                                            </tr>
+
+
+                                        </thead>
+                                        <!-- // Table heading END -->
+
+                                        <!-- Table body -->
+                                        <tbody>
+
+                                            <!-- Table row -->
+                                            <?php
+                                            $j = 1;
+                                            foreach ($this->result as $row) {
+                                                ?>
+                                                <tr class="dynamic-rows">
+                                                    <td class="serial" style="font-size:12px" align="center">
+                                                        <?php echo $j; ?>
+                                                    </td>
+                                                    <td style="font-size:12px">
+                                                        <?php echo $row['product'] ?>
+                                                    </td>
+                                                    <td style="font-size:12px" align="right">
+                                                        <?php echo number_format($row['1_month_requirement']) ?>
+                                                    </td>
+                                                    <td style="font-size:12px"  align="right">
+                                                        <?php echo number_format($row['n_month_requirement']) ?>
+                                                    </td>
+                                                    <td style="font-size:12px" align="right">
+                                                        <?php echo number_format($row['issuance']) ?>
+                                                    </td>
+                                                    <td style="font-size:12px" align="right">
+                                                        <?php echo number_format($row['n_month_balance']) ?>
+                                                    </td>
+
+                                                </tr>
+                                                <?php
+                                                $j ++;
+                                            }
+                                            ?>
+                                            <!-- // Table row END -->
+                                        </tbody>
+                                        <!-- // Table body END -->                                      
+
+                                    </table>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 right">
+                                    <a class="btn btn-success" href="javascript:void(0);" 
+                                       onclick="window.open('target-issuance-print?m=<?php echo $this->m; ?>&y=<?php echo $this->y; ?>&w=<?php echo $this->w_id; ?>', '_blank', 'scrollbars=1,width=840,height=595');">
+                                           <?php echo $this->translate("Print"); ?>
+                                    </a>
+
+                                </div>
+                            </div>
+                            <br/>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+        } else {
+            ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>No data found</h4>
+                </div>
+            </div>
+        <?php } ?>
+        <div id="future_arrival_details"></div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <?php
+                if ($this->result && count($this->result) > 0) {
+                    require_once 'FusionCharts/Code/PHP/Includes/FusionCharts.php';
+                    FC_SetRenderer('javascript');
+                    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/MSColumn2D.swf", "", $this->xmlstore, "RequirementVsIssuance", '100%', 350, false, false);
+                }
+                ?>
+            </div>
+        </div> 
+
+    </div>
+</div>
+
+
+

@@ -1,0 +1,261 @@
+VpdFormDraft:
+  type: entity
+  table: vpd_form_draft
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    date:
+      type: datetime
+      nullable: true
+    week:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: week  
+    districtId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: district_id
+    tehsilId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: tehsil_id
+    ucId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: uc_id
+    hfId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: hf_id
+    hfName:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: hf_name
+    fromUcId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: from_uc_id  
+    typeCase:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: type_case
+    epidNumber:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: epid_number
+    clinicalPresentation:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: clinical_presentation  
+    childName:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: child_name
+    fatherName:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: father_name
+    address1:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: address1
+    address2:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: address2
+    addressVillage:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: address_village 
+    contactNumber:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: contact_number
+    crossNotification:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: cross_notification
+    dob:
+      type: datetime
+      nullable: true
+    age:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: age
+    ageUnit:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: age_unit 
+    gender:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: gender
+    dateOnset:
+      type: date
+      nullable: true
+      column: date_onset
+    dateNotification:
+      type: date
+      nullable: true
+      column: date_notification
+    dateInvestigation:
+      type: date
+      nullable: true
+      column: date_investigation
+    specificDoseReceived:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: specific_dose_received
+    dateLastDoseReceived:
+      type: datetime
+      nullable: true
+      column: date_last_dose_received
+    specimenCollection:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: specimen_collection
+    dateSpecimenSent:
+      type: datetime
+      nullable: true
+      column: date_specimen_sent
+    dateSpecimenSent1:
+      type: datetime
+      nullable: true
+      column: date_specimen_sent1 
+    signSymptoms:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: sign_symptoms
+    outcome:
+      type: integer
+      unsigned: false
+      nullable: true
+    placeOfBirth:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: place_of_birth
+    attendee:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: attendee
+    labResult:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: lab_result
+    reportingStatus:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: reporting_status  
+    finalClassification:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: final_classification
+    stoolSampleDate1:
+      type: datetime
+      nullable: true
+      column: stool_sample_date1
+    stoolSampleDate2:
+      type: datetime
+      nullable: true
+      column: stool_sample_date2
+    bloodSampleDate:
+      type: datetime
+      nullable: true
+      column: blood_sample_date
+    bloodSampleMonth:
+      type: datetime
+      nullable: true
+      column: blood_sample_month
+    numberOfMonths:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: number_of_months
+    hasChildReceivedOpv:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: has_child_received_opv  
+    isTheChildProtected:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: is_the_child_protected
+    specimenCollectionDate:
+      type: datetime
+      nullable: true
+      column: specimen_collection_date 
+    dateOfLabResulted:
+      type: datetime
+      nullable: true
+      column: date_of_lab_resulted   
+    patientVisitedDate:
+      type: datetime
+      nullable: true
+      column: patient_visited_date  
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+    createdBy:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: created_by
+    modifiedDate:
+      type: datetime
+      nullable: true
+      column: modified_date
+    modifiedBy:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: modified_by
+  lifecycleCallbacks: {  }

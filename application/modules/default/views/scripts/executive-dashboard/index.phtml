@@ -1,0 +1,209 @@
+<?php
+/**
+ *
+ */
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <table width="99%">
+            <tr>
+                <td colspan="2">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="portlet box green">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        Filter By
+                                    </div>
+
+                                </div>
+                                <div class="portlet-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <form method="POST" name="form" action="" >
+
+                                                <div class="row">
+
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="Date">Month</label>
+                                                            <?php
+                                                            $month = date('d/m/Y', strtotime("-1 month"));
+                                                            ?>
+                                                            <input class="form-control input-sm"  type="text" name="last_month"  id="last_month" value="<?php
+                                                            if (!empty($this->to_date)) {
+                                                                echo $this->to_date;
+                                                            } else {
+                                                                echo $month;
+                                                            }
+                                                            ?>" readonly="">
+                                                        </div>
+                                                    </div>
+
+                                                    <!--                                                    <div class="col-md-2">
+                                                                                                            <label class="control-label" >Province</label>
+
+
+                                                                                                            <select class="form-control input-sm" id="province" name="province">
+                                                                                                                <option value="all"> All</option>
+                                                    <?php
+//                                                            foreach ($this->province as $rowprov) {
+//
+//                                                                if ($this->prov_sel == $rowprov['pkId'])
+//                                                                    $sel = "selected='selected'";
+//                                                                else
+//                                                                    $sel = "";
+                                                    ?>
+                                                                                                                    <option value="<?php // echo $rowprov['pkId'];                                                              ?>" <?php echo $sel; ?>><?php echo $rowprov['locationName']; ?></option>
+                                                    <?php
+                                                    //    }
+                                                    ?>
+                                                                                                            </select>
+                                                                                                        </div> -->
+
+
+
+                                                    <div class="col-md-1">
+                                                        <label class="control-label" >&nbsp;</label>
+                                                        <div class="controls">
+                                                            <input class="btn btn-sm green" value="Go" type="submit">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+        <!-- BEGIN DASHBOARD STATS -->
+        <div class="clearfix"></div>
+
+        <!-- END DASHBOARD STATS -->
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <div class="widget widget-tabs">
+                    <div class="widget-body" style="height:570px;">
+                        <?php
+                        $base_url = Zend_Registry::get("baseurl");
+                        ?>
+                        <center><img style="margin-top:60px;" id="spinner11" src="<?php echo $base_url; ?>/images/ajax-loader.gif"/></center>
+                        <div class="scroller" style="height: 550px;" data-always-visible="1" data-rail-visible="0" id="d_1" name="d_1">
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6" >
+                <div class="widget widget-tabs">
+                    <div class="widget-body" style="height:570px;">
+
+                        <?php
+                        ?>
+                        <center><img style="margin-top:60px;" id="spinner12" src="<?php echo $base_url; ?>/images/ajax-loader.gif"/></center>
+
+                        <div  id="d_2" name="d_2">
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-6" >
+                <div class="widget widget-tabs">
+                    <div class="widget-body" style="height:440px;">
+                        <div class="actions">
+                            <div class="btn-group">
+                                <a class="btn btn-sm default" href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    Filter By
+                                    <i class="icon-angle-down"></i>
+                                </a>
+                                <div class="dropdown-menu hold-on-click dropdown-checkboxes pull-left">
+                                    <?php
+                                    foreach ($this->products as $res) {
+                                        if ($res['pkId'] == 6) {
+                                            $sel = "checked=''";
+                                        } else {
+                                            $sel = "";
+                                        }
+                                        ?>
+                                        <label><input type="radio" name="p3" id="<?php echo $res['pkId']; ?>" value="<?php echo $res['pkId']; ?>" <?php echo $sel; ?>/> <?php echo $res['itemName']; ?></label>
+
+
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                        $base_url = Zend_Registry::get("baseurl");
+                        ?>
+                        <center><img style="margin-top:60px;" id="spinner13" src="<?php echo $base_url; ?>/images/ajax-loader.gif"/></center>
+
+                        <div  id="d_3" name="d_3">
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6" >
+                <div class="widget widget-tabs">
+                    <div class="widget-body" style="height:440px;">
+                        <div class="actions">
+                            <div class="btn-group">
+
+                                <div class="dropdown-menu hold-on-click dropdown-checkboxes pull-left">
+                                    <label><input type="radio" name="p4" id="p4" value="all" checked=""/> All</label>
+
+                                    <?php
+                                    foreach ($this->products as $res) {
+                                        if ($res['pkId'] == 6) {
+                                            $sel = "";
+                                        } else {
+                                            $sel = "";
+                                        }
+                                        ?>
+                                        <label><input type="radio" name="p4" id="<?php echo $res['pkId']; ?>" value="<?php echo $res['pkId']; ?>" <?php echo $sel; ?>/> <?php echo $res['itemName']; ?></label>
+
+
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                        $base_url = Zend_Registry::get("baseurl");
+                        ?>
+                        <center><img style="margin-top:60px;" id="spinner14" src="<?php echo $base_url; ?>/images/ajax-loader.gif"/></center>
+
+                        <div  id="d_4" name="d_4">
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- END PAGE -->
+    </div>
+

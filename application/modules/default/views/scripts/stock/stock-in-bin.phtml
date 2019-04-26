@@ -1,0 +1,145 @@
+<?php
+/**
+ *  phtml for Stock in Bin
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"> <?php echo $this->translate("Stock in Bin -") . "&nbsp" . $this->title; ?></h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <a style="color:#fff;" href="<?php echo $this->baseUrl(); ?>/stock/location-status?id=<?php echo $this->id . "&area=" . $this->area . "&level=" . $this->level; ?>"><?php echo $this->translate("Back to Location"); ?></a>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                        <strong>Stock</strong> has been transfered successfully!
+                                    </div>
+                                <?php } ?>
+                                <div class="dataTables_wrapper form-inline">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                        </div>
+<div class="col-md-9">
+                                            <?php //if ($this->role_id == 3) { ?>
+                                                <div class="dataTables_filter">
+                                                    <label>                                                    
+                                                        <a class="btn btn-primary" href="<?php echo $this->baseUrl(); ?>/stock/stock-bin-placement?id=<?php echo $this->id . "&area=" . $this->area . "&level=" . $this->level; ?>"><?php echo $this->translate("Place More"); ?></a>
+                                                    </label>
+                                                </div>
+                                            <?php //} ?>
+                                        </div>
+                                    </div>
+                                    <table class="table table-striped table-bordered table-condensed dataTable" id="sample_2">
+                                        <!-- Table heading -->
+                                        <?php
+                                        $array = array(
+                                            "product" => "Product",
+                                            "batch_no" => "Batch No",
+                                            "carton_qty" => "Carton Quantity",
+                                            "qty" => "Quantity"
+                                        );
+                                        $this->tableHeading($this->order, $this->sort, $array);
+                                        ?>
+                                        <!-- // Table heading END -->
+                                        <!-- Table body -->
+
+                                        <!-- // Table body END -->
+                                        <tbody>
+                                            <?php
+                                            if ($this->result && count($this->result) > 0) :
+                                                foreach ($this->result as $row):
+                                                    $carton_quantity = round($row['Qty'] / (($row['quantity_per_pack'] > 0) ? $row['quantity_per_pack'] : 1));
+                                                    ?>
+                                                    <tr class="gradeX">
+
+                                                        <td class="left"><?php echo $row['item_name']; ?></td>
+                                                        <td class="left"><?php echo $row['BatchNo']; ?></td>
+                                                        <td class="right"><?php echo number_format($carton_quantity); ?></td>
+                                                        <td class="right"><?php echo number_format($row['Qty']); ?></td>
+                                                        <td>
+                                                            <a editid="<?php echo $row['PlacementID']; ?>" dataid="<?php echo $row['Qty']; ?>" class="btn transfer-stock btn-link btn-success btn-sm" data-toggle="modal" href="#modal-transfer-stock">
+                                                                <?php echo $this->translate("Transfer") ?>
+                                                            </a>
+                                                            <a class="btn btn-info btn-sm" id="<?php echo $row['BatchID']; ?>-batchdetail" data-id="<?php echo $row['BatchID']; ?>" data-toggle="modal" href="#information">
+                                                                <i class="fa fa-search"></i>
+                                                            </a>
+                                                        </td>
+
+                                                <input type="hidden" id="area" name="area" value="<?php echo $this->area; ?>"/>
+                                                <input type="hidden" id="level" name="level" value="<?php echo $this->level; ?>"/>
+                                                <input type="hidden" id="quantity_per_pack" name="quantity_per_pack[]" value="<?php echo $row['quantity_per_pack']; ?>"/>                                                 
+                                                </tr>
+                                                <?php
+                                            endforeach;
+                                        endif;
+                                        ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <input type="hidden" id="bin_id" value="<?php echo $this->bin_id; ?>"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="post" action="<?php echo $this->baseUrl(); ?>/stock/transfer-stock" id="transfer-stock">
+                                    <div class="modal fade" id="modal-transfer-stock" tabindex="-1" role="basic" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h3>Transfer Stock from: <?php echo $this->title; ?></h3>
+                                                </div>
+                                                <div class="modal-body" id="modal-body-contents">
+                                                    <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                                                </div>
+                                                <div class="modal-footer hide" id="transfer-button">
+                                                    <input class="btn btn-primary" type="submit" value="<?php echo $this->translate("Transfer"); ?>">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // Content END -->
+<!-- /.modal -->
+<div id="information" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Batch Placements Detail</h4>
+            </div>
+            <div class="modal-body" id="batchdetailbody">
+
+            </div>
+        </div>
+    </div>
+</div>

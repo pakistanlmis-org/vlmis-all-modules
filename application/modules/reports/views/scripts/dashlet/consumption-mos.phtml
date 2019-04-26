@@ -1,0 +1,13 @@
+<?php
+/**
+*  phtml for Consumption MOS
+*/
+?>
+<?php
+
+foreach ($this->xmlstore as $key => $graphs) {
+    $graphs = $graphs[0];
+    FC_SetRenderer('javascript');
+    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/MSLine.swf", "", $graphs, "consumptionMOS$key", '100%', 350, false, false);
+}
+?>

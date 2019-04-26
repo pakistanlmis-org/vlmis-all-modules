@@ -1,0 +1,55 @@
+<?php
+/**
+ *  phtml for Ajax Get VPD detail
+ */
+?>
+<div class="scroller" style="min-height:200px" data-always-visible="1" data-rail-visible1="1">
+    <i id="print" style="align-content: right" class="fa fa-print" ></i>
+    <h4 class="form-section">Type of Case</h4>
+    <strong>Date : </strong><?php echo $this->data[0]['date']; ?>&nbsp;&nbsp;&nbsp;<strong>Type of Case : </strong> <?php echo $this->data[0]['typeCase']; ?>
+    <h4 class="form-section">Reporting Sites</h4>
+    <strong>EPID Number : </strong><?php echo $this->data[0]['epid_number']; ?>&nbsp;&nbsp;&nbsp;<br>
+    <strong>Reporting UC : </strong><?php echo $this->data[0]['from_uc']; ?>&nbsp;&nbsp;&nbsp;<br>
+    <strong>District : </strong> <?php echo $this->data[0]['district']; ?>&nbsp;&nbsp;&nbsp;<strong>Tehsil : </strong> <?php echo $this->data[0]['tehsil']; ?>&nbsp;&nbsp;&nbsp;<strong>UC : </strong> <?php echo $this->data[0]['uc']; ?>&nbsp;&nbsp;&nbsp;<strong>Surveillance Site : </strong> <?php echo $this->data[0]['s_site']; ?>
+    <h4 class="form-section">Case Details</h4>
+    <strong>Gender : </strong><?php
+    if ($this->data[0]['gender'] == 1) {
+        echo 'Male';
+    } else {
+        echo 'Female';
+    }
+    ?>&nbsp;&nbsp;&nbsp;<strong>Child Name : </strong> <?php echo $this->data[0]['child_name']; ?>&nbsp;&nbsp;&nbsp;<strong>Father Name : </strong> <?php echo $this->data[0]['father_name']; ?><br>
+    <strong>Contact Number : </strong> <?php echo $this->data[0]['type_case']; ?><br>
+    <strong>Address1 : </strong><?php echo $this->data[0]['address1']; ?>&nbsp;&nbsp;&nbsp;<strong>Address2 : </strong> <?php echo $this->data[0]['address2']; ?>&nbsp;&nbsp;&nbsp;<strong>Village : </strong> <?php echo $this->data[0]['address_village']; ?><br>
+    <strong>Date of Birth : </strong> <?php echo $this->data[0]['dob']; ?>&nbsp;&nbsp;&nbsp;<strong>Age : </strong> <?php
+    echo $this->data[0]['age'] . '-';
+    if ($this->data[0]['age_unit'] == 1) {
+        echo "Months";
+    } else if ($this->data[0]['age_unit'] == 2) {
+        echo "Days";
+    } else {
+        echo "Years";
+    }
+    ?><br>
+    <h4 class="form-section">Investigation Detail</h4>
+    <strong>Cross Notification : </strong><?php
+    if ($this->data[0]['cross_notification'] == 1) {
+        echo "Yes";
+    } else {
+        echo "No";
+    }
+    ?>&nbsp;&nbsp;&nbsp;<strong>Date of Onset : </strong> <?php echo $this->data[0]['date_onset']; ?>&nbsp;&nbsp;&nbsp;<strong>Date of Notification : </strong> <?php echo $this->data[0]['date_notification']; ?>&nbsp;&nbsp;&nbsp;<strong>Date of Investigation : </strong> <?php echo $this->data[0]['date_investigation']; ?><br>
+    <strong>Specific Doses Received : </strong><?php echo "1"; ?>&nbsp;&nbsp;&nbsp;<strong>Date of Last Vaccine Received : </strong> <?php echo $this->data[0]['date_last_dose_received']; ?><br><strong>Sign & Symptoms : </strong> <?php echo $this->data[0]['sign']; ?><br>
+    <h4 class="form-section">Specimen Collection & Result</h4>
+    <strong>Specimen Collection : </strong><?php
+    if ($this->data[0]['specimen_collection'] == 1) {
+        echo "Yes";
+    } else {
+        echo "No";
+    }
+    ?>&nbsp;&nbsp;&nbsp;<strong>Date of Specimen Sent : </strong> <?php echo $this->data[0]['date_specimen_sent']; ?><br><strong>Lab Result of Test : </strong> <?php echo $this->data[0]['lab']; ?><br>
+    <strong>Final Classification : </strong><?php echo $this->data[0]['final']; ?>&nbsp;&nbsp;&nbsp;<strong>Outcome : </strong> <?php echo $this->data[0]['outcome']; ?>
+    <br>
+
+
+</div>

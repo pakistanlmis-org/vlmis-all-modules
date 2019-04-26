@@ -1,0 +1,258 @@
+<style>
+    table{
+        font-size: 11px;
+    }
+</style>
+<?php
+/**
+ *  phtml for van/dashlet/overview
+ */
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <!-- BEGIN PAGE HEADER-->
+
+        <div class="row">
+            <h3 class="col-md-8">
+                VAN <small>dashboard & statistics</small>
+            </h3>
+
+        </div>
+        <div class="row">&nbsp;</div>
+        <!-- END PAGE HEADER-->
+        <div class="row">
+            <!-- // Tabs START -->  
+            <div class="col-md-12">
+                <div class="widget widget-tabs">
+                    <div class="widget-head dashboard-widget">
+                        <ul>
+                            <li class="">
+                                <a href="<?php echo $this->baseUrl(); ?>/van/dashlet/van">
+                                    <div class="dashboard-stat_custom">
+                                        <div style="width: auto;" class="visual">
+                                            <i class="fa fa-routine-immunization"></i> 
+                                        </div>
+                                        <div style="float: left;" class="details">
+                                            <div class="dashboard-title-1"></div>
+                                            <div class="dashboard-title-2" style="padding-top: 20px">VAN</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="<?php echo $this->baseUrl(); ?>/van/dashlet/stocks">
+                                    <div class="dashboard-stat_custom">
+                                        <div style="width: auto;" class="visual">
+                                            <i class="fa fa-inventory-management"></i>
+                                        </div>
+                                        <div style="float: left;" class="details">
+                                            <div class="dashboard-title-1"></div>
+                                            <div class="dashboard-title-2" style="padding-top: 20px">Stocks</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="<?php echo $this->baseUrl(); ?>/van/dashlet/vaccination">
+                                    <div class="dashboard-stat_custom">
+                                        <div style="width: auto;" class="visual">
+                                            <i class="fa fa-lims-campaign"></i>
+                                        </div>
+                                        <div style="float: left;" class="details">
+                                            <div class="dashboard-title-1"></div>
+                                            <div class="dashboard-title-2" style="padding-top: 20px">Vaccination</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="<?php echo $this->baseUrl(); ?>/van/dashlet/wastage">
+                                    <div class="dashboard-stat_custom">
+                                        <i class="fa fa-trash-o" style="font-size:45px;color:red;padding-top: 20px"></i>
+
+                                        <div style="float: right;" class="details">
+                                            <div class="dashboard-title-1"></div>
+                                            <div class="dashboard-title-2" style="padding-top: 20px">Wastage</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="active">
+                                <a href="<?php echo $this->baseUrl(); ?>/van/dashlet/ccem">
+                                    <div class="dashboard-stat_custom">
+                                        <div style="width: auto;" class="visual">
+                                            <i class="fa fa-cold-chain"></i> 
+                                        </div>
+                                        <div style="float: left;" class="details">
+                                            <div class="dashboard-title-1"></div>
+                                            <div class="dashboard-title-2" style="padding-top: 20px">CCEM</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+
+
+
+                    <div class="widget-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active">
+                                <div class="row">
+                                    <form method="post" name="van-filters" id="van-filters" action="">
+                                        <div class="col-md-12 col-sm-12">
+                                            <div id="sample_2_filter" class="dataTables_filter">                                                        
+                                                <label><button class="btn btn-success" type="submit" id="go-btn" name="go-btn">GO</button></label>
+                                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                <label>District:
+                                                    <select id="district" name="district" class="form-control input-inline input-xsmall">
+                                                        <option value = "">Select District</option>
+                                                        <?php
+                                                        $districts = $this->districts;
+                                                        foreach ($districts as $district) {
+                                                            ?>
+                                                            <option value = "<?php echo $district['district_id'] ?>" <?php
+                                                            if ($district['district_id'] == $this->selected_district) {
+                                                                echo "selected='selected'";
+                                                            }
+                                                            ?>><?php echo $district['district_name'] ?></option>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                    </select>
+                                                </label> 
+                                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                <label>Province:
+                                                    <select id="province" name="province" class="form-control input-inline input-xsmall">
+                                                        <option value = "">Select Province</option>
+                                                        <?php
+                                                        $provinces = $this->provinces;
+                                                        foreach ($provinces as $key => $value) {
+                                                            ?>
+                                                            <option value = "<?php echo $key ?>" selected = "selected"><?php echo $value ?></option>
+                                                            <?php
+                                                        }
+                                                        ?>
+
+                                                    </select>
+                                                </label> 
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div data-toggle="collapse-widget" class="widget">
+                                            <div class="widget-head">
+                                                <h4 class="heading "><i></i>Status of cold chain equipment at district store</h4>
+                                            </div>
+                                            <div class="widget-body dashlets" id="473" href="reports/dashlet/reported-wastages">
+                                                <br>
+                                                <?php
+                                                $cold_chain_equipment_status = $this->district_store_cold_chain_equipment_status;
+                                                if (!empty($cold_chain_equipment_status)) {
+                                                    ?>
+                                                    <table class="table table-striped table-bordered">
+                                                        <caption><h4>Cold Chain Equipment at <?php echo $cold_chain_equipment_status[0]['WarehouseName'] ?> </h4></caption>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Asset Type</th>
+                                                                <th>Units</th>
+                                                                <th>Net Capacity(Liter)</th>
+                                                                <th>Comments</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                            <?php
+                                                            foreach ($cold_chain_equipment_status as $row) {
+                                                                ?>
+                                                                <tr>
+                                                                    <th scope="row"><?php echo $row['AssetType'] ?></th>
+                                                                    <td class="right"><?php echo $row['Units'] ?></td>
+                                                                    <td class="right"><?php echo $row['NetCapacity'] ?></td>
+                                                                    <td class="right"></td>
+                                                                </tr>
+                                                                <?php
+                                                            }
+                                                            ?>
+
+                                                        </tbody>
+                                                    </table>
+                                                    <?php
+                                                } else {
+                                                    echo "No data found";
+                                                }
+                                                ?>
+                                                <div style="clear:both;"></div>            
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div data-toggle="collapse-widget" class="widget">
+                                            <div class="widget-head">
+                                                <h4 class="heading "><i></i>Taluka &amp; UCs cold chain capacity </h4>
+                                            </div>
+                                            <div class="widget-body dashlets" id="473" href="reports/dashlet/reported-wastages">
+                                                <br>
+                                                <?php
+                                                $taluka_and_ucs_cold_chain_capacity = $this->taluka_and_ucs_cold_chain_capacity;
+                                                if (!empty($taluka_and_ucs_cold_chain_capacity)) {
+                                                    ?>
+                                                    <table class="table table-striped table-bordered">
+                                                        <caption><h4>Taluka &amp; UCs cold chain capacity</h4></caption>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Asset Type</th>
+                                                                <th>Units</th>
+                                                                <th>Net Capacity(Liter)</th>
+                                                                <th>Comments</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                            <?php
+                                                            foreach ($taluka_and_ucs_cold_chain_capacity as $row) {
+                                                                ?>
+                                                                <tr>
+                                                                    <th scope="row"><?php echo $row['AssetType'] ?></th>
+                                                                    <td class="right"><?php echo $row['Units'] ?></td>
+                                                                    <td class="right"><?php echo $row['NetCapacity'] ?></td>
+                                                                    <td class="right"></td>
+                                                                </tr>
+                                                                <?php
+                                                            }
+                                                            ?>
+
+                                                        </tbody>
+                                                    </table>
+                                                    <?php
+                                                } else {
+                                                    echo "No data found";
+                                                }
+                                                ?>
+                                                <div style="clear:both;"></div>            
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <input id="tabid" value="472" type="hidden">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- // Tabs END -->
+        </div>
+    </div>
+</div>

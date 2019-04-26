@@ -1,0 +1,149 @@
+<?php
+/**
+ *  phtml for Rate Summary
+ */
+?>
+<?php
+$warehouse_availability_rate = '';
+$field_availability_rate = '';
+$field_reporting_rate = '';
+$warehouse_reporting_rate = '';
+
+$rin_type = $this->in_type;
+$rin_month = $this->month_sel;
+$rin_year = $this->year_sel;
+$rin_item = $this->in_item;
+
+
+$rin_stk = $this->in_stk;
+$rin_prov = $this->in_prov;
+$rin_dist = $this->in_dist;
+$report_id = $this->report_id;
+
+if(!empty($rin_dist)) {
+    $frr = $this->reports()->getReportingRateStr($rin_type, $rin_month, $rin_year, $rin_item, 'F', $rin_stk, $rin_prov, $rin_dist);
+    foreach ($frr as $fr) {
+        $field_reporting_rate = $fr['Rate'] . "&#37;";
+    }
+
+    $wrr = $this->reports()->getReportingRateStr($rin_type, $rin_month, $rin_year, $rin_item, 'W', $rin_stk, $rin_prov, $rin_dist);
+    foreach ($wrr as $wr) {
+        $warehouse_reporting_rate = $wr['Rate'] . "&#37;";
+    }
+
+    $far = $this->reports()->getAvailabilityRateStr($rin_type, $rin_month, $rin_year, $rin_item, 'F', $rin_stk, $rin_prov, $rin_dist);
+    foreach ($far as $fa) {
+        $field_availability_rate = $fa['Rate'] . "&#37;";
+    }
+
+    $war = $this->reports()->getAvailabilityRateStr($rin_type, $rin_month, $rin_year, $rin_item, 'W', $rin_stk, $rin_prov, $rin_dist);
+    foreach ($war as $war1) {
+        $warehouse_availability_rate = $war1['Rate'] . "&#37;";
+    }
+}
+
+if (empty($rin_item)) {
+    $my_item = 1;
+} else {
+    $my_item = $rin_item;
+}
+if (!empty($_GET['prov_sel'])) {
+    $my_prov = $_GET['prov_sel'];
+} else if (!empty($rin_stk)) {
+    $my_prov = $rin_prov;
+} else {
+    $my_prov = 0;
+}
+if (!empty($_GET['stkid'])) {
+    $my_stk = $_GET['stkid'];
+} else if (!empty($rin_stk)) {
+    $my_stk = $rin_stk;
+} else {
+    $my_stk = 0;
+}
+?>
+<div class="col-md-12 row-br-tb p-l-zero">
+    <div class="col-md-6 col-sm-12 col-xs-12 p-l-zero">
+        <ul class="nav navbar-nav report-value-tab-left">
+            <li class="col-xs-6 col-sm-6">
+                <div class="col-md-12 p-l-zero">
+                    <div class="dashboard-stat_custom">
+                        <div class="visual" style="width: auto;">
+                            <i class="fa fa-report-icon"></i>
+                        </div>
+                        <div class="details" style="float: left !important; left:0px !important;">
+                            <div class="dashboard-title-1"> Reporting </div>
+                            <div class="dashboard-title-2"> Rate<?php
+                                if ($report_id !== "TEHSILREPORT" && $report_id !== "UCREPORT") {
+                                    ?>
+                                <?php } ?></div>
+
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="col-xs-3 col-sm-3">
+                <div class="report-value-orange">
+                    <?php echo $field_reporting_rate; ?>
+                </div>
+                Union Councils:
+            </li>
+            <?php
+            if ($report_id !== "TEHSILREPORT" && $report_id !== "UCREPORT") {
+                ?>
+                <li class="col-xs-3 col-sm-3">
+                    <div class="report-value-green">
+                        <?php echo $warehouse_reporting_rate; ?>
+                    </div>
+                    District:
+                </li>
+            <?php } ?>
+        </ul>
+        <div style="clear:both"></div>
+        <p style="font-size: 10px;">Percentage of Union Councils reported in a given time period. </p>
+
+    </div>
+    <div class="  col-md-6 col-sm-12 col-xs-12 p-l-zero">
+        <ul class="nav navbar-nav report-value-tab-right pull-right">
+            <li class="col-xs-6 col-sm-6">
+                <div class="col-md-12 p-l-zero">
+                    <div class="dashboard-stat_custom pull-right">
+                        <div class="visual" style="width: auto;">
+                            <i class="fa fa-report-icon"></i>
+                        </div>
+                        <div class="details" style="float: left !important;">
+                            <div class="dashboard-title-1"> Availability </div>
+                            <div class="dashboard-title-2"> Rate </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li class="col-xs-3 col-sm-3">
+                <div class="report-value-orange">
+                    <?php echo $field_availability_rate; ?>
+                </div>
+                Union Councils:
+            </li>
+            <?php
+            if ($report_id !== "TEHSILREPORT" && $report_id !== "UCREPORT") {
+                ?>
+                <li class="col-xs-3 col-sm-3">
+                    <div class="report-value-green">
+                        <?php echo $warehouse_availability_rate; ?>
+                    </div>
+                    District:
+                </li>
+                <?php
+            }
+            ?>
+        </ul>
+        <div style="clear:both"></div>
+        <p style="font-size: 10px; text-align: right;">Percentage of Union Councils having stock in a reporting time period. </p>
+
+    </div>
+</div>
+

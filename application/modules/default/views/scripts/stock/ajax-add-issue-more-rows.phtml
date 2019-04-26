@@ -1,0 +1,32 @@
+<?php
+/**
+*  phtml for Ajax Add Issue More Rows
+*/
+?>
+<?php
+for ($i = $this->start; $i < $this->end; $i++) {
+    $rows = "rows" . $i;
+    $j = $i + 1;
+    ?>
+    <tr class="dynamic-rows">
+        <td class="serial">
+            <?php echo $j; ?>
+        </td>
+        <td>
+            <?php echo $this->form->$rows->item_pack_size_id; ?>
+        </td>
+        <td>
+            <?php echo $this->form->$rows->number; ?>
+        </td>
+
+        <td>
+            <?php echo $this->form->$rows->hdn_available_quantity; ?>
+             <?php echo $this->form->$rows->hdn_vvm_stage; ?>
+            <?php echo $this->form->$rows->expiry_date; ?>
+        </td>
+
+        <td>
+            <?php echo $this->form->$rows->quantity; ?>
+        </td>
+    </tr>
+<?php } ?>

@@ -1,0 +1,56 @@
+@charset "UTF-8";
+/* Print CSS Document (if regular is set to screen) */
+
+body {
+    width: 7in;	
+    color: #000;
+    font: 12pt/20pt "Times New Roman", Times, serif;
+}
+#mainContent img, .overhang, .screen, .clearfloat {
+    display: none;
+}
+h1, h2, h3 {
+    color: #666;
+}
+h1 {
+    font-size: 20pt;
+    text-align: center;
+    margin-bottom: 0;
+    padding-top: 20px;
+}
+h2 {
+    font-size: 16pt;
+    border-bottom: 1px solid #666;
+    padding: 20px 5px 5px;
+}
+h3 {
+    font-size: 14pt;
+    border-bottom: 1px solid #999;
+    padding: 15px 5px 5px;
+}
+p {
+    margin-top: 10px;	
+}
+.pod {
+    color: #333;
+    padding: 0 .5in;
+}
+#footer p {
+    color: #999;
+    text-align: center;
+    font-size: 10pt;
+    width: 5in;
+    border-top: 1px solid #CCC;
+    margin: .5in 1in;
+}
+a {
+    color: #333;
+    font-weight: bold;
+}
+a:after { 
+    content:" ["attr(href)"]"; 
+    font-weight: normal;
+}
+a[href^="/"]:after {
+    content: "";
+}

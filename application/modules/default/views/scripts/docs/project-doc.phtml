@@ -1,0 +1,520 @@
+<?php
+/**
+*  phtml for Project Doc
+*/
+?>
+<style>
+    h2 {
+        font-family: "PT Sans Narrow",Helvetica,Arial,sans-serif;
+        font-size: 22px;
+        font-weight: normal;
+        padding-top: 6px;
+    }
+    h4{
+        padding-top: 6px;
+    }
+
+    p {
+        font-size: 13.5px;
+        line-height: 150%;
+        padding-bottom: 5px;
+        text-align: left;
+        margin: 0 0 10px;
+    }
+
+    a {
+        font-size: 13px !important;
+        color: black;
+    }
+    .thumbnail{
+        width: 114px;
+        height: 160px;
+        border: solid #D3D3D3 1px;
+    }
+    td{
+        vertical-align: middle;
+    }
+    .doc-title{
+        width: 650px;
+    }
+    .doc-link{
+        text-align: right
+    }
+
+
+</style>
+<div id="output">
+
+</div>
+
+<!-- Tabs -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="innerLR">
+            <div class="widget widget-tabs widget-tabs-double"  style=" border-bottom: 1px solid #77e588; border-right: 1px solid #77e588; border-top: 1px solid #77e588; margin-bottom: -2px;  ">
+
+                <!-- Tabs Heading -->
+                <div class="widget-head">
+                    <ul>
+                        <?php
+                        $count = 1;
+                        foreach ($this->main_categories_list as $category):
+                            $tab_active = "";
+                            
+                            if ($count == 1) {
+                                $tab_active = "active";
+                            }
+                            ?>
+                            <li class="<?php echo $tab_active?>"><a class="glyphicons file"  href="#<?php echo $category['pk_id'] ?>"  data-toggle="tab"><i></i><span style="padding-top: 7px;font-weight:bold;font-size: 15px;"><?php echo $category['category_title'] ?></span></a></li>
+                            <?php
+                            $count++;
+                        endforeach;
+                        ?>
+                    </ul>
+                </div>
+                <!-- // Tabs Heading END -->
+
+                <div class="widget-body">
+                    <div class="tab-content">
+
+                        <!-- Tab content -->
+                        <?php
+                        $count = 1;
+                        foreach ($this->main_categories_list as $category):
+                            $tab_active = "";
+                            if ($count == 1) {
+                                $tab_active = "active";
+                            }
+                            ?>
+
+                            <div id="<?php echo $category['pk_id'] ?>" class="tab-pane <?php echo $tab_active; ?> widget-body-regular">
+
+                                <div class="row">
+                                    <div class="col col-md-9">
+                                        <h1><?php echo $category['category_title'] ?></h1>
+                                        <br><br>
+                                        <?php
+                                        $result = $this->docs()->getDocSubCategories($category['pk_id']);
+                                        if (count($result) > 0) {
+                                            foreach ($result as $sub_category):
+                                                ?>
+                                                <h2><?php echo $sub_category['category_title']; ?> </h2>
+                                                <div class="row">
+                                                    <div class="col-md-10 ">
+                                                        <table class="table table-hover" >
+                                                            <tbody>
+                                                                <?php
+                                                                $serial = 1;
+                                                                foreach ($this->docs()->getDocumentDetail($sub_category['pk_id']) as $document):
+                                                                    ?>
+                                                                    <tr>
+                                                                        <td><h4><?php echo $serial ?></h4></td>
+                                                                        <td class="doc-title"><h4><?php echo $document['doc_title'] ?></h4></td>
+                                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                                href="<?php echo $document['doc_path'] ?>">Download</a></td>
+                                                                    </tr>
+                                                                    <?php
+                                                                    $serial++;
+                                                                endforeach;
+                                                                ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                            endforeach;
+                                        }else {
+                                            ?>
+                                            <div class="row">
+                                                <div class="col-md-10 ">
+                                                    <table class="table table-hover" >
+                                                        <tbody>
+                                                            <?php
+                                                            $serial = 1;
+                                                            foreach ($this->docs()->getDocumentDetail($category['pk_id']) as $document):
+                                                                ?>
+                                                                <tr>
+                                                                    <td><h4><?php echo $serial ?></h4></td>
+                                                                    <td class="doc-title"><h4><?php echo $document['doc_title'] ?></h4></td>
+                                                                    <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                            href="<?php echo $document['doc_path'] ?>">Download</a></td>
+                                                                </tr>
+                                                                <?php
+                                                                $serial++;
+                                                            endforeach;
+                                                            ?>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div> 
+    <?php } ?>
+                                        <br>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                            $count++;
+                        endforeach;
+                        ?>
+                        <!-- // Tab content END -->
+
+
+
+                        <!-- Tab content -->
+                        <div id="sindh" class="tab-pane widget-body-regular">
+                            <div class="row">
+                                <div class="col col-md-9">
+                                    <h1>Sindh</h1>
+                                    <br><br>
+                                    <h2></h2>
+                                    <div class="row">
+                                        <div class="col-md-10 ">
+                                            <table class="table table-hover" >
+                                                <tbody>
+                                                    <tr>
+                                                        <td><h4>1</h4></td>
+                                                        <td class="doc-title"><h4>Contraceptives Logistics Manual English Sindh</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/2_sindh/1_contraceptives_logistics_manual_english_sindh/contraceptives_logistics_manual_english_sindh.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>2</h4></td>
+                                                        <td class="doc-title"><h4>Contraceptives Logistics Manual Urdu Sindh</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/2_sindh/2_contraceptives_logistics_manual_urdu_sindh/contraceptives_logistics_manual_urdu_sindh.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>3</h4></td>
+                                                        <td class="doc-title"><h4>Contraceptives Logistics Manual Sindhi</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/2_sindh/3_contraceptives_logistics_manual_sindhi/contraceptives_logistics_manual_sindhi.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>4</h4></td>
+                                                        <td class="doc-title"><h4>Essential Medicines List Sindh</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/2_sindh/4_essential_medicines_list_sindh/essential_medicines_list_sindh.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>5</h4></td>
+                                                        <td class="doc-title"><h4>Contraceptives Procurement Manual Sindh</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/2_sindh/5_contraceptives_procurement_manual_sindh/contraceptives_procurement_manual_sindh.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>6</h4></td>
+                                                        <td class="doc-title"><h4>Medicines & Supplies Procurement Manual Sindh</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/2_sindh/6_medicines_&_supplies_procurement_manual_sindh/medicines_&_supplies_procurement_manual_sindh.pdf">Download</a></td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- // Tab content END -->
+
+                        <!-- Tab content -->
+                        <div id="punjab" class="tab-pane widget-body-regular">
+                            <div class="row">
+                                <div class="col col-md-9">
+                                    <h1>Punjab</h1>
+                                    <br><br>
+                                    <h2></h2>
+                                    <div class="row">
+                                        <div class="col-md-10 ">
+                                            <table class="table table-hover" >
+                                                <tbody>
+                                                    <tr>
+                                                        <td><h4>1</h4></td>
+                                                        <td class="doc-title"><h4>Contraceptives Logistics Manual English Punjab</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/3_punjab/1_contraceptives_logistics_manual_english_punjab/contraceptives_logistics_manual_english_punjab.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>2</h4></td>
+                                                        <td class="doc-title"><h4>Contraceptives Logistics Manual Urdu Punjab</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/3_punjab/2_contraceptives_logistics_manual_urdu_punjab/contraceptives_logistics_manual_urdu_punjab.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>3</h4></td>
+                                                        <td class="doc-title"><h4>Essential Medicines List Punjab</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/3_punjab/3_essential_medicines_list_punjab/essential_medicines_list_punjab.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>4</h4></td>
+                                                        <td class="doc-title"><h4>Contraceptive Procurement Manual Punjab</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/3_punjab/4_contraceptive_procurement_manual_punjab/contraceptive_procurement_manual_punjab.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>5</h4></td>
+                                                        <td class="doc-title"><h4>Medicines & Supplies Procurement Manual Punjab</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/3_punjab/5_medicines_&_supplies_procurement_manual_punjab/medicines_&_supplies_procurement_manual_punjab.pdf">Download</a></td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- // Tab content END -->
+
+                        <!-- Tab content -->
+                        <div id="kpk" class="tab-pane widget-body-regular">
+                            <div class="row">
+                                <div class="col col-md-9">
+                                    <h1>KPK</h1>
+                                    <br><br>
+                                    <h2></h2>
+                                    <div class="row">
+                                        <div class="col-md-10 ">
+                                            <table class="table table-hover" >
+                                                <tbody>
+                                                    <tr>
+                                                        <td><h4>1</h4></td>
+                                                        <td class="doc-title"><h4>Contraceptives Logistics Manual English KPK</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/4_kpk/1_contraceptives_logistics_manual_english_kpk/contraceptives_logistics_manual_english_kpk.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>2</h4></td>
+                                                        <td class="doc-title"><h4>Contraceptives Logistics Manual Urdu KPK</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/4_kpk/2-contraceptives_logistics_manual_urdu_kpk/contraceptives_logistics_manual_urdu_kpk.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>3</h4></td>
+                                                        <td class="doc-title"><h4>Essential Medicines List KPK</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/4_kpk/3_essential_medicines_list_kpk/essential_medicines_list_kpk.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>4</h4></td>
+                                                        <td class="doc-title"><h4>Contraceptive Procurement Manual KPK</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/4_kpk/4_contraceptives_procurement_manual_kpk/contraceptives_procurement_manual_kpk.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>5</h4></td>
+                                                        <td class="doc-title"><h4>Medicines & Supplies Procurement Manual KPK</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/4_kpk/5_medicines_&_supplies_procurement_manual_kpk/medicines_&_supplies_procurement_manual_kpk.pdf">Download</a></td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- // Tab content END -->
+
+                        <!-- Tab content -->
+                        <div id="balochistan" class="tab-pane widget-body-regular">
+                            <div class="row">
+                                <div class="col col-md-9">
+                                    <h1>Balochistan</h1>
+                                    <br><br>
+                                    <h2></h2>
+                                    <div class="row">
+                                        <div class="col-md-10 ">
+                                            <table class="table table-hover" >
+                                                <tbody>
+                                                    <tr>
+                                                        <td><h4>1</h4></td>
+                                                        <td class="doc-title"><h4>Contraceptives Logistics Manual English Balochistan</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/5_balochistan/1_contraceptives_logistics_manual_english_balochistan/contraceptives_logistics_manual_english_balochistan.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>2</h4></td>
+                                                        <td class="doc-title"><h4>Contraceptives Logistics Manual Urdu Balochistan</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/5_balochistan/2_contraceptives_logistics_manual_urdu_balochistan/contraceptives_logistics_manual_urdu_balochistan.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>3</h4></td>
+                                                        <td class="doc-title"><h4>Essential Medicines List Balochistan</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/5_balochistan/3_essential_medicines_list_balochistan/essential_medicines_list_balochistan.pdf">Download</a></td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- // Tab content END -->
+
+                        <!-- Tab content -->
+                        <div id="regions" class="tab-pane widget-body-regular">
+                            <div class="row">
+                                <div class="col col-md-9">
+                                    <h1>Regions</h1>
+                                    <br><br>
+                                    <h2></h2>
+                                    <div class="row">
+                                        <div class="col-md-10 ">
+                                            <table class="table table-hover" >
+                                                <tbody>
+                                                    <tr>
+                                                        <td><h4>1</h4></td>
+                                                        <td class="doc-title"><h4>Contraceptives Logistics Manual AJK</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/6_regions/1_contraceptives_logistics_manual_ajk/contraceptives_logistics_manual_ajk.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>2</h4></td>
+                                                        <td class="doc-title"><h4>Contraceptives Logistics Manual GB</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/6_regions/2_contraceptives_logistics_manual_gb/contraceptives_logistics_manual_gb.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>3</h4></td>
+                                                        <td class="doc-title"><h4>Contraceptives Logistics Manual FATA</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/6_regions/3_contraceptives_logistics_manual_fata/contraceptives_logistics_manual__fata.pdf">Download</a></td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- // Tab content END -->
+
+                        <!-- Tab content -->
+                        <div id="training" class="tab-pane widget-body-regular">
+                            <div class="row">
+                                <div class="col col-md-9">
+                                    <h1>User & Training Manuals</h1>
+                                    <br><br>
+                                    <h2>1- Contraceptive Logistics Management Information System User & Training Manuals</h2>
+                                    <div class="row">
+                                        <div class="col-md-10 ">
+                                            <table class="table table-hover" >
+                                                <tbody>
+                                                    <tr>
+                                                        <td><h4>1</h4></td>
+                                                        <td class="doc-title"><h4>cLMIS Facilitator Manual - Updated</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/training_manuals/clmis_user_&_training_manuals/clmis_facilitator_manual_updated.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>2</h4></td>
+                                                        <td class="doc-title"><h4>cLMIS Participants Guide - Updated</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/training_manuals/clmis_user_&_training_manuals/clmis_participants_guide_updated.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>3</h4></td>
+                                                        <td class="doc-title"><h4>cLMIS PWD User Manual - Updated</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/training_manuals/clmis_user_&_training_manuals/clmis_pwd_user_manual_updated.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>4</h4></td>
+                                                        <td class="doc-title"><h4>cLMIS TOT Manual - Updated</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/training_manuals/clmis_user_&_training_manuals/clmis_tot_manual_updated.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>5</h4></td>
+                                                        <td class="doc-title"><h4>cLMIS User Manual - Updated</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/training_manuals/clmis_user_&_training_manuals/clmis_user_manual_updated.pdf">Download</a></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <h2>2- Vaccines Logistics Management Information System User & Training Manuals</h2>
+                                    <div class="row">
+                                        <div class="col-md-10 ">
+                                            <table class="table table-hover" >
+                                                <tbody>
+                                                    <tr>
+                                                        <td><h4>1</h4></td>
+                                                        <td class="doc-title"><h4>Vaccines Logistics Manual Cold chain - Updated</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/training_manuals/vlmis_user_&_training_manuals/vaccines_logistics_manual-cold_chain-updated.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>2</h4></td>
+                                                        <td class="doc-title"><h4>vLMIS Administrators Manual - Updated</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/training_manuals/vlmis_user_&_training_manuals/vlmis_-_administrators_manual_updated.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>3</h4></td>
+                                                        <td class="doc-title"><h4>vLMIS Facilitators Manual - Updated</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/training_manuals/vlmis_user_&_training_manuals/vlmis_facilitators_manual_updated.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>4</h4></td>
+                                                        <td class="doc-title"><h4>vLMIS Participants Guide - Updated</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/training_manuals/vlmis_user_&_training_manuals/vlmis_participants_guide_updated.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>5</h4></td>
+                                                        <td class="doc-title"><h4>vLMIS TOT Manual - Updated</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/training_manuals/vlmis_user_&_training_manuals/vlmis_tot_manual_updated.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>6</h4></td>
+                                                        <td class="doc-title"><h4>vLMIS User Manual - Cold Chain - Updated</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/training_manuals/vlmis_user_&_training_manuals/vlmis_user_manual_cold_chain_updated.pdf">Download</a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><h4>7</h4></td>
+                                                        <td class="doc-title"><h4>vLMIS User Manual - Updated</h4></td>
+                                                        <td class="doc-link"><a class="btn btn-primary input-sm btn-download" target="_blank"
+                                                                                href="http://lmis.gov.pk/docs/training_manuals/vlmis_user_&_training_manuals/vlmis_user_manual_updated.pdf">Download</a></td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- // Tab content END -->
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- // Tabs END -->
+        </div>
+    </div>
+</div>

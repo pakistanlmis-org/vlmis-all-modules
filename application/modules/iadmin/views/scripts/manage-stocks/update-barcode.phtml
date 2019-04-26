@@ -1,0 +1,89 @@
+<?php
+/**
+*  phtml for Update Barcode
+*/
+?>
+<div class="row">
+    <div class="col-md-6">
+        <label class="control-label" for="product"><?php echo $this->translate("Product"); ?><span class="red">*</span></label>
+        <div class="controls">
+            <?php echo $this->form->item_pack_size_id_update; ?>
+            <?php echo $this->form->item_pack_size_id_hidden; ?>
+        </div>
+    </div> 
+    <div class="col-md-6">
+        <label class="control-label" for="manufacturer"><?php echo $this->translate("Manufacturer"); ?><span class="red">*</span></label>
+        <div class="controls">
+            <?php echo $this->form->stakeholder_id_update; ?>
+            <?php echo $this->form->stakeholder_id_update_hidden; ?>
+        </div>
+    </div> 
+
+</div> 
+
+<div class="row"> 
+    <div class="col-md-6">
+        <label class="control-label" for="barcodetype"><?php echo $this->translate("Packaging Level"); ?><span class="red">*</span></label>
+        <div class="controls">
+            <?php echo $this->form->packaging_level_update; ?>
+        </div>
+    </div> 
+    <div class="col-md-6">  
+        <label class="control-label" for="itemgtin"><?php echo $this->translate("Item GTIN"); ?><span class="red">*</span></label>  
+        <div class="controls">
+            <?php echo $this->form->item_gtin; ?>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-md-6">
+        <label class="control-label" for="pack_size"><?php echo $this->translate("Pack Size"); ?></label>  
+        <div class="controls">
+            <?php echo $this->form->pack_size_description; ?>  
+        </div>
+    </div>
+    <div class="col-md-6">
+        <label class="control-label" for="length"><?php echo $this->translate("Length(cm)"); ?><span class="red">*</span></label> 
+        <div class="controls">
+            <?php echo $this->form->length; ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-md-6">
+        <label class="control-label" for="width"><?php echo $this->translate("Width(cm)"); ?><span class="red">*</span></label> 
+        <div class="controls">
+            <?php echo $this->form->width; ?> 
+        </div>
+    </div>
+    <div class="col-md-6">
+        <label class="control-label" for="height"><?php echo $this->translate("Height(cm)"); ?><span class="red">*</span></label> 
+        <div class="controls">
+            <?php echo $this->form->height; ?> 
+        </div>
+    </div>
+
+</div>
+<div class="row">
+
+    <div class="col-md-6">
+        <label class="control-label" for="vialspcs"><?php echo $this->translate("Vials Pcs"); ?><span class="red">*</span></label>
+        <div class="controls">
+            <?php echo ($this->form->quantity_per_pack); ?> Per Pack    
+        </div>
+    </div>   
+    <div class="col-md-6">
+        <label class="control-label" for="volume"><?php echo $this->translate("Volume"); ?><span class="red">*</span></label>
+        <div class="controls">
+            <?php echo ($this->form->volume_per_unit_net); ?> Per Vial/PC
+        </div>
+    </div>
+
+</div> 
+<div class="row">
+    <div class="col-md-7"></div><?php echo $this->form->barcode_id; ?><?php echo $this->form->barcode_ty_id; ?>
+</div>
+

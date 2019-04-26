@@ -1,0 +1,1 @@
+[16-Jan-2014 07:28:54 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 238670 bytes) in /home/lmisgovn/public_html/vlmis/plmis_src/operations/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/tcpdf/tcpdf.php on line 15664

@@ -1,0 +1,82 @@
+<?php
+/**
+*  phtml for Ajax Stock Issues
+*/
+?>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div id="sample_2_filter" class="dataTables_filter">
+            <label>Stock Status: 
+                <select id="stock-status-combo" class="form-control input-inline">
+                    <option value="All">All Pakistan</option>
+                    <option value="Federal">Federal</option>
+                    <option value="Provincial">Provincial</option>                    
+                </select>
+            </label>
+        </div>
+    </div>
+    <div class="col-md-12" id="after-filter">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet">
+            <div class="portlet-body">
+                <div>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Vaccines
+                                </th>
+                                <th>
+                                    OB
+                                </th>
+                                <th>
+                                    Receive
+                                </th>
+                                <th>
+                                    Issue
+                                </th>
+                                <th>
+                                    CB
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $counter = 1;
+                            foreach ($this->result as $row) {
+                                ?>
+                                <tr class="<?php
+                                if ($counter % 2 == 0) {
+                                    echo "active";
+                                } else {
+                                    echo "success";
+                                }
+                                ?>">
+                                    <td>
+                                        <?php echo $row['item_name']; ?>
+                                    </td>
+                                    <td class="right">
+                                        <?php echo number_format($row['OB']); ?>
+                                    </td>
+                                    <td class="right">
+                                        <?php echo number_format($row['Rcv']); ?>
+                                    </td>
+                                    <td class="right">
+                                        <?php echo number_format($row['Issue']); ?>
+                                    </td>
+                                    <td class="right">
+                                        <?php echo number_format($row['CB']); ?>
+                                    </td>
+                                </tr>
+                                <?php
+                                $counter++;
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>

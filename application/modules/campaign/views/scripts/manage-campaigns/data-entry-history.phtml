@@ -1,0 +1,229 @@
+<?php
+/**
+*  phtml for Data Entry History
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Campaigns Data Entry Details") ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php
+                            echo $this->translate("Campaigns Data Search");
+                            ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form name="search_form" id="search_form" action="" method="get">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <?php
+                                            if ($this->page == 1) {
+
+                                                ?>
+                                                <div class="col-md-3">
+                                                    <div class="control-group">
+                                                        <label class="control-label"><?php echo $this->translate("Campaigns"); ?></label>
+                                                        <div class="controls">
+                                                            <?php echo $this->form->campaign_id; ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="control-group">
+                                                        <label class="control-label"><?php echo $this->translate("Province"); ?></label>
+                                                        <div class="controls">
+                                                            <?php echo $this->form->province_id; ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="control-group">
+                                                        <label class="control-label"><?php echo $this->translate("District"); ?></label>
+                                                        <div class="controls">
+                                                            <?php echo $this->form->district_id; ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                            } else if ($this->page == 2) {
+
+                                                ?>
+                                                <div class="col-md-3">
+                                                    <div class="control-group">
+                                                        <label class="control-label"><?php echo $this->translate("Campaigns"); ?></label>
+                                                        <div class="controls">
+                                                            <?php echo $this->form->campaign_id; ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <div class="control-group">
+                                                        <label class="control-label"><?php echo $this->translate("District"); ?></label>
+                                                        <div class="controls">
+                                                            <?php echo $this->form->district_id; ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                            } else {
+                                                ?>
+                                                <input type="hidden" name="district_id" id="district_id" value="<?php echo $this->district_id; ?>" />
+                                                <div class="col-md-3">
+                                                    <div class="control-group">
+                                                        <label class="control-label"><?php echo $this->translate("Campaign"); ?></label>
+                                                        <div class="controls">
+                                                            <?php echo $this->form->campaign_id; ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                            }
+                                            ?>
+                                            <div class="col-md-2">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Product"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->item_id; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Day"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->day; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="control-group">
+                                                    <label class="control-label" >&nbsp;</label>
+                                                    <input type="hidden" name="warehouse_id" value="<?php echo $this->warehouse_id ?>" id="warehouse_id" >
+                                                    <input type="hidden" name="role_id" value="<?php echo $this->role_id ?>" id="role_id" >
+                                                    <button class="btn btn-primary" type="submit" name="search" id="search" ><?php echo $this->translate("Search") ?></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-12 form-btn-margin-top">
+                                <?php
+                                if (!empty($this->district_id)) {
+                                    ?>
+                                    <div class="widget-body">
+                                        <!-- Table -->
+                                        <table class="dynamicTable table table-striped table-bordered table-hover dataTable no-footer" id="sample_2">
+                                            <!-- Table heading -->
+                                            <thead>
+                                                <tr>
+                                                    <th><?php echo $this->translate("Sr No"); ?></th>
+                                                    <th><?php echo $this->translate("UC"); ?></th>
+                                                    <th><?php echo $this->translate("Daily Target"); ?></th>
+                                                    <th><?php echo $this->translate("Reported Teams"); ?></th>
+                                                    <th><?php echo $this->translate("Age 05 Months"); ?></th>
+                                                    <th><?php echo $this->translate("Age 659 Months"); ?></th>
+                                                    <th><?php echo $this->translate("Total Coverage"); ?></th>
+                                                    <th><?php echo $this->translate("Action"); ?></th>
+                                                </tr>
+                                            </thead>
+                                            <!-- // Table heading END -->
+
+                                            <!-- Table body -->
+                                            <tbody>
+                                                <?php
+                                                $i = 1;
+                                                if ($this->paginator && count($this->paginator) > 0) :
+                                                    foreach ($this->paginator as $campaign) {
+                                                     
+                                                        $do_view = App_Controller_Functions::encrypt('view|' . $campaign['pk_id']);
+                                                        $do_edit = App_Controller_Functions::encrypt('edit|' . $campaign['pk_id']);
+                                                        $do_del = App_Controller_Functions::encrypt('del|' . $campaign['pk_id'].'|'.$campaign['campaign_day'].'|'.$campaign['campaign_id'].'|'.$campaign['district_id'].'|'.$campaign['item_id']);
+                                                        ?>
+                                                        <!-- Table row -->
+                                                        <tr class="gradeX">
+                                                            <td class="center"><?php echo $i++; ?></td>
+                                                            <td><?php echo $campaign['warehouse_name']; ?></td>
+                                                            <td class="right"><?php echo number_format($campaign['daily_target']); ?></td>
+                                                            <td class="right"><?php echo number_format($campaign['teams_reported']); ?></td>
+                                                            <td class="right"><?php echo number_format($campaign['target_age_six_months']); ?></td>
+                                                            <td class="right"><?php echo number_format($campaign['target_age_sixty_months']); ?></td>
+                                                            <td class="right"><?php echo number_format($campaign['total_coverage']); ?></td>
+                                                            <?php
+                                                            if ($this->page == 6) {
+                                                                ?>
+                                                                <td class="center" style="width:80px;">
+                                                                    <?php
+                                                                    if ($this->day == 'all') {
+                                                                        ?>
+                                                                        <a href="javascript: doEdit('<?php echo $campaign['campaign_id']; ?>', 'all', '<?php echo $campaign['district_id']; ?>', '<?php echo $do_view; ?>', '<?php echo $campaign['warehouses_id']; ?>','<?php echo $campaign['item_id']; ?>')">View</a>
+                                                                        <?php
+                                                                    } else {
+                                                                        ?>
+                                                                        <a href="javascript: doEdit('<?php echo $campaign['campaign_id']; ?>', '<?php echo $campaign['campaign_day']; ?>', '<?php echo $campaign['district_id']; ?>', '<?php echo $do_edit; ?>', '<?php echo $campaign['warehouses_id']; ?>','<?php echo $campaign['item_id']; ?>','view')">Edit</a> |
+                                                                        <a href="javascript: doDel('<?php echo $do_del; ?>')">Del</a>
+                                                                    <?php }
+                                                                    ?>
+                                                                </td>
+                                                                <?php
+                                                            } else {
+                                                                ?>
+                                                                <?php
+                                                                if ($this->day == 'all') {
+                                                                    ?>
+                                                                    <td class="center" style="width:80px;">
+                                                                        <a href="javascript: doEdit('<?php echo $campaign['campaign_id']; ?>', 'all', '<?php echo $campaign['district_id']; ?>', '<?php echo $do_view; ?>', '<?php echo $campaign['warehouses_id']; ?>','<?php echo $campaign['item_id']; ?>')">View</a>
+                                                                    </td>
+                                                                    <?php
+                                                                } else {
+                                                                    ?>
+                                                                    <td class="center" style="width:80px;">
+                                                                        <a href="javascript: doEdit('<?php echo $campaign['campaign_id']; ?>', '<?php echo $campaign['campaign_day']; ?>', '<?php echo $campaign['district_id']; ?>', '<?php echo $do_view; ?>', '<?php echo $campaign['warehouses_id']; ?>','<?php echo $campaign['item_id']; ?>')">View</a>
+                                                                    </td>
+                                                                <?php }
+                                                                ?>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </tr>
+                                                        <?php
+                                                    }
+                                                endif;
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                        <!-- // Table END -->
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- // Content END -->

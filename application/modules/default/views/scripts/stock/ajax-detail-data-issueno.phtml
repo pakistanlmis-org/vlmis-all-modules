@@ -1,0 +1,45 @@
+<?php
+/**
+*  phtml for Ajax Detail Data Issue No.
+*/
+?>
+<table class="gatepass table table-striped table-bordered table-hover dataTable no-footer"  >
+    <!-- Table heading -->
+    <thead>
+        <tr>
+            <th><?php echo $this->translate("Vaccine/Product") ?></th>
+            <th><?php echo $this->translate("Batch No") ?></th>
+            <th style="text-align: center;"><?php echo $this->translate("Expiry Date") ?></th>  
+             <th style="text-align: center;"><?php echo $this->translate("Unpicked Quantity (Vials)") ?></th> 
+             <th><?php echo $this->translate("Action") ?></th> 
+        </tr>      
+    </thead>
+    <!-- // Table heading END -->
+
+    <!-- Table body -->
+    <tbody>				
+        <!-- Table row -->
+        <?php
+        $remianing_qty = "";
+        if ($this->data && count($this->data) > 0) :
+            foreach ($this->data as $row):
+            $unpicked_qty= $row["quantity"] - $row["place_quantity"];
+            //detailid|batchid|itemcat|uqty
+            $qry_strng = "Zr2".base64_encode($row["pk_id"]."|".$row["batch_id"]."|".$row["item_category_id"]."|".$unpicked_qty);
+                ?>
+                <tr class="gradeX">
+
+                    <td><?php echo $row['item_name']; ?></td>
+                    <td><?php echo $row["number"]; ?></td>
+                    <td align="center"><?php echo date("d-m-Y", strtotime($row["expiry_date"])); ?></td>
+                    <td align="right"><?php echo number_format($unpicked_qty); ?></td>
+                    <td><a class="btn btn-primary input-sm" href="<?php echo $this->baseUrl(); ?>/stock/stock-pick-data?qry=<?php echo $qry_strng; ?>"><?php echo $this->translate("Pick");?></a></td>
+                </tr>
+                <?php
+            endforeach;
+        endif;
+        ?>
+        <!-- // Table row END -->
+    </tbody>
+    <!-- // Table body END -->
+</table>

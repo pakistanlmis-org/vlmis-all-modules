@@ -1,0 +1,430 @@
+/* CSS Document */
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 14px;
+    font: inherit;
+    vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    color: #333;
+}
+h1 {
+    font-size: 26px;
+    font-weight: normal;
+    font-family: 'PT Sans Narrow',Helvetica,Arial,sans-serif;
+    margin: 15px 0;
+}
+h2 {
+    font-size: 22px;	
+    font-weight: normal;
+    font-family: 'PT Sans Narrow',Helvetica,Arial,sans-serif;
+    margin: 12px 0;
+}
+h3 {
+    font-size: 18px;	
+    font-weight: bold;
+    font-family: 'PT Sans Narrow',Helvetica,Arial,sans-serif;
+    margin: 9px 0;
+}
+h4 {
+    font-size: 16px;	
+    font-weight: bold;
+    font-family: 'PT Sans Narrow',Helvetica,Arial,sans-serif;
+    margin: 6px 0;
+}
+strong {
+    font-weight: bold;	
+}
+ol, ul {
+    list-style: none;
+}
+ol li, ul li {
+    list-style: none;
+    padding-bottom: 10px;
+    font-size: 13px;
+    line-height: 137%;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.left { float: left; }
+.right { float: right; }
+
+p {
+    font-size: 13px;
+    line-height: 137%;
+    padding-bottom: 14px;
+    text-align: left;
+}
+a {
+    color: #004cbe;
+    text-decoration: none;	
+}
+a:link {
+    color: #666;
+    text-decoration: underline;	
+}
+a:hover {
+    color: #004cbe;
+    text-decoration: none;	
+}
+
+/* 
+ = General
+ ---------------------------------------------------------------------------*/
+
+.header-wrapper {
+    background: none repeat scroll 0 0 #FFFFFF;
+    clear: both;
+    width: 100%;
+}
+.header-inner {
+    height: 93px;
+    margin: 4px auto 0;
+    position: relative;
+    width: 980px;
+}
+.nav {
+    bottom: 6px;
+    float: right;
+    position: absolute;
+    right: 0;
+}
+.nav li {
+    color: #666666;
+    display: inline;
+    font-size: 10px;
+    margin: 0 2px;
+    float: left;
+}
+.nav li a {
+    color: #333333;
+    font-family: 'PT Sans',helvetica;
+    font-size: 14px;
+    text-decoration: none;
+    padding: 5px 5px;
+}
+.nav li a:hover {
+    color: #008000;
+    text-decoration: underline;
+}
+
+.banner-wrapper {
+    background: none repeat scroll 0 0 #1A651D;
+    box-shadow: 0 0 6px #000000 inset;
+    clear: both;
+    overflow: hidden;
+    width: 100%;
+}
+.banner{
+    margin: 0 auto;
+    overflow: hidden;
+    width: 980px;
+}
+.banner-text {
+    float: left;
+    margin-top: 60px;
+    width: 50%;
+}
+.banner-text > div {
+    left: 20px;
+    position: relative;
+    width: 70%;
+}
+.banner-text h1 {
+    font-size: 42px;
+    font-weight: normal;
+    margin: 15px 0;
+    white-space: nowrap;
+}
+.banner-text h2 {
+    color: #FFFFFF;
+    font-size: 26px;
+    font-weight: normal;
+    margin: 15px 0;
+}
+.banner-text h1, .banner-text h2, .banner-text p {
+    color: #FFFFFF;
+}
+
+.body-wrapper {
+    background: none repeat scroll 0 0 #FFFFFF;
+    clear: both;
+    margin: 35px auto 0;
+    overflow: hidden;
+    width: 980px;
+}
+.content {
+    float: left;
+    width: 650px;
+}
+.content ul li {
+    padding-left: 25px;
+    background:url(../../images/icon-tick-green.png) left top no-repeat;	
+}
+.sidebar {
+    float: right;
+    width: 280px;
+}
+.box-grey {
+    background: #DDDDDD;
+    -moz-border-radius: 12px;
+    -webkit-border-radius: 12px;
+    border-radius: 12px;
+    margin: 0 0 30px;
+    padding: 30px 25px;
+}
+.box {
+    padding: 0;
+    background: #fff;	
+}
+.sidebar-list > li {
+    font-size: 13px;
+    margin-bottom: 10px;
+    background:url(../../images/icon-tick-sidebar.png) left top no-repeat;
+    padding-left: 25px;
+    line-height: 135%;
+}
+.footer-wrapper {
+    background: none repeat scroll 0 0 #DDDDDD;
+    clear: both;
+    margin-top: 50px;
+    overflow: hidden;
+    width: 100%;
+}
+.footer-inner {
+    width: 980px;
+    margin: 0 auto;	
+    padding: 35px 0;
+    overflow: hidden;
+}
+.copyright {
+    color: #666666;
+    float: right;
+    font-size: 12px;
+    margin-top: 10px;
+}
+.login-box {
+    border-bottom: 1px solid #CCCCCC;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+}
+.login-inner {
+    margin-top: 20px;
+}
+.lable {
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+.lable strong {
+    display: block;
+    float: left;
+    font-size: 14px;
+    font-weight: normal;
+    margin-right: 10px;
+    margin-top: 4px;
+    width: 15%;
+}
+.lable input[type=text],
+.lable input[type=password] {
+    border: 1px solid #BBBBBB;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2) inset;
+    padding: 4px;
+    width: 210px;
+}
+.lable input[type="submit"] {
+    background-color: green;
+    background: url("../../images/tab-bg-default.png") repeat-x scroll left top rgba(0, 0, 0, 0);
+    border: medium none;
+    border-radius: 8px 8px 8px 8px;
+    color: #FFFFFF;
+    font-family: 'PT Sans',sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    margin-right: 9px;
+    padding: 4px 6px;
+    width: 84px;
+}
+.download {
+    background: url("../../images/icon-download.png") no-repeat scroll left top rgba(0, 0, 0, 0);
+    font-size: 12px;
+    margin-left: 87px;
+    margin-top: 30px;
+    padding: 0 0 0 30px;
+}
+.download a { font-size: 12px; }
+
+
+
+/*
+ = Tab Panel styling
+ -------------------------------------------------------------------*/
+.content .ui-tabs {
+    border: none;
+    border-radius: 0;
+}
+
+.content .ui-tabs .ui-widget-header {
+    background: none;
+    border: none;
+}
+.content .ui-tabs .ui-tabs-nav li {
+    background:	url(../../images/tab-bg-default.png) left top repeat-x;
+    padding: 0;
+    border: none;
+}
+.content .ui-tabs .ui-tabs-nav li .ui-tabs-anchor {
+    font-family: 'PT Sans',sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 4px 25px;
+    color: #fff;
+    text-align: center;
+    width: 98px;
+}
+.content .ui-tabs .ui-tabs-nav li.ui-tabs-active  {
+    background:	url(../../images/tab-bg-active.png) left top repeat-x;
+    border: 1px solid #bbb;
+    border-bottom: 1px solid #fff;	
+}
+.content .ui-tabs .ui-tabs-nav li.ui-tabs-active a.ui-tabs-anchor {
+    color: #333;	
+    font-weight: normal;
+}
+.ui-tabs .ui-tabs-panel {
+    padding: 20px;
+    border: 1px solid #bbb;	
+}
+
+
+.banner { position: relative; overflow: auto; height: 317px !important; }
+.banner li { list-style: none; }
+.banner ul li { float: left; padding-bottom: 0; }
+
+.partner-logos li {
+    background: none repeat scroll 0 0 #DDDDDD;
+    border-radius: 10px 10px 10px 10px;
+    float: left;
+    margin-bottom: 8px;
+    margin-right: 3%;
+    padding: 10px;
+    width: 30%;
+}
+
+.banner .dots {
+    bottom: 20px;
+    left: 1.7%;
+    position: absolute;
+    right: 0;
+}
+.banner .dots li {
+    border: 1px solid #FFFFFF;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-block;
+    height: 10px;
+    margin: 0 4px;
+    opacity: 0.7;
+    text-indent: -999em;
+    transition: background 0.5s ease 0s, opacity 0.5s ease 0s;
+    width: 10px;
+    padding: 0;
+}
+.banner .dots li.active {
+    background: #FFFFFF;
+    opacity: .7;
+}
+.banner-inner {
+    width: 980px;
+    margin: 20px auto;	
+}
+.banner-inner h1 {
+    color: #fff;	
+}
+
+
+/* = Dropdown Styling
+ -------------------------------------------------------------------------------*/
+
+
+
+ul.dropdown li:last-child a         { border-right: none; } /* Doesn't work in IE */
+ul.dropdown li.sub_menu_list:hover { position: relative;  }
+ul.dropdown li.sub_menu_list:hover > a { background: #999; padding: 10px 5px; color: #fff;  }
+ul.dropdown li.sub_menu_list:hover > a > .down-arrow { border-color: white transparent;  }
+ul.dropdown li.hover a              { color: #333; }
+
+
+/* 
+        LEVEL TWO
+*/
+ul.dropdown ul {
+    background: #f2f2f2;
+    left: 0;
+    padding: 10px 0;
+    position: absolute;
+    top: 100%;
+    visibility: hidden;
+    width: 180px;
+    z-index: 99999;
+}
+ul.dropdown ul li 					{ font-weight: normal; border-bottom: 1px dotted #999; float: none; color: #1A651D; padding: 0; 
+                         margin: 0 5px; display: block; }
+
+ul.dropdown li.sub_menu_list > a:hover { color: #fff; text-decoration: none; background: #999; padding: 10px 5px; position:  } 
+
+/* IE 6 & 7 Needs Inline Block */
+ul.dropdown ul li a					{ border-right: none; width: 100%; display: inline-block; color: #333; padding: 10px 5px; width: 95%; }
+ul.dropdown ul li a:hover			{ color: #fff; text-decoration: none; background: #999; } 
+
+/* 
+        LEVEL THREE
+*/
+ul.dropdown ul ul 					{ left: 100%; top: 0; }
+ul.dropdown li:hover > ul 			{ visibility: visible; }
+
+span.down-arrow {
+    border-color: green transparent;
+    border-style: solid;
+    border-width: 6px 4px 0;
+    height: 0px;
+    width: 0px;	
+    display: inline-block;
+}
+span.red{
+    color: red;
+    float: right;
+}

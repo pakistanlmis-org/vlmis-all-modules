@@ -1,0 +1,92 @@
+StockDetail:
+  type: entity
+  table: stock_detail
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    quantity:
+      type: bigint
+      nullable: true
+    temporary:
+      type: boolean
+      nullable: true
+    isReceived:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: is_received
+    adjustmentType:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: adjustment_type
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: false
+      column: modified_date
+  oneToOne:
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    vvmStage:
+      targetEntity: VvmStages
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        vvm_stage:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    stockMaster:
+      targetEntity: StockMaster
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        stock_master_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    stockBatchWarehouse:
+      targetEntity: StockBatchWarehouses
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        stock_batch_warehouse_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    itemUnit:
+      targetEntity: ItemUnits
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        item_unit_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

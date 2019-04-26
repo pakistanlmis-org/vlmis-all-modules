@@ -1,0 +1,88 @@
+<?php
+/**
+*  phtml for Stock Status
+*/
+?>
+<div class="row">
+    <div class="col-md-12" id="after-filter">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet">
+            <div class="portlet-title">
+                Product wise Stock Status (Vials)
+            </div>
+            <div class="portlet-body" style="height: 255px !important;">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                Vaccines
+                            </th>
+                            <th>
+                                OB
+                            </th>
+                            <th>
+                                Receive
+                            </th>
+                            <th>
+                                Issue
+                            </th>
+                            <th>
+                                CB
+                            </th>
+                        </tr>                            
+                    </thead>
+                    <tbody>
+                        <?php
+                        $counter = 1;
+                        foreach ($this->result as $row) {
+                            ?>
+                            <tr class="<?php
+                            if ($counter % 2 == 0) {
+                                echo "active";
+                            } else {
+                                echo "success";
+                            }
+                            ?>">
+                                <td>
+                                    <?php echo $row['item_name']; ?>
+                                </td>
+                                <td class="right">
+                                    <?php echo number_format($row['OB']); ?>
+                                </td>
+                                <td class="right">
+                                    <?php echo number_format($row['Rcv']); ?>
+                                </td>
+                                <td class="right">
+                                    <?php echo number_format($row['Issue']); ?>
+                                </td>
+                                <td class="right">
+                                    <?php echo number_format($row['CB']); ?>
+                                </td>
+                            </tr>
+                            <?php
+                            $counter++;
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+    <div class="col-md-12">
+        <ul>
+            <li>
+                <b> OB:</b> Opening Balance at the start of month (<?php echo $this->monthyear; ?>)
+            </li>
+            <li>
+                <b> CB:</b> Closing Balance at the end of month (<?php echo $this->monthyear; ?>)
+            </li>
+            <li>
+                <b>Receive:</b> Receive Balance during the month (<?php echo $this->monthyear; ?>)
+            </li>
+            <li>
+                <b>Issue:</b> Issue Balance during the month (<?php echo $this->monthyear; ?>)
+            </li>
+        </ul>
+    </div>
+</div>

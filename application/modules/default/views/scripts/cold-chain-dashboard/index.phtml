@@ -1,0 +1,129 @@
+<?php
+/**
+ *  phtml for Cold Chain Capacity 
+ */
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <!-- BEGIN PAGE HEADER-->
+
+        <div class="row">
+            <h3 class="col-md-8">
+                Cold Chain 
+                <small>dashboard <?php
+                    echo date('d') . date('F ', mktime(0, 0, 0, date('m'))) . ', ' . date('Y');
+                    ?></small>
+            </h3>
+
+        </div>
+        <div class="row">&nbsp;</div>
+        <!-- END PAGE HEADER-->
+        <div class="row">
+            <div class="widget-body">
+                <div class="col-md-12">
+
+
+
+                    <div class="row">
+
+
+
+                        <div class="col-md-6">
+                            <div class="widget widget-tabs">
+                                <div class="widget-body">
+                                    <?php
+                                    FC_SetRenderer('javascript');
+                                    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie2d.swf", "", $this->xmlstore_summary, "coldchainCapacity2021", '100%', 300, false, false);
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="widget widget-tabs">
+                                <div class="widget-body">
+                                    <?php
+                                    FC_SetRenderer('javascript');
+                                    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie2d.swf", "", $this->xmlstore_crCapacity, "coldchainCapacity2022", '100%', 300, false, false);
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+                <!-- // Tabs END -->    
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p style="text-align: center"> CCEM Summary Report</p>
+                            <table class="dynamicTable table table-striped table-bordered table-hover dataTable no-footer" >
+                                <thead>
+                                    <tr>
+                                        <th>Sr. No.</th>
+                                        <th>Asset Type</th>
+                                        <th >Functional</th>
+                                        <th >Non Functional</th>
+                                        <th >Total</th>
+
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+
+                                    <?php
+                                    if (count($this->data) > 0) {
+                                        $i = 1;
+                                        $q = 1;
+                                        foreach ($this->data as $row) {
+                                            if ($i <= 5) {
+                                                ?>
+                                                <tr>
+                                                    <td class="center"><?php echo $i; ?></td>
+                                                    <td><?php echo $row['asset_type_name']; ?></td>
+                                                    <td class="right"><?php echo $row['working']; ?></td>
+                                                    <td class="right"><?php echo $row['not_working']; ?></td>
+                                                    <td class="right"><?php echo $row['working']+$row['not_working']; ?></td>
+
+
+                                                </tr>
+                                                <?php
+                                            }
+                                            $i++;
+                                        }
+                                        ?>
+                                    <?php } else { ?>
+                                        <tr>
+                                            <td colspan="12" class="center">No data found</td>
+
+
+                                        </tr> 
+                                    <?php } ?>
+                                </tbody>
+
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $(".sidebar-toggler").trigger("click");
+    });
+</script>

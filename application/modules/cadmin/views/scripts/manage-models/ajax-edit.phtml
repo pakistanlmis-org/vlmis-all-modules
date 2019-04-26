@@ -1,0 +1,69 @@
+<?php
+/**
+*  phtml for Ajax Edit
+*/
+?>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group ">
+            <label class="control-label" for="ccm_asset_type_id_update"><?php echo $this->translate("Asset Type"); ?><span class="red">*</span></label>
+            <?php echo $this->form->ccm_asset_type_id_update; ?>
+            <div class="col-md-1" id="loader_asset_type_update" style="display:none;">
+                <img src="<?php echo Zend_Registry::get('baseurl'); ?>/images/loader-mini.gif" style="margin-top:8px; float:left" alt="" />
+            </div>
+        </div>                                
+    </div>
+    <div class="col-md-6">
+        <div class="form-group ">
+            <label class="control-label" for="ccm_asset_sub_type_update"><?php echo $this->translate("Asset Sub Type"); ?></label>
+            <?php echo $this->form->ccm_asset_sub_type_update; ?>
+        </div>                                
+    </div>
+    <div class="col-md-3">
+        <div class="form-group ">
+            <label class="control-label" for="ccm_make_id"><?php echo $this->translate("Make"); ?><span class="red">*</span></label>
+            <?php echo $this->form->ccm_make_id; ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group ">
+            <label class="control-label" for="ccm_model_name"><?php echo $this->translate("Model"); ?><span class="red">*</span></label>
+            <?php echo $this->form->ccm_model_name; ?>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group ">
+            <label class="control-label" for="catalogue_id"><?php echo $this->translate("Catalogue ID"); ?></label>
+            <?php echo $this->form->catalogue_id; ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group ">
+            <label class="control-label" for="cfc_free"><?php echo $this->translate("CFC Free Sticker"); ?></label>
+            <?php echo $this->form->cfc_free; ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label" for="gross_capacity_4"><?php echo $this->translate("Capacity"); ?></label>
+            <?php echo $this->form->gross_capacity_20; ?>
+            <?php echo $this->form->gross_capacity_4; ?>
+            <?php echo $this->form->net_capacity_20; ?>
+            <?php echo $this->form->net_capacity_4; ?>
+        </div>
+
+    </div>
+    <div class="col-md-3">
+        <div class="form-group ">
+            <label class="control-label" for="asset_dimension_length"><?php echo $this->translate("Dimensions"); ?></label>
+            <?php echo $this->form->asset_dimension_length; ?>
+            <?php echo $this->form->asset_dimension_width; ?>
+            <?php echo $this->form->asset_dimension_height; ?>
+        </div>
+    </div>
+</div>
+<?php echo $this->form->id; ?>

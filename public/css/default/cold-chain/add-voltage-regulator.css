@@ -1,0 +1,7 @@
+.widget-body.uniformjs > label {
+    margin-right: 10px;
+}
+
+.controls > label {
+    float: left;
+}

@@ -1,0 +1,56 @@
+<?php
+/**
+*  phtml for Ajax Available VVM Stages
+*/
+?>
+<?php
+if ($this->item_cat == 1) {
+    $vvm = array(
+        '1' => '1 (Usable)',
+        '2' => '2 (Usable)',
+        '3' => '3 (Not Usable)',
+        '4' => '4 (Not Usable)'
+    );
+} else {
+    $vvm = array(
+        '0' => 'NA'
+    );
+}
+
+if ($this->vvmstages != false) {
+    ?>
+    <?php if ($this->item_cat == 1) { ?>
+        <label class="control-label" for="vvm_stage">
+            <?php echo $this->translate("Location"); ?> | <?php echo $this->translate("VVM Stage"); ?> | <?php echo $this->translate("Quantity"); ?>
+        </label>
+        <select class="form-control" id="vvm_stage" name="vvm_stage">
+            <?php foreach ($this->vvmstages as $row) { ?>
+            <option value="<?php echo $row['placement_location_id'] . "|" . $row['vvm_stage_id'] . "|" . $row['qty']; ?>"><?php echo $row['asset_id']; ?> | <?php echo $row['vvm_stage']; ?> | <?php echo number_format($row['qty']); ?></option>
+            <?php }
+            ?>
+        </select>
+    <?php } else { ?>
+        <label class="control-label" for="vvm_stage">
+            <?php echo $this->translate("Location"); ?> | <?php echo $this->translate("Quantity"); ?>
+        </label>
+        <select class="form-control" id="vvm_stage" name="vvm_stage">
+            <?php foreach ($this->vvmstages as $row) { ?>
+                <option value="<?php echo $row['placement_location_id'] . "|0|" . $row['qty']; ?>"><?php echo $row['asset_id']; ?> | <?php echo $row['qty']; ?></option>
+            <?php }
+            ?>
+        </select>
+    <?php } ?>
+    <?php
+} else {
+    ?>
+    <label class="control-label" for="vvm_stage">
+        <?php echo $this->translate("VVM Stage"); ?>
+    </label>
+    <select class="form-control" id="vvm_stage" name="vvm_stage">
+        <?php foreach ($vvm as $key => $value) { ?>
+            <option value="<?php echo $key; ?>"><?php echo $value; ?></option>
+        <?php } ?>
+    </select>
+    <?php
+}
+?>

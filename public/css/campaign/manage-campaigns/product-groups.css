@@ -1,0 +1,24 @@
+.modal {
+    /*width: 760px !important;
+    margin-left: -430px !important; */
+}
+
+#age_group1_min{
+    clear: right;
+    float: left;
+    margin-right: 5px;
+}
+#age_group1_max, #dash1{
+    float: left;
+    margin-right: 5px;
+}
+
+#age_group2_min{
+    clear: right;
+    float: left;
+    margin-right: 5px;
+}
+#age_group2_max, #dash2{
+    float: left;
+    margin-right: 5px;
+}

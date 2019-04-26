@@ -1,0 +1,87 @@
+[03-Feb-2014 14:02:10 UTC] PHP Warning:  require_once(Includes/db.php): failed to open stream: No such file or directory in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 32
+[03-Feb-2014 14:02:10 UTC] PHP Fatal error:  require_once(): Failed opening required 'Includes/db.php' (include_path='.:/usr/lib/php:/usr/local/lib/php') in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 32
+[24-Oct-2014 11:09:08 UTC] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 109
+[24-Oct-2014 11:09:08 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 130
+[24-Oct-2014 11:11:49 UTC] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 109
+[24-Oct-2014 11:11:49 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 130
+[24-Oct-2014 11:11:53 UTC] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 109
+[24-Oct-2014 11:11:53 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 130
+[24-Oct-2014 11:12:58 UTC] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 109
+[24-Oct-2014 11:12:58 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 130
+[24-Oct-2014 11:13:01 UTC] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 109
+[24-Oct-2014 11:13:01 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 130
+[24-Oct-2014 11:13:27 UTC] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 109
+[24-Oct-2014 11:13:27 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 130
+[24-Oct-2014 11:13:34 UTC] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 109
+[24-Oct-2014 11:13:34 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 130
+[24-Oct-2014 11:16:04 UTC] PHP Warning:  mysql_connect(): Access denied for user 'vlmisr2user'@'server.lmis.gov.pk' (using password: YES) in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/inc/clsConfiguration.php on line 17
+[24-Oct-2014 11:16:04 UTC] PHP Warning:  mysql_query(): Access denied for user 'lmisgovn'@'localhost' (using password: NO) in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 36
+[24-Oct-2014 11:16:04 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 36
+[24-Oct-2014 11:16:04 UTC] PHP Warning:  mysql_query(): Access denied for user 'lmisgovn'@'localhost' (using password: NO) in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 108
+[24-Oct-2014 11:16:04 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 108
+[24-Oct-2014 11:16:04 UTC] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 109
+[24-Oct-2014 11:16:04 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 130
+[24-Oct-2014 11:17:11 UTC] PHP Warning:  mysql_connect(): Access denied for user 'vlmisr2user'@'server.lmis.gov.pk' (using password: YES) in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/inc/clsConfiguration.php on line 17
+[24-Oct-2014 11:17:11 UTC] PHP Warning:  mysql_query(): Access denied for user 'lmisgovn'@'localhost' (using password: NO) in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 36
+[24-Oct-2014 11:17:11 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 36
+[24-Oct-2014 11:17:11 UTC] PHP Warning:  mysql_query(): Access denied for user 'lmisgovn'@'localhost' (using password: NO) in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 108
+[24-Oct-2014 11:17:11 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 108
+[24-Oct-2014 11:17:11 UTC] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 109
+[24-Oct-2014 11:17:11 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 130
+[24-Oct-2014 11:19:15 UTC] PHP Warning:  mysql_connect(): Can't connect to MySQL server on 'v.lmis.gov.pk' (4) in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/inc/clsConfiguration.php on line 17
+[24-Oct-2014 11:19:15 UTC] PHP Warning:  mysql_query(): Access denied for user 'lmisgovn'@'localhost' (using password: NO) in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 36
+[24-Oct-2014 11:19:15 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 36
+[24-Oct-2014 11:19:15 UTC] PHP Warning:  mysql_query(): Access denied for user 'lmisgovn'@'localhost' (using password: NO) in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 108
+[24-Oct-2014 11:19:15 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 108
+[24-Oct-2014 11:19:15 UTC] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 109
+[24-Oct-2014 11:19:15 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 130
+[24-Oct-2014 11:19:26 UTC] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 109
+[24-Oct-2014 11:19:26 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 130
+[24-Oct-2014 11:19:35 UTC] PHP Warning:  mysql_connect(): Can't connect to MySQL server on 'v.lmis.gov.pk' (4) in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/inc/clsConfiguration.php on line 17
+[24-Oct-2014 11:19:35 UTC] PHP Warning:  mysql_query(): Access denied for user 'lmisgovn'@'localhost' (using password: NO) in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 36
+[24-Oct-2014 11:19:35 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 36
+[24-Oct-2014 11:19:35 UTC] PHP Warning:  mysql_query(): Access denied for user 'lmisgovn'@'localhost' (using password: NO) in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 108
+[24-Oct-2014 11:19:35 UTC] PHP Warning:  mysql_query(): A link to the server could not be established in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 108
+[24-Oct-2014 11:19:35 UTC] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 109
+[24-Oct-2014 11:19:35 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 130
+[24-Oct-2014 11:20:04 UTC] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 109
+[24-Oct-2014 11:20:04 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 130
+[24-Oct-2014 11:22:10 UTC] PHP Warning:  mysql_fetch_assoc() expects parameter 1 to be resource, boolean given in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 111
+[24-Oct-2014 11:22:10 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 132
+[24-Oct-2014 11:24:29 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:24:29 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:24:29 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:24:29 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:24:29 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:24:29 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:24:29 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:24:29 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:24:29 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:30:54 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:30:54 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:30:54 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:30:54 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:30:54 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:30:54 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:30:54 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:30:54 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:30:54 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:31:24 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:31:24 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:31:24 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:31:24 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:31:24 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:31:24 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:31:24 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:31:24 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:31:24 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:31:58 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:31:58 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:31:58 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:31:58 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:31:58 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:31:58 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:31:58 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:31:58 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:31:58 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/index.php on line 193
+[24-Oct-2014 11:53:16 UTC] PHP Warning:  mysql_fetch_object(): supplied argument is not a valid MySQL result resource in /home/lmisgovn/public_html/vlmis/plmis_admin/pd/update-user.php on line 43

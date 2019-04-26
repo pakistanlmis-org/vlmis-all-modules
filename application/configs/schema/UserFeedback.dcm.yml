@@ -1,0 +1,39 @@
+UserFeedback:
+  type: entity
+  table: user_feedback
+  fields:
+    pkId:
+      id: true
+      type: bigint
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    name:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+    email:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+    phone:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+    department:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+    message:
+      type: text
+      nullable: true
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+  lifecycleCallbacks: {  }

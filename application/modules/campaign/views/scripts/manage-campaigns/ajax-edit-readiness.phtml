@@ -1,0 +1,118 @@
+<?php
+/**
+*  phtml for Ajax Edit Readiness
+*/
+?>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">Campaign</label>
+            <?php echo $this->form->campaign_edit_id; ?>
+        </div>
+    </div>
+    <!--    <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">Province</label>
+    <?php // echo $this->form->province_edit_id; ?>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label class="control-label">District</label>
+    <?php //echo $this->form->district_edit_id; ?>
+            </div>
+        </div>-->
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">Vaccine</label>
+            <input type="text" class="form-control" name="item_id_edit" id="item_id_edit" readonly="readonly" />
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">Vials Required</label>
+            <input type="text" class="form-control" name="vials_required_edit" id="vials_required_edit" readonly="readonly" />
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label">Vials Available</label>
+            <input type="text" class="form-control" name="vials_available_edit" id="vials_available_edit" readonly="readonly" />
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">No. of tally sheets received</label>
+            <?php echo $this->form->num_tally_sheets; ?>
+
+            <label class="control-label">Arrival date of social mobilization material</label>
+            <?php echo $this->form->arrival_date_mobiliztion_material; ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">No. of finger markers received</label>
+            <?php echo $this->form->num_finger_markers; ?>
+
+            <label class="control-label">Date of DPEC Meeting</label>
+            <?php echo $this->form->dpec_meeting_date; ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <div class="group-control">
+                <input type="checkbox" name="dco_attended_meeting" id="dco_attended_meeting" 
+                <?php
+                if (!empty($this->dco_attended_meeting) && $this->dco_attended_meeting = 1) {
+                    echo "checked";
+                }
+                ?> >
+                <label class="">Dco Attended Meeting
+                </label>
+            </div>
+            <div class="group-control">
+                <input type="checkbox" name="edo_attended_meeting" id="edo_attended_meeting" 
+                <?php
+                if (!empty($this->edo_attended_meeting) && $this->edo_attended_meeting = 1) {
+                    echo "checked";
+                }
+                ?> >
+
+                <label class="">Edo Attended Meeting
+                </label>
+            </div>
+
+            <div class="group-control">
+                <input type="checkbox" name="all_members_attended_meeting" id="all_members_attended_meeting" 
+                <?php
+                if (!empty($this->all_members_attended_meeting) && $this->all_members_attended_meeting = 1) {
+                    echo "checked";
+                }
+                ?> >
+                <label class="">All Members Attended Meeting
+
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">Remarks</label>
+            <?php echo $this->form->remarks; ?>
+        </div>
+    </div>
+</div>
+
+<?php echo $this->form->readiness_id; ?>
+<?php echo $this->form->province_id_hidden; ?>
+<?php echo $this->form->district_id_hidden; ?>
+
+

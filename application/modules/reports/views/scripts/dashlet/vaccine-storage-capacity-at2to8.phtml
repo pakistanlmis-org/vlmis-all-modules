@@ -1,0 +1,10 @@
+<?php
+/**
+*  phtml for Vaccine Storage Capacity at 2 to 8
+*/
+?>
+<?php
+
+FC_SetRenderer('javascript');
+echo renderChart($this->baseUrl() . "/FusionCharts/Charts/" . $this->chart_type . ".swf", "", $this->xmlstore, 'vaccineStorageAt2to8', $this->width, $this->height, false, false);
+?>

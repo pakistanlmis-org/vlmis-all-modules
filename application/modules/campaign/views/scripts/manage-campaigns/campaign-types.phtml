@@ -1,0 +1,188 @@
+<?php
+/**
+*  phtml for Campaign Types
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Campaign Types") ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Campaign Type Search") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button"> Ã—</button>
+                                        <strong>Data</strong> has been saved successfully!
+                                    </div>
+                                <?php }
+
+                                if (isset($_GET['success']) && $_GET['success'] == 2) {
+                                    ?>
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button"> Ã—</button>
+                                        <strong>Data</strong> has been updated successfully!
+                                    </div>
+                                <?php }
+                                ?>
+                                <form method="POST" name="office_search" action="" >
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group ">
+                                                <label class="control-label" ><?php echo $this->translate("Campaign Type"); ?></label>
+                                                <?php echo $this->form->campaign_type_name; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group form-btn-margin-top">
+                                                <button class="btn btn-primary" type="submit" name="search"><?php echo $this->translate("Search") ?></button>
+                                                <button type="reset" class="btn btn-info" id="reset">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Campaign Type List") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="dataTables_wrapper form-inline">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <?php $this->recordsPerPage($this->counter); ?>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="dataTables_filter">
+                                        <label>
+                                            <a class="btn btn-primary input-sm" data-toggle="modal" href="#add-campaign-types"><?php echo $this->translate("Add Campaign Type") ?></a>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table table-striped table-bordered table-hover dataTable no-footer">
+                                <!-- Table heading -->
+                                <?php
+                                $fields = array(
+                                    'campaign_type_name' => 'Campaign type'
+                                );
+                                $this->tableHeading($this->order, $this->sort, $fields);
+                                ?>
+                                <!-- // Table heading END -->
+                                <!-- Table body -->
+
+                                <!-- // Table body END -->
+                                <tbody>
+                                    <?php
+                                    $m_res = array();
+                                    $i = 1;
+                                    if ($this->paginator && count($this->paginator) > 0) :
+                                        foreach ($this->paginator as $row):
+                                            ?>
+                                            <tr class="<?php if ($i % 2 == 0) { ?>gradeX even<?php } else { ?> gradeA odd<?php } ?>">
+                                                <td><?php echo $row['camapignTypeName']; ?></td>
+
+
+                                                <td><a id="<?php echo $row['pkId']; ?>" class="btn update-campaign-type btn-link btn-success input-sm" data-toggle="modal" href="#modal-update-campaign-type"><?php echo $this->translate("Edit") ?></a>
+
+                                                </td>
+                                                <!-- // Table row END --><?php
+                                    $i++;
+                                endforeach;
+                            endif;
+                                    ?>
+                                </tbody>
+                            </table>
+                            <?php echo $this->paginationControl($this->paginator, 'Sliding', 'paginator.phtml'); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // modal box for add -->
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/campaign/manage-campaigns/add-campaign-type" id="add-campaign-type">
+            <div class="modal fade" id="add-campaign-types" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3>Add Campaign Type</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="control-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Campaign Type"); ?><span class="red">*</span></label>
+                                        <div class="controls">
+                                            <?php echo $this->form->campaign_type_name; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <input class="btn btn-primary" type="submit" value="<?php echo $this->translate("Save"); ?>">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+        <!-- // modal box for update -->
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/campaign/manage-campaigns/update-campaign-type" id="update-campaign-type">
+            <div class="modal fade" id="modal-update-campaign-type">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3>Edit Campaign Type</h3>
+                        </div>
+
+                        <div class="modal-body" id="modal-body-contents">
+                            <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                        </div>
+                        <div class="modal-footer" id="update-button">
+                            <input class="btn btn-primary" type="submit" value="<?php echo $this->translate("Update"); ?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- // Content END -->

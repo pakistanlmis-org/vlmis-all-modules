@@ -1,0 +1,110 @@
+<?php
+/**
+*  phtml for Stock Pick Data
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="row">
+            <div class="col-md-12 right">               
+                <a class="btn btn-primary" href="<?php echo $this->baseUrl(); ?>/stock/pick-stock">Back to Manage Pick Stock </a>
+            </div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            Pick Stock
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="success" style="display: none;">
+                                    <?php //if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                        <strong>Stock</strong> has been picked successfully!
+                                    </div>
+                                    <?php //} ?>
+                                </div>
+                                <form method="POST" name="stockpickdata" action="" id="stockpickdata">
+                                    <!-- Table -->
+                                    <!-- Table -->
+                                    <table class="table table-striped table-bordered table-hover" >
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th><?php echo $this->translate("Location") ?></th>
+                                                <th><?php echo $this->translate("Available Quantity (Vials)") ?></th>
+                                                <th><?php echo $this->translate("Required Quantity (Vials)") ?></th>
+                                                <th><?php echo $this->translate("Pick Quantity (Vials)") ?></th>                                                
+                                        <input type="hidden" id="plc_loc_id" name="plc_loc_id" value="<?php echo $this->plc_loc_id; ?>">
+                                        <input type="hidden" id="BatchID" name="BatchID" value="<?php echo $this->batch_id; ?>">
+                                        <input type="hidden" id="DetailID" name="DetailID" value="<?php echo $this->detail_id; ?>">
+                                        <input type="hidden" id="u_qty" name="u_qty" value="<?php echo $this->uqty; ?>">
+                                        </tr>
+                                        </thead>
+                                        <!-- // Table heading END -->
+
+                                        <!-- Table body -->
+                                        <tbody>
+                                            <!-- Table row -->
+                                            <?php
+                                            $i = 1;
+                                            if ($this->result && count($this->result) > 0) :
+                                                
+                                                foreach ($this->result as $row):
+                                                    $available_qty = $row['Qty'];
+                                                    ?>
+                                                    <tr class="gradeX">
+                                                        <td><?php echo $row['LocationName']; ?></td>
+                                                        <td><?php echo number_format($available_qty); ?></td>
+                                                        <td><?php echo number_format($this->uqty); ?></td>
+                                                        <td><input type="text" name="quantity[]" id="quantity" class="qty form-control input-sm" value="" max="<?php echo $available_qty; ?>"></td>
+                                                <input type="hidden" name="loc_id[]" id="loc_id"  value="<?php echo $row['plc_loc_id']; ?>">
+
+                                                </tr>
+                                                <?php
+                                                $i++;
+                                            endforeach;
+                                        endif;
+                                        ?>
+                                        <!-- // Table row END -->
+                                        </tbody>
+                                        <!-- // Table body END -->
+                                    </table>
+                                    <!-- // Table END -->
+                                </form>
+                            </div>
+
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12 right">
+                                <?php if ($this->result && count($this->result) > 0) : ?>
+                                    <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit">Pick</button>
+                                <?php endif; ?> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // Content END -->

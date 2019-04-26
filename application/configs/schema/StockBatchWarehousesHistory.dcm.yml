@@ -1,0 +1,107 @@
+StockBatchWarehousesHistory:
+  type: entity
+  table: stock_batch_warehouses_history
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    number:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+    batchMasterId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: batch_master_id
+    expiryDate:
+      type: datetime
+      nullable: true
+      column: expiry_date
+    quantity:
+      type: bigint
+      nullable: true
+    status:
+      type: string
+      length: null
+      fixed: false
+      nullable: true
+    unitPrice:
+      type: float
+      nullable: true
+      column: unit_price
+    productionDate:
+      type: datetime
+      nullable: true
+      column: production_date
+    lastUpdate:
+      type: datetime
+      nullable: true
+      column: last_update
+    itemPackSizeId:
+      type: integer
+      unsigned: false
+      nullable: false
+      column: item_pack_size_id
+    vvmTypeId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: vvm_type_id
+    warehouseId:
+      type: integer
+      unsigned: false
+      nullable: false
+      column: warehouse_id
+    stakeholderItemPackSizeId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: stakeholder_item_pack_size_id
+    actionType:
+      type: boolean
+      nullable: false
+      column: action_type
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: false
+      column: modified_date
+  oneToOne:
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    stockBatchWarehouse:
+      targetEntity: StockBatchWarehouses
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        stock_batch_warehouse_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

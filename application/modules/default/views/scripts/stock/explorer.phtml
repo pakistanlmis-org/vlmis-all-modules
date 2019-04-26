@@ -1,0 +1,67 @@
+<?php
+/**
+*  phtml for Explorer
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            <?php echo $this->translate("LMIS Explorer"); ?> 
+        </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"></div>
+                            <div class="col-md-12">
+                                <div class="col-md-9">
+                                    <div class="control-group span12">
+                                        <?php $this->allLevelCombo("", "", 'explorer', 17); ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="span10 well">
+                                        <div class="control-group">
+                                            <label class="control-label" for="firstname">
+                                                <?php echo $this->translate("View Monthly Report for"); ?>
+                                            </label>
+                                            <div class="controls">
+                                                <select name="monthly_report" class="form-control" id="monthly_report">
+                                                    <option value="">
+                                                        <?php echo $this->translate("Month"); ?> - <?php echo $this->translate("Year"); ?>
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span id="showReport"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

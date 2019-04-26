@@ -1,0 +1,13 @@
+<?php
+/**
+*  phtml for All Levels Combos One
+*/
+?>
+<?php if ($this->result != false) { ?>
+    <option value=""><?php echo $this->translate("Select"); ?></option>
+    <?php foreach ($this->result as $row) {
+        ?>
+        <option value="<?php echo $row['key']; ?>" <?php if($this->sel_prov == $row['key']) { ?> selected="" <?php } ?>>
+            <?php echo $row['value']; ?></option>
+    <?php }
+} ?>

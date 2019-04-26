@@ -1,0 +1,131 @@
+DemandMaster:
+  type: entity
+  table: demand_master
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    fromDate:
+      type: date
+      nullable: true
+      column: from_date
+    toDate:
+      type: date
+      nullable: true
+      column: to_date
+    suggestedDate:
+      type: date
+      nullable: true
+      column: suggested_date
+    approvedDate:
+      type: date
+      nullable: true
+      column: approved_date
+    requisitionNumber:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+      column: requisition_number
+    requisitionCounter:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: requisition_counter
+    requisitionReference:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: requisition_reference
+    draft:
+      type: boolean
+      nullable: true
+    status:
+      type: boolean
+      nullable: true
+    comments:
+      type: text
+      nullable: true
+    isDeleted:
+      type: boolean
+      nullable: true
+      column: is_deleted
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: true
+      column: modified_date
+  oneToOne:
+    transactionType:
+      targetEntity: TransactionTypes
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        transaction_type_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    fromWarehouse:
+      targetEntity: Warehouses
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        from_warehouse_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    toWarehouse:
+      targetEntity: Warehouses
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        to_warehouse_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    stockMaster:
+      targetEntity: StockMaster
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        stock_master_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    stakeholderActivity:
+      targetEntity: StakeholderActivities
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        stakeholder_activity_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

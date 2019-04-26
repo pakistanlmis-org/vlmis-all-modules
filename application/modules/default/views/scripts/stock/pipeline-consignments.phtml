@@ -1,0 +1,234 @@
+<?php
+/**
+*  phtml for Pipeline Consignments
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content"> 
+        <?php if (isset($this->success)) { ?>
+            <div class="alert alert-success alert-dismissable">
+                <button aria-hidden="true" data-dismiss="alert" class="close" type="button"></button>
+                <strong>Success!</strong> <?php echo $this->success; ?>
+            </div>
+        <?php } ?>
+        <h3 class="page-title">
+            <?php echo $this->translate("Add Shipment"); ?>
+        </h3>
+        <form method="POST" name="future_arrival" id="future_arrival" action="" >
+            <div class="row">
+                <div class="col-md-12">
+                    <?php
+                    echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                    ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <?php echo $this->translate("Fill Form"); ?>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse"></a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">                                    
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="from_warehouse_id">
+                                                    <?php echo $this->translate("Source"); ?> <span class="red">*</span>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->from_warehouse_id; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="expected_arrival_date">
+                                                    <?php echo $this->translate("Expected Arrival Date"); ?> <span class="red">*</span>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->expected_arrival_date; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="reference_number">
+                                                <?php echo $this->translate("Reference No."); ?>
+                                            </label>
+                                            <div class="controls">
+                                                <?php echo $this->form->reference_number; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="stakeholder_activity_id">
+                                                    <?php echo $this->translate("Purpose"); ?> <span class="red">*</span>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->stakeholder_activity_id; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="control-group">
+                                                <label class="control-label" for="description">
+                                                    <?php echo $this->translate("Description"); ?><small></small>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->description; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php if (isset($this->error)) { ?>
+                <div class="alert alert-danger alert-dismissable">
+                    <button aria-hidden="true" data-dismiss="alert" class="close" type="button"></button>
+                    <strong>Error!</strong> <?php echo $this->msg; ?>
+                </div>
+            <?php } ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <?php echo $this->translate("Fill Form"); ?>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-striped table-bordered table-condensed">
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th class="serial">
+                                                    <?php echo $this->translate("S.No"); ?>
+                                                </th>
+                                                <th class="col-md-2">
+                                                    <?php echo $this->translate("Product"); ?>
+                                                </th>
+                                                <th class="col-md-1">
+                                                    <?php echo $this->translate("Batch"); ?>
+                                                </th>                                            
+                                                <th class="col-md-1">
+                                                    <?php echo $this->translate("Production Date"); ?>
+                                                </th>
+                                                <th class="col-md-1">
+                                                    <?php echo $this->translate("Expiry Date"); ?>
+                                                </th>                                            
+                                                <th class="col-md-1">
+                                                    <?php echo $this->translate("Manufacturer"); ?>
+                                                </th>
+                                                <th class="col-md-1">
+                                                    <?php echo $this->translate("VVM Type"); ?>
+                                                </th>
+                                                <th class="unit-price">
+                                                    <?php echo $this->translate("U/P"); ?>
+                                                    <i data-container="body" data-original-title="U/P = Unit Price" class="fa fa-info-circle tooltips"></i>
+                                                </th>
+                                                <th class="quantity">
+                                                    <?php echo $this->translate("Quantity"); ?>
+                                                    <i data-container="body" data-original-title="Quantity in Vials" class="fa fa-info-circle tooltips"></i>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <!-- // Table heading END -->
+
+                                        <!-- Table body -->
+                                        <tbody>
+                                            <!-- Table row -->
+                                            <?php
+                                            $j = 1;
+                                            for ($i = $this->start; $i < $this->end; $i++) {
+                                                $rows = "rows" . $i;
+                                                $j = $i + 1;
+                                                ?>
+                                                <tr class="dynamic-rows">
+                                                    <td class="serial">
+                                                        <?php echo $j; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->item_pack_size_id; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->batch_number; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->production_date; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->expiry_date; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->manufacturer_id; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->vvm_type_id; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->unit_price; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $this->form->$rows->quantity; ?>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                            }
+                                            ?>
+                                            <!-- // Table row END -->
+                                        </tbody>
+                                        <!-- // Table body END -->                                      
+
+                                    </table>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="row">
+                                <div class="col-md-10">   
+                                    <button id="add_stock" type="submit" class="btn btn-primary">
+                                        <?php echo $this->translate("Save"); ?>
+                                    </button>                                    
+                                    <input type="hidden" value="<?php echo $this->end; ?>" name="counter" id="counter" />
+                                </div>                                
+                                <div class="col-md-1">
+                                    <button id="add_more" type="button" class="btn blue">
+                                        <?php echo $this->translate("Add rows"); ?>
+                                    </button>
+                                </div>
+                                <div class="col-md-1 right">
+                                    <input type="text" value="5" id="default_counter" class="form-control" />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<a id="notific8_show" href="javascript:;" class="hide"></a>
+<div id="notific8_heading" class="hide">Your Data</div>
+<div id="notific8_life" class="hide">5000</div>
+<div id="notific8_text" class="hide">has been saved as draft.</div>

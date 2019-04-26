@@ -1,0 +1,97 @@
+<?php
+/**
+ *  phtml for Batch Summary
+ */
+?>
+<!-- Content -->
+<style>
+    #content_print {
+        margin-left: 50px;
+        width: 624px;
+    }
+    table#mytable {
+        border: 1px solid #e5e5e5;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table#mytable tr td {
+        border: 1px solid #e5e5e5;
+    }
+    table#mytable tr th {
+        border: 1px solid #e5e5e5;
+    }
+</style>
+<!-- Content -->
+
+<style type="text/css" media="print">
+    .page
+    {
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print
+    {    
+        #printButt
+        {
+            display: none !important;
+        }
+    }
+</style>
+
+<?php if ($this->result && count($this->result) > 0) : ?>
+    <table style="width:100%;">
+        <tr>
+            <td class="left">
+                <b style="font-size: 16px;">
+                    Dry Store Locations (Bins) List
+                </b>
+            </td>
+            <?php $this->headTitle("Dry Store Locations (Bins) list"); ?>
+        </tr>        
+    </table>
+    <table id="mytable">
+        <!-- Table heading -->
+        <thead>
+            <tr>
+                <th align="center"><?php echo $this->translate("Sr No"); ?></th>
+                <th align="center"><?php echo $this->translate("Location (Bin) Name"); ?></th>                
+            </tr>
+        </thead>
+        <!-- // Table heading END -->
+        <!-- Table body -->
+        <tbody>
+            <!-- Table row -->
+            <?php
+            $m_res = array();
+            $i = 1;
+            foreach ($this->result as $row):
+                ?>
+                <tr>
+                    <td align="center"><?php echo $i; ?></td>
+                    <td align="left"><?php echo $row['locationName']; ?></td>
+                </tr>
+                <?php
+                $i++;
+            endforeach;
+            ?>
+            <!-- // Table row END -->
+        </tbody>
+        <!-- // Table body END -->
+    </table>
+    <!-- // Table END -->
+<?php endif; ?>
+</table>
+<!-- // Table END -->
+<div style="float:left;">
+    <div class="col-md-12 left">
+        <b>Printed By:</b> <?php echo $this->username ?><br> 
+        <b>Print Date:</b> <?php echo date("d/m/Y"); ?>
+    </div>
+</div
+<div>
+    <div class="widget-body right">
+        <button name="print" id="print" value="1" type="button" class="btn btn-primary"><?php echo $this->translate("Print"); ?></button> 
+    </div>
+</div>        
+
+<!-- // Content END -->

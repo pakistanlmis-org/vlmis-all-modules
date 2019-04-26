@@ -1,0 +1,12 @@
+#placed_at_radio label, #report_type_radio label{
+    float: left !important;
+    margin-right: 10px;
+}
+
+#placed_at_radio .control-label, #report_type_radio .control-label{
+    padding-top: 10px;
+}
+
+#ccm_make_id{
+    float: left;
+}

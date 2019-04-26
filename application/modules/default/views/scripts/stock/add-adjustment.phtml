@@ -1,0 +1,260 @@
+<?php
+/**
+*  phtml for Add Adjustmnt
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            <?php echo $this->translate("Add Adjustment") ?>
+        </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Fill Form") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <form method="POST" name="batch_search" id="batch_search" action="" >
+                            <?php if (isset($this->status) && $this->status !== false) { ?>
+                                <div class="alert alert-success">
+                                    <button data-dismiss="alert" class="close" type="button"> × </button>
+                                    <strong><?php echo $this->translate("Adjustment") ?></strong> <?php echo $this->translate("has been saved successfully!"); ?> Your adjustment number is <b><?php echo $this->status; ?></b>
+                                </div>
+                            <?php } ?>
+                            <?php if (isset($this->status) && $this->status == false) { ?>
+                                <div class="alert alert-danger">
+                                    <button data-dismiss="alert" class="close" type="button"> × </button>
+                                    <?php echo $this->msg; ?>
+                                </div>
+                            <?php } ?>
+                            <!-- Row -->
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="adjustment_date">
+                                            <?php echo $this->translate("Adjustment Date") ?> <span class="red">*</span>
+                                        </label>
+                                        <?php echo $this->form->adjustment_date; ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="adjustment_type">
+                                            <?php echo $this->translate("Adjustment Type") ?> <span class="red">*</span>
+                                        </label>
+                                        <?php echo $this->form->adjustment_type; ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="ref_no">
+                                            <?php echo $this->translate("Ref No") ?>
+                                        </label>
+                                        <?php echo $this->form->ref_no; ?>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="firstname">
+                                            <?php echo $this->translate("Product") ?> <span class="red">*</span>
+                                        </label>
+                                        <?php echo $this->form->product; ?>
+                                    </div>
+                                </div>
+                                
+                                    <div class="col-md-3" id="batch_no_div">
+                                        <div class="form-group">
+                                            <label class="control-label" for="batch_no">
+                                                <?php echo $this->translate("Batch No") ?> | Quantity <span class="red">*</span>
+                                            </label>
+                                            <?php echo $this->form->batch_no; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1" id="batch_button_div" style="display: none;">
+                                        <div class="form-group">
+                                            <label class="control-label">
+                                                &nbsp;
+                                            </label>
+                                            <a id="btn-new-batch" class="btn btn-success" data-toggle="modal" href="#new-batch"><?php echo $this->translate("New") ?></a>
+                                        </div>
+                                    </div>
+                                
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="location_id">
+                                            <span id="loc_vvm_qty"><?php echo $this->translate("Location | VVM | Quantity") ?></span> <span class="red" id="location_vvm_quantity">*</span>
+                                        </label>
+                                        <?php echo $this->form->location_id; ?>
+                                    </div>
+                                </div>                                
+                                <!-- <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label">
+                                            &nbsp;
+                                        </label>
+                                        <button type="button" id="show_locations" class="form-control">Show locations with this product</button>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label" for="quantity">
+                                            <?php echo $this->translate("Quantity") ?> <span class="red">*</span>
+                                        </label>
+                                        <?php echo $this->form->quantity; ?>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-3" id="vvm_stage_div" style="display: none;">
+                                    <div class="form-group">
+                                        <label class="control-label" id="vvm_stage_lbl" for="vvm_stage">
+                                            <?php echo $this->translate("New VVM Stage") ?> <span class="red" id="vvm_stage_label">*</span>
+                                        </label>
+                                        <?php echo $this->form->vvm_stage; ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-3" id="available_div">
+                                    <div class="form-group">
+                                        <label class="control-label" for="available">
+                                            <?php echo $this->translate("Available") ?>
+                                        </label>
+                                        <span id="itembatches">
+                                            <!--
+                                            <input class="col-md-10" id="available" name="available" type="text" value="" disabled=""/>
+                                            -->
+                                        </span>
+                                        <span id="product-unit"> <?php echo $this->translate("Vials") ?></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="firstname">
+                                            <?php echo $this->translate("Comment") ?>
+                                        </label>
+                                        <textarea name="comments" id="comments" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 right add-adjustment-btn">
+                                    <label class="control-label">
+                                        &nbsp;
+                                    </label>
+                                    <div class="form-group form-btn-margin-top">
+                                        <button type="submit" class="btn btn-primary" data-loading-text="Please Wait ..." id="btn-loading"><?php echo $this->translate("Add Adjustment") ?></button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // Content END -->
+
+<!-- // modal box for add -->
+<div class="modal fade" id="new-batch" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Add Batch</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="" id="new-batch-form">
+                    <div class="row margin-bottom-10">
+                        <div class="col-md-6">
+                            <div class="control-group">
+                                <label class="control-label"><?php echo $this->translate("Product"); ?> <span class="red">*</span></label>
+                                <div class="controls">
+                                    <?php echo $this->batch_form->product_id; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="control-group">
+                                <label class="control-label"><?php echo $this->translate("Batch"); ?> <span class="red">*</span></label>
+                                <div class="controls">
+                                    <?php echo $this->batch_form->batch; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-10">
+                        <div class="col-md-6">
+                            <div class="control-group ">
+                                <label class="control-label"><?php echo $this->translate("Production Date"); ?></label>
+                                <div class="controls">
+                                    <?php echo $this->batch_form->production_date; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="control-group ">
+                                <label class="control-label" ><?php echo $this->translate("Expiry Date"); ?> <span class="red">*</span></label>
+                                <div class="controls">
+                                    <?php echo $this->batch_form->expiry_date; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-10">
+                        <div class="col-md-6">
+                            <div class="control-group ">
+                                <label class="control-label" ><?php echo $this->translate("Manufacturer"); ?> <span class="red">*</span></label>
+                                <div class="controls">
+                                    <?php echo $this->batch_form->manufacturer; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="control-group ">
+                                <label class="control-label" ><?php echo $this->translate("VVM Type"); ?> <span class="red">*</span></label>
+                                <div class="controls">
+                                    <?php echo $this->batch_form->vvm_type_id; ?>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row margin-bottom-10">
+                        <div class="col-md-6">
+                            <div class="control-group ">
+                                <label class="control-label" ><?php echo $this->translate("Unit Price"); ?></label>
+                                <div class="controls">
+                                    <?php echo $this->batch_form->unit_price; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input class="btn btn-primary" id="add-new-batch" type="button" value="<?php echo $this->translate("Save"); ?>">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,170 @@
+<?php
+/**
+ *  phtml for GatePass List
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"> <?php echo $this->translate("Manage Gatepass") ?></h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Gatepass List") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="gatepasslist" action="" id="gatepasslist">
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <!-- Group -->
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="datefrom"><?php echo $this->translate("Date From") ?><span class="red">*</span></label>
+                                                    <?php echo $this->form->date_from; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="dateto"><?php echo $this->translate("Date To") ?><span class="red">*</span></label>
+                                                    <?php echo $this->form->date_to; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="vehicletype"><?php echo $this->translate("Vehicle Type") ?></label>
+                                                    <?php echo $this->form->vehicle_type_id; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="itempacksizeid"><?php echo $this->translate("Item") ?></label>
+                                                    <?php echo $this->form->item_pack_size_id; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="stockbatchid"><?php echo $this->translate("Batch") ?></label>
+                                                    <?php echo $this->form->stock_batch_id; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group form-btn-margin-top">
+                                                    <button type="submit" name="search" value="search" class="btn btn-success"><?php echo $this->translate("Search") ?></button>
+                                                    <button type="reset" class="btn btn-info" id="reset">Reset</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="portlet box green">
+                                    <div class="portlet-title">
+                                        <div class="caption">
+                                            <?php echo $this->translate("Gatepass List Search") ?>
+                                        </div>
+                                        <div class="tools">
+                                            <a href="javascript:;" class="collapse">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="portlet-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <!--                                    <div class="row">
+                                                                                        <div class="col-md-3">
+                                                <?php //$this->recordsPerPage($this->counter); ?>
+                                                                                        </div>
+                                                                                        <div class="col-md-9">
+                                                                                            <div class="dataTables_filter">
+                                                
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>-->
+                                                <!-- Table -->
+                                                <table class="dynamicTable table table-striped table-bordered table-hover dataTable no-footer" id="sample_2">
+                                                    <!-- Table heading -->
+                                                    <thead>
+                                                        <tr>
+                                                            <th><?php echo $this->translate("S. No.") ?></th>
+                                                            <th><?php echo $this->translate("Gatepass No") ?></th>
+                                                            <th><?php echo $this->translate("Vehicle Number") ?></th>
+                                                            <th><?php echo $this->translate("Item Name") ?></th>
+                                                            <th><?php echo $this->translate("Batch Number") ?></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <!-- // Table heading END -->
+
+                                                    <!-- Table body -->
+                                                    <tbody>
+                                                        <!-- Table row -->
+                                                        <?php
+                                                        $i = 1;
+                                                        if ($this->result && count($this->result) > 0) :
+                                                            foreach ($this->result as $row):
+                                                                ?>
+                                                                <tr class="gradeX">
+                                                                    <td><?php echo $i; ?></td>
+                                                                    <td><a onclick="window.open('print-gatepass-list?id=<?php echo $row['pkId']; ?>', '_blank', 'scrollbars=1,width=860,height=595');" href="javascript:void(0);"><?php echo $row['gpmnumber']; ?></a></td>
+                                                                     <td><?php echo $row["gpnumber"]; ?></td>
+                                                                    <td><?php echo $row["itemName"]; ?></td>
+                                                                    <td><?php echo $row["number"]; ?></td>
+                                                                </tr>
+                                                                <?php
+                                                                $i++;
+                                                            endforeach;
+                                                        endif;
+                                                        ?>
+                                                        <!-- // Table row END -->
+                                                    </tbody>
+                                                    <!-- // Table body END -->
+                                                </table>
+                                                <!-- // Table END -->
+                                                <?php //echo $this->paginationControl($this->paginator, 'Sliding', 'paginator.phtml', array('params' => $this->pagination_params)); ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--        <div class="innerLR">
+        
+                     Widget 
+                    <div class="widget">
+                        <div class="widget-body">
+        
+                        </div>
+                    </div>
+                </div>-->
+    </div>
+</div>
+<!-- // Content END -->

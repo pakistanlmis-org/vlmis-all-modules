@@ -1,0 +1,54 @@
+<?php
+/**
+ *  phtml for Ajax Add More Rows
+ */
+$end = $this->end1 - 1;
+$item = $this->item_id;
+
+?>
+
+<?php if ($this->item_category_id == 1) { ?>
+    <tr class="dynamic-rows">
+
+        <td>
+            <input class="form-control" type="text" name="<?php echo $end . '-' . $item; ?>-quantity" id="<?php echo $end . '-' . $item; ?>-quantity" > 
+        </td>
+        <td>
+            <select class="form-control" name="<?php echo $end . '-' . $item; ?>-vvm_stage" id="<?php echo $end . '-' . $item; ?>-vvm_stage>"> 
+                
+                <?php foreach($this->item_vvm as $row) {?>
+                <option value="<?php echo $row['pk_id'];?>" ><?php echo $row['stage']; ?></option> 
+                <?php } ?>
+            
+            </select>
+        </td>
+        <td>
+            <select class="form-control" name="<?php echo $end . '-' . $item; ?>-locations" id="<?php echo $end . '-' . $item; ?>-locations>">
+            <?php foreach($this->placments_location as $row) {?>
+                <option value="<?php echo $row['pk_id'];?>" ><?php echo $row['asset_name']; ?></option> 
+                <?php } ?>
+            </select>
+
+        </td>
+
+    </tr>
+<?php } else { ?>
+
+    <tr class="dynamic-rows">
+
+        <td>
+            <input class="form-control" type="text" name="<?php echo $end . '-' . $item; ?>-quantity" id="<?php echo $end . '-' . $item; ?>-quantity" > 
+        </td>
+
+        <td>
+            <select class="form-control" name="<?php echo $end . '-' . $item; ?>-locations" id="<?php echo $end . '-' . $item; ?>-locations>"> 
+            <?php foreach($this->non_placments_location as $row) {?>
+                <option value="<?php echo $row['pk_id'];?>" ><?php echo $row['asset_name']; ?></option> 
+                <?php } ?>
+            </select>
+
+        </td>
+
+    </tr>
+
+<?php } ?>

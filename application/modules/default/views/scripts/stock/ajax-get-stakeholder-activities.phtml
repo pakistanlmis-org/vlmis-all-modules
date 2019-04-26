@@ -1,0 +1,13 @@
+<?php
+/**
+*  phtml for Ajax Get Stakeholder Activities
+*/
+?>
+<?php
+foreach ($this->result as $row) {
+    ?>
+    <option value="<?php echo $row['pkId']; ?>"><?php echo $row['activity']; ?></option>
+    <?php
+}
+?>
+      

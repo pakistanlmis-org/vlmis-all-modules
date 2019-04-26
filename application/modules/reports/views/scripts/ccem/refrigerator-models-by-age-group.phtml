@@ -1,0 +1,91 @@
+<?php
+/**
+*  phtml for Refrigerator Models by Age Group
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate($this->main_heading) ?></h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate($this->report_title) ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="search" action="" >
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="control-label" ><?php echo $this->translate("Facility Type"); ?></label>
+                                            <div class="controls">
+                                                <?php echo $this->search_form->facility_type ?>
+                                            </div>
+                                        </div>
+                                        <?php $this->allLevelAreaCombo(array("level" => $this->form_values['office'], "province" => $this->form_values['combo1'], "district" => $this->form_values['combo2'], "facility_type" => $this->form_values['facility_type'])); ?>
+                                        <div class="col-md-3">
+                                            <label>&nbsp;</label>
+                                            <div class="controls">
+                                                <button type="submit" id="go" class="btn btn-success"><?php echo $this->translate("Search"); ?></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <table width="99%" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td style="padding-top: 10px;">
+                                            <?php
+                                            echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:right; padding-bottom:10px;">
+                                            <img style="cursor:pointer;" src="<?php echo $this->baseUrl(); ?>/images/pdf-32.png" onClick="mygrid.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="<?php echo $this->translate("Export to PDF") ?>"/>&nbsp;&nbsp;
+                                            <img style="cursor:pointer; margin-left:-5px" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="mygrid.setColumnHidden(0, false);
+                                                    mygrid.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');
+                                                 " title="<?php echo $this->translate("Export to Excel") ?>" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div id="mygrid_container" style="width:100%; height:500px;"></div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var mygrid;
+    function doInitGrid() {
+        mygrid = new dhtmlXGridObject('mygrid_container');
+        mygrid.selMultiRows = true;
+        mygrid.enableMultiline(true);
+        mygrid.setImagePath("<?php echo $this->baseUrl(); ?>'/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+        mygrid.setHeader("<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'><?php echo $this->report_title ?></div>,<?php echo $this->cspan ?>");
+        mygrid.attachHeader("<?php echo $this->headers; ?>");
+        mygrid.setInitWidths("<?php echo $this->width; ?>");
+        mygrid.setColAlign("left,right,right,right,right,right,right,right,right,right,right,right");
+        mygrid.setColTypes("<?php echo $this->ro; ?>");
+        mygrid.setSkin("light");
+        mygrid.init();
+        mygrid.clearAll();
+        $('body').append('<textarea id="xml_string" style="display:none;"><?php echo addslashes($this->xmlstore); ?></textarea>');
+        mygrid.loadXMLString(document.getElementById('xml_string').value);
+    }
+</script>  

@@ -1,0 +1,13 @@
+<?php
+/**
+*  phtml for Ajax Get to Year
+*/
+?>
+<?php
+for ($j = date('Y'); $j >= $this->from_year_id; $j--) {
+    ?>
+    <option value="<?php echo $j; ?>" <?php echo $sel; ?> ><?php echo $j; ?></option>
+    <?php
+}
+?>
+

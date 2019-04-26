@@ -1,0 +1,181 @@
+<?php
+/**
+*  phtml for Index
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Manage Asset Sub Types") ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Asset Sub Type Search") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="asset_sub_type_search" action="" >
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <div class="control-group ">
+                                                    <label class="control-label" ><?php echo $this->translate("Asset Sub Type"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form_add->assetSubType; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 margin-top-25">
+                                                <label class="control-label" >&nbsp;</label>
+                                                <button class="btn btn-primary" type="submit" name="search"><?php echo $this->translate("Search") ?></button>
+                                                <button type="reset" class="btn btn-info" id="reset">Reset</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Asset Sub Type List") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dataTables_wrapper form-inline">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <?php $this->recordsPerPage($this->counter); ?>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="dataTables_filter">
+                                                <label>
+                                                    <a class="btn btn-primary" data-toggle="modal" href="#add-asset-sub-type"><?php echo $this->translate("Add Asset Sub Type") ?></a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table table-striped table-bordered table-hover dataTable no-footer">
+                                        <!-- Table heading -->
+                                        <?php
+                                        $fields = array(
+                                            'asset_sub_type' => 'Asset Sub Type',
+                                            'asset_type' => 'Asset Type',
+                                            'created_by' => 'Created By'
+                                        );
+                                        $this->tableHeading($this->order, $this->sort, $fields);
+                                        ?>
+                                        <!-- // Table heading END -->
+                                        <!-- Table body -->
+
+                                        <!-- // Table body END -->
+                                        <tbody>
+                                            <?php
+                                            $m_res = array();
+                                            $i = 1;
+                                            if ($this->paginator && count($this->paginator) > 0) :
+                                                foreach ($this->paginator as $row):
+                                                    ?>
+                                                    <tr class="<?php if ($i % 2 == 0) { ?>gradeX even<?php } else { ?> gradeA odd<?php } ?>">
+                                                        <td><?php echo $row['assetTypeName']; ?></td>
+                                                        <td><?php echo $row['assetType']; ?></td>
+                                                        <td><?php echo $row['userName']; ?></td>
+                                                        <td><a assetid="<?php echo $row['pkId']; ?>" class="btn update-asset-sub-type btn-link btn-success btn-mini" data-toggle="modal" href="#modal-update-asset-sub-type"><?php echo $this->translate("Edit") ?></a>
+                                                            <?php if ($row['status'] == 1) { ?>
+                                                                <a id="<?php echo $row['pkId']; ?>" class="active btn-link btn-danger input-sm"><?php echo $this->translate("Active"); ?></a>
+                                                            <?php } else { ?>
+                                                                <a id="<?php echo $row['pkId']; ?>" class="deactivate btn-link btn-danger input-sm"><?php echo $this->translate("Deactive"); ?></a>
+                                                            <?php } ?>
+                                                        </td>
+                                                        <!-- // Table row END --><?php
+                                                        $i++;
+                                                    endforeach;
+                                                endif;
+                                                ?>
+                                        </tbody>
+                                    </table>
+                                    <?php echo $this->paginationControl($this->paginator, 'Sliding', 'paginator.phtml'); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // modal box for add -->
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/cadmin/manage-asset-sub-types/add" id="add-asset-sub-types">
+            <div class="modal  fade" id="add-asset-sub-type"tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3>Add Asset Sub Type</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Asset Type"); ?> <span class="red">*</span></label>
+                                        <?php echo $this->form_add->asset_type; ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <label class="control-label" ><?php echo $this->translate("Asset Sub Type"); ?> <span class="red">*</span></label>
+                                        <?php echo $this->form_add->asset_sub_type; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input class="btn btn-primary" type="submit" value="<?php echo $this->translate("Save"); ?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- // modal box for update -->
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/cadmin/manage-asset-sub-types/update" id="update-asset-sub-types">
+            <div class="modal  fade" id="modal-update-asset-sub-type" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3>Edit Asset Sub Type</h3>
+                        </div>
+                        <div class="modal-body" id="modal-body-contents">
+                            <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                        </div>
+                        <div class="modal-footer " id="update-button">
+                            <input class="btn btn-primary" type="submit" value="<?php echo $this->translate("Update"); ?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- // Content END -->

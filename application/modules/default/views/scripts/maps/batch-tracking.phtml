@@ -1,0 +1,102 @@
+<?php
+/**
+*  phtml for Batch Tracking
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">Batch Tracking Map</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            User Filter
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-3">
+                                    <div class="form-group ">
+                                        <label class="control-label" > <?php echo $this->translate("Batch No"); ?>:</label>
+                                        <?php echo $this->form->batch_no; ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group  form-btn-margin-top">
+                                        <button class="btn btn-primary" id="submit" type="submit" name="search"><?php echo $this->translate("Filter") ?></button>
+                                    </div>
+                                </div>
+                                <br/>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="map-buttons-download">
+                    <img id="image"  src="<?php echo $this->baseUrl(); ?>/images/image.png"  align="right" title="Download Map" />
+                    <img id="excel"  src="<?php echo $this->baseUrl(); ?>/images/excel-32.png"  align="right" title="Download Excel" />
+                    <img id="print"  src="<?php echo $this->baseUrl(); ?>/images/print.png"  align="right" title="Print Map"/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            
+            <div class="col-md-9">
+                
+                <div id="capture" style="width:auto;height:auto">
+                                <table width="100%" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td width="100%">
+                                            <div id="map">
+                                                <div id="customZoom">
+                                                  <a href="#customZoomIn" id="customZoomIn">in</a>
+                                                    <a href="#customZoomOut" id="customZoomOut">out</a>
+                                                </div>
+                                                <img id="loader" src="<?php echo $this->baseUrl(); ?>/images/ajax-loader.gif" />
+                                                <div id="mapTitle"></div>
+                                                <div id="printedDate"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                </div>
+                              
+            </div>
+            
+            <div class="col-md-3">
+                                           
+                              <div class="widget" data-toggle="collapse-widget">
+                                <div class="widget-head">
+                                    <h3 class="heading">District Details</h3>
+                                </div>
+                                <div class="widget-body">
+                                    <div id="districtDetails" style="width:100%;height:355px;overflow:auto"></div>
+                                </div>
+                            </div>
+                            
+                            
+            </div>
+   
+        </div>
+        
+        
+         <div class="row">
+           <div class="col-md-12">
+                    <div id='attributeGrid' class="CSSTableGenerator"></div>  
+           </div>  
+         </div>   
+        
+    </div>
+</div>
+    <!-- // Content END -->

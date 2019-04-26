@@ -1,0 +1,178 @@
+<?php
+/**
+*  phtml for Placement Area
+*/
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Placement"); ?></h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <ul>
+                                <li class=""><a class="glyphicons table" href="<?php echo $this->baseUrl(); ?>/stock/placement"><i></i><span class="strong">Create Single Location</span><span>Placement</span></a></li>
+                                <li class="active"><a data-toggle="tab" class="glyphicons table" href="#tab1-2"><i></i><span class="strong">Create Location By Area</span><span>Placement</span></a></li>
+                            </ul>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="tab1-2" class="tab-pane active">
+                                    <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                                        <div class="alert alert-success">
+                                            <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                            <strong>Data</strong> has been saved successfully!
+                                        </div>
+                                    <?php } ?>
+                                    <form method="POST" name="placement_area" id="placement_area" action="" >
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="area"><?php echo $this->translate("Area"); ?><span class="red">*</span></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->area; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="row"><?php echo $this->translate("Row From"); ?><span class="red">*</span></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->row; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="rowto"><?php echo $this->translate("Row To"); ?><span class="red">*</span></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->row_to; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="rack"><?php echo $this->translate("Rack From"); ?><span class="red">*</span></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->rack; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="rackto"><?php echo $this->translate("Rack To"); ?><span class="red">*</span></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->rack_to; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="rackinformationid"><?php echo $this->translate("Rack Type"); ?><span class="red">*</span></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->rack_information_id; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="pallet"><?php echo $this->translate("Pallet From"); ?><span class="red">*</span></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->pallet; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="palletto"><?php echo $this->translate("Pallet To"); ?><span class="red">*</span></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->pallet_to; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="level"><?php echo $this->translate("Level From"); ?><span class="red">*</span></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->level; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" for="levelto"><?php echo $this->translate("Level To"); ?><span class="red">*</span></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->level_to; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3"></div>
+                                        </div>
+                                        <div class="widget">
+                                            <div class="widget-body right">
+                                                <button class="btn btn-primary" type="submit" id="add" name="add">Add</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <table class="receiveSearch table table-striped table-bordered table-condensed"  >
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th><?php echo $this->translate("Location Name"); ?></th>
+                                                <th><?php echo $this->translate("Action"); ?></th>
+                                            </tr>
+                                        </thead>
+                                        <!-- // Table heading END -->
+                                        <!-- Table body -->
+                                        <tbody>
+                                            <!-- Table row -->
+                                            <?php
+                                            $m_res = array();
+                                            $i = 1;
+                                            if ($this->result && count($this->result) > 0) :
+                                                foreach ($this->result as $row):
+                                                    ?>
+                                                    <tr class="gradeX">
+                                                        <td class="col-md-10"><?php echo $row['locationName']; ?></td>
+                                                        <td class="col-md-2"><a editid="<?php echo $row['pkId'] ?>" class="btn update-placement btn-link btn-success btn-mini" data-toggle="modal" href="#modal-update-placement"><?php echo $this->translate("Edit") ?></a>
+                                                            <a data-bind="<?php echo $row['pkId'] ?>" data-toggle="notyfy" data-type="confirm" data-layout="top" class="btn btn-danger btn-link btn-mini"><?php echo $this->translate("Delete") ?></a>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                endforeach;
+                                            endif;
+                                            ?>
+                                            <!-- // Table row END -->
+                                        </tbody>
+                                        <!-- // Table body END -->
+                                    </table>
+                                    <!-- // Table END -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="post" action="<?php echo $this->baseUrl(); ?>/stock/update-placement1" id="update-placement">
+                                    <div class="modal hide fade" id="modal-update-placement">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h3>Update Single Location</h3>
+                                        </div>
+                                        <div class="modal-body" id="modal-body-contents">
+                                            <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                                        </div>
+                                        <div class="modal-footer hide" id="update-button">
+                                            <input class="btn btn-primary" type="submit" value="<?php echo $this->translate("Update"); ?>">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // Row END --> 
+
+    </div>
+</div>

@@ -1,0 +1,227 @@
+<?php
+/**
+ *  phtml for Print Issue
+ */
+?>
+<?php
+ob_start();
+?>
+<style>
+    #content_print {
+        margin-left: 55px;
+        width: 624px;
+    }
+    table#mytable {
+        border: 1px solid #444;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table#mytable tr td {
+        border: 1px solid #444;
+    }
+    table#mytable tr th {
+        border: 1px solid #444;
+    }
+</style>
+
+<style type="text/css" media="print">
+    .page{
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print{    
+        #printButt{
+            display: none !important;
+        }
+    }
+</style>
+
+<div class="row">
+    <div class="scroller" style="min-height:200px" data-always-visible="1" data-rail-visible1="1">
+        <i id="print" style="align-content: right" class="fa fa-print" ></i>
+        <h4 class="form-section">Type of Case</h4>
+        <?php if($this->data[0]['typeCase']=='No Case') 
+            
+        {
+           ?>
+                   <strong>Date : </strong><?php echo $this->data[0]['date']; ?>&nbsp;&nbsp;&nbsp;<strong>Week : </strong> <?php echo $this->data[0]['week']; ?>&nbsp;&nbsp;&nbsp;<strong>Type of Case : </strong> <?php echo $this->data[0]['typeCase']; ?>
+            <?php 
+            
+        }            
+            else {
+            
+            ?>
+        <strong>Date : </strong><?php echo $this->data[0]['date']; ?>&nbsp;&nbsp;&nbsp;<strong>Week : </strong> <?php echo $this->data[0]['week']; ?>&nbsp;&nbsp;&nbsp;<strong>Type of Case : </strong> <?php echo $this->data[0]['typeCase']; ?>
+        <br><br>
+        <h4 class="form-section">Reporting Sites</h4>
+
+        <strong>Reporting UC : </strong><?php echo $this->data[0]['from_uc']; ?>&nbsp;&nbsp;&nbsp;<strong>Surveillance Site : </strong> <?php echo $this->data[0]['s_site']; ?> <strong>Cross Notification : </strong>&nbsp;&nbsp;&nbsp;<?php
+        if ($this->data[0]['cross_notification'] == 1) {
+            echo "Yes";
+        } else {
+            echo "No";
+        }
+        ?>&nbsp;&nbsp;&nbsp;<br>
+           <strong>Patient Visited Date : </strong> <?php echo $this->data[0]['patient_visited_date']; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Date of Notification : </strong> <?php echo $this->data[0]['date_notification']; ?><br>
+      
+      <strong>Date of Onset :</strong><?php echo $this->data[0]['date_onset']; ?>&nbsp;&nbsp;&nbsp;
+        
+        <strong>EPID Number : </strong><?php echo $this->data[0]['epid_number']; ?>&nbsp;&nbsp;&nbsp;
+        <br><br>
+        <h4 class="form-section">Case Details</h4>
+        <strong>Province : </strong> <?php echo $this->data[0]['province']; ?> &nbsp;&nbsp;&nbsp;<strong>District : </strong> <?php echo $this->data[0]['district']; ?>&nbsp;&nbsp;&nbsp;<strong>Tehsil : </strong> <?php echo $this->data[0]['tehsil']; ?>&nbsp;&nbsp;&nbsp;<strong>UC : </strong> <?php echo $this->data[0]['uc']; ?><br>
+       <strong>Village : </strong> <?php echo $this->data[0]['address_village']; ?>&nbsp;&nbsp;&nbsp; <strong>Address : </strong><?php echo $this->data[0]['address1']; ?><br>
+      
+        <strong>Child Name : </strong> <?php echo $this->data[0]['child_name']; ?>&nbsp;&nbsp;&nbsp;<strong>Father Name : </strong> <?php echo $this->data[0]['father_name']; ?>&nbsp;&nbsp;&nbsp;
+        <strong>Contact Number : </strong> <?php echo $this->data[0]['contact_number']; ?> &nbsp;&nbsp;&nbsp;<strong>Gender : </strong><?php
+        if ($this->data[0]['gender'] == 1) {
+            echo 'Male';
+        } else {
+            echo 'Female';
+        }
+        ?><br>
+        <strong>Date of Birth : </strong> <?php echo $this->data[0]['dob']; ?>&nbsp;&nbsp;&nbsp;<strong>Age : </strong> <?php
+        echo $this->data[0]['age'] . '';
+        if ($this->data[0]['age_unit'] == 1) {
+            echo " month/s";
+        } else if ($this->data[0]['age_unit'] == 2) {
+            echo " day/s";
+        } else {
+            echo " year/s";
+        }
+        ?><br>
+       <?php if( $this->data[0]['typeCase']=='NNT')
+           
+       {
+           ?>
+        <strong>Place of Birth :</strong><?php echo $this->data[0]['place_of_birth']?>&nbsp;&nbsp;&nbsp;
+        <strong>Birth Attendee :</strong><?php echo $this->data[0]['attendee']?>
+       <?php
+       
+       }
+       ?>        
+        
+       
+        
+        <br><br>
+        <h4 class="form-section">Investigation Detail</h4>
+        <strong>Date of Investigation : </strong> <?php echo $this->data[0]['date_investigation']; ?>&nbsp;&nbsp;&nbsp;
+        <strong>No. of Months Before : </strong> <?php echo $this->data[0]['number_of_months']; ?>
+        
+        <br>
+        <strong>Specific Doses Received : </strong><?php echo "1"; ?>&nbsp;&nbsp;&nbsp;<strong>Date of Last Vaccine Received : </strong> <?php echo $this->data[0]['date_last_dose_received']; ?><br><strong>Sign & Symptoms : </strong> <?php echo $this->data[0]['sign']; ?><br>
+        <br>
+        <h4 class="form-section">Specimen Collection & Result</h4>
+        <strong>Specimen Collection : </strong><?php
+        if ($this->data[0]['specimen_collection'] == 1) {
+            echo "Yes";
+        } else {
+            echo "No";
+        }
+         
+        if( $this->data[0]['typeCase']=='Childhood TB'){
+            ?>
+        &nbsp;&nbsp;&nbsp;<strong>Date of Sputum Sent 1: </strong> <?php echo $this->data[0]['date_specimen_sent']; ?><br>
+         <strong>Date of Sputum Sent 2: </strong> <?php echo $this->data[0]['date_specimen_sent1']; ?>
+        
+        <strong>Sputum Collection Date 1</strong> <?php echo $this->data[0]['blood_sample_date']; ?> 
+        &nbsp;&nbsp;&nbsp;<strong>Sputum Collection Date 2</strong> <?php echo  $this->data[0]['blood_sample_month']; ?><br>
+        
+        
+            <?php
+        }
+        else if( $this->data[0]['typeCase']=='Diptheria'){
+            ?>
+        &nbsp;&nbsp;&nbsp;<strong>Date of Throat-Swab Sent 1: </strong> <?php echo$this->data[0]['date_specimen_sent']; ?><br>
+         <strong>Date of Naso Pharyngeal Sent 2: </strong> <?php echo $this->data[0]['date_specimen_sent1']; ?>
+        
+        <strong>Throat-Swab Collection Date </strong> <?php echo $this->data[0]['blood_sample_month']; ?> 
+        &nbsp;&nbsp;&nbsp;<strong>Naso Pharyngeal Swab Date </strong> <?php echo  $this->data[0]['blood_sample_date']; ?><br>
+        
+        
+            <?php
+        }
+        else if( $this->data[0]['typeCase']=='Measles'){
+            ?>
+        &nbsp;&nbsp;&nbsp;<strong>Date of Blood Sample Sent 1: </strong> <?php echo  $this->data[0]['date_specimen_sent']; ?><br>
+         <strong>Date of Throat-Swab Sent 2: </strong> <?php echo   $this->data[0]['date_specimen_sent1']; ?>
+        
+        <strong>Blood Sample Collection Date </strong> <?php echo   $this->data[0]['blood_sample_date']; ?> 
+        &nbsp;&nbsp;&nbsp;<strong>Throat-Swab Collection Date </strong> <?php echo  $this->data[0]['blood_sample_month']; ?><br>
+        
+        
+            <?php
+        }
+        else if( $this->data[0]['typeCase']=='NNT'){
+            ?>
+        &nbsp;&nbsp;&nbsp;<strong>Date of Blood Sample Sent 1: </strong> <?php echo   $this->data[0]['date_specimen_sent']; ?><br>
+         <strong>Date of Throat-Swab Sent 2: </strong> <?php echo   $this->data[0]['date_specimen_sent1']; ?>
+        
+        <strong>Blood Sample Collection Date </strong> <?php echo   $this->data[0]['blood_sample_date']; ?> 
+        &nbsp;&nbsp;&nbsp;<strong>Throat-Swab Collection Date </strong> <?php echo   $this->data[0]['blood_sample_month']; ?><br>
+        
+        
+            <?php
+        }
+        else if( $this->data[0]['typeCase']=='Pertussis'){
+            ?>
+        &nbsp;&nbsp;&nbsp;<strong>Date of Throat-Swab Sent 1: </strong> <?php echo    $this->data[0]['date_specimen_sent']; ?><br>
+         <strong>Date of Naso Pharyngeal Sent 2: </strong> <?php echo    $this->data[0]['date_specimen_sent1']; ?>
+        
+        
+        <strong>Throat-Swab Collection Date  </strong> <?php echo    $this->data[0]['blood_sample_month']; ?> 
+        &nbsp;&nbsp;&nbsp;<strong>Naso Pharyngeal Swab Date </strong> <?php echo    $this->data[0]['blood_sample_date']; ?><br>
+        
+        
+            <?php
+        }
+        else if( $this->data[0]['typeCase']=='AFP'){
+            ?>
+        &nbsp;&nbsp;&nbsp;<strong>Date of Stool Sample Sent 1: </strong> <?php echo    $this->data[0]['date_specimen_sent']; ?><br>
+        <strong>Date of Stool Sample Sent 2: </strong> <?php echo    $this->data[0]['date_specimen_sent1']; ?>
+        
+        <strong>Stool Sample Date 1</strong> <?php echo   $this->data[0]['stool_sample_date1']; ?> 
+        &nbsp;&nbsp;&nbsp;<strong>Stool Sample Date 2</strong> <?php echo   $this->data[0]['stool_sample_date2']; ?><br>
+        
+        
+            <?php
+        }
+        ?>
+        <br> 
+        <h4 class="form-section">Present Status</h4>
+        <strong>Lab Result of Test : </strong> <?php echo $this->data[0]['lab']; ?>&nbsp;&nbsp;&nbsp;<strong>Date of Lab result received : </strong><?php echo $this->data[0]['date_of_lab_resulted']; ?>&nbsp;&nbsp;&nbsp;
+        <strong>Final Classification : </strong><?php echo $this->data[0]['final']; ?>&nbsp;&nbsp;&nbsp;<strong>Outcome : </strong> <?php echo $this->data[0]['outcome']; ?>
+        <br>
+<?php 
+            }
+?>
+
+    </div> 
+</div>
+
+<div class="col-md-12" class="widget">
+    <div class="widget-body right">
+        <button id="print" name="print" value="1" type="button" class="btn btn-primary" ><?php echo $this->translate("Print"); ?></button>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        //printCont();
+        $("#print").click(function () {
+            printCont();
+        });
+    });
+
+    function printCont()
+    {
+        $("a").hide();
+        $('#print').hide();
+        window.print();
+        setTimeout(function () {
+            // Do something after 5 seconds
+            $('#print').show();
+            $("a").show();
+        }, 5000);
+    }
+</script>

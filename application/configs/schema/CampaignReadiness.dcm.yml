@@ -1,0 +1,95 @@
+CampaignReadiness:
+  type: entity
+  table: campaign_readiness
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    vaccineArrivalDate:
+      type: datetime
+      nullable: true
+      column: vaccine_arrival_date
+    dcoAttendedMeeting:
+      type: boolean
+      nullable: true
+      column: dco_attended_meeting
+    edoAttendedMeeting:
+      type: boolean
+      nullable: true
+      column: edo_attended_meeting
+    allMembersAttendedMeeting:
+      type: boolean
+      nullable: true
+      column: all_members_attended_meeting
+    numTallySheets:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: num_tally_sheets
+    numFingerMarkers:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: num_finger_markers
+    arrivalDateMobilizationMaterial:
+      type: datetime
+      nullable: true
+      column: arrival_date_mobilization_material
+    dpecMeetingDate:
+      type: datetime
+      nullable: true
+      column: dpec_meeting_date
+    remarks:
+      type: text
+      nullable: true
+    createdDate:
+      type: datetime
+      nullable: false
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: true
+      column: modified_date
+  oneToOne:
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    campaign:
+      targetEntity: Campaigns
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        campaign_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    district:
+      targetEntity: Locations
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        district_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

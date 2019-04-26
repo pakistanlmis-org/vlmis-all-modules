@@ -1,0 +1,144 @@
+<?php
+/**
+ *  phtml for Print Receive Shipment
+ */
+?>
+<!-- Content -->
+<style>
+    #content_print {
+        margin-left: 50px;
+        width: 624px;
+    }
+    table#mytable {
+        border: 1px solid #e5e5e5;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table#mytable tr td {
+        border: 1px solid #e5e5e5;
+    }
+    table#mytable tr th {
+        border: 1px solid #e5e5e5;
+    }
+</style>
+<!-- Content -->
+
+<style type="text/css" media="print">
+    .page
+    {
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print
+    {    
+        #printButt
+        {
+            display: none !important;
+        }
+    }
+</style>
+<?php
+foreach ($this->result as $row) {
+    $transaction_number = $row['transactionNumber'];
+    $transaction_date = $row['transactionDate'];
+    $warehouse_name = $row['warehouse_name'];
+}
+?>
+
+
+<div style="text-align:center;">
+    <b style="float:left;">R.V.No.: <?php echo $transaction_number; ?></b>
+    <b style="float:right;">Receive Date: <?php echo date("d/m/y", strtotime($transaction_date)); ?></b>
+</div>
+<div style="clear:both;">
+    <b>Source: <?php echo $warehouse_name; ?></b>
+</div>
+
+
+
+<table id="mytable">
+    <tr >
+        <th rowspan="2" width="5%"><?php echo $this->translate("Sr No"); ?></th>
+        <th rowspan="2" width="10%"><?php echo $this->translate("Product"); ?></th>
+        <th rowspan="2" width="10%"><?php echo $this->translate("Batch No"); ?></th>
+        <th colspan="3" width="18%" align="center"><?php echo $this->translate("Quantity"); ?></th>
+        <th rowspan="2" align="left" width="18%" ><?php echo $this->translate("Placed at"); ?></th>
+        <th rowspan="2" width="9%"><?php echo $this->translate("VVM Type"); ?></th>
+        <th rowspan="2" width="9%"><?php echo $this->translate("VVM Stage"); ?></th>
+        <th rowspan="2" width="12%"><?php echo $this->translate("Production Date"); ?></th>
+        <th rowspan="2" width="10%"><?php echo $this->translate("Expiry Date"); ?></th>
+    </tr>
+    <tr style="background-color: #F8F8F8;">
+        <th width="8%"><?php echo $this->translate("Vials/Pcs"); ?></th>
+        <th width="10%"><?php echo $this->translate("Doses Per Vial"); ?></th>
+        <th width="10%"><?php echo $this->translate("Total Doses"); ?></th>
+    </tr>
+    <tbody>
+        <?php
+        $i = 0;
+        if (!empty($this->result)) {
+            foreach ($this->result as $val) {
+                $i++;
+                ?>
+                <tr>
+                    <td><?php echo $i; ?></td>
+                    <td><?php echo $val['itemName']; ?></td>	    
+                    <td><?php echo $val['number']; ?></td>
+                    <td><?php echo number_format($val['quantity']); ?></td>
+                    <td><?php echo number_format($val['description']); ?></td>
+
+                    <td><?php echo number_format($val['quantity'] * $val['description']); ?></td>
+                    <td align="left"><?php echo $this->getLocationByBatch($val['batch_id'], $val['detailId']); ?></td>
+                    <td><?php echo '&nbsp;' . $val['vvmTypeName']; ?></td>
+                    <td><?php echo (!empty($val['vvmStage']) ? $val['vvmStage'] : 'NA'); ?></td>
+                    <td><?php
+        if (!empty($val['productionDate'])) {
+            echo date("m/d/Y", strtotime($val['productionDate']));
+        } else {
+            echo "   -";
+        }
+                ?></td>
+                    <td> <?php echo date("m/d/Y", strtotime($val['expiryDate'])); ?></td>
+                </tr>
+                <?php
+            }
+        }
+        ?>
+    </tbody>
+
+</table>
+<br />
+
+<div style="width:100%; clear:both; margin-top:30px;">
+    <table width="48%" cellpadding="5" style="float:left; border:2px solid #E5E5E5 !important; border-collapse:collapse;">
+        <tr>
+            <td><b>Received by</b> - Name: _________________________</td>
+        </tr>
+        <tr>
+            <td>Designation: __________________________________</td>
+        </tr>
+        <tr>
+            <td>Signature: ____________________________________</td>
+        </tr>
+    </table>
+
+    <table width="48%" cellpadding="5" style="float:right; border:2px solid #E5E5E5 !important; border-collapse:collapse;">
+        <tr>
+            <td><b>Store In-charge</b> - Name: _____________________</td>
+        </tr>
+        <tr>
+            <td>Designation: __________________________________</td>
+        </tr>
+        <tr>
+            <td>Signature: ____________________________________</td>
+        </tr>
+    </table>
+</div>
+<div class="col-md-12" class="widget">
+    <div class="widget-body right">
+        <button id="print" name="print" value="1" type="button" class="btn btn-primary" ><?php echo $this->translate("Print"); ?></button>
+    </div>
+</div> 	  
+
+
+

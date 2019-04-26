@@ -1,0 +1,302 @@
+<?php
+/**
+*  phtml for Search Log Book
+*/
+?>
+<!-- Content -->
+
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            <?php echo $this->translate("Log Book Search"); ?>
+        </h3>
+        <div class="row">
+            <?php if (!empty($this->voucher)) { ?>
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        <button data-dismiss="alert" class="close" type="button">
+                            ×
+                        </button>
+                        Stock has been issued successfully. Your issue voucher number is <a  onclick="window.open('<?php echo $this->baseUrl(); ?>/stock/print-issue?id=<?php echo $this->master_id; ?>', '_blank', 'scrollbars=1,width=840,height=595');" href="javascript:void(0);"> <strong><?php echo $this->voucher; ?></strong></a>
+                    </div>                                
+                </div>
+            <?php } ?>
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Filters"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse"></a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <form name="search-logbook" id="search-logbook" method="post" action="">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <!-- Group Receive No-->
+                                    <div class="control-group">
+
+                                        <div class="controls">
+                                            <?php echo $this->form->entry_type; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <!-- Group Receive No-->
+                                    <div class="control-group">
+                                        <label class="control-label" for="province">
+                                            <?php echo $this->translate("Province"); ?><span class="red">*</span>
+
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->province; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <!-- Group Receive No-->
+                                    <div class="control-group">
+                                        <label class="control-label" for="district">
+                                            <?php echo $this->translate("District"); ?><span class="red">*</span>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->district; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <!-- Group Receive No-->
+                                    <div class="control-group">
+                                        <label class="control-label" for="tehsil">
+                                            <?php echo $this->translate("Tehsil"); ?><!--  <span class="red">*</span> -->
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->tehsil; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <!-- Group Receive No-->
+                                    <div class="control-group">
+                                        <label class="control-label" for="wh">
+                                            <?php echo $this->translate("Union Council"); ?><!--  <span class="red">*</span> -->
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->uc; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label class="control-label" for="Vaccination Date">
+                                            <?php echo $this->translate("Vaccination Date From"); ?>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->vaccination_date_from; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label class="control-label" for="Vaccination Date">
+                                            <?php echo $this->translate("Vaccination Date To"); ?>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->vaccination_date_to; ?>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 right">
+                                    <label class="control-label">&nbsp;</label>  
+                                    <div class="controls">
+                                        <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit">
+                                            <?php echo $this->translate("Search"); ?>
+                                        </button>
+                                        <button  class="btn btn-info" id="reset" type="reset">
+                                            <?php echo $this->translate("Reset"); ?>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <?php if ($this->arr_data && count($this->arr_data) > 0) { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <?php echo $this->translate("Search Results"); ?>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row" >
+                                <div class="col-md-12" style="overflow: auto;">
+                                    <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_29"  >
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("S.No"); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("Name"); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("Father Name"); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("Age(Months)"); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("Gender"); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("Contact"); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("Address"); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("District"); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("Tehsil"); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("Union Council"); ?>
+                                                </th>
+                                                <th rowspan="2"  style="font-size:12px">
+                                                    <?php echo $this->translate("Vaccination Date"); ?>
+                                                </th>
+                                                <th class="center" colspan="5" style="font-size:12px" >
+                                                    <?php echo $this->translate("Dose No."); ?>
+                                                </th>   
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("Referred From UC"); ?>
+                                                </th>
+                                                <th rowspan="2" style="font-size:12px">
+                                                    <?php echo $this->translate("Remarks"); ?>
+                                                </th>  
+
+                                            </tr>
+
+                                            <tr>
+                                                <?php foreach ($this->items as $row) { ?>
+                                                    <th style="font-size:12px"><?php echo $row['description'] ?></th>
+                                                <?php } ?>
+                                            </tr>
+                                        </thead>
+                                        <!-- // Table heading END -->
+
+                                        <!-- Table body -->
+                                        <tbody>
+
+                                            <!-- Table row -->
+                                            <?php
+                                            $j = 1;
+                                            foreach ($this->arr_data as $row) {
+                                                ?>
+                                                <tr class="dynamic-rows">
+                                                    <td class="serial" style="font-size:12px" align="center">
+                                                        <?php echo $j; ?>
+                                                    </td>
+                                                    <td style="font-size:12px">
+                                                        <?php echo $row['name'] ?>
+                                                    </td>
+                                                    <td style="font-size:12px">
+                                                        <?php echo $row['father_name'] ?>
+                                                    </td>
+                                                    <td style="font-size:12px"  align="right">
+                                                        <?php echo $row['age'] ?>
+                                                    </td>
+                                                    <td style="font-size:12px">
+                                                        <?php echo $row['gender'] ?>
+                                                    </td>
+                                                    <td style="font-size:12px">
+                                                        <?php echo $row['contact'] ?>
+                                                    </td>
+                                                    <td style="font-size:12px">
+                                                        <?php echo $row['address'] ?>
+                                                    </td>
+
+                                                    <td style="font-size:12px">
+                                                        <?php echo $row['District'] ?>
+                                                    </td>
+                                                    <td style="font-size:12px">
+                                                        <?php echo $row['Tehsil'] ?>
+                                                    </td>
+                                                    <td style="font-size:12px">
+                                                        <?php echo $row['Uc'] ?>
+                                                    </td>
+                                                    <td style="font-size:12px" align="center">
+                                                        <?php echo date("d/m/Y", strtotime($row['vaccination_date'])); ?>
+
+                                                    </td>
+
+                                                    <?php foreach ($this->monthlyConsumtion2()->logBook($row['pk_id']) as $row1) { ?>
+                                                        <td style="font-size:12px" class="right">
+
+                                                            <?php echo (strlen($row1['doses']) > 0) ? $row1['doses'] : ''; ?>
+                                                        </td>
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                    <td style="font-size:12px">
+                                                        <?php echo $row['RefFromUc']; //ref_from_uc ?>  
+                                                        <i id="reference_tooltip" data-container="body" data-original-title="<?php echo "EPI: " .$row['RefFromEPI'] .  ", " . "District: " .$row['RefFromDist']?>" class="fa fa-warning tooltips"></i>
+                                                    </td>
+                                                    <td style="font-size:12px">
+                                                        <?php echo $row['remarks'] ?>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                $j ++;
+                                            }
+                                            ?>
+                                            <!-- // Table row END -->
+                                        </tbody>
+                                        <!-- // Table body END -->                                      
+
+                                    </table>
+                                </div>
+                            </div>
+                            <br/>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+        } else {
+            ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>No data found</h4>
+                </div>
+            </div>
+        <?php } ?>
+        <div id="future_arrival_details"></div>
+    </div>
+</div>
+
+
+<input type="hidden" id="district_hdn" name="district_hdn" value="<?php echo $this->district_hdn ?>">
+<input type="hidden" id="tehsil_hdn" name="tehsil_hdn" value="<?php echo $this->tehsil_hdn ?>">
+<input type="hidden" id="uc_hdn" name="uc_hdn" value="<?php echo $this->uc_hdn ?>">

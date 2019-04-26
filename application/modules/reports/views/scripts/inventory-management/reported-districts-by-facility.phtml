@@ -1,0 +1,137 @@
+<?php
+/**
+*  phtml for Reported Districts by Facility
+*/
+
+/**
+* Reported Districts by Facility
+*/
+?>
+<?php
+$xml_store = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+$xml_store .="<rows>";
+
+$sel_month = $this->month_sel;
+$sel_year = $this->year_sel;
+$counter = 1;
+
+$in_stk = $this->in_stk;
+$in_prov = $this->in_prov;
+$in_dist = $this->in_dist;
+
+$in_col = $this->in_col;
+$in_rg = $this->in_rg;
+$in_type = $this->in_type;
+
+foreach ($this->item_id as $item) {
+
+    $xml_store .="<row id=\"$counter\">";
+
+    $query_vals = $this->reports()->reportData($in_col, $in_rg, $in_type, $sel_month, $sel_year, $item['pkId'], $in_stk, $in_prov, $in_dist);
+    foreach ($query_vals as $row_vals) {
+        $item_id = $item['pkId'];
+        $item_name = $item['itemName'];
+
+        $month_num = "\"$sel_month\"";
+        $year_num = "\"$sel_year\"";
+        $product_name = "\"$item_id\"";
+        $tmp = explode('*', $row_vals['Value']);
+
+        //<!-- begin data rending -->
+        $sel_item = $item['pkId'];
+        $sel_stk = 0;
+        $sel_lvl = 1;
+
+        $xml_store .="<cell>$item_name</cell>";
+
+        include('ind_data_render.phtml');
+    }
+
+    $counter++;
+}
+
+$xml_store .="</rows>";
+?>
+<?php
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $report_title . ' ' . $report_month . ' ' . $sel_year; ?></h3>
+        <div class="innerLR">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('inventory-management/reports-header.phtml') ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <?php
+                        echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td style="text-align:right; padding-bottom:10px;">
+                        <img style="cursor:pointer;" src="<?php echo $this->baseUrl(); ?>/images/pdf-32.png" onClick="mygrid.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="<?php echo $this->translate("Export to PDF"); ?>"/>&nbsp;&nbsp;
+                        <img style="cursor:pointer; margin-left:-5px" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="mygrid.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');" title="<?php echo $this->translate("Export to Excel"); ?>" />
+                    </td>
+                </tr>
+            </table>
+
+            <table width="99%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <div id="mygrid_container" style="width:100%; height:363px;">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<input type="hidden" name="sel_year" id="sel_year"  value="<?= $sel_year ?>">
+<input type="hidden" name="sel_month" id="sel_month" value="<?= date('F', mktime(0, 0, 0, $sel_month)) ?>">
+
+<script>
+    var mygrid;
+    function doInitGrid() {
+        mygrid = new dhtmlXGridObject('mygrid_container');
+        mygrid.selMultiRows = true;
+        mygrid.setImagePath("<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+        mygrid.setHeader(",<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'><?php echo $title . ' - ' . $provinceName . ' As on ' . date('d/m/Y'); ?></div><?php echo $cspan; ?>,#cspan");
+        mygrid.attachHeader("<?php echo $header; ?>");
+        mygrid.attachHeader("<?php echo $header1; ?>");
+        mygrid.setInitWidths("<?php echo $width; ?>");
+        //mygrid.setColAlign("left,right,right,right,right,right,right,right,right,right,right,right,right");
+        //mygrid.setColSorting("str,int");
+        mygrid.setColTypes("<?php echo $ro; ?>");
+        mygrid.setColumnHidden(0, true);
+        mygrid.enableRowsHover(true, 'onMouseOver');
+        mygrid.setSkin("light");
+        mygrid.init();
+        mygrid.clearAll();
+        $('body').append('<textarea id="xml_string" style="display:none;"><?php echo addslashes($xml_store); ?></textarea>');
+        mygrid.loadXMLString(document.getElementById('xml_string').value);
+    }
+
+    function functionCall(param) {
+        var width = 1002;
+        var height = 595;
+        var month = '<?php echo $selMonth ?>';
+        var year = '<?php echo $selYear ?>';
+        var x = (screen.width / 2) - (width / 2);
+        var y = (screen.height / 2) - (height / 2);
+        window.open('reported_districts.php?prov_sel=' + param + '&ending_month=' + month + '&year_sel=' + year);
+    }
+    function showGraph(param) {
+        window.open('../graph/reported_districts.php?param=' + param, '_blank', 'scrollbars=1,width=950,height=600');
+    }
+</script>

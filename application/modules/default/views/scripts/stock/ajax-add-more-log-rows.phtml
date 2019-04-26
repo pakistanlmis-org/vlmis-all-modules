@@ -1,0 +1,88 @@
+<?php
+/**
+*  phtml for Add More Log Rows
+*/
+?>
+
+<?php
+for ($i = $this->start; $i < $this->end; $i++) {
+    $rows = "rows" . $i;
+    $j = $i + 1;
+    ?>
+    <tr class="dynamic-rows">
+        <td class="serial">
+            <?php echo $j; ?>
+            <input type="hidden" name="serial_number[]" value="<?php echo $j; ?>">
+        </td>
+        <td>
+            <input type="text" class="form-control" value="" id="name" name="name[]">
+        </td>
+        <td>
+            <input id="father_name" class="form-control" type="text" value="" name="father_name[]">
+        </td>
+        <td width="4%">
+            <input id="age" class="form-control" type="text" value="" name="age[]">
+        </td>
+        <td>
+            <input id="contact" class="form-control" type="text" value="" name="contact[]">
+        </td>
+        <td>
+            <input id="address" class="form-control" type="text" value="" name="address[]">
+        </td>
+
+        <td>
+            <select id="<?php echo $j; ?>-district" class="form-control" name="district[]" style=" padding: 0px; width:70px ">
+                <option value=""><?php echo $this->translate("Select"); ?></option>
+                <?php
+                foreach ($this->locations as $row) {
+                    ?>
+                    <option value="<?php echo $row['pkId']; ?>" >
+                        <?php echo $row['locationName']; ?>
+                    </option>
+                    <?php
+                }
+                ?>
+
+            </select>
+        </td>
+        <td>
+            <select id="<?php echo $j; ?>-uc" class="form-control" name="uc[]" style=" padding: 0px; width:70px">
+                <option value=""><?php echo $this->translate("Select"); ?></option>
+            </select>
+        </td>
+        <td>
+            <select class="form-control"  id="day" name="day[]" >
+
+                <option value="1">1</option><option value="2">2</option>
+                <option value="3">3</option><option value="4">4</option>
+                <option value="5">5</option><option value="6">6</option>
+                <option value="7">7</option><option value="8">8</option>
+                <option value="9">9</option><option value="10">10</option>
+                <option value="11">11</option><option value="12">12</option>
+                <option value="13">13</option><option value="14">14</option>
+                <option value="15">15</option><option value="16">16</option>
+                <option value="17">17</option><option value="18">18</option>
+                <option value="19">19</option><option value="20">20</option>
+                <option value="21">21</option><option value="22">22</option>
+                <option value="23">23</option><option value="24">24</option>
+                <option value="25">25</option><option value="26">26</option>
+                <option value="27">27</option><option value="28">28</option>
+                <option value="29">29</option><option value="30">30</option>
+                <option value="31">31</option></select>
+        </td>
+
+        <?php foreach ($this->items as $row) { ?>
+            <td width="5%">
+                <input type="hidden" name="<?php echo $j; ?>_item_id[]" value="<?php echo $row['pk_id'] ?>">
+                <input id="<?php echo $row['pk_id'] ?>-item" class="form-control" type="text" value="" name="<?php echo $j; ?>_dose_no[]" size="25px">
+            </td>
+        <?php } ?>
+        <td>
+            <input type="text" class="form-control" value="" id="reffers_to" name="reffers_to[]">
+        </td>
+        <td>
+            <input type="text" class="form-control" value="" id="remarks" name="remarks[]">
+        </td>
+
+    </tr>
+<?php } ?>

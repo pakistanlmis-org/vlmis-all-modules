@@ -1,0 +1,28 @@
+<?php
+/**
+ *  phtml for Ajax Edit
+ */
+?>
+<div class="row">
+    <div class="col-md-5">
+        <div class="form-group ">
+            <label class="control-label" ><?php echo $this->translate("VVM Group Id"); ?> <span class="red">*</span></label>
+            <?php echo $this->form->vvm_group_id_update; ?>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group" id="div_stages1">
+            <label class="control-label" ><?php echo $this->translate("VVM Stages"); ?> <span class="red">*</span></label>
+            <div>
+                <input type="checkbox" name='chkbox0' id="chkbox0">0
+                <input type="checkbox" name='chkbox1' id="chkbox1">1
+                <input type="checkbox" name='chkbox2' id="chkbox2">2
+                <input type="checkbox" name='chkbox3' id="chkbox3">3
+                <input type="checkbox" name='chkbox4' id="chkbox4">4
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+echo $this->form->vvm_group_id_hidden;
+?>

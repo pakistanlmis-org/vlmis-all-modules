@@ -1,0 +1,76 @@
+<?php
+/**
+*  phtml for Campaign Vaccines
+*/
+?>
+<div class="row">
+    <!-- <div class="col-md-12 col-sm-12">
+        <div id="sample_2_filter" class="dataTables_filter">
+            <label>Stock Status: 
+                <select id="stock-status-combo" class="form-control input-inline">
+                    <option value="All">All Pakistan</option>
+                    <option value="Federal">Federal</option>
+                    <option value="Provincial">Provincial</option>                    
+                </select>
+            </label>
+        </div>
+    </div> -->
+    <div class="col-md-12" id="after-filter">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet">
+            <div class="portlet-body">
+                <div>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    District Name
+                                </th>
+                                <th>
+                                    Vaccines
+                                </th>
+                                <th>
+                                    Vials Required
+                                </th>
+                                <th>
+                                    Vials Used
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $counter = 1;
+                            foreach ($this->result as $row) {
+                                ?>
+                                <tr class="<?php
+                                if ($counter % 2 == 0) {
+                                    echo "active";
+                                } else {
+                                    echo "success";
+                                }
+                                ?>">
+                                    <td>
+                                        <?php echo $row['location_name']; ?>
+                                    </td>
+                                    <td class="right">
+                                        <?php echo $row['item_name']; ?>
+                                    </td>
+                                    <td class="right">
+                                        <?php echo $row['vials_required']; ?>
+                                    </td>
+                                     <td class="right">
+                                        <?php echo $row['vials_used']; ?>
+                                    </td>
+                                </tr>
+                                <?php
+                                $counter++;
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>

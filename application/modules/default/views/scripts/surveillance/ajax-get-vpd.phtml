@@ -1,0 +1,309 @@
+
+<table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_29">
+    <!-- Table heading -->
+
+
+    <thead>
+        <tr>
+            <th rowspan="2">S.No</th>
+            <th colspan="3" class="center">Type of Case</th>
+            <th colspan="7" class="center">Reporting Sites</th>
+            <th colspan="14" class="center">Case Details</th>
+            <th colspan="6" class="center">Investigation Detail</th>
+            <th colspan="5" class="center">Specimen Collection & Result</th>
+            <th colspan="4" class="center">Present Status</th>
+
+
+
+            <th class="nonprint" rowspan="2">&nbsp;</th>
+        </tr>
+        <tr>
+
+            <th>Reporting Date</th>
+            <th>Week</th>
+            <th>Type of case</th> 
+
+
+
+
+            <th>Reporting Ucs</th>
+            <th>Surveillance Sites</th>
+            <th>Cross Notificaion</th> 
+            <th>Patient Visited Date</th>
+            <th>Date of Onset</th>
+            <th>Date of Notification</th> 
+            <th>EPID Number</th> 
+
+
+
+            <th>Province</th>
+            <th>District</th>
+            <th>Tehsil/Taluka</th> 
+            <th>UC</th> 
+            <th>Village/Town</th> 
+            <th>Address</th> 
+            <th>Child Name</th>
+            <th>Father Name</th>
+            <th>Contact Number</th>
+            <th>Gender</th>
+            <th>Date of Birth</th>
+            <th>Age</th>
+<th>Place of Birth</th>
+<th>Birth Attendee</th>
+
+
+            <th>Date of Investigation</th>
+            <th>Vaccine Received</th> 
+            <th>No of Vaccine Doses Received</th> 
+            <th>Date of Last Vaccine Dose Received</th> 
+            <th>No. of months before</th> 
+            <th>Sign & Symptoms</th>
+
+
+
+            <th>Specimen Collection</th>
+            <th>Date of Specimen Sent 1 </th>
+            <th>Date of Specimen Sent 2 </th>
+            <th id="d1" name="d1">Stool Sample Date 1 </th>
+            <th id="d2" name="d2">Stool Sample Date 2  </th>
+<!--            <th >Sputum Collection Date 1  </th>
+            <th  >Sputum Collection Date 2 </th>
+            <th  >Throat-Swab Collection Date (Diptheria) </th>
+            <th  >Naso Pharyngeal Swab Date (Diptheria)</th>
+            <th  >Blood Sample Collection Date(Measles)</th>
+            <th  >Throat-Swab Collection Date (Measles)</th>
+            <th  >Blood Sample Collection Date (NNT)</th>
+            <th  >Throat-Swab Collection Date (NNT) </th>
+
+            <th  >Throat-Swab Collection Date(Pertussis) </th>
+            <th  >Naso Pharyngeal Swab Date (Pertussis)</th>-->
+
+
+            <th>Lab Result of the Test</th>
+            <th>Date of Lab Result Received</th>
+            <th>Final Classification</th>
+            <th>Outcome</th>
+
+        </tr>
+    </thead>
+    <!-- // Table heading END -->
+    <!-- Table body -->
+
+    <!-- // Table body END -->
+    <tbody >
+        <?php
+        $m_res = array();
+        $i = 1;
+        if ($this->result && count($this->result) > 0) :
+            foreach ($this->result as $row):
+                ?>
+                <tr class="<?php if ($i % 2 == 0) { ?>gradeX even<?php } else { ?> gradeA odd<?php } ?>">
+                    <td class="center" width="25"><?php echo $i; ?></td>
+                    <td><?php echo date("d/m/Y", strtotime($row['date'])); ?></td>
+                    <td><?php echo $row['week']; ?></td>
+                    <td><?php echo $row['typeCase']; ?></td>
+                    <td><?php echo $row['from_uc']; ?></td>
+                    <td><?php echo $row['s_site']; ?></td>
+                    <td><?php
+                        if ($row['cross_notification'] == 1) {
+                            echo 'Yes';
+                        } else {
+                            echo 'No';
+                        }
+                        ?></td>
+                    <td><?php
+                        if (strtotime($row['patient_visited_date']) == null) {
+                            echo '';
+                        } else {
+
+                            echo date("d/m/Y", strtotime($row['patient_visited_date']));
+                        }
+                        ?></td>
+                    <td><?php
+                        if (empty(strtotime($row['date_onset']))) {
+                            echo '';
+                        } else if (!empty(strtotime($row['date_onset']))) {
+
+
+                            echo date("d/m/Y", strtotime($row['date_onset']));
+                        }
+                        ?></td>
+                    <td><?php
+                        if (empty(strtotime($row['date_notification']))) {
+                            echo '';
+                        } else if (!empty(strtotime($row['date_notification']))) {
+
+                            echo date("d/m/Y", strtotime($row['date_notification']));
+                        }
+                        ?></td>
+                    <td><?php echo $row['epid_number']; ?></td>
+
+                    <td><?php echo $row['province']; ?></td>
+                    <td><?php echo $row['district']; ?></td>
+                    <td><?php echo $row['tehsil']; ?></td>
+                    <td><?php echo $row['uc']; ?></td>
+                    <td><?php echo $row['address_village']; ?></td>
+                    <td><?php echo $row['address1']; ?></td>
+                    <td><?php echo $row['child_name']; ?></td>
+                    <td><?php echo $row['father_name']; ?></td>
+                    <td><?php echo $row['contact_number']; ?></td>
+
+                    <td><?php
+                        if ($row['gender'] == 1) {
+                            echo 'Male';
+                        } else {
+                            echo 'Female';
+                        }
+                        ?></td>
+                    <td><?php
+                        if (empty(strtotime($row['dob']))) {
+                            echo '';
+                        } else if (!empty(strtotime($row['dob']))) {
+                            echo date("d/m/Y", strtotime($row['dob']));
+                        }
+                        ?></td>
+                    <td><?php
+                        echo $row['age'] . '';
+                        if ($row['age_unit'] == 1) {
+                            echo " month/s";
+                        } else if ($row['age_unit'] == 2) {
+                            echo " day/s";
+                        } else if ($row['age'] == null) {
+
+                            echo '';
+                        } else {
+                            echo " year/s";
+                        }
+                        ?></td>
+                    <td><?php
+                        if ($row['place_of_birth'] != null) {
+                            echo $row['place_of_birth'];
+                        } else {
+                            echo '';
+                        }
+                        ?></td>
+                    <td><?php
+                        if ($row['attendee'] != null) {
+                            echo $row['attendee'];
+                        } else {
+                            echo '';
+                        }
+                        ?></td>
+                    <td><?php
+                        if (empty(strtotime($row['date_investigation']))) {
+                            echo '';
+                        } else if (!empty(strtotime($row['date_investigation']))) {
+                            echo date("d/m/Y", strtotime($row['date_investigation']));
+                        }
+                        ?></td><td><?php
+                        if ($row['has_child_received_opv'] == 1) {
+                            echo "Yes";
+                        } else {
+                            echo "No";
+                        }
+                        ?></td>
+                    <td><?php echo $row['specific_dose_received']; ?></td>
+                    <td><?php
+                        if (strtotime($row['date_last_dose_received']) == null) {
+                            echo '';
+                        } else if (strtotime($row['date_last_dose_received']) != null) {
+                            echo date("d/m/Y", strtotime($row['date_last_dose_received']));
+                        }
+                        ?></td>
+                    <td><?php echo $row['number_of_months']; ?></td>
+                    <td><?php echo $row['sign']; ?></td>
+                    <td><?php
+                        if ($row['specimen_collection'] == 1) {
+                            echo "Yes";
+                        } else {
+                            echo "No";
+                        }
+                        ?></td>
+                    <td><?php
+                        if (strtotime($row['date_specimen_sent']) == null) {
+                            echo '';
+                        } else {
+                            echo date("d/m/Y", strtotime($row['date_specimen_sent']));
+                        }
+                        ?></td>
+                    <td><?php
+                        if (strtotime($row['date_specimen_sent1']) == null) {
+                            echo '';
+                        } else {
+                            echo date("d/m/Y", strtotime($row['date_specimen_sent1']));
+                        }
+                        ?></td>
+                    <td ><?php
+                        if ($row['typeCase'] == 'AFP' && strtotime($row['stool_sample_date_1']) != null) {
+                            echo date("d/m/Y", strtotime($row['stool_sample_date_1']));
+                        } else if ($row['typeCase'] == 'Childhood TB' && strtotime($row['blood_sample_date']) != null) {
+                            echo date("d/m/Y", strtotime($row['blood_sample_date']));
+                        } else if ($row['typeCase'] == 'Diptheria' && strtotime($row['blood_sample_month']) != null) {
+                            echo date("d/m/Y", strtotime($row['blood_sample_month']));
+                        } else if ($row['typeCase'] == 'Measles' && strtotime($row['blood_sample_date']) != null) {
+                            echo date("d/m/Y", strtotime($row['blood_sample_date']));
+                        } else if ($row['typeCase'] == 'NNT' && strtotime($row['blood_sample_date']) != null) {
+                            echo date("d/m/Y", strtotime($row['blood_sample_date']));
+                        } else if ($row['typeCase'] == 'Pertussis' && strtotime($row['blood_sample_month']) != null) {
+                            echo date("d/m/Y", strtotime($row['blood_sample_month']));
+                        } else {
+
+                            echo '';
+                        }
+                        ?> </td>
+                    <td  ><?php
+                        if ($row['typeCase'] == 'AFP' && strtotime($row['stool_sample_date_2']) != null) {
+                            echo date("d/m/Y", strtotime($row['stool_sample_date_2']));
+                        } else if ($row['typeCase'] == 'Childhood TB' && strtotime($row['blood_sample_month']) != null) {
+                            echo date("d/m/Y", strtotime($row['blood_sample_month']));
+                        } else if ($row['typeCase'] == 'Diptheria' && strtotime($row['blood_sample_date']) != null) {
+                            echo date("d/m/Y", strtotime($row['blood_sample_date']));
+                        } else if ($row['typeCase'] == 'Measles' && strtotime($row['blood_sample_month']) != null) {
+                            echo date("d/m/Y", strtotime($row['blood_sample_month']));
+                        } else if ($row['typeCase'] == 'NNT' && strtotime($row['blood_sample_month']) != null) {
+                            echo date("d/m/Y", strtotime($row['blood_sample_month']));
+                        } else if ($row['typeCase'] == 'Pertussis' && strtotime($row['blood_sample_date']) != null) {
+                            echo date("d/m/Y", strtotime($row['blood_sample_date']));
+                        } else {
+
+                            echo '';
+                        }
+                        ?></td>
+
+                    <td><?php echo $row['lab']; ?></td>
+                    <td><?php
+                        if (strtotime($row['date_of_lab_resulted']) != null) {
+                            echo date("d/m/Y", strtotime($row['date_of_lab_resulted']));
+                        } else
+                            echo '';
+                        ?></td>
+
+                    <td><?php echo $row['final']; ?></td>
+                    <td><?php
+                        if ($row['outcome'] != null) {
+                            echo $row['outcome'];
+                        } else {
+                            echo '';
+                        }
+                        ?></td>
+
+
+
+
+                    <td>
+                        <a href="<?php echo $this->baseUrl(); ?>/surveillance/vpd?id=<?php echo $row['pk_id']; ?>" class="update-locations btn btn-xs green" ><i class="fa fa-edit"></i><?php echo $this->translate("Edit") ?>
+                        </a>
+        <?php if ($row['type_case'] != "No Case") { ?>
+                            <input type="hidden" id="hdn_vpd_id" name="hdn_vpd_id" value="<?php echo $row['pk_id']; ?>">
+                            <a pkid="<?php echo $row['pk_id']; ?>"  onclick="window.open('print-vpd?id=<?php echo $row['pk_id']; ?>', '_blank', 'scrollbars=1,width=840,height=595');" title="VPD Detail"  class="btn default btn-xs green-stripe detail">View</a>
+        <?php } ?>
+                    </td>
+                    <!-- // Table row END --><?php
+                    $i++;
+
+                endforeach;
+
+            endif;
+            ?>
+    </tbody>
+</table>

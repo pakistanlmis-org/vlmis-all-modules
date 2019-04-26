@@ -1,0 +1,391 @@
+<?php
+/**
+ *  phtml for ajax space status
+ */
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <?php echo $this->translate("Space Status on expected time of arrival (Cold Room)"); ?>
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+                </div>
+            </div>
+
+            <div class="portlet-body" >
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php
+                        $remaining_pipeline_CR = 100 - $this->pipeline_shipments_CR;
+
+                        if ($this->pipeline_shipments_CR < 100) {
+                            $color = "#DD8521";
+                        }
+
+                        if ($this->pipeline_shipments_CR >= 100) {
+                            $color = "#E00000";
+                        }
+                        ?>
+                        <div class="col-md-3">
+                            <small>  <small>    Used = <?php echo Round($this->pipeline_shipments_CR) . '%'; ?> Rem = <?php echo Round($remaining_pipeline_CR) . '%'; ?></small></small>
+                            <div class="capacity">
+                                <table width="100%" height="90">
+                                    <tbody>
+                                        <tr>
+                                            <td style="background-color: green;" height="<?php echo $remaining_pipeline_CR; ?>%"> </td>
+                                        </tr>
+                                        <tr><td style="background-color: <?php echo $color; ?>;" height="<?php echo $this->pipeline_shipments_CR; ?>%">
+                                            </td>
+                                        </tr>
+                                    </tbody></table>
+                            </div>
+
+                            <div class="dashboard-stat blue-madison">
+                                <div class="visual">
+
+                                </div>
+                                <div class="details">
+                                    <div class="number">
+
+                                        Pipeline Shipments
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <?php
+                        $remaining_CR = 100 - $this->stock_on_hand_CR;
+
+                        if ($this->stock_on_hand_CR < 100) {
+                            $color = "#DD8521";
+                        }
+
+                        if ($this->stock_on_hand_CR >= 100) {
+                            $color = "#E00000";
+                            $remaining_CR = 0;
+                        }
+                        ?>
+                        <div class="col-md-3">
+                            <small>       <small>    Used = <?php echo Round($this->stock_on_hand_CR) . '%'; ?>  Rem = <?php echo Round($remaining_CR) . '%'; ?></small></small>
+
+                            <div class="capacity">
+                                <table width="100%" height="90">
+                                    <tbody>
+                                        <tr>
+                                            <td style="background-color: green;" height="<?php echo $remaining_CR; ?>%"></td>
+                                        </tr>
+                                        <tr><td style="background-color: <?php echo $color; ?>;" height="<?php echo $this->stock_on_hand_CR; ?>%">
+                                            </td>
+                                        </tr>
+                                    </tbody></table>
+                            </div>
+                            <div class="dashboard-stat blue-madison">
+                                <div class="visual">
+
+                                </div>
+                                <div class="details">
+                                    <div class="number">
+
+                                        Stock on Hand
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <?php
+                        $remaining_demands_CR = 100 - $this->issuance_demnds_CR;
+
+                        if ($this->issuance_demnds_CR < 100) {
+                            $color = "#DD8521";
+                        }
+
+                        if ($this->issuance_demnds_CR >= 100) {
+                            $color = "#E00000";
+                        }
+                        ?>
+                        <div class="col-md-3">
+                            <small>  <small>    Used = <?php echo Round($this->issuance_demnds_CR) . '%'; ?> Rem = <?php echo Round($remaining_demands_CR) . '%'; ?></small></small>
+
+                            <div class="capacity">
+                                <table width="100%" height="90">
+                                    <tbody>
+                                        <tr>
+                                            <td style="background-color: green;" height="<?php echo $remaining_demands_CR; ?>%"></td>
+                                        </tr>
+                                        <tr><td style="background-color: <?php echo $color; ?>;" height="<?php echo $this->issuance_demnds_CR; ?>%">
+                                            </td>
+                                        </tr>
+                                    </tbody></table>
+                            </div>
+                            <div class="dashboard-stat blue-madison">
+                                <div class="visual">
+
+                                </div>
+                                <div class="details">
+                                    <div class="number">
+
+                                        Issuance Demands
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <?php
+                        $space_total = ($this->pipeline_shipments_CR + $this->stock_on_hand_CR) - $this->issuance_demnds_CR;
+
+                        $space_remaing = ($remaining_CR + $remaining_pipeline_CR) - $remaining_demands_CR;
+
+                        if ($space_total < 100) {
+                            $color = "#DD8521";
+                        }
+
+                        if ($space_total >= 100) {
+                            $color = "#E00000";
+                            $space_remaing = 0;
+                        }
+                        ?>
+                        <div class="col-md-3">
+                            <small>  <small>    Used = <?php echo Round($space_total) . '%'; ?> Rem = <?php echo Round($space_remaing) . '%'; ?></small></small>
+
+                            <div class="capacity">
+                                <table width="100%" height="90">
+                                    <tbody>
+                                        <tr>
+                                            <td style="background-color: green;" height="<?php echo $space_remaing; ?>%"></td></tr>
+
+                                        <tr><td style="background-color: <?php echo $color; ?>;" height="<?php echo$space_total; ?>%"></td>
+                                        </tr>
+                                    </tbody></table>
+                            </div>
+                            <div class="dashboard-stat blue-madison">
+                                <div class="visual">
+
+                                </div>
+                                <div class="details">
+                                    <div class="number">
+
+                                        Space after Receiving
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<?php if ($this->item_cat==1 ||$this->item_cat==24 || $this->item_cat==25 || $this->item_cat==26) {?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <?php echo $this->translate("Space Status on expected time of arrival (Freezer Room)"); ?>
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+                </div>
+            </div>
+
+            <div class="portlet-body" >
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php
+                        $remaining_pipeline_FR = 100 - $this->pipeline_shipments_FR;
+
+                        if ($this->pipeline_shipments_FR < 100) {
+                            $color = "#DD8521";
+                        }
+
+                        if ($this->pipeline_shipments_FR >= 100) {
+                            $color = "#E00000";
+                        }
+                        ?>
+                        <div class="col-md-3">
+                            <small>       <small>    Used = <?php echo Round($this->pipeline_shipments_FR) . '%'; ?>  Rem = <?php echo Round($remaining_pipeline_FR) . '%'; ?></small></small>
+                            <div class="capacity">
+                                <table width="100%" height="90">
+                                    <tbody>
+                                        <tr>
+                                            <td style="background-color: green;" height="<?php echo $remaining_pipeline_FR; ?>%"></td>
+                                        </tr>
+                                        <tr><td style="background-color: <?php echo $color; ?>;" height="<?php echo $this->remaining_pipeline_FR; ?>%">
+                                            </td></td>
+                                        </tr>
+                                    </tbody></table>
+                            </div>
+
+                            <div class="dashboard-stat blue-madison">
+                                <div class="visual">
+
+                                </div>
+                                <div class="details">
+                                    <div class="number">
+
+                                        Pipeline Shipments
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <?php
+                        $remaining_FR = 100 - $this->stock_on_hand_FR;
+                        ?>
+
+                        <div class="col-md-3">
+                            <small>       <small>    Used = <?php echo Round($this->stock_on_hand_FR) . '%'; ?>  Rem = <?php echo Round($remaining_FR) . '%'; ?></small></small>
+                            <div class="capacity">
+                                <table width="100%" height="90">
+                                    <tbody>
+                                        <tr>
+                                            <td style="background-color: green;" height="<?php echo $remaining_FR; ?>%"></td>
+                                        </tr>
+                                        <tr><td style="background-color: #DD8521;" height="<?php echo $this->stock_on_hand_FR; ?>%">
+                                            </td></td>
+                                        </tr>
+                                    </tbody></table>
+                            </div>
+                            <div class="dashboard-stat blue-madison">
+                                <div class="visual">
+
+                                </div>
+                                <div class="details">
+                                    <div class="number">
+
+                                        Stock on Hand
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <?php
+                        $remaining_demands_FR = 100 - $this->issuance_demnds_FR;
+
+                        if ($this->issuance_demnds_FR < 100) {
+                            $color = "#DD8521";
+                        }
+
+                        if ($this->issuance_demnds_FR >= 100) {
+                            $color = "#E00000";
+                        }
+                        ?>
+                        <div class="col-md-3">
+                            <small>       <small>    Used = <?php echo Round($this->issuance_demnds_FR) . '%'; ?>  Rem = <?php echo Round($remaining_demands_FR) . '%'; ?></small></small>
+
+                            <div class="capacity">
+
+                                <table width="100%" height="90">
+                                    <tbody>
+                                        <tr>
+                                            <td style="background-color: green;" height="<?php echo $remaining_demands_FR; ?>%"></td>
+                                        </tr>
+                                        <tr><td style="background-color: #DD8521;" height="<?php echo $this->issuance_demnds_FR; ?>%">
+                                            </td>
+                                        </tr>
+                                    </tbody></table>
+                            </div>
+                            <div class="dashboard-stat blue-madison">
+                                <div class="visual">
+
+                                </div>
+                                <div class="details">
+                                    <div class="number">
+
+                                        Issuance Demands
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <?php
+                        $space_total_FR = ($this->pipeline_shipments_FR + $this->stock_on_hand_FR) - $this->issuance_demnds_FR;
+
+                        $space_remaing_FR = ($remaining_FR + $remaining_pipeline_FR) - $remaining_demands_FR;
+
+                        if ($space_total_FR < 100) {
+                            $color = "#DD8521";
+                        }
+
+                        if ($space_total_FR >= 100) {
+                            $color = "#E00000";
+                            $space_remaing_FR = 0;
+                        }
+                        ?>
+                        <div class="col-md-3">
+                            <small>       <small>    Used = <?php echo Round($space_total_FR) . '%'; ?>  Rem = <?php echo Round($space_remaing_FR) . '%'; ?></small></small>
+
+                            <div class="capacity">
+                                <table width="100%" height="90">
+                                    <tbody>
+                                        <tr>
+                                            <td style="background-color: green;" height="<?php echo $space_remaing_FR; ?>%"></td></tr>
+
+                                        <tr><td style="background-color: <?php echo $color; ?>;" height="<?php echo $space_total_FR; ?>%"></td>
+                                        </tr>
+                                    </tbody></table>
+                            </div>
+                            <div class="dashboard-stat blue-madison">
+                                <div class="visual">
+
+                                </div>
+                                <div class="details">
+                                    <div class="number">
+
+                                        Space after Receiving
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<?php } ?>
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="btn btn-sm" style="background-color: green;">&nbsp;</div> Unused Capacity
+    </div>
+    <div class="col-md-4">
+        <div class="btn btn-sm" style="background-color: #DD8521;">&nbsp;</div> Used Capacity
+    </div>
+    <div class="col-md-4">
+        <div class="btn btn-sm" style="background-color: #E00000;">&nbsp;</div> Overload
+    </div>
+
+
+</div>
+

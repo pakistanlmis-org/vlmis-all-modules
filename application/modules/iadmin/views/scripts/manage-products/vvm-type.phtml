@@ -1,0 +1,221 @@
+<?php
+/**
+*  phtml for VVM Type
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Manage VVM Types") ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("VVM Type Search") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button"> Ã—</button>
+                                        <strong>Data</strong> has been saved successfully!
+                                    </div>
+                                <?php
+                                }
+
+                                if (isset($_GET['success']) && $_GET['success'] == 2) {
+                                    ?>
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button"> Ã—</button>
+                                        <strong>Data</strong> has been updated successfully!
+                                    </div>
+                                <?php }
+                                ?>
+                                <form method="POST" name="vvm_type_search" action="" >
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <div class="form-group ">
+                                                    <label class="control-label" ><?php echo $this->translate("VVM Type"); ?></label>
+<?php echo $this->form->vvm_type_name; ?>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 margin-top-25">
+                                                <div class="form-group" id="div_status">
+                                                    <label class="control-label" ><?php echo $this->translate("Status"); ?></label>
+<?php echo $this->form->status; ?>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 margin-top-25">
+                                                <div class="form-group">
+                                                    <button class="btn btn-primary" type="submit" name="search"><?php echo $this->translate("Search") ?></button>
+                                                    <button type="reset" class="btn btn-info" id="reset">Reset</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+<?php echo $this->translate("VVM Type List") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dataTables_wrapper form-inline">
+                                    <div class="row">
+                                        <div class="col-md-3">
+<?php //$this->recordsPerPage($this->counter); ?>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="dataTables_filter">
+                                                <label>
+                                                    <a class="btn btn-primary" data-toggle="modal" href="#add-vvm-type"><?php echo $this->translate("Add VVM Type") ?></a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_2">
+   
+                                    <!-- Table heading -->
+                                        <?php
+                                        $fields = array(
+                                            's_no' => 'S.No',
+                                            'vvm_type_name' => 'VVM Type Name',                                            
+                                            'created_by' => 'Created By',
+                                            'status' => 'Status'
+                                        );
+                                        
+                                        $this->tableHeading($this->order, $this->sort, $fields);
+                                        ?>
+                                        <!-- // Table heading END -->
+                                        <!-- Table body -->
+
+                                        
+                                        <tbody>
+                                            <?php
+                                            $m_res = array();
+                                            $i = $this->count;
+                                            $data = $this->paginator;
+                                            if ($data != false) :
+                                                foreach ($data as $row):
+                                                    ?>
+                                                    <tr class="<?php if ($i % 2 == 0) { ?>gradeX even<?php } else { ?> gradeA odd<?php } ?>">
+                                                        <td class="center" width="25"><?php echo $i; ?></td>
+                                                        <td><?php echo $row['vvmTypeName']; ?></td>
+<!--                                                        <td><?php echo $row['itemName']; ?></td>-->
+                                                        <td><?php echo $row['userName']; ?></td>
+                                                        <td>
+                                                            <?php if ($row['status'] == 1) { ?><span id="<?php echo $row['pkId']; ?>-status"><?php echo $this->translate("Active"); ?></span>
+                                                            <?php } else { ?><span id="<?php echo $row['pkId']; ?>-status"><?php echo $this->translate("Inactive"); ?></span>
+        <?php } ?>
+                                                        </td>
+                                                        <td>
+                                                            <a itemid="<?php echo $row['pkId']; ?>" class="btn update-vvm-type btn-link btn-success btn-sm" data-toggle="modal" href="#modal-update-vvm-type"><?php echo $this->translate("Edit") ?></a>
+                                                            <?php if ($row['status'] == 1) { ?>
+                                                            <a id="<?php echo $row['pkId']; ?>" class="btn deactive btn-link btn-danger btn-sm"><?php echo $this->translate("Deactivate"); ?></a>
+                                                            <?php } else { ?>
+                                                                <a id="<?php echo $row['pkId']; ?>" class="btn active btn-link btn-danger btn-sm"><?php echo $this->translate("Activate"); ?></a>
+        <?php } ?>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- // Table row END --><?php
+                                                    $i++;
+                                                endforeach;
+                                            endif;
+                                            ?>
+                                        </tbody>
+                                        <!-- // Table body END -->
+                                    </table>
+                                    <?php
+                                   
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- // modal box for add -->
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/iadmin/manage-products/add-vvm-type" id="add-vvm-types">
+            <div class="modal fade" id="add-vvm-type" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Add VVM Type</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group ">
+                                        <label class="control-label" ><?php echo $this->translate("VVM Type Name"); ?> <span class="red">*</span></label>
+<?php echo $this->form_add->vvm_type_name; ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 margin-top-25">
+                                    <div class="form-group" id="div_status">
+                                        <label class="control-label" ><?php echo $this->translate("Status"); ?></label>
+<?php echo $this->form_add->status; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input class="btn btn-primary" type="submit" value="<?php echo $this->translate("Save"); ?>">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- // modal box for update -->
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/iadmin/manage-products/update-vvm-type" id="update-vvm-types">
+            <div class="modal fade" id="modal-update-vvm-type" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Edit VVM Type</h4>
+                        </div>
+
+                        <div class="modal-body" id="modal-body-contents">
+                            <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                        </div>
+                        <div class="modal-footer " id="update-button">
+                            <input class="btn btn-primary" type="submit" value="<?php echo $this->translate("Update"); ?>">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+<!-- // Content END -->

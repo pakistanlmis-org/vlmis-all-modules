@@ -1,0 +1,25 @@
+<?php
+/**
+ *  phtml for Ajax Get Warehouses
+ */
+?>
+<?php
+$userWH = array();
+foreach ($this->data as $row_1) {
+    array_push($userWH, $row_1['pkId']);
+}
+?>
+<label class="control-label" for="firstname"> Warehouses </label>
+<div class="controls">
+    <select name="wh[]" class="col-md-12" id="msc" multiple="multiple">
+
+        <?php
+        foreach ($this->data_district as $row) {
+            $sel = (in_array($row['pkId'], $userWH) ) ? 'selected="selected"' : '';
+            echo "<option value=\"$row[pkId]\" $sel>$row[locationName] - $row[warehouseName]</option>";
+        }
+        ?>
+
+    </select>
+
+    <!--ajax get -->

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><rows>
+
+ 	<row id="1001">
+		<cell>http://dhtmlx.com/docs/products/dhtmlxFolders/images/foldemo_book_09.jpg</cell>
+		<cell>The innocent Man</cell>
+		<cell>John Grisham</cell>
+	</row>
+	<row id="1002">
+		<cell>http://dhtmlx.com/docs/products/dhtmlxFolders/images/foldemo_book_02.jpg</cell>
+		<cell>Duma Key: a Novel</cell>
+		<cell>Stephen King</cell>
+	</row>
+</rows>

@@ -1,0 +1,65 @@
+<?php
+/**
+*  phtml for Technical Documents
+*/
+?>
+<style>
+    h2 {
+        font-family: "PT Sans Narrow",Helvetica,Arial,sans-serif;
+        font-size: 22px;
+        font-weight: normal;
+        margin: 13px 0;
+    }
+
+    p {
+        font-size: 13.5px;
+        line-height: 150%;
+        padding-bottom: 5px;
+        text-align: left;
+        margin: 0 0 10px;
+    }
+
+    a {
+        font-size: 14.5px !important;
+        color: #ffffff;
+    }
+
+
+</style>
+
+<!-- Tabs -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <div class="innerLR">
+            <div class="widget widget-tabs widget-tabs-double"  style=" border-bottom: 1px solid #77e588; border-right: 1px solid #77e588; border-top: 1px solid #77e588; margin-bottom: -2px;  ">
+
+                <!-- Tabs Heading -->
+
+                <!-- // Tabs Heading END -->
+
+                <div class="widget-body">
+                    <div class="tab-content">
+
+                        <!-- Tab content -->
+                        <div id="vaccines" class="tab-pane active widget-body-regular">
+                            <h2>SRS document <a class="btn btn-primary input-sm" target="_blank"
+                                                href="<?php echo $this->baseUrl()?>/docs/srs_document.pdf">Download</a></h2>
+                            <p>The Vaccine Logistics Management Information System Software Specifications (SRS) document provides information about Vaccine Logistics Management Information System (vLMIS) functions and features. This document is a part of Software requirements specifications of vLMIS web application which includes Inventory Management, Campaigns, Routine Immunization Consumption reporting and vLMIS administration modules.</p>
+
+
+                            <h2>Design document <a class="btn btn-primary input-sm" target="_blank"
+                                                   href="<?php echo $this->baseUrl()?>/docs/design_document.pdf">Download</a></h2>
+                            <p>The Vaccine Logistics Management Information System (vLMIS) Design document explains the functions, models and controllers with relevant screens within the vLMIS web application. This document helps programming team in making changes within the application as well as optimize the application code, remove redundancies and ensure efficient reusability of the code for further enhancements.</p>
+
+
+                        </div>
+                        <!-- // Tab content END -->
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- // Tabs END -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,148 @@
+<?php
+/**
+*  phtml for Wastages Reporting
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">Wastages and Reporting Rate</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            User Filter
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-10">
+                                  <div class="col-md-2">
+                                    <div class="control-group">
+                                        <label class="control-label" ><?php echo $this->translate("Month"); ?>:</label>
+                                        <div class="controls">
+                                            <?php echo $this->form->month; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="control-group">
+                                        <label class="control-label" > <?php echo $this->translate("Year"); ?> : </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->year; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-group ">
+                                        <label class="control-label" > <?php echo $this->translate("Province/Region"); ?>:</label>
+                                        <div class="controls">
+                                            <?php echo $this->form->province; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-group ">
+                                        <label class="control-label" > <?php echo $this->translate("Product"); ?>:</label>
+                                        <div class="controls">
+                                            <?php echo $this->form->product; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="control-group ">
+                                        <label class="control-label" >&nbsp;</label>
+                                        <div class="controls">
+                                            <button class="btn btn-primary" id="submit" type="submit" name="search"><?php echo $this->translate("Filter") ?></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="map-buttons-download">
+                    <img id="image"  src="<?php echo $this->baseUrl(); ?>/images/image.png"  align="right" title="Download Map" />
+                </div>
+            </div>
+        </div>
+
+        <div id="capture">
+            <div class="row"> 
+                <div class="col-md-12">  
+                    <div class="col-md-6">
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption" id='wastagesTitle'>
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body map-padding-zero">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="L1">
+                                            <table id='wastageLegend'></table>
+                                        </div>
+                                        <div id="wastagesInfoDiv">
+                                            <h6><b><font color="white">Click on district for information</font></b></h6>
+                                            <div id="info"></div>
+                                        </div>
+                                        <img id="loader" src="<?php echo $this->baseUrl(); ?>/images/ajax-loader.gif" />
+                                        <div id="wastagesMap"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="portlet box green">
+                            <div class="portlet-title">
+                                <div class="caption" id='reportingTitle'>
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body map-padding-zero">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div id="L2">
+                                            <table id='reportingLegend'></table>
+                                        </div>
+                                        <div id="reportingInfoDiv">
+                                            <h6><b><font color="white">Click on district for information</font></b></h6>
+                                            <div id="info2"></div>
+                                        </div>
+                                        <img id="loader2" src="<?php echo $this->baseUrl(); ?>/images/ajax-loader.gif" />
+                                        <div id="reportingMap"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                  
+                </div>            
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // Content END -->

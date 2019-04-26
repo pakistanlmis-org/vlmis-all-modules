@@ -1,0 +1,208 @@
+<?php
+/**
+ *  phtml for Target Issuance Print
+ */
+?>
+<!-- Content -->
+
+<style>
+    #content_print {
+        margin-left: 50px;
+        width: 624px;
+    }
+    table#mytable {
+        border: 1px solid #e5e5e5;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table#mytable tr td {
+        border: 1px solid #e5e5e5;
+    }
+    table#mytable tr th {
+        border: 1px solid #e5e5e5;
+    }
+</style>
+<!-- Content -->
+
+<style type="text/css" media="print">
+    .page
+    {
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print
+    {    
+        #printButt
+        {
+            display: none !important;
+        }
+    }
+</style>
+
+
+<?php
+if ($this->result && count($this->result) > 0) {
+    $monthNum = $this->m;
+    $monthName = date("F", mktime(0, 0, 0, $monthNum, 10));
+    ?>
+
+    <table style="width:100%;">
+        <tr>
+            <td class="left"><b style="font-size: 16px;"><?php echo $this->product; ?> Placement <?php if ($this->detail_summary == 1) { ?> Summary <?php } else { ?> Detail <?php } ?></b> </td>
+        </tr> 
+    </table>
+
+    <div class="row">
+        <div class="col-md-12">
+            <?php if ($this->detail_summary == 1) { ?>
+                <table id="mytable">
+                    <thead>
+                        <tr>
+                            <th class="center">
+                                #
+                            </th>
+                            <th>
+                                Cold Room
+                            </th>
+                            <th>
+                                Product
+                            </th>
+                            <th class="right">
+                                VVM Stage
+                            </th>
+                            <th class="right">
+                                Quantity (Vials)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $i = 1;
+                        $total = 0;
+                        if ($this->result != false) {
+                            foreach ($this->result as $row) {
+                                $total += $row['quantity'];
+                                ?>
+                                <tr>
+                                    <td class="center">
+                                        <?php echo $i; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['asset_id']; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $this->product; ?>
+                                    </td>
+                                    <td class="right">
+                                        <?php echo $row['vvm_stage']; ?>
+                                    </td>
+                                    <td class="right">
+                                        <?php echo number_format($row['quantity']); ?>
+                                    </td>
+                                </tr>
+                                <?php
+                                $i++;
+                            }
+                        }
+                        ?>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="4" class="right">
+                                Total:
+                            </th>
+                            <th class="right">
+                                <?php echo number_format($total); ?>
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            <?php } else { ?>
+                <table id="mytable">
+                    <thead>
+                        <tr>
+                            <th class="center">
+                                #
+                            </th>
+                            <th>
+                                Cold Room
+                            </th>
+                            <th>
+                                Product
+                            </th>
+                            <th>
+                                Batch Number
+                            </th>
+                            <th class="right">
+                                VVM Stage
+                            </th>
+                            <th class="right">
+                                Quantity (Vials)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $i = 1;
+                        $total = 0;
+                        if ($this->result != false) {
+                            foreach ($this->result as $row) {
+                                $total += $row['quantity'];
+                                ?>
+                                <tr>
+                                    <td class="center">
+                                        <?php echo $i; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['asset_id']; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $this->product; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $row['batch_number']; ?>
+                                    </td>
+                                    <td class="right">
+                                        <?php echo $row['vvm_stage']; ?>
+                                    </td>
+                                    <td class="right">
+                                        <?php echo number_format($row['quantity']); ?>
+                                    </td>
+                                </tr>
+                                <?php
+                                $i++;
+                            }
+                        }
+                        ?>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="5" class="right">
+                                Total:
+                            </th>
+                            <th class="right">
+                                <?php echo number_format($total); ?>
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
+            <?php } ?>
+        </div>
+    </div>
+
+
+    <?php
+}
+?>
+<div style="float:left;">
+    <div class="col-md-12 left">
+        <b>Printed By:</b> <?php echo $this->username ?><br> 
+        <b>Print Date:</b> <?php echo date("d/m/Y"); ?>
+    </div>
+</div>
+<div>
+    <div class="widget-body right">
+        <button name="print" id="print" value="1" type="button" class="btn btn-primary"><?php echo $this->translate("Print"); ?></button> 
+    </div>
+</div>  
+

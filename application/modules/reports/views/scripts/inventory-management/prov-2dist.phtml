@@ -1,0 +1,121 @@
+<?php
+
+/**
+ *  phtml for Prov 2 Dist
+ */
+if ($this->type == 10) {
+    ?>
+
+    <option value="1" <?php
+    if (!empty($sel_indicator) && $sel_indicator == 1) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("Vaccination"); ?></option>
+    <option value="10" <?php
+    if (!empty($sel_indicator) && $sel_indicator == 10) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("Consumption(Vaccination+Wastages)"); ?></option>
+     <option value="11" <?php
+    if (!empty($sel_indicator) && $sel_indicator == 11) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("SOH (Talukas Stores)"); ?></option>
+    <option value="7" <?php
+    if (!empty($sel_indicator) && $sel_indicator == 7) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("SOH (Talukas Stores+UCs)"); ?></option>
+    <option value="8" <?php
+    if (!empty($sel_indicator) && $sel_indicator == 8) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("SOH (UCs)"); ?></option>   
+    <option value="3" <?php
+    if (!empty($sel_indicator) && $sel_indicator == 3) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("Received"); ?></option>
+    <option value="4" <?php
+    if (!empty($sel_indicator) && $sel_indicator == 4) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("Issue"); ?></option>
+    <option value="9" <?php
+    if (!empty($sel_indicator) && $sel_indicator == 9) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("Wastages"); ?></option>
+
+
+<?php } ?>
+
+<?php
+if ($this->type == 9) {
+    ?>
+
+    <option value="1" <?php
+    if (!empty($sel_indicator) && $sel_indicator == 1) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("Vaccination"); ?></option>
+    <option value="10" <?php
+    if (!empty($sel_indicator) && $sel_indicator == 10) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("Consumption(Vaccination+Wastages)"); ?></option>
+    <option value="2" <?php
+    if (!empty($sel_indicator) && $sel_indicator == 2) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("SOH (District+Talukas+UCs)"); ?></option>
+    <option value="5" <?php
+    if (!empty($sel_indicator) && $sel_indicator == 5) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("SOH (District Store)"); ?></option>
+    <option value="6" <?php
+    if (!empty($sel_indicator) && $sel_indicator == 6) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("SOH (District+Talukas Stores)"); ?></option>
+    <option value="7" <?php
+    if (!empty($sel_indicator) && $sel_indicator == 7) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("SOH (Talukas Stores+UCs)"); ?></option>
+    <option value="8" <?php
+    if (!empty($sel_indicator) && $sel_indicator == 8) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("SOH (UCs)"); ?></option>   
+    <option value="3" <?php
+    if (!empty($sel_indicator) && $sel_indicator == 3) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("Received"); ?></option>
+    <option value="4" <?php
+    if (!empty($sel_indicator) && $sel_indicator == 4) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("Issue"); ?></option>
+    <option value="9" <?php
+    if (!empty($sel_indicator) && $sel_indicator == 9) {
+        echo 'selected="selected"';
+    }
+    ?>><?php echo $this->translate("Wastages"); ?></option>
+
+<?php } ?>
+<option value="0"><?php echo $this->translate("Select"); ?></option>
+<?php
+if ($this->result != false) {
+    ?>
+    <?php
+    foreach ($this->result as $row) {
+        ?>
+        <option value="<?php echo $row['key']; ?>">
+            <?php echo $row['value']; ?></option>
+        <?php
+    }
+}
+?>  

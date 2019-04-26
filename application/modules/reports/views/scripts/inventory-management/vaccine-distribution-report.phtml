@@ -1,0 +1,374 @@
+<?php
+/**
+ *  phtml for Central Provincial Warehouse
+ */
+?>
+<?php
+$sel_month = $this->month_sel;
+$sel_year = $this->year_sel;
+
+$counter = 1;
+
+$sel_stk = $this->in_stk;
+$sel_prov = $this->prov_sel;
+$sel_dist = $this->in_dist;
+$sel_indicator = $this->sel_indicator;
+$in_col = $this->in_col;
+$in_rg = $this->in_rg;
+$in_type = $this->in_type;
+$stk_sel = $this->stk_sel;
+$start_date = $this->start_date;
+$end_date = $this->end_date;
+$period = $this->period;
+$str_indicator = $this->str_indicator;
+$wh_type = $this->wh_type;
+
+$warehouse_id = $this->warehouse_id;
+$from_date = $this->date_from;
+$to_date = $this->date_to;
+$report_type = $this->report_type;
+
+$getWHName = $this->reports()->getWarehousename($warehouse_id);
+$whName = $getWHName[0]['warehouse_name'];
+
+$data_arr = array();
+$data_arr1 = array();
+$data_arr1[1][] = 'Balance';
+$count = 1;
+$row_stakeholders1 = $this->reports()->getAllStakeholderActivitiesIssues();
+foreach ($row_stakeholders1 as $res_stak) {
+
+    $row_item = $this->reports()->getProductsByStakeholderActivity($from_date, $to_date, $res_stak['pkId']);
+    foreach ($row_item as $res_item) {
+
+        $data_arr1[1][$count] = 0;
+        $count++;
+    }
+}
+$data_arr1[2][] = 'Received';
+$count = 1;
+$row_stakeholders1 = $this->reports()->getAllStakeholderActivitiesIssues();
+foreach ($row_stakeholders1 as $res_stak) {
+
+    $row_item = $this->reports()->getProductsByStakeholderActivity($from_date, $to_date, $res_stak['pkId']);
+    foreach ($row_item as $res_item) {
+
+        $data_arr1[2][$count] = 0;
+        $count++;
+    }
+}
+$data_arr1[3][] = 'Issue';
+$count = 1;
+$row_stakeholders1 = $this->reports()->getAllStakeholderActivitiesIssues();
+foreach ($row_stakeholders1 as $res_stak) {
+
+    $row_item = $this->reports()->getProductsByStakeholderActivity($from_date, $to_date, $res_stak['pkId']);
+    foreach ($row_item as $res_item) {
+
+        $data_arr1[3][$count] = 0;
+        $count++;
+    }
+}
+//  App_Controller_Functions::pr($data_arr);
+
+foreach ($this->location1 as $row) {
+    $data_arr[$row['pk_id']][] = $row['location_name'];
+    $count = 1;
+    $row_stakeholders1 = $this->reports()->getAllStakeholderActivitiesIssues();
+    foreach ($row_stakeholders1 as $res_stak) {
+
+        $row_item = $this->reports()->getProductsByStakeholderActivity($from_date, $to_date, $res_stak['pkId']);
+        foreach ($row_item as $res_item) {
+
+            $data_arr[$row['pk_id']][$count] = 0;
+            $count++;
+        }
+    }
+}
+//App_Controller_Functions::pr($data_arr);
+//foreach ($this->location as $row) {
+
+$row_stakeholders1 = $this->reports()->getAllStakeholderActivitiesIssues();
+$count = 1;
+foreach ($row_stakeholders1 as $res_stak) {
+
+    $row_item = $this->reports()->getProductsByStakeholderActivity($from_date, $to_date, $res_stak['pkId']);
+    foreach ($row_item as $res_item) {
+        $query_vals = $this->reports()->getIssueQuantity($from_date, $to_date, $res_item['item_pack_size_id'], $wh_type, $warehouse_id);
+        $query_vals_rcv = $this->reports()->getReceiveQuantity1($from_date, $to_date, $res_item['item_pack_size_id'], $wh_type, $warehouse_id);
+        $query_vals_balance = $this->reports()->getBalanceQuantity($from_date, $to_date, $res_item['item_pack_size_id'], $wh_type, $warehouse_id);
+
+
+        foreach ($query_vals_rcv as $row1) {
+            $data_arr1[2][$count] = $row1['RcvQty'];
+        }
+        foreach ($query_vals_balance as $row2) {
+            $data_arr1[1][$count] = $row2['RcvQty'];
+        }
+        foreach ($query_vals as $row) {
+            $data_arr[$row['pk_id']][$count] = $row['IssueQty'];
+            $data_arr_sum[$row['pk_id']][] = $row['IssueQty'];
+        }
+        $count++;
+    }
+}
+
+
+
+foreach ($data_arr as $dis_id => $sub_arr) {
+
+
+    foreach ($sub_arr as $key => $value) {
+        if (!isset($sum_arr1[$key])) {
+            $sum_arr1[$key] = 0;
+        }
+        $sum_arr1[$key] += $value;
+    }
+}
+
+// To show Total
+array_shift($sum_arr1);
+?>
+
+<?php
+$count = 1;
+foreach ($sum_arr1 as $key => $value) {
+    $data_arr1[3][$count] = $value;
+    $count++;
+}
+
+
+
+
+
+
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+
+
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $report_title; ?></h3>
+
+
+        <div class="row">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('inventory-management/reports-header_distribution.phtml') ?>
+                    </td>
+                </tr>
+            </table>
+            <div class="col-md-12 right">
+
+                <img src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="tableToExcel('export', 'sheet 1', '<?php echo $report_title; ?>')" alt="Excel" style="cursor:pointer;" />
+            </div>
+        </div>
+        <div>
+            &nbsp; &nbsp; &nbsp;
+        </div>
+        <div class="row" id="export">
+            <style>
+                table#myTable{margin-top:0px !important; color: #000;}
+                table#myTable{margin-top:20px;border-collapse: collapse;border-spacing: 0; border:1px solid #999;}
+                table#myTable tr td{font-size:11px;padding:3px; text-align:left; border:1px solid #999; color: #000;}
+                table#myTable tr th{font-size:11px;padding:3px; text-align:center; border:1px solid #999; color: #000;}
+                table#myTable tr td.TAR{text-align:right; padding:5px;width:50px !important;}
+                .sb1NormalFont {color: #444444; font-size: 11px; font-weight: bold; text-decoration: none;}
+                p{margin-bottom:5px; font-size:11px !important; line-height:1 !important; padding:0 !important; color: #000;}
+                table#headerTable tr td{ font-size:11px; color: #000;}
+                h4{margin:0; color: #000; font-size:14px;}
+                h5{margin:15px 0 5px 0; color: #000;}
+                h6{margin:0; color: #000; font-size:12px;}
+                .right{text-align:right !important;}
+                .center{text-align:center !important;}
+
+                /* Print styles */
+                @media only print
+                {
+                    table#myTable{margin-top:0px !important;}
+                    table#myTable tr th{font-size:8px;padding:3px !important; text-align:center; border:1px solid #999; color: #000;}
+                    table#myTable tr td{font-size:8px;padding:3px !important; text-align:left; border:1px solid #999; color: #000;}
+                    #doNotPrint{display: none !important;}
+                    h4{margin:0; color: #000;}
+                    h5{margin:0; color: #000;}
+                    h6{margin:0; color: #000;}
+                    p{margin-bottom:5px; font-size:11px !important; line-height:1 !important; padding:0 !important; color: #000;}
+                }
+            </style>
+
+
+            <script>
+                function printContents() {
+                    var w = 900;
+                    var h = screen.height;
+                    var left = Number((screen.width / 2) - (w / 2));
+                    var top = Number((screen.height / 2) - (h / 2));
+                    var dispSetting = "toolbar=yes,location=no,directories=yes,menubar=yes,scrollbars=yes,left=" + left + ",top=" + top + ",width=" + w + ",height=" + h;
+                    var printingContents = document.getElementById("export").innerHTML;
+                    var docprint = window.open("", "", dispSetting);
+                    docprint.document.open();
+                    docprint.document.write('<html><head>');
+                    docprint.document.write('</head><body onLoad="self.print();self.close();"><center>');
+                    docprint.document.write(printingContents);
+                    docprint.document.write('</center></body></html>');
+                    docprint.document.close();
+                    docprint.focus();
+                }
+
+            </script>
+
+            <div class="innerLR" style="overflow:auto;">
+
+
+                <br>
+
+                <table width="100%" >
+<?php
+
+
+$date_f=date_create($from_date);
+
+$date_t=date_create($to_date);
+?>
+                    <td align="center"><h4 class="center">
+                            <?php echo "'$report_title at  $whName'" . '<br>' . " for (" . date_format($date_f,"d F Y") .') to (' . date_format($date_t,"d F Y") ; ?>) - <b>Vials</b>
+                        </h4></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 10px;"><table id="myTable" cellspacing="0" align="center" style="width:100%">
+                                <thead>
+
+
+                                    <tr>
+                                        <th rowspan="2" width="100">Purpose</th>
+
+                                    </tr>
+
+
+                                    <tr>
+
+                                        <?php
+                                        $row_stakeholders = $this->reports()->getAllStakeholderActivitiesIssues();
+                                        foreach ($row_stakeholders as $res_stak) {
+                                            $row_item = $this->reports()->getProductsByStakeholderActivity($from_date, $to_date, $res_stak['pkId']);
+                                            $colspan = 0;
+                                            foreach ($row_item as $res_item) {
+                                                $colspan += 1;
+                                            }
+                                            ?>
+                                            <th style='text-align:center;'  colspan="<?php echo $colspan; ?>" ><?php echo $res_stak['activity']; ?></th>
+                                        <?php }
+                                        ?>
+
+
+                                    </tr>
+                                    <tr>
+                                        <th colspan="1" width="100">Product</th>
+                                        <?php
+                                        $row_stakeholders1 = $this->reports()->getAllStakeholderActivitiesIssues();
+                                        foreach ($row_stakeholders1 as $res_stak) {
+                                            $row_item = $this->reports()->getProductsByStakeholderActivity($from_date, $to_date, $res_stak['pkId']);
+                                            foreach ($row_item as $res_item) {
+                                                ?>
+                                                <th tyle="text-align:center;" colspan="1"><?php echo $res_item['item_name'] ?></th>
+
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+
+
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    if ($report_type == 1) {
+                                        foreach ($data_arr1 as $dis_id1 => $sub_arr1) {
+                                            ?>
+                                            <tr>
+                                                <td style="font-weight:bold; text-align: center;"><?php echo $sub_arr1[0]; ?></td>
+                                                <?php
+                                                foreach ($sub_arr1 as $key1 => $value1) {
+
+
+
+                                                    if ($key1 > 0) {
+                                                        ?><td style="text-align:right;"><?php echo number_format($value1); ?></td>
+
+                                                        <?php
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        if ($report_type == 2) {
+                                            ?> <tr>
+                                                <?php
+                                                $count = 1;
+
+                                                foreach ($data_arr as $dis_id => $sub_arr) {
+                                                    ?>
+                                            <tr>
+
+
+
+                                                <td><?php echo $sub_arr[0]; ?></td>
+
+                                                <?php
+                                                foreach ($sub_arr as $key => $value) {
+
+                                                    if (!isset($sum_arr[$key])) {
+                                                        $sum_arr[$key] = 0;
+                                                    }
+                                                    $sum_arr[$key] += $value;
+
+
+                                                    if ($key > 0) {
+                                                        ?><td style="text-align:right;"><?php echo number_format($value); ?></td>
+
+                                                        <?php
+                                                    }
+                                                }
+                                                $count++;
+                                            }
+                                        }
+
+                                        if ($report_type == 2) {  // To show Total
+                                            array_shift($sum_arr);
+                                            ?>
+                                        <tr>
+
+
+
+
+                                            <td style="font-weight:bold">Total</td>
+                                            <?php
+                                            foreach ($sum_arr as $key => $value) {
+
+
+                                                $total_target = $value;
+                                                ?>
+                                                <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+                                                <?php
+                                            }
+                                            ?>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table></td>
+                    </tr>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+

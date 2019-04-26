@@ -1,0 +1,166 @@
+<?php
+/**
+*  phtml for District Report
+*/
+
+/**
+* District Report
+*/
+?>
+<?php
+$xml_store = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+$xml_store .="<rows>";
+
+//Used for Total
+$sum_arr = array();
+$sel_month = $this->month_sel;
+$sel_year = $this->year_sel;
+$in_col = $this->in_col;
+$in_rg = $this->in_rg1;
+$in_type = $this->in_type1;
+$sel_item = $this->sel_item;
+$sel_prov = $this->prov_sel;
+$in_stk = $this->in_stk;
+$counter = 1;
+
+$rpt_date = $sel_year . '-' . str_pad($sel_month, 2, "0", STR_PAD_LEFT) . '-01';
+
+$result = $this->reports()->getReportData($in_type, $rpt_date, $sel_prov, $sel_item, $in_stk);
+foreach ($result as $row) {
+    $data_arr[$row['district_id']]['location'] = $row['district_name'];
+    $data_arr[$row['district_id']]['cons'] = $row['Vaccinated'];
+    $data_arr[$row['district_id']]['amc'] = $row['AMC'];
+    $data_arr[$row['district_id']]['cb'] = $row['total_SOH'];
+    $data_arr[$row['district_id']]['mos'] = $row['total_MOS'];
+}
+
+//Calculate Total
+foreach ($data_arr as $district_id => $sub_arr) {
+    foreach ($sub_arr as $key => $value) {
+        if (!isset($sum_arr[$key])) {
+            $sum_arr[$key] = 0;
+        }
+        $sum_arr[$key] += $value;
+    }
+}
+array_shift($sum_arr);
+
+foreach ($data_arr as $item_id => $items) {
+    $item_name = $items['location'];
+    $xml_store .="<row>";
+    $xml_store .= "<cell>$item_id</cell>";
+    $month_num = "\"$sel_month\"";
+    $year_num = "\"$sel_year\"";
+    $product_name = "\"$item_id\"";
+
+    $tmp = array();
+    $tmp[] = $data_arr[$item_id]['cons'];
+    $tmp[] = $data_arr[$item_id]['amc'];
+    $tmp[] = $data_arr[$item_id]['cb'];
+    $tmp[] = $data_arr[$item_id]['mos'];
+
+    $sel_stk = 1;
+    $sel_lvl = 4;
+
+    $temp_var = "";
+    $temp_var .= "\"$sel_month\",";
+    $temp_var .= "\"$sel_year\",";
+    $temp_var .= "\"$sel_item\",";
+    $temp_var .= "\"$sel_prov\",";
+    $temp_var .= "\"$item_id\"";
+
+    $xml_store .="<cell><![CDATA[<a href=javascript:functionCall($temp_var)>$item_name</a>]]>^_self</cell>";
+    include('ind_data_render.phtml');
+    unset($tmp);
+}
+
+//To display Total row
+$xml_store .= "<row>";
+$xml_store .= "<cell></cell>";
+$xml_store .= "<cell style=\"font-weight:bold\">Total</cell>";
+foreach ($sum_arr as $key => $value) {
+    if ($key == 'mos') {
+        //Add empty cell before "MOS"
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\"></cell>";
+        $xml_store .= "<cell style=\"text-align:center;font-weight:bold;\">" . number_format($value, 1) . "</cell>";
+    } else {
+        $xml_store .= "<cell style=\"text-align:right;font-weight:bold;\">" . number_format($value, 1) . "</cell>";
+    }
+}
+$xml_store .="</row>";
+//End Total row
+
+$xml_store .="</rows>";
+?>
+<?php
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $report_title . ' ' . $report_month . ' ' . $sel_year; ?></h3>
+        <div class="innerLR">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php
+                        echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('inventory-management/reports-header.phtml') ?>
+                    </td>
+                </tr>                
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td style="text-align:right; padding-bottom:10px;">
+                        <img style="cursor:pointer;" src="<?php echo $this->baseUrl(); ?>/images/pdf-32.png" onClick="mygrid.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="<?php echo $this->translate("Export to PDF"); ?>"/>&nbsp;&nbsp;
+                        <img style="cursor:pointer; margin-left:-5px" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="mygrid.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');" title="<?php echo $this->translate("Export to Excel"); ?>" />
+                    </td>
+                </tr>
+            </table>
+            <table width="99%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <div id="mygrid_container" style="width:100%; height:500px;">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<input type="hidden" name="sel_year" id="sel_year"  value="<?= $sel_year ?>">
+<input type="hidden" name="sel_month" id="sel_month" value="<?= date('F', mktime(0, 0, 0, $sel_month)) ?>">
+
+<script>
+    var mygrid;
+    function doInitGrid() {
+        mygrid = new dhtmlXGridObject('mygrid_container');
+        mygrid.selMultiRows = true;
+        mygrid.setImagePath("<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+        mygrid.setHeader(",<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'><?php echo "District Report For Province/Region = $this->location_name  And Product = $this->item_name (" . date('F', mktime(0, 0, 0, $sel_month)) . ' ' . $sel_year . ")"; ?></div>,#cspan,#cspan,#cspan,#cspan,#cspan");
+        mygrid.attachHeader("<span>District Id</span>,<span title='District Name'>District</span>,<span title='Product Consumption'>Consumption (Doses)</span>,<span title='Average Monthly Consumption'>AMC (Doses)</span>,<span title='Product On Hand'>Product On Hand (Doses)</span>,<div style='text-align:center;' title='Months of Scale'>Months of Stock (MOS)</div>,#cspan");
+        mygrid.setInitWidths("150,*,*,*,*,40,100");
+        mygrid.setColAlign("left,left,right,right,right,center,center");
+        mygrid.setColTypes("ro,ro,ro,ro,ro,ro,ro");
+        mygrid.setColumnHidden(0, true);
+        mygrid.enableRowsHover(true, 'onMouseOver');
+        mygrid.setSkin("light");
+        mygrid.init();
+        mygrid.clearAll();
+        $('body').append('<textarea id="xml_string" style="display:none;"><?php echo addslashes($xml_store); ?></textarea>');
+        mygrid.loadXMLString(document.getElementById('xml_string').value);
+    }
+
+    function functionCall(month, year, prod, province, district) {
+        window.location = "tehsil-report?month_sel=" + month + "&year_sel=" + year + "&prov_sel=" + province + "&stkid=1&prod_sel=" + prod + "&dist_id=" + district;
+    }
+</script>      

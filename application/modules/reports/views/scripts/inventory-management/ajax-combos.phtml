@@ -1,0 +1,204 @@
+<?php
+/**
+ *  phtml for Ajax Combos
+ */
+?>
+<?php
+$skOfcLvl = isset($this->form_values['SkOfcLvl']) ? $this->form_values['SkOfcLvl'] : '';
+$provId = isset($this->form_values['provId']) ? $this->form_values['provId'] : '';
+$distId = isset($this->form_values['distId']) ? $this->form_values['distId'] : '';
+$provSelId = isset($this->form_values['provSelId']) ? $this->form_values['provSelId'] : '';
+$divSelId = isset($this->form_values['divSelId']) ? $this->form_values['divSelId'] : '';
+$distSelId = isset($this->form_values['distSelId']) ? $this->form_values['distSelId'] : '';
+$tehSelId = isset($this->form_values['tehSelId']) ? $this->form_values['tehSelId'] : '';
+$page = isset($this->form_values['report']) ? $this->form_values['report'] : '';
+if ($skOfcLvl != 1 && empty($provId) && empty($distId)) {
+
+
+    if ($page != 'rep' && $page != 'sindh' && $skOfcLvl == 2 && $page != 'rep1-scale') {
+        echo "<option value=\"all\">All</option>";
+    }
+    if ($page == 'sindh') {
+        $qry = $this->reports()->getProvinceNameSindh();
+    } else {
+        $qry = $this->reports()->getProvinceName();
+    }
+
+    if ($page == 'rep1-scale') {
+        ?>
+        <option value="1" <?php
+        // foreach ($this->location as $rowprov) {
+
+        if ($provSelId == 1)
+            echo $sel = "selected='selected'";
+        else
+            $sel = "";
+        ?>>Punjab(old)</option>
+        <option value="211" <?php
+        // foreach ($this->location as $rowprov) {
+
+        if ($provSelId == 211)
+            echo $sel = "selected='selected'";
+        else
+            $sel = "";
+        ?>>Punjab(new)</option>
+        <option value="2" <?php
+        // foreach ($this->location as $rowprov) {
+
+        if ($provSelId == 2)
+            echo $sel = "selected='selected'";
+        else
+            $sel = "";
+        ?>>Sindh</option>
+        <option value="3" <?php
+        // foreach ($this->location as $rowprov) {
+
+        if ($provSelId == 3)
+            echo $sel = "selected='selected'";
+        else
+            $sel = "";
+        ?>>Khyber Pakhtunkhwa</option>
+        <option value="4" <?php
+        // foreach ($this->location as $rowprov) {
+
+        if ($provSelId == 4)
+            echo $sel = "selected='selected'";
+        else
+            $sel = "";
+        ?>>Balochistan</option>
+        <option value="5" <?php
+        // foreach ($this->location as $rowprov) {
+
+        if ($provSelId == 5)
+            echo $sel = "selected='selected'";
+        else
+            $sel = "";
+        ?>>AJK</option>
+        <option value="6" <?php
+        // foreach ($this->location as $rowprov) {
+
+        if ($provSelId == 6)
+            echo $sel = "selected='selected'";
+        else
+            $sel = "";
+        ?>>FATA</option>
+        <option value="7" <?php
+        // foreach ($this->location as $rowprov) {
+
+        if ($provSelId == 7)
+            echo $sel = "selected='selected'";
+        else
+            $sel = "";
+        ?>>Gilgit Baltistan</option>
+        <option value="8" <?php
+        // foreach ($this->location as $rowprov) {
+
+        if ($provSelId == 8)
+            $sel = "selected='selected'";
+        else
+            $sel = "";
+        ?>>Islamabad</option>
+                <?php
+            } else {
+                foreach ($qry as $row) {
+                    if ($provSelId == $row['PkLocID'])
+                        $sel = "selected='selected'";
+                    else
+                        $sel = "";
+                    ?>
+            <option value="<?php echo $row['PkLocID']; ?>" <?php echo $sel; ?>><?php echo $row['LocName']; ?></option>
+
+            <?php
+        }
+    }
+}
+if ($skOfcLvl != 3 && $skOfcLvl != 1 && !empty($provId)) {
+    if ($page != 'rep' && $page != 'vacc_cover') {
+        echo "<option value=\"all\">All</option>";
+    }
+     if ($page == 'vacc_cover' && $provId==8) {
+        ?>
+        <option value="3620" <?php
+        // foreach ($this->location as $rowprov) {
+
+        if ($provSelId == 3620)
+            echo $sel = "selected='selected'";
+        else
+            $sel = "";
+        ?>>CDA</option>
+        <option value="3621" <?php
+        // foreach ($this->location as $rowprov) {
+
+        if ($provSelId == 3621)
+            echo $sel = "selected='selected'";
+        else
+            $sel = "";
+        ?>>ICT</option>
+     <?php }else {
+    $qry = $this->reports()->getProvinceName1($provId);
+
+    foreach ($qry as $row) {
+        if ($distSelId == $row['PkLocID'])
+            $sel = "selected='selected'";
+        else
+            $sel = "";
+        ?>
+        <option value="<?php echo $row['PkLocID']; ?>" <?php echo $sel; ?>><?php echo $row['LocName']; ?></option>
+        <?php
+    }
+}}
+
+if ($skOfcLvl != 3 && $skOfcLvl != 1 && !empty($distId)) {
+    if ($page != 'rep') {
+        echo "<option value=\"all\">All</option>";
+    }
+
+    if ($distId != 'all') {
+        $qry = $this->reports()->getProvinceName2($distId);
+
+        foreach ($qry as $row) {
+            if ($tehSelId == $row['PkLocID'])
+                $sel = "selected='selected'";
+            else
+                $sel = "";
+            ?>
+            <option value="<?php echo $row['PkLocID']; ?>" <?php echo $sel; ?>><?php echo $row['LocName']; ?></option>
+            <?php
+        }
+    }
+}
+
+if ($skOfcLvl == 6 && !empty($tehSelId)) {
+    if ($page != 'rep') {
+        echo "<option value=\"all\">All</option>";
+    }
+
+    if ($tehSelId != 'all') {
+        $qry = $this->reports()->getProvinceName3($tehSelId);
+
+        foreach ($qry as $row) {
+            if ($tehSelId == $row['PkLocID'])
+                $sel = "selected='selected'";
+            else
+                $sel = "";
+            ?>
+            <option value="<?php echo $row['PkLocID']; ?>" <?php echo $sel; ?>><?php echo $row['LocName']; ?></option>
+            <?php
+        }
+    }
+}
+if ($skOfcLvl == 3 && !empty($provId)) {
+
+    $qry = $this->reports()->getDivisions($provId);
+
+    foreach ($qry as $row) {
+        if ($divSelId == $row['PkLocID'])
+            $sel = "selected='selected'";
+        else
+            $sel = "";
+        ?>
+        <option value="<?php echo $row['PkLocID']; ?>" <?php echo $sel; ?>><?php echo $row['LocName']; ?></option>
+        <?php
+    }
+}
+?>

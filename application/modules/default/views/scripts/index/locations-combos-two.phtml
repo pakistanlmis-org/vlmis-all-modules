@@ -1,0 +1,20 @@
+<?php
+/**
+ *  phtml for Locations Combos Two
+ */
+?>
+<?php if ($this->role_id == 39) { ?>
+    <?php if ($this->result != false) { ?><?php echo $this->result[0]['pk_id']; ?><?php
+    }
+} else {
+    if ($this->result != false) {
+        ?>
+        <option value=""><?php echo $this->translate("Select"); ?></option>
+        <?php foreach ($this->result as $row) {
+            ?>
+            <option value="<?php echo $row['pk_id']; ?>" <?php if (!empty($this->district_id) && $row['pk_id'] == $this->district_id) echo 'selected'; ?>>
+                <?php echo $row['location_name']; ?></option>
+            <?php
+        }
+    }
+}?>

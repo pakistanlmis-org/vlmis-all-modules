@@ -1,0 +1,47 @@
+<?php
+/**
+*  phtml for Ajax Stock Placement
+*/
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <?php echo $this->translate("Product").' : '.$this->data['itemName']; ?>
+        </div>
+        <div class="col-md-6">
+            <?php echo $this->translate("Batch No").' : '.$this->data['number']; ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <?php echo $this->translate("Quantity to place").' : '.$this->data['quantity']; ?>
+        </div>
+        <div class="col-md-6">
+            <?php echo $this->translate("Placed Quantity").' : '.$this->data['placed_quantity']; ?>
+        </div>
+    </div>
+</div>
+<div class="row">&nbsp;</div>
+<div class="col-md-3">
+    <div class="form-group ">
+        <label class="control-label" for="cold_chain"><?php echo $this->translate("Cold Chain"); ?></label>
+        <?php echo $this->form->cold_chain; ?>
+    </div>                                
+</div>
+<div class="col-md-3">
+    <div class="form-group ">
+        <label class="control-label" for="quantity"><?php echo $this->translate("Quantity"); ?><span class="red">*</span></label>
+        <?php echo $this->form->quantity; ?>
+    </div>                                
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <?php 
+            echo $this->translate("Remaining Quantity").' : '.$this->data['remaining_quantity']; ?>
+        </div>
+    </div>
+</div>

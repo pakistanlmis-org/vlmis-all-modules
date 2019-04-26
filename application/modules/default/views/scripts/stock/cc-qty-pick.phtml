@@ -1,0 +1,132 @@
+<?php
+/**
+*  phtml for CC Qty Pick
+*/
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">Stock Issue</h3>
+        <?php
+        $qRem = '';
+        $print = FALSE;
+        $show_add = TRUE;
+        if ($this->count[0]['sumplace'] > 0) {
+            $qRem = $this->countRemaing[0]['remValue'];
+            $print = true;
+            if ($qRem == 0) {
+                $show_add = FALSE;
+            }
+        } else {
+            $qRem = $this->result['qty'];
+        }
+        ?>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="coldchian_add" action="" >
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <label class="control-label" >Product: <strong><?php echo $this->result['product']; ?></strong></label>&nbsp;
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" >Batch No: <strong><?php echo $this->batch[0]['number'] ?></strong></label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" >
+                                                    Quantity to Pick <strong> <?php echo $this->result['qty'] ?> </strong> </label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label class="control-label" >Placed Quantity:<strong><?php echo $this->placement[0]['sumplace'] ?> </strong></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <!-- Group -->
+                                            <input type="hidden" id="stockDetailId" name="stockDetailId" value="<?php echo $this->result['stockDetailId']; ?>"/>
+                                            <input type="hidden" name="qty" value="<?php echo $this->result['qty']; ?>"/>
+                                            <input type="hidden" name="batch_id" value="<?php echo $this->result['batchID']; ?>"/>
+                                            <input type="hidden" name="product" value="<?php echo $this->result['product']; ?>"/>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet box green">
+                <div class="portlet-title">
+                    <div class="caption">
+                        Search Results
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="dynamicTable table table-striped table-bordered table-hover dataTable no-footer">
+                                <!-- Table heading -->
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Cold Chain</th>
+                                        <th>Available Quantity </th>
+                                        <th>Pick Quantity</th>
+                                    </tr>
+                                </thead>
+                                <!-- // Table heading END -->
+                                <!-- Table body -->
+                                <tbody>
+                                    <?php
+                                    $m_res = array();
+                                    $i = 1;
+                                    if (count($this->place_lis) > 0) :
+                                        foreach ($this->place_lis as $row):
+                                           
+                                            ?>
+                                            <tr class="gradeX">
+                                                <td><?php echo $i; ?> </td>
+                                                <td><?php echo $this->result['product']; ?>&nbsp;</td>
+                                                <td><?php echo number_format($row['clsQty']); ?></td>
+                                                <td><?php echo $row['StockBatch']['number']; ?>&nbsp;</td>
+                                            </tr>
+                                            <?php
+                                            $i++;
+                                        endforeach;
+                                    endif;
+                                    ?>
+                                </tbody>
+                                <!-- // Table body END -->
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

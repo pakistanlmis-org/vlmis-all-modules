@@ -1,0 +1,29 @@
+<?php
+/**
+*  phtml for Ajax Get Pre Month CB
+*/
+?>
+<?php
+
+if ($this->data['wh_id'] && !empty($this->data['wh_id'])) {
+    $wh_id = $this->data['wh_id'];
+    $month = $this->data['month'];
+    $year = $this->data['year'];
+    $isNewRpt = $this->data['isNewRpt'];
+
+    $month = str_pad($month, 2, 0, STR_PAD_LEFT);
+    $rptDate = $year . '-' . $month . '-01';
+    $rptDate = date('Y-m-d', strtotime("-1 month", strtotime($rptDate)));
+
+    if (($month == '01' || $month == '1') && $year == '2014') {
+        $resSet = array();
+    } else {
+        $qry = $this->reports()->getPreMonthCb($wh_id, $rptDate);
+        $resSet = array();
+        foreach ($qry as $row) {
+            $resSet[$row['item_id']] = $row['wh_cbl_a'];
+        }
+    }
+    echo json_encode($resSet);
+}
+?>

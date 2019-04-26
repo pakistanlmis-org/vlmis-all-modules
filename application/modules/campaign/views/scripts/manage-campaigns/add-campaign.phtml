@@ -1,0 +1,145 @@
+<?php
+/**
+*  phtml for Add Campaign
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            <?php echo $this->translate("Manage Campaigns"); ?>
+        </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate($this->page_heading); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                if (!empty($_GET['success']) && $_GET['success'] == 1) {
+                                    ?>
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button">
+                                            ×
+                                        </button>
+                                        <strong>
+                                            <?php echo $this->translate("Data"); ?>
+                                        </strong> <?php echo $this->translate("has been saved successfully"); ?>
+                                    </div>
+                                <?php }
+                                ?>
+                                <form method="post" action="<?php echo $this->baseUrl(); ?>/campaign/manage-campaigns/<?php echo $this->action; ?>" id="form-add-campaign">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="control-group ">
+                                                <label class="control-label" ><?php echo $this->translate("Name"); ?></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->campaign_name; ?>
+                                                </div>
+                                            </div>
+                                            <div class="control-group ">
+                                                <label class="control-label" ><?php echo $this->translate("Date From"); ?></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->date_from; ?>
+                                                </div>
+                                            </div>
+                                            <div class="control-group ">
+                                                <label class="control-label" ><?php echo $this->translate("Vaccine"); ?></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->item_id; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="control-group ">
+                                                <label class="control-label" ><?php echo $this->translate("Campaign Type/SIA"); ?></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->campaign_type_id; ?>
+                                                </div>
+                                            </div>
+                                            <div class="control-group ">
+                                                <label class="control-label" ><?php echo $this->translate("Date To"); ?></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->date_to; ?>
+                                                </div>
+                                            </div>
+                                            <div class="control-group ">
+                                                <label class="control-label" ><?php echo $this->translate("Catch up days"); ?></label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->catch_up_days; ?>
+                                                    <?php echo $this->form->campaign_update_id; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6" style="padding-top:10px">
+                                            <div class="control-group ">
+                                                <label class="control-label" ><?php echo $this->translate(""); ?></label>
+                                                <select name="districts[]" class="col-md-12" id="msc" multiple="multiple">
+                                                    <?php
+                                                    $userWH = array();
+                                                    foreach ($this->district_data as $row_1) {
+                                                        array_push($userWH, $row_1['pkId']);
+                                                    }
+                                                    foreach ($this->all_districts as $row) {
+                                                        $sel = (in_array($row['pkId'], $userWH) ) ? 'selected="selected"' : '';
+                                                        echo "<option value=\"$row[pkId]\" $sel>$row[locationName]</option>";
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                        </div>
+                                        <div class="col-md-3">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                        </div>
+                                        <div class="col-md-3">
+                                        </div>   
+                                    </div>
+
+                                 
+                                    <div class="col-md-12">
+                                        <div class="form-group pull-right form-btn-margin-top">
+                                            <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit">
+                                                <?php echo $this->translate($this->btn_txt); ?>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- // Content END -->
+

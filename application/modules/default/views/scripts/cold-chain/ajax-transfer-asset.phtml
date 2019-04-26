@@ -1,0 +1,177 @@
+<?php
+/**
+*  phtml for Ajax Transfer Asset
+*/
+?>
+
+<!-- Table -->
+<table class="table table-striped table-bordered table-hover dataTable no-footer">
+    <!-- Table heading -->
+    <thead>
+        <tr>
+            <th>
+                <?php echo $this->translate("S No"); ?>
+            </th>
+            <th>
+                <?php echo $this->translate("Assets"); ?>
+            </th>
+            <th>
+                <?php echo $this->translate("Model"); ?>
+            </th>
+            <th>
+                <?php echo $this->translate("Asset ID"); ?>
+            </th>
+            <th>
+                <?php echo $this->translate("Quantity"); ?>
+            </th>
+            <th class="col-md-2">
+                <?php echo $this->translate("Transfer Quantity Asset"); ?>
+            </th>
+        </tr>
+    </thead>
+    <!-- // Table heading END -->
+
+    <!-- Table body -->
+    <tbody>
+        <!-- Table row -->
+        <?php
+        if ($this->arr_data != false) {
+            ?>
+            <?php
+            $i = 1;
+            foreach ($this->arr_data as $currRow) {
+
+                ?>
+                <tr class="gradeX">
+                    <td nowrap width="50">
+                        <?php echo $i; ?>
+                    </td>
+                    <td nowrap>
+                        <?php echo $currRow['assetTypeName']; ?>
+                    </td>
+                    <td nowrap>
+                        <?php echo $currRow['ccmModelName']; ?>
+                    </td>
+                    <td nowrap>
+                        <?php echo $currRow['assetId']; ?>
+                    </td>
+                    <td nowrap>
+                        <?php
+                        if ($currRow['assetTypeId'] == '2' || $currRow['assetTypeId'] == '4' || $currRow['assetTypeId'] == '5') {
+                            echo $currRow['quantity'];
+                        } else {
+                            echo "&nbsp;";
+                        }
+                        ?>
+                    </td>
+                    <td nowrap style="align:center;">
+                        <?php if ($currRow['assetTypeId'] == '2' || $currRow['assetTypeId'] == '4' || $currRow['assetTypeId'] == '5') { ?>
+                            <input type="text" id="<?= $currRow['pkId'] ?>_quantity_issue" name="quantity_issue_<?= $currRow['pkId'] ?>" value="" class="form-control" />
+                            <input type="hidden" name="quantity_available_<?= $currRow['pkId'] ?>" value="<?= $currRow['quantity']; ?>" />
+                        <?php } else { ?>
+                            <input type="checkbox" value="1" name="transfer_<?= $currRow['pkId'] ?>" >
+                        <?php } ?>
+                        <input type="hidden" value="<?= $currRow['pkId'] ?>" name="hdn_coldchain_id[]" >
+                    </td>
+                </tr>
+                <?php
+                $i++;
+            }
+            ?>
+            <?php
+        } else {
+            ?>
+            <tr class="gradeX">
+                <td colspan="6" class="center">
+                    No Data Found
+                </td>
+            </tr>
+            <?php
+        }
+        ?>  
+        <!-- // Table row END -->
+    </tbody>
+    <!-- // Table body END -->
+</table>
+<!-- // Table END -->
+
+</br>
+<!-- Table -->
+<table class="table table-striped table-bordered table-hover dataTable no-footer">
+    <!-- Table heading -->
+    <thead>
+        <tr>
+            <th>
+                <?php echo $this->translate("S No"); ?>
+            </th>
+            <th>
+                <?php echo $this->translate("Assets"); ?>
+            </th>
+            <th>
+                <?php echo $this->translate("Model"); ?>
+            </th>
+            <th>
+                <?php echo $this->translate("Asset ID"); ?>
+            </th>
+
+            <th class="col-md-2">
+                <?php echo $this->translate("Transfer Quantity Asset"); ?>
+            </th>
+        </tr>
+    </thead>
+    <!-- // Table heading END -->
+
+    <!-- Table body -->
+    <tbody>
+        <!-- Table row -->
+        <?php
+        if ($this->arr_data1 != false) {
+            ?>
+            <?php
+            $i = 1;
+            foreach ($this->arr_data1 as $currRow) {
+                ?>
+                <tr class="gradeX">
+                    <td nowrap width="50">
+                        <?php echo $i; ?>
+                    </td>
+                    <td nowrap>
+                        <?php echo $currRow['assetTypeName']; ?>
+                    </td>
+                    <td nowrap>
+                        <?php echo $currRow['ccmModelName']; ?>
+                    </td>
+                    <td nowrap>
+                        <?php echo $currRow['assetId']; ?>
+                    </td>
+
+                    <td nowrap style="align:center;">
+                        <?php if ($currRow['assetTypeId'] == '2' || $currRow['assetTypeId'] == '4' || $currRow['assetTypeId'] == '5') { ?>
+                            <input type="text" id="<?= $currRow['pkId'] ?>_quantity_issue" name="quantity_issue_<?= $currRow['pkId'] ?>" value="" class="form-control" />
+                            <input type="hidden" name="quantity_available_<?= $currRow['pkId'] ?>" value="<?= $currRow['quantity']; ?>" />
+                        <?php } else { ?>
+                            <input type="checkbox" value="1" name="transfer_<?= $currRow['pkId'] ?>" >
+                        <?php } ?>
+                        <input type="hidden" value="<?= $currRow['pkId'] ?>" name="hdn_coldchain_id[]" >
+                    </td>
+                </tr>
+                <?php
+                $i++;
+            }
+            ?>
+            <?php
+        } else {
+            ?>
+            <tr class="gradeX">
+                <td colspan="5" class="center">
+                    No Data Found
+                </td>
+            </tr>
+            <?php
+        }
+        ?>
+        <!-- // Table row END -->
+    </tbody>
+    <!-- // Table body END -->
+</table>
+<!-- // Table END -->

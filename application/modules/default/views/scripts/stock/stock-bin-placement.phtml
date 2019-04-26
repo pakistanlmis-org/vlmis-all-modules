@@ -1,0 +1,114 @@
+<?php
+/**
+*  phtml for Stock Bin Placement
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"> <?php echo $this->translate("Place Stock at $this->title from received stock list"); ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <a style="color:#fff;" href="<?php echo $this->baseUrl(); ?>/stock/stock-in-bin?id=<?php echo $this->id . "&area=" . $this->area . "&level=" . $this->level; ?>"> Back to Bin </a>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                                    <div class="note note-success">
+                                        <h5 class="block">Stock has been placed successfully!</h5>
+                                    </div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="stockplacement" action="<?php echo $this->baseUrl(); ?>/stock/ajax-add-stock-placement-vaccines" id="stockplacement">
+                                    <!-- Table -->
+                                    <!-- Table -->
+                                    <div class="right">
+                                        <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit"><?php echo $this->translate("Save"); ?></button>
+                                    </div><br>
+                                    <table class="receiveSearch table table-striped table-bordered table-condensed"  >
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2"><?php echo $this->translate("Date") ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Receive No") ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Product") ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Batch No") ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Quantity (Vials/Pcs)") ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Allocated") ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Un-Allocated") ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Place Quantity") ?></th>
+                                        <input type="hidden" id="placement_loc_id" name="placement_loc_id" value="<?php echo $this->id; ?>">
+                                        </tr>
+                                        </thead>
+                                        <!-- // Table heading END -->
+
+                                        <!-- Table body -->
+                                        <tbody>
+                                            <!-- Table row -->
+                                            <?php
+                                            $i = 1;
+                                            if ($this->result && count($this->result) > 0) :
+                                                foreach ($this->result as $row):
+                                                    $pack = $row['quantity'];
+                                                    $allocated_qty = $row['plc_qty'];
+                                                    $unallocated_qty = $row['quantity'] - $row['plc_qty'];
+                                                    if ($unallocated_qty >= 1) {
+                                                        ?>
+                                                        <tr class="gradeX">
+                                                            <td><?php echo date("d/m/Y", strtotime($row['transaction_date'])); ?></td>
+                                                            <td><!-- <a onclick="window.open('print-receive?id=<?php //echo $row['detail_id'];  ?>', '_blank', 'scrollbars=1,width=860,height=595');" href="javascript:void(0);">--><?php echo $row['transaction_number']; ?><!--</a>--></td>
+                                                            <td><?php echo $row['item_name']; ?></td>
+                                                            <td><?php echo $row['number']; ?></td>
+                                                            <td align="right"><?php echo number_format($pack); ?></td>
+                                                            <td align="right"><?php echo $allocated_qty; ?></td>
+                                                            <td><input class="form-control right input-sm" type="text" readonly="readonly" name="unallocated_qty" id="<?php echo $row['detail_id']; ?>" value="<?php echo number_format($unallocated_qty); ?>"></td>
+                                                            <td><input class="qty form-control input-sm" type="text" name="quantity[<?php echo $row['detail_id'] . "_" . $row['batch_id']; ?>]<?php echo $unallocated_qty; ?>" id="<?php echo $row['detail_id']; ?>" value=""></td>
+                                                    <input type="hidden" id="quantity_per_pack" name="quantity_per_pack" value="<?php echo $row['quantity_per_pack']; ?>">
+                                                    </tr>
+                                                    <?php
+                                                }
+                                                $i++;
+                                            endforeach;
+                                        endif;
+                                        ?>
+                                        <!-- // Table row END -->
+                                        </tbody>
+                                        <!-- // Table body END -->
+                                    </table>
+                                    <!-- // Table END -->
+                                    <!---->
+                                    <!--<div class="form-actions fluid right">
+                                        <div class="col-md-offset-3 col-md-9">
+                                            <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit"><?php echo $this->translate("Save"); ?></button>
+                                            <!-- <button class="btn btn-primary" type="button" id="save" name="save">Save</button> -->
+                                        <!--</div>
+                                    </div>-->
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // Content END -->

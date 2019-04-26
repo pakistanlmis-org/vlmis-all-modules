@@ -1,0 +1,156 @@
+<?php
+/**
+*  Layout for Print Landscape.
+*/
+
+?>
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="ie lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>    <html class="ie lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>    <html class="ie lt-ie9"> <![endif]-->
+<!--[if gt IE 8]> <html class="ie gt-ie8"> <![endif]-->
+<!--[if !IE]><!--><html><!-- <![endif]-->
+    <head>
+        <?php echo $this->headTitle('Pakistan Logistics Management Information System'); ?>
+        <!-- Meta -->
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
+        <!-- Bootstrap -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/bootstrap/css/bootstrap.css" rel="stylesheet" />
+        <link href="<?php echo $this->baseUrl(); ?>/common/bootstrap/css/responsive.css" rel="stylesheet" />
+        <!-- Glyphicons Font Icons -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/css/glyphicons.css" rel="stylesheet" />
+        <!-- Column Filter Widgets Css -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/css/ColumnFilterWidgets.css" rel="stylesheet" />
+
+        <!-- Uniform Pretty Checkboxes -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/forms/pixelmatrix-uniform/css/uniform.default.css" rel="stylesheet" />
+        <!-- PrettyPhoto -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/gallery/prettyphoto/css/prettyPhoto.css" rel="stylesheet" />
+        <!-- DateTimePicker Plugin -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/forms/bootstrap-datetimepicker/css/datetimepicker.css" rel="stylesheet" />
+        <!-- JQueryUI -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/system/jquery-ui/css/smoothness/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" />
+        <!-- Main Theme Stylesheet :: CSS -->
+        <!-- Notyfy Notifications Plugin -->
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/notifications/notyfy/jquery.notyfy.css" rel="stylesheet" />
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/notifications/notyfy/themes/default.css" rel="stylesheet" />
+
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/tables/DataTables/extras/TableTools/media/css/TableTools.css" rel="stylesheet" />
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/tables/DataTables/extras/TableTools/media/css/TableTools_JUI.css" rel="stylesheet" />
+
+
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/css/style-light.css?1369414385" rel="stylesheet" />
+        <link href="<?php echo $this->baseUrl(); ?>/common/theme/css/style-green.css" rel="stylesheet" />
+        <!-- LESS.js Library -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/system/less.min.js"></script>
+
+
+        <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+        <link href='//fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'>
+        <!-- <link rel="stylesheet" href="<?php echo $this->baseUrl(); ?>/css/print.css" type="text/css" media="print" /> -->
+
+        <?php echo $this->headLink(); ?>
+        <?php echo $this->headScript(); ?>
+    </head>
+    <body class=""<?php if (isset($child) && $child == 1) { ?> onunload="window.opener.location.reload();" <?php } ?> onLoad="<?php if (isset($xgrid) && $xgrid == 1) : ?> doInitGrid(); <?php endif; ?> <?php if (isset($stkholder) && $stkholder == 1) : ?>showstkHolders(); <?php endif; ?><?php if (isset($_POST['go'])): ?> showProvinces(); showDistricts(); <?php endif; ?><?php if (isset($func) && $func == 1) : ?> func(); <?php endif; ?>">
+        <!-- Main Container Fluid -->
+        <!--        <div class="container-fluid fluid menu-left">
+                     Top navbar END 
+                     Sidebar menu & content wrapper 
+                    <div id="content_print" style="margin:0px auto; width: 835px;">
+                        <div>
+                            <div id="logoLeft" style="float:left; width:52px;">
+                                <img src="<?php echo $this->baseUrl(); ?>/images/EPI_logo.png" style="width:51px; height:52px;" />
+                            </div>
+                            <div id="report_type" style="float:left; width:725px; text-align:center;">
+                                <b>Expanded Program on Immunization</b><br />
+                                Government of Pakistan<br />
+                               
+                                <b>Store:<?php //echo  $this->_identity->getWarehouseName();   ?></b><br />
+                                 <hr />
+                                <p><b><?php echo $this->print_title; ?><br /></b>
+                                 <b>Date: </b><?php echo date('d/m/y'); ?></p>
+                            </div>
+                            <div id="logoRight" style="float: left;width:52px;"">
+                                <img src="<?php echo $this->baseUrl(); ?>/images/gop.png" />
+                            </div>
+                        </div>
+                        <div style="clear:both"></div>
+                       
+                    </div>
+                </div>-->
+        <div class="container-fluid fluid menu-left">
+            <div id="content_print">
+                <div id="logoLeft" style="float:left; width:107px; margin-left: -8px;">
+                    <img src="<?php echo $this->baseUrl(); ?>/images/EPI_logo.png" style="width:51px;" />
+                </div>
+                <div id="report_type" style="float:left; width:960px; text-align:center; font-size: 16px;">
+                    <b>EXPANDED PROGRAM ON IMMUNIZATION</b><br />
+                    <span style="line-height:20px">Government of Pakistan</span><br/>
+                    <span style="line-height:15px"><b>Store: </b><?php echo $this->warehousename; ?></span>
+                    <div style="margin-top:30px;"> </div>
+                    <!-- <p><b style="font-size:16px;"><?php //echo $this->print_title;  ?></b></p> -->
+                </div>
+                <div id="logoRight" style="float: right;">
+                    <img src="<?php echo $this->baseUrl(); ?>/images/gop.png" />
+                </div>
+                <div style="clear:both"></div>
+                <?php echo $this->layout()->content; ?>    
+            </div>            
+        </div>
+        <!-- JQuery -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/system/jquery.min.js"></script>
+        <!-- JQueryUI -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/system/jquery-ui/js/jquery-ui-1.9.2.custom.min.js"></script>
+        <!-- JQueryUI Touch Punch -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/forms/jquery-validation/dist/jquery.validate.js"></script>
+        <!-- small hack that enables the use of touch events on sites using the jQuery UI user interface library -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/system/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+        <!-- Modernizr -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/system/modernizr.js"></script>
+        <!-- Bootstrap -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/bootstrap/js/bootstrap.min.js"></script>
+        <!-- SlimScroll Plugin -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/other/jquery-slimScroll/jquery.slimscroll.min.js"></script>
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/forms/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+
+        <!-- Common Demo Script -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/demo/common.js?1369414385"></script>
+        <!-- Uniform Forms Plugin -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/forms/pixelmatrix-uniform/jquery.uniform.min.js"></script>
+        <!-- PrettyPhoto -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/gallery/prettyphoto/js/jquery.prettyPhoto.js"></script>
+        <!-- DataTables Tables Plugin -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/tables/DataTables/media/js/jquery.dataTables.min.js"></script>
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/tables/DataTables/media/js/DT_bootstrap.js"></script>
+        <!-- <script src="<?php echo $this->baseUrl(); ?>/plmis_js/jquery.price_format.1.8.min.js"></script> -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/notifications/notyfy/jquery.notyfy.js"></script>
+        <script src="<?php echo $this->baseUrl(); ?>/js/jquery.price_format.1.8.min.js"></script>
+        <script src="<?php echo $this->baseUrl(); ?>/js/jquery.inlineEdit.js"></script>
+        <!-- Column Filter Widget -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/demo/ColumnFilterWidgets.js"></script>
+        <!-- Column Table Tools -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/tables/DataTables/extras/TableTools/media/js/TableTools.js"></script>
+        <!-- Column Table Tools min -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/tables/DataTables/extras/TableTools/media/js/TableTools.min.js"></script>
+        <!-- Column Table Tools zero Clipboard -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/plugins/tables/DataTables/extras/TableTools/media/js/ZeroClipboard.js"></script>
+        <!-- Tables Demo Script -->
+        <script src="<?php echo $this->baseUrl(); ?>/common/theme/scripts/demo/tables.js"></script>
+
+        <?php echo $this->inlineScript(); ?>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-48587374-1', 'auto');
+  ga('send', 'pageview');
+</script>
+    </body>
+
+</html>

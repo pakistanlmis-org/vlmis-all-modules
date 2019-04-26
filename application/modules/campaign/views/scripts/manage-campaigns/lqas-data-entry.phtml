@@ -1,0 +1,232 @@
+<?php
+/**
+*  phtml for LQAS Data Entry
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("LQAS Data Entry") ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("LQAS Data Entry Search") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="batch_search" action="" >
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Campaign"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->campaign_search_id; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" >&nbsp;</label>
+                                                <div class="controls">
+                                                    <button class="btn btn-primary" type="submit" name="search"><?php echo $this->translate("Search") ?></button>
+
+                                                    <button type="reset" class="btn btn-info" id="reset">Reset</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                            </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("LQAS Data Entry List") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dataTables_wrapper form-inline">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                        </div>
+                                        <div class="col-md-9">
+                                            <div class="dataTables_filter">
+                                                <label>
+                                                    <a class="btn btn-primary" data-toggle="modal" href="#modal-add-user"><?php echo $this->translate("Add LQAS") ?></a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table table-striped table-bordered table-hover dataTable no-footer" id="sample_2">
+                                        <!-- Table heading -->
+                                        <?php
+                                        $fields = array(
+                                            'uc' => 'UC',
+                                            'surveyor' => 'Surveyor',
+                                            'checked' => 'Checked',
+                                            'unvaccinated' => 'Unvaccinated',
+                                            'remarks' => 'Remarks'
+                                        );
+                                        $this->tableHeading($this->order, $this->sort, $fields);
+                                        ?>
+                                        <!-- // Table heading END -->
+                                        <!-- Table body -->
+
+                                        <!-- // Table body END -->
+                                        <tbody>
+                                            <?php
+                                            $m_res = array();
+                                            $i = 1;
+                                            if ($this->paginator && count($this->paginator) > 0) :
+                                                foreach ($this->paginator as $row):
+                                                    ?>
+                                                    <tr class="<?php if ($i % 2 == 0) { ?>gradeX even<?php } else { ?> gradeA odd<?php } ?>">
+                                                        <td><?php echo $row['locationName']; ?></td>
+                                                        <td><?php echo $row['surveyor']; ?></td>
+                                                        <td><?php echo $row['checked']; ?></td>
+                                                        <td><?php echo $row['unvaccinated']; ?></td>
+                                                        <td><?php echo $row['remarks']; ?></td>
+                                                        <td><a itemid="<?php echo $row['pkId']; ?>" class="update-user fa fa-edit cursor-hand" data-toggle="modal" href="#modal-update-user"></a>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- // Table row END --><?php
+                                                    $i++;
+                                                endforeach;
+                                            endif;
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/campaign/manage-campaigns/add-campaign-lqas" id="add-user">
+            <div class="modal fade" id="modal-add-user" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">LQAS Data Entry</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label"><?php echo $this->translate("Campaign"); ?></label>
+                                            <?php echo $this->form->campaign_id; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label"><?php echo $this->translate("Province"); ?></label>
+                                            <?php echo $this->form->province_id; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label"><?php echo $this->translate("District"); ?></label>
+                                            <?php echo $this->form->district_id; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label"><?php echo $this->translate("UC"); ?></label>
+                                            <?php echo $this->form->uc_id; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label"><?php echo $this->translate("Surveyor"); ?></label>
+                                            <?php echo $this->form->surveyor; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label"><?php echo $this->translate("Checked"); ?></label>
+                                            <?php echo $this->form->checked; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label"><?php echo $this->translate("Unvaccinated"); ?></label>
+                                            <?php echo $this->form->unvaccinted; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label"><?php echo $this->translate("Remarks"); ?></label>
+                                            <?php echo $this->form->remarks; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit"><?php echo $this->translate("Save"); ?></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/campaign/manage-campaigns/update-campaign-lqas" id="update-user" enctype="multipart/form-data">
+            <div class="modal fade" id="modal-update-user" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">Edit LQAS Data Entry</h4>
+                        </div>
+                        <div class="modal-body" id="modal-body-contents">
+                            <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                        </div>
+                        <div class="modal-footer" id="update-button">
+                            <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit"><?php echo $this->translate("Update"); ?></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- // Content END -->

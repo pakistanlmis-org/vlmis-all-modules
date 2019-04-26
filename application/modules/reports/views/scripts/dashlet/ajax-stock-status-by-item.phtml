@@ -1,0 +1,52 @@
+<?php
+/**
+*  phtml for Ajax Stock Status by Item
+*/
+?>
+<div class="portlet box <?php echo ($this->type == 1) ? "blue" : "green"; ?>">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-picture"></i><?php echo ($this->type == 1) ? "Received From (Warehouse Name)" : "Issued To (Warehouse Name)"; ?>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-scrollable">
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            S.No
+                        </th>
+                        <th>
+                            Warehouse Name
+                        </th>
+                        <th>
+                            Batch Name
+                        </th>
+                        <th class="right">
+                            Quantity
+                        </th>                        
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <?php
+                    $count = 1;
+                    foreach ($this->data as $row) {
+                        ?>
+                        <tr>
+                            <td><?php echo $count; ?></td>
+                            <td><?php echo $row['warehouse_name']; ?></td>
+                            <td><?php echo $row['number']; ?></td>
+                            <td class="right"><?php echo $row['Qty']; ?> Vials</td>                            
+                        </tr>
+                        <?php
+                        $count++;
+                    }
+                    ?>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

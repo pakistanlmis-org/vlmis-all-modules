@@ -1,0 +1,266 @@
+<?php
+/**
+*  phtml for Store Issuance Report
+*/
+?>
+<?php
+$sel_month = $this->month_sel;
+$sel_year = $this->year_sel;
+$counter = 1;
+
+$sel_stk = $this->in_stk;
+$sel_prov = $this->province;
+$sel_div = $this->division;
+$sel_dist = $this->district1;
+$sel_tehsil = $this->tehsil;
+$wh_type = $this->wh_type;
+$wh_type2 = $this->wh_type;
+$sel_indicator = $this->sel_indicator;
+$in_col = $this->in_col;
+$in_rg = $this->in_rg;
+$in_type = $this->in_type;
+$stk_sel = $this->stk_sel;
+$start_date = $this->start_date;
+$sel_item = $this->sel_item;
+$end_date = $this->end_date;
+$period = $this->period;
+$str_indicator = $this->str_indicator;
+$year1 = $this->year_sel;
+
+$data_arr = array();
+
+if ($wh_type == 2 && $sel_prov == 'all') {
+    $wh_type = 1;
+} else if ($wh_type == 4 && $sel_dist == 'all') {
+    $wh_type = 2;
+} else if ($wh_type == 5 && $sel_tehsil == 'all') {
+    $wh_type = 4;
+}
+
+switch ($wh_type) {
+    case 1:
+        $header = 'Province,Annual Target,Monthly Target';
+        $location_name = "National";
+        break;
+    case 2:
+        $header = 'District,Annual Target,Monthly Target';
+        $location_name = "Province : " . $this->reports()->getLocationName($sel_prov);
+        break;
+    case 3:
+        $header = 'District,Annual Target,Monthly Target';
+        $location_name = "Division : " . $this->reports()->getLocationName($sel_div);
+        break;
+    case 4:
+        $header = 'Tehsil,Annual Target,Monthly Target';
+        $location_name = "District : " . $this->reports()->getLocationName($sel_dist);
+        break;
+    case 5:
+        $header = 'UC,Annual Target,Monthly Target';
+        $location_name = "Tehsil : " . $this->reports()->getLocationName($sel_tehsil);
+        break;
+}
+
+$cspan = '';
+$width = '120,75,75';
+$ro = 'ro,ro,ro';
+
+foreach ($period as $date) {
+    $cspan .= ',#cspan';
+    $header .= ',<span>' . $date->format("M-y") . '</span>';
+    $monthArr[] = $date->format("m-Y");
+    $width .= ',53';
+    $ro .= ',ro,ro';
+}
+$header .= ',<span>' . "Remaining" . '</span>';
+$sel_loc = "";
+switch ($wh_type) {
+    case 1:
+        $query = $this->reports()->provincialTarget($sel_prov, $sel_item, $year1);
+        break;
+    case 2:
+        $query = $this->reports()->districtTarget($sel_prov, $sel_item, $year1);
+        $sel_loc = $sel_prov;
+        break;
+    case 3:
+        $query = $this->reports()->divionalTarget($sel_div, $sel_item, $year1);
+        $sel_loc = $sel_div;
+        break;
+    case 4:
+        $query = $this->reports()->tehsilTarget($sel_dist, $sel_item, $year1);
+        $sel_loc = $sel_dist;
+        break;
+    case 5:
+        $query = $this->reports()->ucTarget($sel_tehsil, $sel_item, $year1);
+        $sel_loc = $sel_tehsil;
+        break;
+}
+
+foreach ($query as $row) {
+    switch ($wh_type) {
+        case 1:
+            $loc_id = $row['province_id'];
+            $data_arr[$loc_id][] = $row['province'];
+            break;
+        case 2:
+            $loc_id = $row['district_id'];
+            $data_arr[$loc_id][] = $row['district'];
+            break;
+        case 3:
+            $loc_id = $row['division_id'];
+            $data_arr[$loc_id][] = $row['division'];
+            break;
+        case 4:
+            $loc_id = $row['tehsil_id'];
+            $data_arr[$loc_id][] = $row['tehsil'];
+            break;
+        case 5:
+            $loc_id = $row['uc_id'];
+            $data_arr[$loc_id][] = $row['uc'];
+            break;
+    }
+
+    $data_arr[$loc_id][] = $row['AnnualyTarget'];
+    $data_arr[$loc_id][] = $row['MonthlyTarget'];
+
+    $count = 3;
+    foreach ($period as $date) {
+        $data_arr[$loc_id][$count] = 0;
+        $count++;
+    }
+}
+
+$count = 3;
+foreach ($period as $date) {
+    $date_in = $startDate = $endDate = $date->format("Y-m");
+    $year = $date->format("Y");
+    $month = $date->format("m");
+    $query2 = $this->reports()->getStoreIssuanceReport($date_in, $wh_type, $sel_item, $sel_loc);
+   
+    foreach ($query2 as $row) {
+        $data_arr[$row['loc_id']][$count] = $row['total'];
+    }
+    $count++;
+}
+$s_date = $this->start_date;
+$e_date = $this->end_date;
+$xml_store = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+$xml_store .= "<rows>";
+
+foreach ($data_arr as $dis_id => $sub_arr) {
+
+    $totalqty = 0;
+    foreach ($sub_arr as $val) {
+        if (is_numeric($val)) {
+            $totalqty += $val;
+        }
+    }
+
+    $monthly_target = round($sub_arr[1] / 12);
+    $remaining = $sub_arr[1] - $totalqty;
+
+    $xml_store .= "<row>";
+    $xml_store .= "<cell>$sub_arr[0]</cell>";
+    $xml_store .= "<cell style=\"text-align:right\">" . number_format($sub_arr[1]) . "</cell>";
+    $xml_store .= "<cell style=\"text-align:right\">" . number_format($sub_arr[2]) . "</cell>";
+
+    foreach ($sub_arr as $key => $value) {
+        if ($key > 2) {
+            $xml_store .= "<cell style=\"text-align:right\">$value</cell>";
+        }
+    }
+
+    $xml_store .= "<cell style=\"text-align:right\">" . number_format($remaining) . "</cell>";
+    $xml_store .="</row>";
+}
+
+
+$xml_store .="</rows>";
+?>
+
+<?php
+$item_name = $this->reports()->getItemName($sel_item);
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $report_title . ' ' . $report_month . ' ' . $sel_year; ?></h3>
+        <h5 style="color: red">
+            Note: This report is under user testing.
+        </h5>
+        <div class="innerLR">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php
+                        echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('inventory-management/reports-header.phtml') ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td style="text-align:right; padding-bottom:10px;">
+                        <img style="cursor:pointer;" src="<?php echo $this->baseUrl(); ?>/images/pdf-32.png" onClick="mygrid.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="<?php echo $this->translate("Export to PDF"); ?>"/>&nbsp;&nbsp;
+                        <img style="cursor:pointer; margin-left:-5px" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="mygrid.setColumnHidden(0, false);
+                                mygrid.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');
+                                mygrid.setColumnHidden(0, true);" title="<?php echo $this->translate("Export to Excel"); ?>" />
+                    </td>
+                </tr>
+            </table>
+
+            <table width="99%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <div id="mygrid_container" style="width:100%; height:510px;">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    var mygrid;
+    function doInitGrid() {
+        mygrid = new dhtmlXGridObject('mygrid_container');
+        mygrid.selMultiRows = true;
+        mygrid.setImagePath(
+                "<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+        mygrid.setHeader("<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'><?php echo $this->report_title . " " . $this->year_sel . " For " . "'$location_name'" . " of" . ' ' . "'$item_name'"; ?><?php echo $cspan; ?>,#cspan,#cspan,#cspan");
+        mygrid.attachHeader("<?php echo $header; ?>");
+        mygrid.setInitWidths("<?php echo $width; ?>");
+        mygrid.setColTypes("<?php echo $ro; ?>");
+        mygrid.enableRowsHover(true, 'onMouseOver');
+        mygrid.setSkin("light");
+        mygrid.init();
+        mygrid.clearAll();
+        $('body').append('<textarea id="xml_string" style="display:none;"><?php echo addslashes($xml_store); ?></textarea>');
+        mygrid.loadXMLString(document.getElementById('xml_string').value);
+    }
+
+    function functionCall(param) {
+        var width = 1002;
+        var height = 595;
+        var x = (screen.width / 2) - (width / 2);
+        var y = (screen.height / 2) - (height / 2);
+        window.open('reported-warehouse-list?param=' + param, '_blank', 'scrollbars=1,width=' + width + ',height=' + height + ',left=' + x + ',top=' + y);
+    }
+
+    function showGraph(param) {
+        window.open('<?php echo $this->baseUrl(); ?>/reports/graphs/reported-districts?param=' + param, '_blank', 'scrollbars=1,width=950,height=600');
+    }
+    var whType = <?php echo $wh_type2; ?>;
+    var province = <?php echo $sel_prov; ?>;
+    var district = <?php echo $sel_dist; ?>;
+    var tehsil = <?php echo $sel_tehsil; ?>;
+</script>

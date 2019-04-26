@@ -1,0 +1,11 @@
+<?php
+/**
+*  phtml for Ajax Reported Non Reported Province
+*/
+?>
+<?php
+
+FC_SetRenderer('javascript');
+echo renderChart("FusionCharts/Charts/Column2D.swf", "", $this->xmlstore, 'rrStatusProvinceAjax', '100%', 395, false, false);
+?>
+

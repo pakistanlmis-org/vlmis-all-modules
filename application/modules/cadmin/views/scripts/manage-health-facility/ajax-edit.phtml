@@ -1,0 +1,109 @@
+<?php
+/**
+*  phtml for Ajax Edit
+*/
+?>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group ">
+            <label class="control-label" ><?php echo $this->translate("Selected Warehouse"); ?></label>
+            <?php echo $this->form->old_warehouse; ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <?php $this->ucLevelCombo("Office", "2"); ?>    
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group " >
+            <label class="control-label" ><?php echo $this->translate("Type of Health Facility"); ?> <span class="red">*</span></label>
+            <?php echo $this->form->health_facility_type; ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group ">
+            <label class="control-label" ><?php echo $this->translate("Types of Services Provided"); ?> <span class="red">*</span></label><br><br>
+            <?php
+            foreach ($this->services_type as $rs) {
+                $sel = (in_array($rs['pkId'], $this->ser_type) ) ? 'checked' : '';
+                ?>
+                <input type="checkbox" name='services_type[]' id='hf_type<?php echo $rs['pkId']; ?>' value='<?php echo $rs['pkId']; ?>' <?php echo $sel; ?>> <?php echo $rs['listValue']; ?><br />
+                <?php
+            }
+            ?>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-9">
+        <div class="form-group ">
+            <label class="control-label" ><?php echo $this->translate("Routine Immunization Ice Pack Requirements"); ?> <span class="red">*</span></label>
+            <?php echo $this->form->routine_immunization_ice_pack; ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-9">
+        <div class="form-group ">
+            <label class="control-label" ><?php echo $this->translate("SNID/NID Ice Pack Requirments"); ?> <span class="red">*</span></label>
+            <?php echo $this->form->snid_nid_ice_pack; ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group ">
+            <label class="control-label" ><?php echo $this->translate("Vaccine Supply Mode"); ?> <span class="red">*</span></label>
+            <?php echo $this->form->vaccine_supply_mode; ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group ">
+            <label class="control-label" ><?php echo $this->translate("EPI Vaccination Staff"); ?> <span class="red">*</span></label><br><br>
+            <?php
+            foreach ($this->epi_vaccination_staff as $rs) {
+                $sel = (in_array($rs['pkId'], $this->vac_staff) ) ? 'checked' : '';
+                ?>
+                <input type="checkbox" name='epi_vaccination_staff[]' id='hf_type<?php echo $rs['pkId']; ?>' value='<?php echo $rs['pkId']; ?>' <?php echo $sel; ?>> <?php echo $rs['listValue']; ?><br />
+
+                <?php
+            }
+            ?>
+
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group ">
+            <label class="control-label" ><?php echo $this->translate("Grid Electricity Availability"); ?> <span class="red">*</span></label>
+            <?php echo $this->form->grid_electricity_availibility; ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group ">
+            <label class="control-label" ><?php echo $this->translate("Solar Energy"); ?> <span class="red">*</span></label><br><br>
+            <?php
+            foreach ($this->solar_energy as $rs) {
+                $sel = (in_array($rs['pkId'], $this->so_energy) ) ? 'checked' : '';
+                ?>
+                <input type="checkbox" name='solar_energy[]' id='hf_type<?php echo $rs['pkId']; ?>' value='<?php echo $rs['pkId']; ?>' <?php echo $sel; ?>> <?php echo $rs['listValue']; ?><br />
+
+                <?php
+            }
+            ?>
+        </div>
+    </div>
+</div>
+<?php echo $this->form->id; ?>  
+<?php echo $this->form->old_warehouse_val; ?> 
+<?php echo $this->form->office_level; ?>  

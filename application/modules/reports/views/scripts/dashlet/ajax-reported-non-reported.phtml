@@ -1,0 +1,59 @@
+<?php
+/**
+*  phtml for Ajax Reported Non Reported
+*/
+?>
+<div class="portlet box <?php echo ($this->type == 1) ? "blue" : "green"; ?>">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-picture"></i><?php echo ($this->type == 1) ? "Reported Union Council List" : "Non Reported Union Council List"; ?>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-scrollable">
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            S.No
+                        </th>
+                        <th>
+                            Union Council Name
+                        </th>
+                        <th>&nbsp;</th>
+                        <th>
+                            S.No
+                        </th>
+                        <th>
+                            Union Council Name
+                        </th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <?php
+                        $count = 1;
+                        foreach ($this->data as $row) {
+                            ?>
+                            <?php if ($count % 2 == 0) { ?>
+                                <td>&nbsp;</td>
+                            <?php } ?>
+                            <td>
+                                <?php echo $count; ?>
+                            </td>
+                            <td>
+                                <?php echo $row['location_name']; ?>
+                            </td>
+                            <?php if ($count % 2 == 0) { ?>
+                            </tr><tr>
+                            <?php } ?>
+                            <?php
+                            $count++;
+                        }
+                        ?>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

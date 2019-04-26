@@ -1,0 +1,38 @@
+<?php
+/**
+*  phtml for Ajax Campaign Item Groups Edit
+*/
+?>
+<div class="row">
+    <div class="col-md-5">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Product Groups"); ?><span class="red">*</span></label>
+            <div class="controls">
+                <?php echo $this->form->item_id_edit; ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Age Group1"); ?><span class="red">*</span></label>
+            <div class="controls">
+                <?php echo $this->form->age_group1_min; ?> <div id="dash1">-</div> <?php echo $this->form->age_group1_max; ?>
+            </div>
+        </div>
+    </div>
+</div> 
+<div class="row">
+    <div class="col-md-6">
+        <div class="control-group ">
+            <label class="control-label" ><?php echo $this->translate("Age Group2"); ?><span class="red">*</span></label>
+            <div class="controls">
+                <?php echo $this->form->age_group2_min; ?> <div id="dash2">-</div> <?php echo $this->form->age_group2_max; ?>
+            </div>
+        </div>
+    </div>
+
+</div> 
+
+<?php echo $this->form->campaign_item_groups_id; ?>

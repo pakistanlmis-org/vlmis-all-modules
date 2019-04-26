@@ -1,0 +1,105 @@
+Locations:
+  type: entity
+  table: locations
+  fields:
+    pkId:
+      id: true
+      type: integer
+      unsigned: false
+      nullable: false
+      column: pk_id
+      generator:
+        strategy: IDENTITY
+    locationName:
+      type: string
+      length: 100
+      fixed: false
+      nullable: true
+      column: location_name
+    status:
+      type: boolean
+      nullable: true  
+    ccmLocationId:
+      type: integer
+      unsigned: false
+      nullable: true
+      column: ccm_location_id
+    sdmsName:
+      type: string
+      length: 255
+      fixed: false
+      nullable: true
+      column: sdms_name
+    createdDate:
+      type: datetime
+      nullable: true
+      column: created_date
+    modifiedDate:
+      type: datetime
+      nullable: false
+      column: modified_date
+  oneToOne:
+    district:
+      targetEntity: Locations
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        district_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    geoLevel:
+      targetEntity: GeoLevels
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        geo_level_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    locationType:
+      targetEntity: LocationTypes
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        location_type_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    province:
+      targetEntity: Locations
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        province_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    createdBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        created_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    modifiedBy:
+      targetEntity: Users
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        modified_by:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+    parent:
+      targetEntity: Locations
+      cascade: {  }
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        parent_id:
+          referencedColumnName: pk_id
+      orphanRemoval: false
+  lifecycleCallbacks: {  }

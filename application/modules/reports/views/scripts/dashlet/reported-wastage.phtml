@@ -1,0 +1,28 @@
+<?php
+/**
+*  phtml for Reported Wastage
+*/
+?>
+<?php
+if ($this->level == 2) {
+    FC_SetRenderer('javascript');
+    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/MSColumn2D.swf", "", $this->xmlstore1, "reportedvsWastages", '100%', 350, false, false);
+    ?>
+    <div class="col-md-12 left" style="font-size: 11px;font-weight:550; color:#D06377 !important">Please co-relate wastage with reporting rate and permissable wastage allowances.</div>
+    <?php
+}
+if ($this->level == 6) {
+    ?>
+    <div class="col-md-6"><?php
+        FC_SetRenderer('javascript');
+        echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie3D.swf", "", $this->xmlstore61, 'Wastages', '100%', 350, false, false);
+        ?></div>
+    <div class="col-md-6"><?php
+        FC_SetRenderer('javascript');
+        echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie3D.swf", "", $this->xmlstore62, 'Reporting', '100%', 350, false, false);
+        ?></div>
+
+    <?php
+}
+?>
+<div style="clear:both;"></div>

@@ -1,0 +1,3 @@
+[12-Mar-2019 15:29:08 Asia/Karachi] PHP Fatal error:  Call to a member function fetch_array() on boolean in /home/vlmispk/public_html/dhis_mapping/classes/database.php on line 142
+[12-Mar-2019 15:29:59 Asia/Karachi] PHP Fatal error:  Call to a member function fetch_array() on boolean in /home/vlmispk/public_html/dhis_mapping/classes/database.php on line 142
+[12-Mar-2019 15:30:03 Asia/Karachi] PHP Fatal error:  Call to a member function fetch_array() on boolean in /home/vlmispk/public_html/dhis_mapping/classes/database.php on line 142

@@ -1,0 +1,10 @@
+<?php
+/**
+*  phtml for Get SOH
+*/
+?>
+<?php
+
+FC_SetRenderer('javascript');
+echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Pie2D.swf", "", $this->xmlstore, 'ProvincialSOH', '100%', 395, false, false);
+?>

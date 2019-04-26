@@ -1,0 +1,157 @@
+<?php
+/**
+*  phtml for Add Transport
+*/
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Cold Chain"); ?></h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("New Add Transport Asset"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                        <strong>Data</strong> has been saved successfully!
+                                    </div>
+                                <?php } ?>
+                                <form method="POST" name="asset_add" id="asset_add" action="<?php echo $this->action; ?>" >
+                                    <?php echo $this->render('cold-chain/add-main.phtml'); ?>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="transporttype"><?php echo $this->translate("Transport Type"); ?></label> <span class="red">*</span>
+                                                <?php echo $this->form->ccm_asset_sub_type_id; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="registrationno"><?php echo $this->translate("Registration No"); ?></label> <span class="red">*</span>
+                                                <?php echo $this->form->registration_no; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="ccmmakeid"><?php echo $this->translate("Make"); ?><span class="red">*</span></label>
+                                                <?php echo $this->form->ccm_make_id; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="ccmmodelid"><?php echo $this->translate("Model"); ?><span class="red">*</span></label>
+                                                <?php echo $this->form->ccm_model_id; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="manufactureyear"><?php echo $this->translate("Manufacture Year"); ?></label> <span class="red">*</span>
+                                                <?php echo $this->form->manufacture_year; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="fueltype"><?php echo $this->translate("Fuel Type"); ?></label> <span class="red">*</span>
+                                                <?php echo $this->form->fuel_type_id; ?>
+                                            </div>
+                                        </div>
+                                        <div id="capacity_div" class="col-md-3" style="visibility: hidden">
+                                            <div class="form-group">
+                                                <label class="control-label" for="usedforepi"><?php echo $this->translate("Capacity"); ?></label><span class="red">*</span>
+                                                <?php echo $this->form->used_for_epi; ?>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="comment"><?php echo $this->translate("Comments"); ?></label>
+                                                <?php echo $this->form->comments; ?>
+                                                <!-- hidden field for update-->
+                                                <?php echo $this->form->ccm_id; ?>
+                                                <?php echo $this->form->model_hidden; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-11">&nbsp;</div>
+                                        <div class="col-md-1">
+                                            <div class="form-group">
+                                                <button class="btn btn-primary" type="submit" id="add" name="add"><?php echo $this->translate("Save"); ?></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <?php if ($this->action == 'add') { ?>
+                                    <table class="receiveSearch table table-striped table-bordered table-condensed"  >
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2"><?php echo $this->translate("Transport Type"); ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Registration No"); ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Make"); ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Model"); ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Manufacture Year"); ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("Used For EPI"); ?></th>
+                                                <th colspan="2"><?php echo $this->translate("Fuel Type"); ?></th>
+                                            </tr>
+                                        </thead>
+                                        <!-- // Table heading END -->
+
+                                        <!-- Table body -->
+                                        <tbody>
+                                            <!-- Table row -->
+                                            <?php
+                                            $m_res = array();
+                                            $i = 1;
+                                            if ($this->result && count($this->result) > 0) :
+                                                foreach ($this->result as $row):
+                                                    ?>
+                                                    <tr class="gradeX">
+                                                        <td style="text-align: center"><?= $row['assetTypeName'] ?></td>
+                                                        <td style="text-align: center"><?= $row['registrationNo'] ?></td>
+                                                        <td style="text-align: center"><?= $row['ccmMakeName'] ?></td>
+                                                        <td style="text-align: center"><?= $row['ccmModelName'] ?></td>
+                                                        <td style="text-align: center"><?= $row['manufactureYear'] ?></td>
+                                                        <td style="text-align: center"><?= $row['usedForEpi'] ?></td>
+                                                        <td style="text-align: center"><?= $row['listValue'] ?></td>
+                                                    </tr>
+                                                    <?php
+                                                endforeach;
+                                            endif;
+                                            ?>
+                                            <!-- // Table row END -->
+                                        </tbody>
+                                        <!-- // Table body END -->
+                                    </table>
+                                    <!-- // Table END -->
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

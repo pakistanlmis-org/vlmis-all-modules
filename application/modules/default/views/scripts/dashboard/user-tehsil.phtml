@@ -1,0 +1,122 @@
+<?php
+/**
+*  phtml for User Tehsil
+*/
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+         <!-- BEGIN PAGE HEADER-->
+        <?php if ($this->user_role == 4 || $this->user_role == 5 || $this->user_role == 6 || $this->user_role == 7 ) { ?>
+        <?php if(!empty($this->pending_receive1)) { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <small style="font-weight: bold;color:red;"><?php
+                        echo "Pending Vouchers for " . $this->warehouse_name . " : ";                        
+                            foreach ($this->pending_receive1 as $pending_receive) {
+                            ?> 
+                            <a style="color:red" href="<?php echo $this->baseUrl(); ?>/stock/receive-warehouse?issue_no=<?php echo $pending_receive['transaction_number']; ?>&search=true"><?php echo $pending_receive['transaction_number'] ?></a>,
+                        <?php } ?>                        
+                    </small>
+                    <hr>
+                </div>
+            </div>
+        <?php } } ?>
+        <!-- BEGIN PAGE HEADER-->
+        <div class="row">
+            <div class="col-md-12">
+                <h3>
+                    Dashboard                    
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="getting-started-wrapper">
+                    <p>Welcome, <span style="color: #128000;"><?php echo $this->warehouse_name; ?>!</span></p>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?php
+                            if (!empty($this->pending_receive)) {
+                                ?>                            
+                                <div class="col-md-2 left">
+                                    <a class="icon-btn col-sm-12" href="#">
+                                        <i class="fa fa-bullhorn"></i>
+                                        <div>
+                                            New Arrivals
+                                        </div>
+                                        <span class="badge badge-danger">
+                                            <?php echo count($this->pending_receive); ?>
+                                        </span>
+                                    </a>
+                                </div>
+                                <div class="col-md-9">
+                                    <h1>
+                                        <?php foreach ($this->pending_receive as $pending_receive) { ?>
+                                            <a style="color:red;" href="<?php echo $this->baseUrl(); ?>/stock/receive-warehouse?issue_no=<?php echo $pending_receive['transaction_number']; ?>&search=true"><?php echo $pending_receive['transaction_number'] ?></a>,  
+                                        <?php } ?>
+                                    </h1>
+                                </div>
+                                <?php
+                            } else {
+                                ?>
+                                Getting Started
+                            <?php } ?>
+                            <div class="col-md-1"><img src="<?php echo $this->baseUrl(); ?>/images/logo-pak.png" alt="" /></div>
+                        </div></div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <hr />
+                            <p>with Vaccine Logistics Managment Information System (vLMIS)</p>
+                            <div class="info-box" style="border-left: none;">
+                                <h4><img src="<?php echo $this->baseUrl(); ?>/images/icon-inventory.png" alt="" />Inventory Report</h4>
+                                <p>Enter the monthly inventory report for the assigned stores.</p>
+                                <strong>To do's</strong>
+                                <ul class="landingul">
+                                    <li>Consumption Data</li>
+                                    <li>Stock Transfer</li>
+                                    <li>Cold Chain Status</li>
+                                </ul>
+                            </div>
+                            <div class="info-box">
+                                <h4><img src="<?php echo $this->baseUrl(); ?>/images/icon-monthly.png" alt="" />Monthly Reports</h4>
+                                <p>View monthly reported data for all of the reporting levels.</p>
+                                <strong>To do's</strong>
+                                <ul class="landingul">
+                                    <li>National Report</li>
+                                    <li>Provincial Report</li>
+                                    <li>District Report</li>
+                                    <li>Tehsil Report</li>
+                                    <li>UC Report</li>
+                                </ul>
+                            </div>
+
+                            <div class="info-box">
+                                <h4><img src="<?php echo $this->baseUrl(); ?>/images/icon-annual.png" alt="" />Annual Reports</h4>
+                                <p>View annual report for the central, provincial and district level.</p>
+                                <strong>To do's</strong>
+                                <ul class="landingul">
+                                    <li>Central/Provincial</li>
+                                    <li>Warehouse Report</li>
+                                    <li>District Annual Report</li>
+                                    <li>Sub-District Annual Report</li>
+                                </ul>
+                            </div>
+
+                            <div class="info-box">
+                                <h4><img src="<?php echo $this->baseUrl(); ?>/images/icon-graph.png" alt="" /> Graph Reports</h4>
+                                <p>View simple graphs of indicators or compare these for data analysis.</p>
+                                <strong>To do's</strong>
+                                <ul class="landingul">
+                                    <li>Simple Graphs</li>
+                                    <li>Comparison Graphs</li>
+                                </ul>
+                            </div>
+                        </div></div>
+                </div>
+
+                <div style="clear: both;"></div>
+
+            </div>
+        </div>
+    </div>
+</div>

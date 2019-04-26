@@ -1,0 +1,10 @@
+.modal {
+    width: 515px !important;
+}
+.controls label {
+    float: left;
+    margin-right: 20px;
+}
+#ccm_status_list_id{
+    float: left;
+}

@@ -1,0 +1,35 @@
+<?php
+/**
+ *  phtml for Get MOS
+ */
+?>
+<div class="row">
+    <div class="col-md-12 col-sm-12">
+        <div id="sample_2_filter" class="dataTables_filter">
+            <label>View By: 
+                <select id="mos-combo" class="form-control input-inline">
+                    <?php foreach ($this->combo as $row) { ?>
+                        <option value="<?php echo $row['keyy']; ?>"><?php echo $row['vall']; ?></option>
+                    <?php } ?>
+                </select>
+            </label>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="spinner" id="spinner">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
+        <div id="after-filter12">
+            <?php
+            FC_SetRenderer('javascript');
+            echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Column2D.swf", "", $this->xmlstore, 'ProvincialMOS', '100%', 395, false, false);
+            echo "<h4 style='color:#BE1A1A' >" . $this->number . " out of " . $this->total . " UCs - Stock Out (0 - 0.49 months)</h4>";
+            ?>
+        </div>
+    </div>
+</div>
+<div style="clear:both;"></div>

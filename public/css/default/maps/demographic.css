@@ -1,0 +1,263 @@
+
+    
+    #mapped{
+	position: relative;
+	width:100%;
+        height:650px;
+    }
+
+   
+  
+    #loader{
+        display:none;
+        width: 120px;
+        height: 120px;
+        position:absolute;
+        left:45%;
+        top:40%;
+        z-index: 1000;
+    }
+  
+ 
+  
+   #mapTitle{
+        display:block;
+        font-weight:bold;
+        height:auto;
+        left:2%;
+        padding:1px;
+        position:absolute;
+        text-align:center;
+        top:3%;
+        width:40%;
+        z-index:2000;
+    }
+        
+   #printedDate{
+        position: absolute;
+        display:none;
+        width:auto;
+        height:auto;
+        top:95%;
+        left:1%;
+        font-weight:bold;
+        font-size:13px;
+        text-align:center;
+        z-index:2000;
+    }
+      
+  
+    #image{
+        cursor:pointer;
+        z-index:100;
+        display:block;
+        width: 35px;
+        height: 35px;
+        position:absolute;
+        left:89%;
+        top:2%;
+    }
+
+    #excelSheet{
+        cursor:pointer;
+        z-index:100;
+        display:block;
+        width: 35px;
+        height: 35px;
+        position:absolute;
+        left:92%;
+        top:2%;
+    }
+    
+    #print{
+        cursor:pointer;
+        z-index:100;
+        display:block;
+        width: 35px;
+        height: 35px;
+        position:absolute;
+        left:95%;
+        top:2%;
+    }
+
+  
+    
+     #customZoom {
+                z-index: 1001;
+                position: relative;
+                top: 20px;
+
+        }
+            
+        #customZoom a {
+                text-decoration: none;
+                position: absolute;
+                display: block;
+                left:90%;
+                width: 60px;
+                height:22px;
+                text-align: center;
+                font-weight: bold;
+                color: white;
+                background: green;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+                font-size:13px;
+            }
+            
+        #customZoom a:hover {
+                background: #036;
+        }
+            
+        #customZoomOut {
+                top: 25px;
+        }
+            
+            
+        #attributeGrid{
+             width:100%;
+             height:350px;
+             overflow: auto;    
+        }
+         
+        .CSSTableGenerator {
+	margin:0px;padding:0px;
+	width:100%;
+	box-shadow: 5px 5px 5px #888888;
+	border:1px solid #3f7f00;
+	
+	-moz-border-radius-bottomleft:0px;
+	-webkit-border-bottom-left-radius:0px;
+	border-bottom-left-radius:0px;
+	
+	-moz-border-radius-bottomright:0px;
+	-webkit-border-bottom-right-radius:0px;
+	border-bottom-right-radius:0px;
+	
+	-moz-border-radius-topright:0px;
+	-webkit-border-top-right-radius:0px;
+	border-top-right-radius:0px;
+	
+	-moz-border-radius-topleft:0px;
+	-webkit-border-top-left-radius:0px;
+	border-top-left-radius:0px;
+}.CSSTableGenerator table{
+    border-collapse: collapse;
+        border-spacing: 0;
+	width:100%;
+	height:100%;
+	margin:0px;padding:0px;
+}.CSSTableGenerator tr:last-child td:last-child {
+	-moz-border-radius-bottomright:0px;
+	-webkit-border-bottom-right-radius:0px;
+	border-bottom-right-radius:0px;
+}
+.CSSTableGenerator table tr:first-child td:first-child {
+	-moz-border-radius-topleft:0px;
+	-webkit-border-top-left-radius:0px;
+	border-top-left-radius:0px;
+}
+.CSSTableGenerator table tr:first-child td:last-child {
+	-moz-border-radius-topright:0px;
+	-webkit-border-top-right-radius:0px;
+	border-top-right-radius:0px;
+}.CSSTableGenerator tr:last-child td:first-child{
+	-moz-border-radius-bottomleft:0px;
+	-webkit-border-bottom-left-radius:0px;
+	border-bottom-left-radius:0px;
+}.CSSTableGenerator tr:hover td{
+	
+}
+.CSSTableGenerator tr:nth-child(odd){ background-color:#d4ffaa; }
+.CSSTableGenerator tr:nth-child(even)    { background-color:#ffffff; }.CSSTableGenerator td{
+	vertical-align:middle;
+	
+	
+	border:1px solid #3f7f00;
+	border-width:0px 1px 1px 0px;
+	text-align:left;
+	padding:4px;
+	font-size:12px;
+	font-family:Arial;
+	font-weight:normal;
+	color:#000000;
+}.CSSTableGenerator tr:last-child td{
+	border-width:0px 1px 0px 0px;
+}.CSSTableGenerator tr td:last-child{
+	border-width:0px 0px 1px 0px;
+}.CSSTableGenerator tr:last-child td:last-child{
+	border-width:0px 0px 0px 0px;
+}
+.CSSTableGenerator tr:first-child td{
+		background:-o-linear-gradient(bottom, #5fbf00 5%, #3f7f00 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #5fbf00), color-stop(1, #3f7f00) );
+	background:-moz-linear-gradient( center top, #5fbf00 5%, #3f7f00 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#5fbf00", endColorstr="#3f7f00");	background: -o-linear-gradient(top,#5fbf00,3f7f00);
+
+	background-color:#5fbf00;
+	border:0px solid #3f7f00;
+	text-align:center;
+	border-width:0px 0px 1px 1px;
+	font-size:14px;
+	font-family:Arial;
+	font-weight:bold;
+	color:#ffffff;
+}
+.CSSTableGenerator tr:first-child:hover td{
+	background:-o-linear-gradient(bottom, #5fbf00 5%, #3f7f00 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #5fbf00), color-stop(1, #3f7f00) );
+	background:-moz-linear-gradient( center top, #5fbf00 5%, #3f7f00 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#5fbf00", endColorstr="#3f7f00");	background: -o-linear-gradient(top,#5fbf00,3f7f00);
+
+	background-color:#5fbf00;
+}
+.CSSTableGenerator tr:first-child td:first-child{
+	border-width:0px 0px 1px 0px;
+}
+.CSSTableGenerator tr:first-child td:last-child{
+	border-width:0px 0px 1px 1px;
+}
+
+
+#info{
+        border:1px solid black;
+        border-radius:6px;
+        font-family:'Times New Roman', Times, serif;
+        font-size:11px;
+        font-weight:bold;
+        height:auto;
+        left:72%;
+        padding:1px;
+        position:absolute;
+        top:52%;
+        width:auto;
+        z-index:9000;
+}
+
+#pilot{
+      border:1px solid black;
+      border-radius:6px;
+      font-family:'Times New Roman', Times, serif;
+      font-size:11px;
+      font-weight:bold;
+      height:auto;
+      left:5%;
+      padding:1px;
+      position:absolute;
+      top:20%;
+      width:auto;
+      z-index:9000;
+}
+
+#detailInfo{
+	width:100%;
+        height:650px;
+        overflow: auto;
+}
+
+.col-md-2,.col-md-6,.col-md-7,.col-md-3,.col-md-10,.col-md-9,.col-md-5,.col-md-8,.col-md-4{
+            padding-right:2px;
+            padding-left:2px;
+}
+.col-md-12{
+        padding-right:2px;
+        padding-left:2px;
+}

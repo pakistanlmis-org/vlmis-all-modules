@@ -1,0 +1,36 @@
+<?php
+/**
+ *  phtml for Get Consumption
+ */
+?>
+<div class="row">
+    <?php if ($this->level == 6) { ?>
+        <div class="col-md-12 col-sm-12">
+            <div id="sample_2_filter" class="dataTables_filter">
+                <label>View By: 
+                    <select id="uc-combo" class="form-control input-inline">
+                        <?php foreach ($this->combo as $row) { ?>
+                            <option value="<?php echo $row['pkId']; ?>"><?php echo $row['locationName']; ?></option>
+                        <?php } ?>
+                    </select>
+                </label>
+            </div>
+        </div>
+    <?php } ?>
+    <div class="col-md-12">
+        <div class="spinner" id="spinner134">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+        </div>
+        <div id="after-filter134">
+            <?php
+            FC_SetRenderer('javascript');
+            echo renderChart($this->baseUrl() . "/FusionCharts/Charts/$this->xmltype", "", $this->xmlstore, 'EvacConsumption', '100%', 395, false, false);
+            ?>
+        </div>
+    </div>
+</div>
+<div style="clear:both;"></div>

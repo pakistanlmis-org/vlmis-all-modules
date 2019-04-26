@@ -1,0 +1,174 @@
+<?php
+/**
+*  phtml for Reported UCs
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Reported UCs") ?> </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Reported UCs Search") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form method="POST" name="reported_uc" id="reported_uc" action="" >
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <div class="control-group">
+                                                    <label class="control-label"><?php echo $this->translate("Campaign"); ?></label>
+                                                    <div class="controls">
+                                                        <?php echo $this->form->campaign_search_id; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <?php
+                                            if ($this->reported_uc && count($this->reported_uc) > 0) {
+                                                $reportedArr = array();
+
+                                                foreach ($this->reported_uc as $UC) {
+                                                    $reportedArr[] = $UC['warehouse_id'];
+                                                }
+                                                ?>
+                                                <div class="col-md-2">
+                                                    <div class="control-group">
+                                                        <label class="control-label">Total UCs</label>
+                                                        <div class="controls">
+                                                            <?php echo count($this->all_uc); ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="control-group">
+                                                        <label class="control-label">Reported UCs</label>
+                                                        <div class="controls">
+                                                            <?php
+                                                            echo count($reportedArr);
+                                                            ?>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="control-group">
+                                                        <label class="control-label">Reporting Rate</label>
+                                                        <div class="controls">
+                                                            <?php echo round(( count($reportedArr) / count($this->all_uc) ) * 100, 2) . "%"; ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                            }
+                                            ?>
+
+
+
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-3">
+                                                <label class="control-label" >&nbsp;</label>
+                                                <div class="controls">
+                                                    <button class="btn btn-primary" type="submit" name="search"><?php echo $this->translate("Search") ?></button>
+                                                    <button id="reset" class="btn btn-info" type="reset">Reset</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<?php  if ($this->reported_uc && count($this->reported_uc) > 0) : ?>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Reported UCs List") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dataTables_wrapper form-inline">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <?php $this->recordsPerPage($this->counter); ?>
+                                        </div>
+
+                                    </div>
+                                    <table class="dynamicTable table table-striped table-bordered table-condensed"  >
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2"><?php echo $this->translate("Sr.No.") ?></th>
+                                                <th rowspan="2"><?php echo $this->translate("UC") ?></th>
+
+                                                <th rowspan="2"><?php echo $this->translate("Reporting Status") ?></th>
+
+                                            </tr>
+
+                                        </thead>
+                                        <!-- // Table heading END -->
+                                        <!-- Table body -->
+
+                                        <!-- // Table body END -->
+                                        <tbody>
+                                            <?php
+                                            $m_res = array();
+                                            $i = 1;
+                                            if ($this->reported_uc && count($this->reported_uc) > 0) :
+                                                foreach ($this->all_uc as $row):
+                                                    ?>
+
+                                                    <tr class="gradeX">
+                                                        <td><?php echo $i; ?></td>
+                                                        <td><?php echo $row['warehouse_name']; ?></td>
+
+                                                        <td> <?php echo (in_array($row['pk_id'], $reportedArr)) ? 'Reported' : 'Non-Reported'; ?></td>
+                                                    </tr>
+                                                    <!-- // Table row END --><?php
+                                                    $i++;
+                                                endforeach;
+                                            endif;
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+    </div>
+</div>
+<!-- // Content END -->

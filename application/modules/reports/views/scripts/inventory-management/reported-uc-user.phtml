@@ -1,0 +1,132 @@
+<?php
+/**
+*  phtml for Reported UC User
+*/
+?>
+<?php
+$param = $param = $this->param;
+
+
+$wh_type = $param[0];
+$districtId = $param[1];
+
+$month = $param[2];
+$year = $param[3];
+$query2 = $this->reports()->getReportetUcUser($wh_type, $districtId);
+
+$userInfo = array();
+foreach ($query2 as $row) {
+    array_push($userInfo, $row);
+    $districtName = $row['District'];
+}
+$query21 = $this->reports()->getReportetUcUser1($wh_type,$districtId, $month, $year);
+
+
+$reportedUsersArr = array();
+foreach ($query21 as $row) {
+    array_push($reportedUsersArr, $row['UserID']);
+}
+$query21 = $this->reports()->getReportetUcUser2($wh_type,$districtId, $month, $year);
+
+
+$reportedUcArr = array();
+foreach ($query21 as $row) {
+    array_push($reportedUcArr, $row['PkLocID']);
+}
+
+$title = "Operator's Data Reporting Status For $districtName ($month/$year)";
+?>
+
+<style>
+    table#myTable{margin-top:20px;border-collapse: collapse;border-spacing: 0;}
+    table#myTable tr th{font-family:Arial,Helvetica,sans-serif; font-size:11px;padding-left:5px; border:1px solid #999;}
+    table#myTable tr td{font-family:Arial,Helvetica,sans-serif; font-size:11px;padding-left:5px; border:1px solid #999;}
+    table#myTable tr td.TAR{text-align:right; padding:5px;font-family:Arial,Helvetica,sans-serif; width:50px !important;}
+    .sb1NormalFont {
+        color: #444444;
+        font-family: Verdana,Arial,Helvetica,sans-serif;
+        font-size: 12px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+</style>
+
+<!-- Content -->
+<div id="content" style="margin-left:0;min-height:560px !important;">
+    <div class="innerLR">
+        <table width="100%">
+            <tr>
+                <td style="text-align:right; padding-bottom:10px;">
+                    <img style="cursor:pointer;" src="../../images/pdf-32.png" onClick="mygrid.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="Export to PDF"/>&nbsp;&nbsp;
+                    <img style="cursor:pointer; margin-left:-5px" src="../../images/excel-32.png" onClick="mygrid.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');" title="Export to Excel" />
+                </td>
+            </tr>
+        </table>            
+        <?php
+        $xml_store = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+        $xml_store .="<rows>";
+        for ($i = 0; $i < sizeof($userInfo); $i++) {
+            $class = (in_array($userInfo[$i]['UserID'], $reportedUsersArr)) ? 'green' : 'red';
+
+            $csvUCs = '';
+            $csvUCs1 = '';
+            $Ucs = $this->reports()->getReportetUcUser3($userInfo[$i]['UserID']);
+
+            $reported = 0;
+            $total = 0;
+            foreach ($Ucs as $row) {
+                $total++;
+                if (in_array($row['UCId'], $reportedUcArr)) {
+                    $reported++;
+                    $param1 = base64_encode("$row[UCId]|$month|$year");
+                    $csvUCs[] = "<a style=\"text-decoration: underline;\" href=javascript:showPopup('$param1')>" . $row['UCs'] . "</a>";
+                } else {
+                    $csvUCs1[] = $row['UCs'];
+                }
+            }
+            $xml_store .="<row>";
+            $xml_store .="<cell style=\"text-align:center\">" . ($i + 1) . "</cell>";
+            $xml_store .="<cell><![CDATA[" . $userInfo[$i]['FullName'] . "]]></cell>";
+            $xml_store .="<cell><![CDATA[" . $userInfo[$i]['Address'] . "]]></cell>";
+            $xml_store .="<cell><![CDATA[" . $userInfo[$i]['Phone'] . "]]></cell>";
+            $xml_store .="<cell style=\"color:#008000;\"><![CDATA[" . implode(', ', (array) $csvUCs) . "]]></cell>";
+            $xml_store .="<cell style=\"color:#FF0000;\"><![CDATA[" . implode(', ', (array) $csvUCs1) . "]]></cell>";
+            $xml_store .="<cell><![CDATA[" . $reported . ' of ' . $total . ' = ' . round(($reported / $total) * 100) . '%' . "]]></cell>";
+            $xml_store .="</row>";
+        }
+        $xml_store .="</rows>";
+        ?>
+
+    </div>
+    <div id="mygrid_container" style="width:auto; height:500px;"></div>
+</div>
+<script>
+    var mygrid;
+    function doInitGrid() {
+        mygrid = new dhtmlXGridObject('mygrid_container');
+        mygrid.enableMultiline(true);
+        mygrid.selMultiRows = true;
+        mygrid.setImagePath("../operations/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+        mygrid.setHeader("<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'><?php echo $title; ?> </div>,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan");
+        mygrid.attachHeader("S.No.,Operator,Address,Phone,Reported UCs,Non-reported UCs,Reporting %");
+        mygrid.setInitWidths("40,140,140,80,*,200,100");        
+        mygrid.setColTypes("ro,ro,ro,ro,ro,ro,ro");
+        mygrid.enableRowsHover(true, 'onMouseOver');
+        mygrid.setSkin("light");
+        mygrid.init();
+        mygrid.clearAll();
+        $('body').append('<textarea id="xml_string" style="display:none;"><?php echo addslashes($xml_store); ?></textarea>');
+        mygrid.loadXMLString(document.getElementById('xml_string').value);
+    }
+    window.onload = function() {
+        doInitGrid();
+    }
+
+    function showPopup(param) {
+        var width = 1002;
+        var height = 595;
+        var x = (screen.width / 2) - (width / 2);
+        var y = (screen.height / 2) - (height / 2);
+        window.open('popup-data-entry?param=' + param + '&byUC=1', '_blank', 'scrollbars=1,width=' + width + ',height=' + height + ',left=' + x + ',top=' + y);
+    }
+</script>

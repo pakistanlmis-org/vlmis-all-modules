@@ -1,0 +1,136 @@
+<?php
+/**
+ *  phtml for Prinr Receive
+ */
+?>
+<?php
+ob_start();
+?>
+<!-- Content -->
+<style>
+    #content_print {
+        margin-left: 50px;
+        width: 624px;
+    }
+    table.mytable {
+        border: 1px solid #444;
+        font-size: 9pt;
+        width: 100%;
+    }
+    table.mytable tr td {
+        border: 1px solid #444;
+    }
+    table.mytable tr th {
+        border: 1px solid #444;
+    }
+    ​label {
+  display: block;
+  padding-left: 15px;
+  text-indent: -15px;
+}
+input {
+  width: 13px;
+  height: 13px;
+  padding: 0;
+  margin:0;
+  vertical-align: bottom;
+  position: relative;
+  top: -1px;
+  *overflow: hidden;
+}
+</style>
+<!-- Content -->
+
+<style type="text/css" media="print">
+    .page{
+        -webkit-transform: rotate(-90deg); -moz-transform:rotate(-90deg);
+        filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }
+    @media print{    
+        #printButt{
+            display: none !important;
+        }
+    }
+</style>
+<?php
+$row = $this->result;
+?>
+
+<div class="row">
+    <div class="col-md-12">
+        <table style="width:100%;">
+            <tr>
+                <td class="center" colspan="4"><b style="font-size: 16px;"><?php echo $this->print_title; ?></b></td>
+            </tr>
+            <tr>
+                <td class="right" colspan="4"><b style="font-size: 16px;">GatePass # <span style="font-family: Verdana; "><?php echo $row[0]['number']; ?></span> </b></td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="mytable" cellpadding='2'>
+            <tr >
+                <th  width="5%"><?php echo $this->translate("Sr No"); ?></th>
+                <th width="45%" ><?php echo $this->translate("Item Description"); ?></th>
+                <th  width="10%"><?php echo $this->translate("Quantity"); ?></th>
+                <th  width="40%"><?php echo $this->translate("Purpose/Remarks"); ?></th>
+
+
+
+            </tr>
+
+            <tbody>
+                <?php
+                $i = 0;
+                if (!empty($this->result)) {
+                    foreach ($this->result as $val) {
+
+                        $i++;
+                        ?>
+                        <tr>
+                            <td align="center"><?php echo $i; ?></td>
+                            <td align="left" nowrap><?php echo $val['item_name']; ?></td>	    
+                            <td align="left"><?php echo $val['quantity']; ?></td>
+
+
+                            <td align="center"><?php echo $val['comments']; ?></td>
+
+                        </tr>
+                        <?php
+                    }
+                }
+                ?>
+            </tbody>
+
+        </table>
+    </div>
+</div><br/>
+
+
+
+</br>
+</br>
+<div class="row" style="clear: both;">
+    <table width="100%">
+        <tr>
+
+            <td width="33%"><b>Printed By:</b> <?php echo $this->username; ?></td>     
+
+
+            <td width="33%"><b>Approved By:</b> ___________________________________</td>     
+
+        </tr>
+    </table>
+    <div class="col-md-12 left">
+        <b>Print Date:</b> <?php echo date("d/m/Y"); ?>
+    </div>
+</div>
+
+<div class="col-md-12" class="widget">
+    <div class="widget-body right">
+        <button id="print" name="print" value="1" type="button" class="btn btn-primary" ><?php echo $this->translate("Print"); ?></button>
+    </div>
+</div>

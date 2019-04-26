@@ -1,0 +1,40 @@
+<?php
+/**
+*  phtml for Ajax Add More Rows
+*/
+?>
+<?php
+for ($i = $this->start; $i < $this->end; $i++) {
+    $rows = "rows" . $i;
+    $j = $i + 1;
+    ?>
+    <tr class="dynamic-rows">
+        <td class="serial">
+            <?php echo $j; ?>
+        </td>
+        <td>
+            <?php echo $this->form->$rows->item_pack_size_id; ?>
+        </td>
+        <td>
+            <?php echo $this->form->$rows->batch_number; ?>
+        </td>
+        <td>
+            <?php echo $this->form->$rows->production_date; ?>
+        </td>
+        <td>
+            <?php echo $this->form->$rows->expiry_date; ?>
+        </td>
+        <td>
+            <?php echo $this->form->$rows->manufacturer_id; ?>
+        </td>
+        <td>
+            <?php echo $this->form->$rows->vvm_type_id; ?>
+        </td>
+        <td>
+            <?php echo $this->form->$rows->unit_price; ?>
+        </td>
+        <td>
+            <?php echo $this->form->$rows->quantity; ?>
+        </td>
+    </tr>
+<?php } ?>

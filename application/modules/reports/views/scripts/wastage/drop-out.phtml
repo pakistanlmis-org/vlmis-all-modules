@@ -1,0 +1,563 @@
+<?php
+/**
+ *  phtml for Vaccine Dropout Report
+ */
+error_reporting(0);
+?>
+<?php
+$from_date = $this->from_date;
+$to_date = $this->to_date;
+
+$sel_month = $this->month_sel;
+$sel_year = $this->year_sel;
+
+$from_sel_month = $this->from_month_sel;
+$from_sel_year = $this->from_year_sel;
+$counter = 1;
+
+$sel_stk = $this->in_stk;
+$sel_prov = $this->province;
+$sel_dist = $this->district1;
+$sel_tehsil = $this->tehsil;
+$wh_type = $this->wh_type;
+$sel_indicator = $this->sel_indicator;
+$in_col = $this->in_col;
+$in_rg = $this->in_rg;
+$in_type = $this->in_type;
+$stk_sel = $this->stk_sel;
+$start_date = $this->start_date;
+$end_date = $this->end_date;
+$period = $this->period;
+$str_indicator = $this->str_indicator;
+$year = $this->year_sel;
+$month = $this->month_sel;
+$item = $this->sel_item;
+
+$report_type = 1;
+
+$sum_arr = array();
+$province = 1;
+
+
+$query_d_1 = $this->wastageReports()->dropoutReport(6, 1, $wh_type, $year, $month, $to_date, $from_date, $sel_prov, $sel_dist, $sel_tehsil, $report_type, $sel_prov);
+$j = 1;
+
+
+foreach ($query_d_1 as $row) {
+
+    $location_id = $row['location_id'];
+    $data_arr[$location_id][] = $j;
+    $data_arr[$location_id][] = $row['District'];
+    $data_arr[$location_id][] = $row['Tehsil'];
+    $data_arr[$location_id][] = $row['UC'];
+    $j++;
+}
+
+
+
+$query_0 = $this->wastageReports()->dropoutReport(6, 1, $wh_type, $year, $month, $to_date, $from_date, $province, $sel_dist, $sel_tehsil, $report_type, $sel_prov);
+
+foreach ($query_0 as $row) {
+
+    $location_id = $row['location_id'];
+    //  $data_arr[$location_id][] = $row['consumption'];
+    $bcg_doses[$location_id] = $row['consumption'];
+}
+$query_1 = $this->wastageReports()->dropoutReport(9, 1, $wh_type, $year, $month, $to_date, $from_date, $province, $sel_dist, $sel_tehsil, $report_type, $sel_prov);
+foreach ($query_1 as $row) {
+
+    $location_id = $row['location_id'];
+    $coverage = Round($row['target'] / $row['consumption'] * 100, 2);
+    $dropout = Round(((($bcg_doses[$location_id] - $row['consumption']) / $bcg_doses[$location_id]) * 100), 2);
+  if ($coverage > 90 && $dropout < 10) {
+        $res = 1;
+    } else if ($coverage > 90 && $dropout > 10) {
+        $res = 2;
+    } else if ($coverage < 90 && $dropout < 10) {
+        $res = 3;
+    } else if ($coverage < 90 && $dropout > 10) {
+        $res = 4;
+    }else {
+        $res = 1;
+    }
+
+    $data_arr[$location_id][] = $res;
+}
+
+$query_12 = $this->wastageReports()->dropoutReport(44, 1, $wh_type, $year, $month, $to_date, $from_date, $province, $sel_dist, $sel_tehsil, $report_type, $sel_prov);
+foreach ($query_12 as $row) {
+
+    $location_id = $row['location_id'];
+
+
+    $opv1_doses[$location_id] = $row['consumption'];
+}
+
+
+$query_5 = $this->wastageReports()->dropoutReport(43, 3, $wh_type, $year, $month, $to_date, $from_date, $province, $sel_dist, $sel_tehsil, $report_type, $sel_prov);
+
+
+
+foreach ($query_5 as $row) {
+
+    $location_id = $row['location_id'];
+ $coverage = Round($row['target'] / $row['consumption'] * 100, 2);
+    $dropout = Round(((($opv1_doses[$location_id] - $row['consumption']) / $opv1_doses[$location_id]) * 100), 2);
+     if ($coverage > 90 && $dropout < 10) {
+        $res = 1;
+    } else if ($coverage > 90 && $dropout > 10) {
+        $res = 2;
+    } else if ($coverage < 90 && $dropout < 10) {
+        $res = 3;
+    } else if ($coverage < 90 && $dropout > 10) {
+        $res = 4;
+    }else {
+        $res = 1;
+    }
+    $data_arr[$location_id][] = $res;
+}
+
+
+
+
+
+$query_57 = $this->wastageReports()->dropoutReport(40, 1, $wh_type, $year, $month, $to_date, $from_date, $province, $sel_dist, $sel_tehsil, $report_type, $sel_prov);
+
+
+
+foreach ($query_57 as $row) {
+
+    $location_id = $row['location_id'];
+$coverage = Round($row['target'] / $row['consumption'] * 100, 2);
+    $dropout = Round(((($opv1_doses[$location_id] - $row['consumption']) / $opv1_doses[$location_id]) * 100), 2);
+  if ($coverage > 90 && $dropout < 10) {
+        $res = 1;
+    } else if ($coverage > 90 && $dropout > 10) {
+        $res = 2;
+    } else if ($coverage < 90 && $dropout < 10) {
+        $res = 3;
+    } else if ($coverage < 90 && $dropout > 10) {
+        $res = 4;
+    }else {
+        $res = 1;
+    }
+
+
+    $data_arr[$location_id][] = $res;
+}
+
+$query_67 = $this->wastageReports()->dropoutReport(7, 1, $wh_type, $year, $month, $to_date, $from_date, $province, $sel_dist, $sel_tehsil, $report_type, $sel_prov);
+
+
+
+foreach ($query_67 as $row) {
+
+    $location_id = $row['location_id'];
+
+
+    $penta1_doses[$location_id] = $row['consumption'];
+}
+
+
+
+$query_7 = $this->wastageReports()->dropoutReport(7, 3, $wh_type, $year, $month, $to_date, $from_date, $province, $sel_dist, $sel_tehsil, $report_type, $sel_prov);
+
+
+
+foreach ($query_7 as $row) {
+
+    $location_id = $row['location_id'];
+
+$coverage = Round($row['target'] / $row['consumption'] * 100, 2);
+    $dropout = Round(((($penta1_doses[$location_id] - $row['consumption']) / $penta1_doses[$location_id]) * 100), 2);
+  if ($coverage > 90 && $dropout < 10) {
+        $res = 1;
+    } else if ($coverage > 90 && $dropout > 10) {
+        $res = 2;
+    } else if ($coverage < 90 && $dropout < 10) {
+        $res = 3;
+    } else if ($coverage < 90 && $dropout > 10) {
+        $res = 4;
+    }else {
+        $res = 1;
+    }
+    $data_arr[$location_id][] = $res;
+}
+$query_8 = $this->wastageReports()->dropoutReport(8, 1, $wh_type, $year, $month, $to_date, $from_date, $province, $sel_dist, $sel_tehsil, $report_type, $sel_prov);
+
+
+
+foreach ($query_8 as $row) {
+
+    $location_id = $row['location_id'];
+
+
+    $pcv1_doses[$location_id] = $row['consumption'];
+}
+
+$query_9 = $this->wastageReports()->dropoutReport(8, 3, $wh_type, $year, $month, $to_date, $from_date, $province, $sel_dist, $sel_tehsil, $report_type, $sel_prov);
+
+
+
+foreach ($query_9 as $row) {
+
+    $location_id = $row['location_id'];
+
+$coverage = Round($row['target'] / $row['consumption'] * 100, 2);
+    $dropout = Round(((($pcv1_doses[$location_id] - $row['consumption']) / $pcv1_doses[$location_id]) * 100), 2);
+   if ($coverage > 90 && $dropout < 10) {
+        $res = 1;
+    } else if ($coverage > 90 && $dropout > 10) {
+        $res = 2;
+    } else if ($coverage < 90 && $dropout < 10) {
+        $res = 3;
+    } else if ($coverage < 90 && $dropout > 10) {
+        $res = 4;
+    }else {
+        $res = 1;
+    }
+    $data_arr[$location_id][] = $res;
+}
+
+
+
+$query_10 = $this->wastageReports()->dropoutReport(9, 1, $wh_type, $year, $month, $to_date, $from_date, $province, $sel_dist, $sel_tehsil, $report_type, $sel_prov);
+
+
+
+foreach ($query_10 as $row) {
+
+    $location_id = $row['location_id'];
+
+
+    $mes1_doses[$location_id] = $row['consumption'];
+}
+
+$query_11 = $this->wastageReports()->dropoutReport(9, 2, $wh_type, $year, $month, $to_date, $from_date, $province, $sel_dist, $sel_tehsil, $report_type, $sel_prov);
+
+
+
+foreach ($query_11 as $row) {
+
+    $location_id = $row['location_id'];
+$coverage = Round($row['target'] / $row['consumption'] * 100, 2);
+    $dropout = Round(((($mes1_doses[$location_id] - $row['consumption']) / $mes1_doses[$location_id]) * 100), 2);
+     if ($coverage > 90 && $dropout < 10) {
+        $res = 1;
+    } else if ($coverage > 90 && $dropout > 10) {
+        $res = 2;
+    } else if ($coverage < 90 && $dropout < 10) {
+        $res = 3;
+    } else if ($coverage < 90 && $dropout > 10) {
+        $res = 4;
+    }else {
+        $res = 1;
+    }
+
+    $data_arr[$location_id][] = $res;
+}
+
+
+$query_13 = $this->wastageReports()->dropoutReport(12, 1, $wh_type, $year, $month, $to_date, $from_date, $province, $sel_dist, $sel_tehsil, $report_type, $sel_prov);
+
+
+
+foreach ($query_13 as $row) {
+
+    $location_id = $row['location_id'];
+
+
+    $mes1_doses[$location_id] = $row['consumption'];
+}
+
+$query_14 = $this->wastageReports()->dropoutReport(12, 2, $wh_type, $year, $month, $to_date, $from_date, $province, $sel_dist, $sel_tehsil, $report_type, $sel_prov);
+
+
+
+foreach ($query_14 as $row) {
+
+    $location_id = $row['location_id'];
+
+$coverage = Round($row['target'] / $row['consumption'] * 100, 2);
+    $dropout = Round(((($mes1_doses[$location_id] - $row['consumption']) / $mes1_doses[$location_id]) * 100), 2);
+   if ($coverage > 90 && $dropout < 10) {
+        $res = 1;
+    } else if ($coverage > 90 && $dropout > 10) {
+        $res = 2;
+    } else if ($coverage < 90 && $dropout < 10) {
+        $res = 3;
+    } else if ($coverage < 90 && $dropout > 10) {
+        $res = 4;
+    }else {
+        $res = 1;
+    }
+
+    $data_arr[$location_id][] = $res;
+}
+
+$query_16 = $this->wastageReports()->dropoutReport(46, 1, $wh_type, $year, $month, $to_date, $from_date, $province, $sel_dist, $sel_tehsil, $report_type, $sel_prov);
+
+
+
+foreach ($query_16 as $row) {
+
+    $location_id = $row['location_id'];
+
+
+    $rota1_doses[$location_id] = $row['consumption'];
+}
+
+$query_17 = $this->wastageReports()->dropoutReport(46, 2, $wh_type, $year, $month, $to_date, $from_date, $province, $sel_dist, $sel_tehsil, $report_type, $sel_prov);
+
+
+
+foreach ($query_17 as $row) {
+
+    $location_id = $row['location_id'];
+$coverage = Round($row['target'] / $row['consumption'] * 100, 2);
+    $dropout = Round(((($rota1_doses[$location_id] - $row['consumption']) / $rota1_doses[$location_id]) * 100), 2);
+    if ($coverage > 90 && $dropout < 10) {
+        $res = 1;
+    } else if ($coverage > 90 && $dropout > 10) {
+        $res = 2;
+    } else if ($coverage < 90 && $dropout < 10) {
+        $res = 3;
+    } else if ($coverage < 90 && $dropout > 10) {
+        $res = 4;
+    }else {
+        $res = 1;
+    }
+
+    $data_arr[$location_id][] = $res;
+}
+?>
+
+<?php
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+
+
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $report_title; ?></h3>
+
+
+        <div class="row">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('wastage/reports-header_coverage.phtml') ?>
+                    </td>
+                </tr>
+            </table>
+            <div class="col-md-12 right">
+
+                <img src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="tableToExcel('export', 'sheet 1', 'Antigen')" alt="Excel" style="cursor:pointer;" />
+            </div>
+        </div>
+        <div>
+            &nbsp; &nbsp; &nbsp;
+        </div>
+        <div class="row" id="export">
+            <style>
+                table#myTable{margin-top:0px !important; color: #000;}
+                table#myTable{margin-top:20px;border-collapse: collapse;border-spacing: 0; border:1px solid #999;}
+                table#myTable tr td{font-size:11px;padding:3px; text-align:left; border:1px solid #ddd; color: #000;}
+                table#myTable tr:nth-child(even){background-color: #f2f2f2;}
+
+                table#myTable tr:hover {background-color: #ddd;}
+                table#myTable tr th{
+                    font-size:11px;
+                    padding-top: 12px;
+                    padding-bottom: 12px;
+                    text-align: center;
+                    background-color: white;
+                    border:2px solid #ddd;
+                    color: black;}
+                table#myTable tr td.TAR{text-align:right; padding:5px;width:50px !important;}
+                .sb1NormalFont {color: #444444; font-size: 11px; font-weight: bold; text-decoration: none;}
+                p{margin-bottom:5px; font-size:11px !important; line-height:1 !important; padding:0 !important; color: #000;}
+                table#headerTable tr td{ font-size:11px; color: #000;}
+                h4{margin:0; color: #000; font-size:14px;}
+                h5{margin:15px 0 5px 0; color: #000;}
+                h6{margin:0; color: #000; font-size:12px;}
+                .right{text-align:right !important;}
+                .center{text-align:center !important;}
+
+                /* Print styles */
+                @media only print
+                {
+                    table#myTable{margin-top:0px !important;}
+                    table#myTable tr th{font-size:8px;padding:3px !important; text-align:center; border:1px solid #999; color: #000;}
+                    table#myTable tr td{font-size:8px;padding:3px !important; text-align:left; border:1px solid #999; color: #000;}
+                    #doNotPrint{display: none !important;}
+                    h4{margin:0; color: #000;}
+                    h5{margin:0; color: #000;}
+                    h6{margin:0; color: #000;}
+                    p{margin-bottom:5px; font-size:11px !important; line-height:1 !important; padding:0 !important; color: #000;}
+                }
+            </style>
+
+
+            <script>
+                function printContents() {
+                    var w = 900;
+                    var h = screen.height;
+                    var left = Number((screen.width / 2) - (w / 2));
+                    var top = Number((screen.height / 2) - (h / 2));
+                    var dispSetting = "toolbar=yes,location=no,directories=yes,menubar=yes,scrollbars=yes,left=" + left + ",top=" + top + ",width=" + w + ",height=" + h;
+                    var printingContents = document.getElementById("export").innerHTML;
+                    var docprint = window.open("", "", dispSetting);
+                    docprint.document.open();
+                    docprint.document.write('<html><head>');
+                    docprint.document.write('</head><body onLoad="self.print();self.close();"><center>');
+                    docprint.document.write(printingContents);
+                    docprint.document.write('</center></body></html>');
+                    docprint.document.close();
+                    docprint.focus();
+                }
+
+            </script>
+
+            <div class="innerLR" style="overflow:auto;">
+                <table width="100%" >
+                    <tr>
+                        <td >
+
+                            <h4 class="center">
+                                <?php echo "<b>Categorization of union councils w.r.t vaccine coverages and dropout rates</b>  <br> . (" . date('F', mktime(0, 0, 0, $this->from_month_sel)) . '-' . $this->from_year_sel . ') to (' . date('F', mktime(0, 0, 0, $this->to_month_sel)) . '-' . $this->to_year_sel; ?>) 
+                            </h4></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 10px;">
+                            <table id="myTable" style="width:100%" cellspacing="0" align="center">
+                                <thead>
+
+
+                                    <tr>
+                                        <th  width="5%">Sr.No.</th>
+
+                                        <th  width="10%">Districts</th>
+                                        <th width="10%">Tehsils</th>
+                                        <th width="10%">Name of <br>Union Councils</th>
+
+                                        <?php
+                                        $w1 = '5%';
+                                        $w2 = '10%';
+                                        $w2_ = '10%';
+                                        $w3 = '10%';
+                                        ?>
+
+                                        <th style='text-align:center;'    width="<?php echo $w1; ?>">BCG <br>to<br> Measles</th>
+
+                                        <th style='text-align:center;'  width="<?php echo $w1; ?>">OPV-1 <br>to<br> OPV-3</th>
+                                        <th  style='text-align:center;'  width="<?php echo $w1; ?>">OPV-1 <br>to<br> IPV</th>
+
+                                        <th   style='text-align:center;'  width="<?php echo $w1; ?>">Penta-1 <br>to<br> Penta-3</th>
+
+
+                                        <th  style='text-align:center;' width="<?php echo $w1; ?>">PCV10-1 <br>to <br>PCV10-3</th>
+                                        <th style='text-align:center;'  width="<?php echo $w1; ?>">Measles-1 <br>to<br> Mesles-2</th>
+                                        <th style='text-align:center;'  width="<?php echo $w1; ?>">TT-1 <br>to<br> TT-2</th>
+                                        <th style='text-align:center;'  width="<?php echo $w1; ?>">Rota-1 <br>to<br> Rota-2</th>
+
+
+
+
+                                    </tr>
+
+
+
+
+
+
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $c = array(2 => 50, 3 => 20, 4 => 10, 5 => 5, 6 => 10, 7 => 20, 8 => 20, 9 => 5);
+                                   if (!empty($data_arr) ){
+                                    foreach ($data_arr as $dis_id => $sub_arr) {
+                                        ?>
+                                        <tr>
+                                            <?php
+                                            if ($wh_type == 2) {
+                                                ?>
+                                                <td style="text-align:center;"><?php echo $sub_arr[0]; ?></td>
+                                                <td style="text-align:center;"><?php echo $sub_arr[1]; ?></td>
+                                                <?php
+                                            } else if ($wh_type == 4) {
+                                                ?>
+                                                <td style="text-align:center;"><?php echo $sub_arr[0]; ?></td>
+                                                <td style="text-align:center;"> <?php echo $sub_arr[1]; ?></td>
+
+
+                                                <?php
+                                            }
+
+                                            foreach ($sub_arr as $key => $value) {
+
+                                                if (!isset($sum_arr[$key])) {
+                                                    $sum_arr[$key] = 0;
+                                                }
+                                                $sum_arr[$key] += $value;
+
+                                                if ($wh_type == 4) {
+
+
+                                                    if ($key > 1) {
+                                                        if ($value >= $c[$key]) {
+                                                            $co = "";
+                                                        } else if ($value <= $c[$key]) {
+                                                            $co = "";
+                                                        } else if ($value < 0) {
+                                                            $co = "";
+                                                        } else {
+                                                            $co = "";
+                                                        }
+                                                        ?>
+                                                        <td style="text-align:center;" bgcolor="<?php echo $co; ?>"><?php echo $value; ?></td>
+
+                                                        <?php
+                                                    }
+                                                }
+                                            }
+                                            ?>
+                                        </tr>
+                                        <?php
+                                   } }else {
+                                    ?>
+                                        <tr>
+                                            <td colspan="12" style="text-align:center;">
+                                                No Data Found
+                                                </td>
+                                        </tr>
+                                    <?php }?>
+
+                                </tbody>
+                            </table></td>
+                    </tr>
+                    
+                </table>
+*Category 1: Drop-out rates are low & coverage is high <b> No Problem: (Result is good) </b><br>
+ Category 2: Drop-out rates are high & coverage is high <b>Problem# 1: (There is problem of resouse utilization.Drop-out rate should be <10%)</b> <br>
+ Category 3: Drop-out rates are low & coverage is low <b> Problem# 2: (There is problem of access.Coverage must be > 80%)</b> <br>
+ Category 4: Drop-out rates are high & coverage is low <b> Problem# 3: (Need immediate response,problem with both access & utilization) </b></div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+
+    var whType = <?php echo $wh_type; ?>;
+    var province = <?php echo $sel_prov; ?>;
+    var district = <?php echo $sel_dist; ?>;
+    var tehsil = <?php echo $sel_tehsil; ?>;
+</script>
+

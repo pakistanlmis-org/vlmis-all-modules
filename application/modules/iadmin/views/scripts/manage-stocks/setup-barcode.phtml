@@ -1,0 +1,236 @@
+<?php
+/**
+*  phtml for Setup Barcode
+*/
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $this->translate("Setup Barcode"); ?></h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Add Barcode"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <?php if (isset($_GET['success']) && $_GET['success'] == 1) { ?>
+                            <div class="alert alert-success">
+                                <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                <strong>Data</strong> has been saved successfully!
+                            </div>
+                        <?php } ?>
+                        <?php if (isset($_GET['success']) && $_GET['success'] == 0) { ?>
+                            <div class="alert alert-success">
+                                <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                This Item Pack Size Already Exits!
+                            </div>
+                        <?php } ?>
+                        <div class="form-body">
+                            <form method="POST" name="setup_barcode" id="setup_barcode" action="" >
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="product"><?php echo $this->translate("Product"); ?><span class="red">*</span></label>
+                                            <?php echo $this->form->item_pack_size_id; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="manufacturer"><?php echo $this->translate("Manufacturer"); ?><span class="red">*</span></label>
+                                            <?php echo $this->form->stakeholder_id; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6"></div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="packaging_level"><?php echo $this->translate("Packaging Level"); ?><span class="red">*</span></label>
+                                            <?php echo $this->form->packaging_level; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="control-label" for="itemgtin"><?php echo $this->translate("Item GTIN"); ?><span class="red">*</span></label>
+                                        <?php echo $this->form->item_gtin; ?>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="pack_size"><?php echo $this->translate("Pack Size"); ?></label>
+                                            <?php echo $this->form->pack_size_description; ?>
+                                        </div>
+                                    </div>
+                                    <!--                                    <div class="col-md-3">
+                                                                            <label class="control-label" for="batch_length"><?php echo $this->translate("Lot/Batch Length"); ?><span class="red">*</span></label>
+                                    <?php echo $this->form->batch_length; ?>
+                                                                        </div>-->
+                                    <div class="col-md-3"></div>
+                                </div>
+                                <div id="ajax_barcode">
+                                </div>
+                                <div class="row">                                    
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="length"><?php echo $this->translate("Length(cm)"); ?><span class="red">*</span></label>
+                                            <?php echo $this->form->length; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="width"><?php echo $this->translate("Width(cm)"); ?><span class="red">*</span></label>
+                                            <?php echo $this->form->width; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="height"><?php echo $this->translate("Height(cm)"); ?><span class="red">*</span></label>
+                                            <?php echo $this->form->height; ?>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="vialspcs"><?php echo $this->translate("Vials Pcs"); ?><span class="red">*</span></label>
+                                            <?php echo ($this->form->quantity_per_pack); ?> Per Pack
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label" for="volume"><?php echo $this->translate("Volume CM3"); ?><span class="red">*</span></label>
+                                            <?php echo ($this->form->volum_per_vial); ?> Per Vial/PC
+                                        </div>
+                                    </div>
+
+                                </div>    
+                                <div class="col-md-12">
+                                    <div class="form-group pull-right form-btn-margin-top">
+                                        <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading add"  name="add" type="submit">
+                                            Add
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </form>
+                        </div>
+                         <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Search Results") ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="dataTables_wrapper form-inline">
+
+                            
+                        <table class=" table table-striped table-bordered table-hover dataTable no-footer" id="sample_2">
+                            <!-- Table heading -->
+                            <thead>
+                                <tr>
+                                    <th><?php echo $this->translate("S.No"); ?></th>
+                                    <th><?php echo $this->translate("Product"); ?></th>
+                                    <th><?php echo $this->translate("Manufacturer"); ?></th>
+                                    <th><?php echo $this->translate("Pack Type"); ?></th>
+                                    <th><?php echo $this->translate("GTIN"); ?></th>                                   
+                                    <th><?php echo $this->translate("Vials/PCs Per Pack"); ?></th>
+                                    <th><?php echo $this->translate("Volume"); ?></th>
+                                    <th><?php echo $this->translate("Action"); ?></th>
+                                </tr>
+                            </thead>
+                            <!-- // Table heading END -->
+
+                            <!-- Table body -->
+                            <tbody>
+                                <!-- Table row -->
+                                <?php
+                                $m_res = array();
+                                $i = 1;
+                                if ($this->result && count($this->result) > 0) :
+                                    foreach ($this->result as $row):
+                                        ?>
+                                        <tr class="gradeX">
+                                             <td class="center" width="25"><?php echo $i; ?></td>
+                                            <td class="left"><?php echo $row['itemName']; ?></td>
+                                            <td class="left"><?= $row['stakeholderName']; ?></td>
+                                            <td class="left"><?= $row['listValue']; ?></td>
+                                            <td class="right"><?= $row['itemGtin']; ?></td>                                          
+                                            <td class="right"><?= $row['quantityPerPack']; ?></td>
+                                            <td class="right"><?= $row['volumPerVial']; ?></td>
+                                            <td class="left">
+                                                <a editid="<?php echo $row['pkId'] ?>" class="btn update-barcode btn-link btn-success input-sm" data-toggle="modal" href="#modal-update-barcode"><?php echo $this->translate("Edit") ?></a>
+        <!--                                                <a editid="<?php //echo $row['pkId']      ?>" class="btn detail-barcode btn-link btn-success input-sm" data-toggle="modal" href="#modal-detail-barcode"><?php //echo $this->translate("Detail")      ?></a>-->
+                                                <a data-bind="<?php echo $row['pkId'] ?>" data-toggle="notyfy" data-type="confirm" data-layout="top" class="btn btn-danger btn-link input-sm"><?php echo $this->translate("Delete") ?></a>
+                                        </tr>
+                                        <?php
+                                        $i++;
+                                    endforeach;
+                                endif;
+                                ?>
+                                <!-- // Table row END -->
+                            </tbody>
+                            <!-- // Table body END -->
+                        </table>
+                              </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/iadmin/manage-stocks/update-barcode-save" id="update-barcode">
+            <div class="modal fade" id="modal-update-barcode" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                            <h3>Update Barcode</h3>
+                        </div>
+
+                        <div class="modal-body" id="modal-body-contents">
+                            <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                        </div>
+                        <div class="modal-footer" id="update-button" style="display:none;">
+                            <input class="btn btn-primary" type="submit" value="<?php echo $this->translate("Update"); ?>">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <form method="post" action="<?php echo $this->baseUrl(); ?>/iadmin/manage-stocks/detail-barcode" id="detail-barcode">
+            <div class="modal fade" id="modal-detail-barcode" tabindex="-1" role="basic" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3>Product Barcode Detail</h3>
+                        </div>
+                        <div class="modal-body" id="modal-body-contents-detail">
+                            <div style="text-align: center; "><img src="<?php echo $this->baseUrl(); ?>/images/loader.gif"/></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

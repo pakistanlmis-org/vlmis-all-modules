@@ -1,0 +1,37 @@
+<?php
+/**
+*  phtml for Ajax Stock Bin Placement
+*/
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <?php echo $this->translate("Product").' : '.$this->data['itemName']; ?>
+        </div>
+        <div class="col-md-6">
+            <?php echo $this->translate("Batch No").' : '.$this->data['number']; ?>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <?php echo $this->translate("Unallocated Quantity").' : '.$this->data['quantity']; ?>
+        </div>
+        <div class="col-md-6">
+            <?php echo $this->translate("Product Quantity").' : '.$this->data['placed_quantity']; ?>
+        </div>
+    </div>
+</div>
+<div class="row">&nbsp;</div>
+<div class="col-md-3">
+    <div class="form-group ">
+        <label class="control-label" for="cartonquantity"><?php echo $this->translate("Carton Quantity"); ?><span class="red">*</span></label>
+        <?php echo $this->form->quantity; ?>
+    </div>    
+      <div class="form-group ">
+        <label class="control-label" for="estimatedpalletfilled"><?php echo $this->translate("Estimated Pallet Filled");?></label>
+        <?php echo $this->form->estimated_pallet_filled; ?>
+    </div> 
+</div>
+

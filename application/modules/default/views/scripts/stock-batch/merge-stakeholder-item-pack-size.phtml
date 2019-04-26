@@ -1,0 +1,60 @@
+<?php
+/**
+*  phtml for Merge Stakeholder Item Pack Size
+*/
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            Merge Stakeholder Item Pack Size
+        </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Search Filters"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <form method="POST" name="stakeholders" action="" id="stakeholders">
+                            <div class="row">
+                                <div class="col-md-12">                                
+                                    <!-- Row -->
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="product"><?php echo $this->translate("Product") ?></label>
+                                                <select name="product" id="product" class="form-control">
+                                                    <option value="">Select</option>
+                                                    <?php foreach ($this->items as $item) { ?>
+                                                        <option value="<?php echo $item['pkId']; ?>"><?php echo $item['itemName']; ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="control-label" for="button">&nbsp;</label><br/>
+                                                <input type="submit" class="btn btn-success" name="submit" id="submit" value="Submit" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="merge_sips">
+            
+        </div>
+    </div>
+</div>

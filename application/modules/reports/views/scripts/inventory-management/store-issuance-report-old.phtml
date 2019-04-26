@@ -1,0 +1,186 @@
+<?php
+/**
+*  phtml for Store Issuance Report Old
+*/
+?>
+<?php
+$sel_month = $this->month_sel;
+$sel_year = $this->year_sel;
+$counter = 1;
+$sel_stk = $this->in_stk;
+$sel_prov = $this->prov_sel;
+$sel_dist = $this->sel_dist;
+$sel_prod = $this->sel_prod;
+$in_col = $this->in_col;
+$in_rg = $this->in_rg;
+$in_type = $this->in_type;
+$stk_sel = $this->stk_sel;
+$start_date = $this->start_date;
+$end_date = $this->end_date;
+$period = $this->period;
+$str_indicator = $this->str_indicator;
+
+
+
+$data_arr = array();
+
+foreach ($this->location_id as $row) {
+    $data_arr[$row['pk_id']][] = $row['location_name'];
+    $count = 1;
+    foreach ($period as $date) {
+        $data_arr[$row['pk_id']][$count] = 0;
+        $count++;
+    }
+}
+
+// Headers of the Grid
+if (!empty($sel_dist)) {
+    $header = 'ID, UC, Target, Monthly Target';
+} else {
+    $header = 'ID, Province, Yearly Target, Monthly Target';
+}
+$width = '*,100,70,70';
+$ro = 'ro,ro,ro,ro';
+
+$count = 1;
+foreach ($period as $date) {
+    $monthArr[] = $str_date = $date->format("Y-m");
+    $header .= ',<span>' . $date->format("M-y") . '</span>';
+    $width .= ',*';
+    $ro .= ',ro';
+
+    $query_vals = $this->reports()->getStoreIssuanceReport($str_date,$sel_dist, $sel_prod);
+
+    foreach ($query_vals as $row) {
+        $data_arr[$row['province_id']][$count] = $row['total'];
+        $data_arr[$row['province_id']]['annual'] = $row['AnnualyTarget'];
+    }
+    $count++;
+}
+
+$header .= ',Total,Remaining';
+$width .= ',70,70';
+$ro .= ',ro,ro';
+
+$xml_store = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+$xml_store .= "<rows>";
+
+$sum_arr = array();
+
+foreach ($data_arr as $dis_id => $sub_arr) {
+
+    $totalqty = 0;
+    foreach ($sub_arr as $val) {
+        if (is_numeric($val)) {
+            $totalqty += $val;
+        }
+    }
+    
+    $monthly_target = round($sub_arr['annual'] / 12);
+    $remaining = $sub_arr['annual'] - $totalqty;
+
+    $xml_store .= "<row>";
+    $xml_store .= "<cell>$dis_id</cell>";
+    $xml_store .= "<cell>$sub_arr[0]</cell>";
+    $xml_store .= "<cell style=\"text-align:right\">".number_format($sub_arr['annual'])."</cell>";
+    $xml_store .= "<cell style=\"text-align:right\">".number_format($monthly_target)."</cell>";
+    foreach ($sub_arr as $key => $value) {
+        if (!isset($sum_arr[$key])) {
+            $sum_arr[$key] = 0;
+        }
+        $sum_arr[$key] += $value;
+
+        if ($key > 0) {
+            $xml_store .= "<cell style=\"text-align:right\">" . number_format($value) . "</cell>";
+        }
+    }
+    $xml_store .= "<cell style=\"text-align:right\">" . number_format($totalqty) . "</cell>";
+    $xml_store .= "<cell style=\"text-align:right\">" . number_format($remaining) . "</cell>";
+    $xml_store .="</row>";
+}
+$xml_store .="</rows>";
+
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $report_title . ' ' . $report_month . ' ' . $sel_year; ?></h3>
+        <div class="innerLR">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php
+                        echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                        ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('inventory-management/reports-header.phtml') ?>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" style="text-align:right; padding-bottom:10px;">
+                        <img style="cursor:pointer;" src="<?php echo $this->baseUrl(); ?>/images/pdf-32.png" onClick="mygrid.toPDF('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2pdf/server/generate.php');" title="<?php echo $this->translate("Export to PDF"); ?>"/>&nbsp;&nbsp;
+                        <img style="cursor:pointer; margin-left:-5px" src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="mygrid.toExcel('<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/grid2excel/server/generate.php');" title="<?php echo $this->translate("Export to Excel"); ?>" />
+                    </td>
+                </tr>
+            </table>
+            <table width="99%" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <div id="mygrid_container" style="width:100%; height:640px;">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    var mygrid;
+    function doInitGrid() {
+        mygrid = new dhtmlXGridObject('mygrid_container');
+        mygrid.selMultiRows = true;
+        mygrid.setImagePath("<?php echo $this->baseUrl(); ?>/common/reports/dhtmlxGrid/dhtmlxGrid/codebase/imgs/");
+        mygrid.setHeader(",<div style='text-align:center; font-size:14px; font-weight:bold; font-family:Helvetica'> Province wise <?php echo "'$this->item_name'" ?> Store Issuance Report for <?php echo "$this->location_name" ?> (In Doses) </div>,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan,#cspan");
+        mygrid.attachHeader("<?php echo $header; ?>");
+        mygrid.setInitWidths("<?php echo $width; ?>");
+        mygrid.setColTypes("<?php echo $ro; ?>");
+        mygrid.setColumnHidden(0, true);
+        mygrid.enableRowsHover(true, 'onMouseOver');
+        mygrid.setSkin("light");
+        mygrid.init();
+        mygrid.clearAll();
+        mygrid.loadXMLString('<?php echo addslashes($xml_store) ?>');
+    }
+
+    function functionCall(param) {
+        window.open('../graph/district_yearly.php?param=' + param, '_blank', 'scrollbars=1,width=950,height=600');
+    }
+    
+    $(function () {
+
+        $('#prov_sel').change(function () {
+            $('#loader').show();
+            $.ajax({
+                type: "POST",
+                url: appName + "/reports/inventory-management/prov-2dist",
+                data: {prov_sel: $(this).val(), combo: '2'},
+                dataType: 'html',
+                success: function (data) {
+                    $('#loader').hide();
+                    $('#dist_id').html(data);
+                    $('#teh_id').empty();
+                    $('#uc_id').empty();
+                }
+            });
+        });
+    });
+</script>

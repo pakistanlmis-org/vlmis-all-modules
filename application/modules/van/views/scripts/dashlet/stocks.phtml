@@ -1,0 +1,554 @@
+<style>
+    table{
+        font-size: 11px;
+    }
+</style>
+<?php
+/**
+ *  phtml for van/dashlet/stocks 
+ */
+$selected_province = $this->selected_province;
+$selected_district = $this->selected_district;
+$selected_tehsil = $this->selected_tehsil;
+$selected_tehsil_name = $this->selected_tehsil_name;
+$tehsils = $this->tehsils;
+
+$selected_year = $this->selected_year;
+$selected_month = $this->selected_month;
+$selected_product = $this->selected_product;
+$vaccines = $this->all_vaccines;
+$district_wh_name = $this->district_wh_name;
+$start_date_str = date('M-y', strtotime($this->start_date));
+$end_date_str = date('M-y', strtotime($this->end_date));
+$period = $this->period;
+$tehsile_array = $this->tehsile_array;
+
+
+$district_store_stock_out_over_stock_result = $this->district_store_stock_out_over_stock_result;
+//$taluka_store_stock_out_over_stock_result = $this->taluka_store_stock_out_over_stock_result;
+$district_store_stock_out_over_stock_array = array();
+
+$ucs_stock_status_array = array();
+$taluka_stock_status_array = array();
+foreach ($vaccines as $item) {
+    $ucs_stock_status_array[$item['item_id']][] = $item['item_name'];
+    $taluka_stock_status_array[$item['item_id']][] = $item['item_name'];
+
+    //UC stock status
+    $count = 1;
+    foreach ($period as $date) {
+        $month_year = $date->format('M-y');
+        $ucs_stock_status_array[$item['item_id']][$count]['stock_out'] = null;
+        $ucs_stock_status_array[$item['item_id']][$count]['over_stocked'] = null;
+        $count++;
+    }
+
+    //Taluka stock status
+    $count = 1;
+    foreach ($tehsile_array as $tehsil) {
+        $taluka_stock_status_array[$item['item_id']][$count]['stock_out'] = null;
+        $taluka_stock_status_array[$item['item_id']][$count]['over_stocked'] = null;
+        $count++;
+    }
+}
+
+$count = 1;
+foreach ($period as $date) {
+    $month = $date->format("m");
+    $year = $date->format("Y");
+
+    $date_str = $date->format("Y-m");
+    $month_array[] = date('M-y', strtotime($date_str));
+    $start_date = date('Y-m-01', strtotime($date_str));
+    $end_date = date('Y-m-t', strtotime($date_str));
+
+    $ucs_stock_status_result = $this->VanDashletViewHelper()->getUCsStockStatus($selected_tehsil, $start_date, $end_date, $selected_product);
+
+    foreach ($ucs_stock_status_result as $row) {
+        $ucs_stock_status_array[$row['item_id']][$count]['stock_out'] = $row['stock_out'];
+        $ucs_stock_status_array[$row['item_id']][$count]['over_stocked'] = $row['over_stocked'];
+    }
+    $count++;
+}
+//Taluka stock status
+$count = 1;
+
+foreach ($tehsile_array as $tehsil) {
+
+    $tehsil_id = $tehsil['pk_id'];
+
+    $taluka_stock_status_result = $this->VanDashletViewHelper()->getNumberOfTimesTalukasStoreStockOutAndOverStock($selected_district, $tehsil_id, $start_date, $end_date);
+
+    foreach ($taluka_stock_status_result as $row) {
+        if ($row['item_id'] != null) {
+            $taluka_stock_status_array[$row['item_id']][$count]['stock_out'] = $row['stock_out'];
+            $taluka_stock_status_array[$row['item_id']][$count]['over_stocked'] = $row['over_stocked'];
+        }
+    }
+    $count++;
+}
+
+foreach ($vaccines as $item) {
+    //district stock status
+    $district_store_stock_out_over_stock_array[$item['item_id']]['item_name'] = $item['item_name'];
+    $district_store_stock_out_over_stock_array[$item['item_id']]['stock_out'] = null;
+    $district_store_stock_out_over_stock_array[$item['item_id']]['over_stocked'] = null;
+
+    //district stock status
+    foreach ($district_store_stock_out_over_stock_result as $row) {
+        if ($row['item_id'] == $item['item_id']) {
+            $district_store_stock_out_over_stock_array[$item['item_id']]['stock_out'] = $row['stock_out'];
+            $district_store_stock_out_over_stock_array[$item['item_id']]['over_stocked'] = $row['over_stocked'];
+        }
+    }
+}
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <!-- BEGIN PAGE HEADER-->
+
+        <div class="row">
+            <h3 class="col-md-8">
+                VAN <small>dashboard & statistics</small>
+            </h3>
+
+        </div>
+        <div class="row">&nbsp;</div>
+        <!-- END PAGE HEADER-->
+        <div class="row">
+            <!-- // Tabs START -->
+            <div class="col-md-12">
+                <div class="widget widget-tabs">
+                    <div class="widget-head dashboard-widget">
+                        <ul>
+                            <li class="">
+                                <a href="<?php echo $this->baseUrl(); ?>/van/dashlet/van">
+                                    <div class="dashboard-stat_custom">
+                                        <div style="width: auto;" class="visual">
+                                            <i class="fa fa-routine-immunization"></i> 
+                                        </div>
+                                        <div style="float: left;" class="details">
+                                            <div class="dashboard-title-1"></div>
+                                            <div class="dashboard-title-2" style="padding-top: 20px">VAN</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="active">
+                                <a href="<?php echo $this->baseUrl(); ?>/van/dashlet/stocks">
+                                    <div class="dashboard-stat_custom">
+                                        <div style="width: auto;" class="visual">
+                                            <i class="fa fa-inventory-management"></i>
+                                        </div>
+                                        <div style="float: left;" class="details">
+                                            <div class="dashboard-title-1"></div>
+                                            <div class="dashboard-title-2" style="padding-top: 20px">Stocks</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="<?php echo $this->baseUrl(); ?>/van/dashlet/vaccination">
+                                    <div class="dashboard-stat_custom">
+                                        <div style="width: auto;" class="visual">
+                                            <i class="fa fa-lims-campaign"></i>
+                                        </div>
+                                        <div style="float: left;" class="details">
+                                            <div class="dashboard-title-1"></div>
+                                            <div class="dashboard-title-2" style="padding-top: 20px">Vaccination</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="<?php echo $this->baseUrl(); ?>/van/dashlet/wastage">
+                                    <div class="dashboard-stat_custom">
+                                        <i class="fa fa-trash-o" style="font-size:45px;color:red;padding-top: 20px"></i>
+
+                                        <div style="float: right;" class="details">
+                                            <div class="dashboard-title-1"></div>
+                                            <div class="dashboard-title-2" style="padding-top: 20px">Wastage</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="<?php echo $this->baseUrl(); ?>/van/dashlet/ccem">
+                                    <div class="dashboard-stat_custom">
+                                        <div style="width: auto;" class="visual">
+                                            <i class="fa fa-cold-chain"></i> 
+                                        </div>
+                                        <div style="float: left;" class="details">
+                                            <div class="dashboard-title-1"></div>
+                                            <div class="dashboard-title-2" style="padding-top: 20px">CCEM</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                    <div class="widget-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active">
+                                <div class="row">
+                                    <form method="post" name="van-filters" id="van-filters" action="">
+                                        <div class="col-md-12 col-sm-12">
+                                            <div id="sample_2_filter" class="dataTables_filter">                                                        
+                                                <label><button class="btn btn-success" type="submit" id="go-btn" name="go-btn">GO</button></label>
+                                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                <!--                                                <label>Vaccines:
+                                                                                                    <select id="items" name="items" class="form-control input-inline input-xsmall">
+                                                                                                        <option value="" selected="selected">All</option> 
+                                                <?php
+//                                                        foreach ($vaccines as $vaccine) {
+//                                                            
+                                                ?>
+                                                                                                            <option value = "//<?php //echo $vaccine['item_id']            ?>" <?php
+//                                                            if ($vaccine['item_id'] == $this->selected_product) {
+//                                                                echo "selected='selected'";
+//                                                            }
+//                                                            
+                                                ?>><?php //echo $vaccine['item_name'] ?></option>
+                                                                                                                    //<?php
+//                                                                }
+                                                ?>   
+                                                                                                    </select>
+                                                                                                </label>
+                                                                                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>-->
+                                                <label>Month:
+                                                    <select id="month-to" name="month-to" class="form-control input-inline input-xsmall">
+                                                        <option value = "">Select Month</option>
+                                                        <?php
+                                                        $months_to = $this->all_months;
+                                                        foreach ($months_to as $month) {
+                                                            ?>
+                                                            <option value = "<?php echo $month['month_code'] ?>" <?php
+                                                            if ($month['month_code'] == $this->selected_month_to) {
+                                                                echo "selected='selected'";
+                                                            }
+                                                            ?>><?php echo $month['month_name'] ?></option>
+                                                                    <?php
+                                                                }
+                                                                ?>  
+                                                    </select>
+                                                </label> 
+                                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                <label>Year:
+                                                    <select id="year-to" name="year-to" class="form-control input-inline input-xsmall">
+                                                        <option value = "">Select Year</option>
+                                                        <?php
+                                                        $years_to = $this->years;
+                                                        foreach ($years_to as $key => $value) {
+                                                            ?>
+                                                            <option value = "<?php echo $key ?>" <?php
+                                                            if ($key == $this->selected_year_to) {
+                                                                echo "selected='selected'";
+                                                            }
+                                                            ?>><?php echo $value ?></option>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                    </select>
+                                                </label> 
+                                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+
+                                                <!--                                                <label>Month From:
+                                                                                                    <select id="month-from" name="month-from" class="form-control input-inline input-xsmall">
+                                                                                                        <option value = "">Select Month</option>
+                                                <?php
+                                                $months_from = $this->all_months;
+                                                foreach ($months_from as $month) {
+                                                    ?>
+                                                                                                                                                                                                                                                        <option value = "<?php echo $month['month_code'] ?>" <?php
+                                                    if ($month['month_code'] == $this->selected_month_from) {
+                                                        echo "selected='selected'";
+                                                    }
+                                                    ?>><?php echo $month['month_name'] ?></option>
+                                                    <?php
+                                                }
+                                                ?>  
+                                                                                                    </select>
+                                                                                                </label> 
+                                                                                                <label>Year From:
+                                                                                                    <select id="year-from" name="year-from" class="form-control input-inline input-xsmall">
+                                                                                                        <option value = "">Select Year</option>
+                                                <?php
+                                                $years_from = $this->years;
+                                                foreach ($years_from as $key => $value) {
+                                                    ?>
+                                                                                                                                                                                                                                                        <option value = "<?php echo $key ?>" <?php
+                                                    if ($key == $this->selected_year_from) {
+                                                        echo "selected='selected'";
+                                                    }
+                                                    ?>><?php echo $value ?></option>
+                                                    <?php
+                                                }
+                                                ?>
+                                                                                                    </select>
+                                                                                                </label> 
+                                                                                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>-->
+                                                <label>Tehsil:
+
+                                                    <select id="tehsil" name="tehsil" class="form-control input-inline input-xsmall">
+                                                        <option value = "">Select Tehsil</option>
+                                                        <?php
+                                                        foreach ($tehsils as $tehsil) {
+                                                            ?>
+                                                            <option value = "<?php echo $tehsil['pk_id'] ?>" <?php
+                                                            if ($tehsil['pk_id'] == $selected_tehsil) {
+                                                                echo "selected='selected'";
+                                                            }
+                                                            ?>><?php echo $tehsil['location_name'] ?></option>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                    </select>
+
+                                                </label> 
+                                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                <label>District:
+                                                    <select id="district" name="district" class="form-control input-inline input-xsmall">
+                                                        <option value = "">Select District</option>
+                                                        <?php
+                                                        $districts = $this->districts;
+                                                        foreach ($districts as $district) {
+                                                            ?>
+                                                            <option value = "<?php echo $district['district_id'] ?>" <?php
+                                                            if ($district['district_id'] == $this->selected_district) {
+                                                                echo "selected='selected'";
+                                                            }
+                                                            ?>><?php echo $district['district_name'] ?></option>
+                                                                    <?php
+                                                                }
+                                                                ?>
+                                                    </select>
+                                                </label> 
+                                                <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                <label>Province:
+                                                    <select id="province" name="province" class="form-control input-inline input-xsmall">
+                                                        <option value = "">Select Province</option>
+                                                        <?php
+                                                        $provinces = $this->provinces;
+                                                        foreach ($provinces as $key => $value) {
+                                                            ?>
+                                                            <option value = "<?php echo $key ?>" selected = "selected"><?php echo $value ?></option>
+                                                            <?php
+                                                        }
+                                                        ?>
+
+                                                    </select>
+                                                </label> 
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div data-toggle="collapse-widget" class="widget">
+                                            <div class="widget-head">
+                                                <h4 class="heading "><i></i>District Store Stock Status (Stock Outs/ Over Stocks)</h4>
+                                            </div>
+                                            <div class="widget-body dashlets" id="473" href="reports/dashlet/reported-wastages">
+                                                <br>
+                                                <div style="overflow: auto;">
+                                                    <?php
+                                                    echo "<table class='table table-striped table-bordered'>";
+                                                    echo "<caption><h4>$district_wh_name</h4></caption>";
+                                                    echo "<thead>";
+                                                    echo "<tr>
+                                                <th colspan = '3'>Number of Time District Store Stock Out and Over Stock between $start_date_str to $end_date_str</th>
+                                                </tr>";
+                                                    echo "<tr>";
+                                                    echo "<th>Vaccine</th>";
+                                                    echo "<th>Stock out</th>";
+                                                    echo "<th>Over Stocked</th>";
+                                                    echo "</thead>";
+                                                    echo "<tbody>";
+                                                    foreach ($district_store_stock_out_over_stock_array as $row) {
+                                                        echo "<tr>";
+                                                        echo "<th>" . $row['item_name'] . "</th>";
+                                                        echo "<td class='right'>" . $row['stock_out'] . "</td>";
+                                                        echo "<td class='right'>" . $row['over_stocked'] . "</td>";
+                                                        echo "</tr>";
+                                                    }
+                                                    echo "</tbody>";
+                                                    echo "</table>";
+                                                    ?>
+
+                                                    <div style="clear:both;"></div>            
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <div data-toggle="collapse-widget" class="widget">
+                                            <div class="widget-head">
+                                                <h4 class="heading "><i></i>Taluka Stores Stock Status (Stock Outs/ Over Stocks)</h4>
+                                            </div>
+                                            <div class="widget-body dashlets" id="473" href="reports/dashlet/reported-wastages">
+                                                <br>
+                                                <div style="overflow: auto;">
+                                                    <?php
+                                                    $from = $month_array[0];
+                                                    $to = end($month_array);
+                                                    echo "<table class='table table-striped table-bordered'>";
+                                                    echo "<caption><h4>Taluka Stores </h4></caption>";
+                                                    echo "<thead>";
+                                                    echo "<tr>
+                                                <th colspan = '11'>Number of Times Talukas Store Stock Out and Over Stock between $from to $to</th>
+                                                </tr>";
+                                                    echo "<tr>";
+                                                    echo "<th rowspan='2'>Vaccine</th>";
+                                                    foreach ($tehsile_array as $tehsil) {
+                                                        echo "<th colspan='2' class='center'>" . $tehsil['location_name'] . "</th>";
+                                                    }
+                                                    echo "</tr>";
+                                                    echo "<tr>";
+                                                    foreach ($tehsile_array as $tehsil) {
+                                                        echo "<th>Stock Out</th>";
+                                                        echo "<th>Over Stock</th>";
+                                                    }
+
+                                                    echo "</tr>";
+                                                    echo "</thead>";
+                                                    echo "<tbody>";
+                                                    foreach ($taluka_stock_status_array as $item_id => $item_data) {
+
+                                                        echo "<tr>";
+
+                                                        foreach ($item_data as $key => $value) {
+                                                            if ($key > 0) {
+                                                                $value1 = number_format($value['stock_out']);
+                                                                echo"<td class='right'>$value1</td>";
+                                                                $value2 = number_format($value['over_stocked']);
+                                                                echo"<td class='right'>$value2</td>";
+                                                            } else {
+                                                                echo"<th>$value</th>";
+                                                            }
+                                                        }
+                                                        echo "</tr>";
+                                                    }
+                                                    echo "</tbody>";
+                                                    echo "</table>";
+                                                    ?>                   
+
+                                                    <div style="clear:both;"></div>            
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                                <div class="row">
+
+                                    <div class="col-md-12">
+                                        <div data-toggle="collapse-widget" class="widget">
+                                            <div class="widget-head">
+                                                <h4 class="heading "><i></i>UCs Stock Status (Stock Outs/ Over Stocks)</h4>
+                                            </div>
+                                            <div class="widget-body dashlets" id="473" href="reports/dashlet/reported-wastages">
+                                                <br>
+                                                <div style="overflow: auto;">
+                                                    <?php
+                                                    $from = $month_array[0];
+                                                    $to = end($month_array);
+                                                    echo "<table class='table table-striped table-bordered'>";
+                                                    echo "<caption><h4>Taluka $selected_tehsil_name Union Councils</h4></caption>";
+                                                    echo "<thead>";
+                                                    echo "<tr>";
+                                                    echo "<th rowspan='2'>Vaccine</th>";
+                                                    foreach ($month_array as $month) {
+                                                        echo "<th colspan='2' class='center'>$month</th>";
+                                                    }
+                                                    echo "<th>Average</th>";
+                                                    echo "<th>Average</th>";
+                                                    echo "</tr>";
+                                                    echo "<tr>
+                                                            <th>Stock Out</th>
+                                                            <th>Over Stock</th>
+                                                            <th>Stock Out</th>
+                                                            <th>Over Stock</th>
+                                                            <th>Stock Out</th>
+                                                            <th>Over Stock</th>
+                                                            <th>Stock Out</th>
+                                                            <th>Over Stock</th>
+                                                            <th>Stock Out</th>
+                                                            <th>Over Stock</th>
+                                                            <th>Stock Out</th>
+                                                            <th>Over Stock</th>
+                                                            <th>Stock Out</th>
+                                                            <th>Over Stock</th>
+                                                        </tr>";
+                                                    echo "</thead>";
+                                                    echo "<tbody>";
+                                                    foreach ($ucs_stock_status_array as $item_id => $item_data) {
+
+                                                        echo "<tr>";
+
+                                                        $sum1 = 0;
+                                                        $sum2 = 0;
+                                                        $number_of_items = 0;
+                                                        foreach ($item_data as $key => $value) {
+                                                            if ($key > 0) {
+                                                                $value1 = number_format($value['stock_out']);
+                                                                echo"<td class='right'>$value1</td>";
+                                                                $value2 = number_format($value['over_stocked']);
+                                                                echo"<td class='right'>$value2</td>";
+                                                                $sum1 = $sum1 + $value1;
+                                                                $sum2 = $sum2 + $value2;
+                                                                $number_of_items++;
+                                                            } else {
+                                                                echo"<th>$value</th>";
+                                                            }
+                                                        }
+                                                        $average1 = 0;
+
+                                                        $average1 = $sum1 / $number_of_items;
+
+
+                                                        echo "<td class='right'>" . round($average1) . "%</td>";
+
+                                                        $average2 = 0;
+
+                                                        $average2 = $sum2 / $number_of_items;
+
+
+                                                        echo "<td class='right'>" . round($average2) . "%</td>";
+
+                                                        echo "</tr>";
+                                                    }
+                                                    echo "</tbody>";
+                                                    echo "</table>";
+                                                    ?>                     
+
+                                                    <div style="clear:both;"></div>            
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <input id="tabid" value="472" type="hidden">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- // Tabs END -->
+        </div>
+    </div>
+</div>

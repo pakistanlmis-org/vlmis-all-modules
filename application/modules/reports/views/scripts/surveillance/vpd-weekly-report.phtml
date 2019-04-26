@@ -1,0 +1,323 @@
+<?php
+error_reporting(0);
+/**
+ *  phtml for Pentavalent Coverage Detail
+ */
+?>
+<?php
+$from_sel_month = $this->from_month_sel;
+$from_sel_year = $this->from_year_sel;
+
+$month = $this->month_sel;
+$sel_prov = $this->prov_sel;
+$sel_dist = $this->dist_id;
+$sel_teh = $this->sel_teh;
+$sel_uc = $this->uc_id;
+
+$report_type = $this->report_type;
+// Headers of the Grid
+?>
+
+<?php
+//echo $year = $this->year_sel;
+//exit;
+?>
+
+
+
+<?php
+?>
+<?php
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $report_title; ?></h3>
+
+
+        <div class="row">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('surveillance/reports-header.phtml') ?>
+                    </td>
+                </tr>
+            </table>
+            <div class="col-md-12 right">
+
+                <img src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="tableToExcel('export', 'sheet 1', '<?php echo $report_title; ?>')" alt="Excel" style="cursor:pointer;" />
+            </div>
+        </div>
+        <div>
+            &nbsp; &nbsp; &nbsp;
+        </div>
+        <div class="row" id="export">
+            <style>
+                table#myTable{margin-top:0px !important; color: #000;}
+                table#myTable{margin-top:20px;border-collapse: collapse;border-spacing: 0; border:1px solid #999;}
+                table#myTable tr td{font-size:11px;padding:3px; text-align:left; border:1px solid #999; color: #000;}
+                table#myTable tr th{font-size:11px;padding:3px; text-align:center; border:1px solid #999; color: #000;}
+                table#myTable tr td.TAR{text-align:right; padding:5px;width:50px !important;}
+                .sb1NormalFont {color: #444444; font-size: 11px; font-weight: bold; text-decoration: none;}
+                p{margin-bottom:5px; font-size:11px !important; line-height:1 !important; padding:0 !important; color: #000;}
+                table#headerTable tr td{ font-size:11px; color: #000;}
+                h4{margin:0; color: #000; font-size:14px;}
+                h5{margin:15px 0 5px 0; color: #000;}
+                h6{margin:0; color: #000; font-size:12px;}
+                .right{text-align:right !important;}
+                .center{text-align:center !important;}
+
+                /* Print styles */
+                @media only print
+                {
+                    table#myTable{margin-top:0px !important;}
+                    table#myTable tr th{font-size:8px;padding:3px !important; text-align:center; border:1px solid #999; color: #000;}
+                    table#myTable tr td{font-size:8px;padding:3px !important; text-align:left; border:1px solid #999; color: #000;}
+                    #doNotPrint{display: none !important;}
+                    h4{margin:0; color: #000;}
+                    h5{margin:0; color: #000;}
+                    h6{margin:0; color: #000;}
+                    p{margin-bottom:5px; font-size:11px !important; line-height:1 !important; padding:0 !important; color: #000;}
+                }
+            </style>
+
+
+            <script>
+                function printContents() {
+                    var w = 900;
+                    var h = screen.height;
+                    var left = Number((screen.width / 2) - (w / 2));
+                    var top = Number((screen.height / 2) - (h / 2));
+                    var dispSetting = "toolbar=yes,location=no,directories=yes,menubar=yes,scrollbars=yes,left=" + left + ",top=" + top + ",width=" + w + ",height=" + h;
+                    var printingContents = document.getElementById("export").innerHTML;
+                    var docprint = window.open("", "", dispSetting);
+                    docprint.document.open();
+                    docprint.document.write('<html><head>');
+                    docprint.document.write('</head><body onLoad="self.print();self.close();"><center>');
+                    docprint.document.write(printingContents);
+                    docprint.document.write('</center></body></html>');
+                    docprint.document.close();
+                    docprint.focus();
+                }
+
+            </script>
+
+            <div class="innerLR" style="overflow:auto;">
+                <table style="width:100%">
+
+                    <td align="center"><h4 class="center">
+                            <?php echo "'$report_title at  $this->loc_name'" . '<br>' . " for Year " . $this->from_year_sel ?>
+                        </h4></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 10px;"><table id="myTable" style="width:5000px" cellspacing="0" align="center">
+                                <thead>
+                                    <tr>
+
+                                        <th  style="width:1% !important; background-color:#F5F5F5;" >EPI Week No </th>
+
+
+                                        <?php foreach ($this->weeks as $res) { ?>
+                                            <th    style="width:1%;  background-color:#F5F5F5;">WK<?php echo $res['week']; ?></th>
+                                        <?php } ?>
+                                        <th  style="width:1% !important; background-color:#F5F5F5;" colspan="3">Upto Week Number</th>
+                                        <th  style="width:1% !important; background-color:#F5F5F5;" >3</th>
+                                    </tr>
+                                    <tr>
+
+                                        <th  style="background-color:#c6e0b4;">Days of Week
+                                        </th>
+
+                                        <?php foreach ($this->weeks as $res) { ?>
+                                            <th  style="background-color:#c6e0b4;"><?php echo $res['s'] . '-' . $res['e']; ?></th>
+                                        <?php } ?>
+                                        <th  style="" rowspan="3">On Time
+                                        </th>
+                                        <th  style="" rowspan="3">Late
+                                        </th>
+                                        <th  style="" rowspan="3">Timeliness %
+                                        </th>
+                                        <th  style="" rowspan="3">Completeness %
+                                        </th>
+
+                                    </tr>
+                                    <tr>
+
+                                        <th  style="background-color:#c9c9c9;">Due date of reporting<br>
+                                            (every Wednesday of next week)
+                                        </th>
+
+                                        <?php foreach ($this->weeks as $res) { ?>
+                                            <th    style="background-color:#c9c9c9;"><?php echo $res['r']; ?></th>
+                                        <?php } ?>
+
+
+                                    </tr>
+                                    <tr>
+
+                                        <th  style="background-color:#808080;">District Name</th>
+
+
+                                        <th   colspan="52" style="background-color:#808080;"></th>
+
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $i = 1;
+                                    foreach ($this->district as $sub_arr) {
+                                        ?>
+                                        <tr>
+
+
+
+                                            <td class="left"><?php echo $sub_arr['value']; ?></td>
+                                            <?php
+                                            $on_time = 0;
+                                            $late_time = 0;
+                                            for ($j = 1; $j <= 52; $j++) {
+                                                $query5 = $this->reports()->getVpdWeekly($j, $sub_arr['key']);
+                                                if ($query5[0]['reporting_status'] == '1') {
+                                                    $on_time += 1;
+                                                }
+                                                if ($query5[0]['reporting_status'] == '0') {
+                                                    $late_time += 1;
+                                                }
+                                                ?>
+                                                <td style="background-color: <?php if ($query5[0]['reporting_status'] == '1') { ?>#92d050;<?php } else if ($query5[0]['reporting_status'] == '0') { ?>#ff0000; <?php } else { ?> <?php } ?>text-align: center;"> <?php
+                                                    if (empty($query5[0]['created_date'])) {
+                                                        
+                                                    } else {
+                                                        echo date("d-M-y", strtotime($query5[0]['created_date']));
+                                                    }
+                                                    ?></td>
+
+
+                                            <?php } ?>
+
+                                            <td class="right"><?php echo $on_time; ?></td>
+                                            <td class="right"><?php echo $late_time; ?></td>
+                                            <td class="right"><?php echo Round(($on_time / ($on_time + $late_time)) * 100, 2) ?></td>
+                                            <td class="right"></td>
+
+                                        </tr>
+
+                                        <?php
+                                        $i++;
+                                    }
+
+// To show Total
+                                    ?>
+
+
+                                    <?php
+                                    //    $total_array = array("0" => "On Time", "1" => "Late", "2" => "Timeliness %", "3" => "Completness %");
+                                    //    foreach ($total_array as $sub_arr1) {
+                                    ?>
+                                    <tr>
+
+
+
+                                        <td class="right">On Time</td>
+                                        <?php
+                                        for ($j = 1; $j <= 52; $j++) {
+                                            $query6 = $this->reports()->getVpdWeeklyTotal($from_sel_year,$j, $sub_arr1);
+                                            ?>
+                                            <td > <?php
+                                                echo $query6[0]['on_time'];
+                                                ?></td>
+
+
+                                        <?php } ?>
+
+
+
+                                    </tr>
+                                    <tr>
+
+
+
+                                        <td class="right">Late</td>
+                                        <?php
+                                        for ($j = 1; $j <= 52; $j++) {
+                                            $query6 = $this->reports()->getVpdWeeklyTotal($from_sel_year,$j, $sub_arr1);
+                                            ?>
+                                            <td > <?php
+                                                echo $query6[0]['late'];
+                                                ?></td>
+
+
+                                        <?php } ?>
+
+
+
+                                    </tr>
+                                    <tr>
+
+
+
+                                        <td class="right">Timeliness %</td>
+                                        <?php
+                                        for ($j = 1; $j <= 52; $j++) {
+                                            $query6 = $this->reports()->getVpdWeeklyTotal($from_sel_year,$j, $sub_arr1);
+                                            ?>
+                                            <td > <?php
+                                                echo $query6[0]['timeliness'];
+                                                ?></td>
+
+
+                                        <?php } ?>
+
+
+
+                                    </tr>
+                                    <tr>
+
+
+
+                                        <td class="right">Completness %</td>
+                                        <?php
+                                        for ($j = 1; $j <= 52; $j++) {
+                                            $query6 = $this->reports()->getVpdWeeklyTotal($from_sel_year,$j, $sub_arr1);
+                                            ?>
+                                            <td > <?php
+                                                echo $query6[0]['late'];
+                                                ?></td>
+
+
+                                        <?php } ?>
+
+
+
+                                    </tr>
+                                    <?php
+                                    //      $i++;
+                                    //     }
+// To show Total
+                                    ?>
+
+
+                                </tbody>
+                            </table></td>
+                    </tr>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        var whType = <?php echo $wh_type; ?>;
+        var province = <?php echo $sel_prov; ?>;
+        var district = <?php echo $sel_dist; ?>;
+        var tehsil = <?php echo $sel_tehsil; ?>;
+    </script>

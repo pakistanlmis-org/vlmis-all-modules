@@ -1,0 +1,196 @@
+<?php
+/**
+ *  phtml for Add Cold Room
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            <?php echo $this->translate((Zend_Registry::get('pageTitle')) ? Zend_Registry::get('pageTitle') : "Add Cold Room"); ?>
+        </h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php
+                            echo $this->translate("Add Cold Room");
+                            ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="row margin-top-10 margin-bottom-10">
+                            <div class="col-md-12">
+                                <?php
+                                echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php if (!empty($this->arr_data['success']) && $this->arr_data['success'] == 1) { ?>
+                                    <div class="alert alert-success">
+                                        <button data-dismiss="alert" class="close" type="button"> ×</button>
+                                        <strong><?php echo $this->translate("Data"); ?></strong> <?php echo $this->translate("has been saved successfully"); ?>!
+                                    </div>
+                                <?php } ?>
+                                <form method="POST" name="add_cold_room" id="add_cold_room" action="<?php echo $this->action; ?>">
+                                    <!-- Row -->
+                                    <?php echo $this->render('cold-chain/add-main.phtml'); ?>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Type"); ?> <span class="red">*</span>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->ccm_asset_sub_type_id; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Internal Storage Dimensions(m)"); ?>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->asset_dimension_length; ?>
+                                                    <?php echo $this->form->asset_dimension_width; ?>
+                                                    <?php echo $this->form->asset_dimension_height; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Make"); ?> <span class="red">*</span>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->make; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="control-group">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Model"); ?> <span class="red">*</span>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->ccm_model_id; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="control-group">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Internal gross volume (m3)"); ?> <span class="red">*</span>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->gross_capacity; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="firstname">
+                                                <?php echo $this->translate("Year of Supply"); ?>
+                                            </label>
+                                            <div class="controls">
+                                                <?php echo $this->form->working_since; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="firstname">
+                                                <?php echo $this->translate("Number of cooling system"); ?>
+                                            </label>
+                                            <div class="controls">
+                                                <?php echo $this->form->cooling_system; ?>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="control-group">
+                                                <label class="control-label" for="firstname">
+                                                    <?php echo $this->translate("Net storage volume for vaccine/packs (m3)"); ?> <span class="red">*</span>
+                                                </label>
+                                                <div class="controls">
+                                                    <?php echo $this->form->net_capacity; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="firstname">
+                                                <?php echo $this->translate("Refrigerator gas type"); ?>
+                                            </label>
+                                            <?php echo $this->form->refrigerator_gas_type; ?>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="firstname">
+                                                <?php echo $this->translate("Has working backup generator"); ?> <span class="red">*</span>
+                                            </label>
+                                            <?php echo $this->form->backup_generator; ?>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="firstname">
+                                                <?php echo $this->translate("Temperature recording system"); ?>
+                                            </label>
+                                            <?php echo $this->form->temperature_recording_system; ?>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="firstname">
+                                                <?php echo $this->translate("Type of recording system"); ?>
+                                            </label>
+                                            <?php echo $this->form->type_recording_system; ?>
+                                            <!-- hidden field for updatation-->
+                                            <?php echo $this->form->ccm_id; ?>
+                                            <?php echo $this->form->model_hidden; ?>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="control-label" for="firstname">
+                                                <?php echo $this->translate("Has voltage stabilizer"); ?>
+                                            </label>
+                                            <div class="widget-body uniformjs">
+                                                <?php echo $this->form->has_voltage; ?>
+                                            </div>
+                                               
+                                        </div>
+                                        <!--                                        <div class="col-md-3">
+                                                                                    <label class="control-label" for="firstname">
+                                        <?php echo $this->translate("Number of phases"); ?>
+                                                                                    </label>
+                                                                                    <div class="widget-body uniformjs">
+                                        <?php echo $this->form->no_of_phases; ?>
+                                                                                    </div>
+                                                                                </div>-->
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-11"></div>
+                                        <div class="col-md-1 margin-top-20">
+                                            <div class="controls">
+                                                <button type="submit" class="btn btn-primary" id="add_issue">
+                                                    <?php echo $this->translate("Save"); ?>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- // Content END -->
+    </div>
+</div>

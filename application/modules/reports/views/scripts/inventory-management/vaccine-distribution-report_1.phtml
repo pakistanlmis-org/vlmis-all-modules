@@ -1,0 +1,288 @@
+<?php
+error_reporting(1);
+/**
+ *  phtml for Central Provincial Warehouse
+ */
+?>
+<?php
+$sel_month = $this->month_sel;
+$sel_year = $this->year_sel;
+
+$counter = 1;
+
+$sel_stk = $this->in_stk;
+$sel_prov = $this->prov_sel;
+$sel_dist = $this->in_dist;
+$sel_indicator = $this->sel_indicator;
+$in_col = $this->in_col;
+$in_rg = $this->in_rg;
+$in_type = $this->in_type;
+$stk_sel = $this->stk_sel;
+$start_date = $this->start_date;
+$end_date = $this->end_date;
+$period = $this->period;
+$str_indicator = $this->str_indicator;
+$wh_type = $this->wh_type;
+
+
+$warehouse_id = $this->warehouse_id;
+$from_date = $this->from_date;
+$to_date = $this->to_date;
+
+$getWHName = $this->reports()->getWarehousename($warehouse_id);
+$whName = $getWHName[0]['warehouse_name'];
+
+$data_arr = array();
+
+
+foreach ($this->item_id as $row) {
+    $data_arr[$row['pkId']][] = $row['itemName'];
+    $count = 1;
+    foreach ($period as $date) {
+        $data_arr[$row['pkId']][$count] = 0;
+        $count++;
+    }
+}
+$issue_qty_array = $this->reports()->getIssueQuantity($from_date, $to_date, $warehouse_id);
+
+$j = 1;
+
+foreach ($issue_qty_array as $row) {
+    $location_id = $row['pk_id'];
+    $item_pack_size_id = $row['item_pack_size_id'];
+
+    $data_arr[$location_id][$item_pack_size_id][] = $row['location_name'];
+    $data_arr[$location_id][$item_pack_size_id][] = $row['IssueQty'];
+
+    $j++;
+}
+
+App_Controller_Functions::pr($data_arr);
+
+
+
+$report_title = $this->report_title;
+if (!empty($sel_month)) {
+    $report_month = date('F', mktime(0, 0, 0, $sel_month));
+} else {
+    $report_month = "";
+}
+?>
+
+
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title"><?php echo $report_title; ?></h3>
+        <h5 style="color: red">
+            Note: Please check and provide feedback at support@lmis.gov.pk
+        </h5>
+
+        <div class="row">
+            <table width="99%">
+                <tr>
+                    <td colspan="2">
+                        <?php echo $this->render('inventory-management/reports-header.phtml') ?>
+                    </td>
+                </tr>
+            </table>
+            <div class="col-md-12 right">
+
+                <img src="<?php echo $this->baseUrl(); ?>/images/excel-32.png" onClick="tableToExcel('export', 'sheet 1', '<?php echo $report_title; ?>')" alt="Excel" style="cursor:pointer;" />
+            </div>
+        </div>
+        <div>
+            &nbsp; &nbsp; &nbsp;
+        </div>
+        <div class="row" id="export">
+            <style>
+                table#myTable{margin-top:0px !important; color: #000;}
+                table#myTable{margin-top:20px;border-collapse: collapse;border-spacing: 0; border:1px solid #999;}
+                table#myTable tr td{font-size:11px;padding:3px; text-align:left; border:1px solid #999; color: #000;}
+                table#myTable tr th{font-size:11px;padding:3px; text-align:center; border:1px solid #999; color: #000;}
+                table#myTable tr td.TAR{text-align:right; padding:5px;width:50px !important;}
+                .sb1NormalFont {color: #444444; font-size: 11px; font-weight: bold; text-decoration: none;}
+                p{margin-bottom:5px; font-size:11px !important; line-height:1 !important; padding:0 !important; color: #000;}
+                table#headerTable tr td{ font-size:11px; color: #000;}
+                h4{margin:0; color: #000; font-size:14px;}
+                h5{margin:15px 0 5px 0; color: #000;}
+                h6{margin:0; color: #000; font-size:12px;}
+                .right{text-align:right !important;}
+                .center{text-align:center !important;}
+
+                /* Print styles */
+                @media only print
+                {
+                    table#myTable{margin-top:0px !important;}
+                    table#myTable tr th{font-size:8px;padding:3px !important; text-align:center; border:1px solid #999; color: #000;}
+                    table#myTable tr td{font-size:8px;padding:3px !important; text-align:left; border:1px solid #999; color: #000;}
+                    #doNotPrint{display: none !important;}
+                    h4{margin:0; color: #000;}
+                    h5{margin:0; color: #000;}
+                    h6{margin:0; color: #000;}
+                    p{margin-bottom:5px; font-size:11px !important; line-height:1 !important; padding:0 !important; color: #000;}
+                }
+            </style>
+
+
+            <script>
+                function printContents() {
+                    var w = 900;
+                    var h = screen.height;
+                    var left = Number((screen.width / 2) - (w / 2));
+                    var top = Number((screen.height / 2) - (h / 2));
+                    var dispSetting = "toolbar=yes,location=no,directories=yes,menubar=yes,scrollbars=yes,left=" + left + ",top=" + top + ",width=" + w + ",height=" + h;
+                    var printingContents = document.getElementById("export").innerHTML;
+                    var docprint = window.open("", "", dispSetting);
+                    docprint.document.open();
+                    docprint.document.write('<html><head>');
+                    docprint.document.write('</head><body onLoad="self.print();self.close();"><center>');
+                    docprint.document.write(printingContents);
+                    docprint.document.write('</center></body></html>');
+                    docprint.document.close();
+                    docprint.focus();
+                }
+
+            </script>
+
+            <div class="innerLR" style="overflow:auto;">
+
+
+                <br>
+
+                <table width="100%" >
+
+                    <td align="center"><h4 class="center">
+                            <?php echo "'$report_title at  $this->loc_name'" . '<br>' . " for (" . date('F', mktime(0, 0, 0, $this->from_month_sel)) . '-' . $this->from_year_sel . ') to (' . date('F', mktime(0, 0, 0, $this->to_month_sel)) . '-' . $this->to_year_sel; ?>)  (Doses)
+                        </h4></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 10px;"><table id="myTable" cellspacing="0" align="center" style="width:100%">
+                                <thead>
+
+
+                                    <tr>
+                                        <th rowspan="3" width="50">Purpose</th>
+                                    </tr>
+                                    <tr>
+
+                                        <?php
+                                        $row_stakeholders = $this->reports()->getAllStakeholderActivitiesIssues();
+                                        foreach ($row_stakeholders as $res_stak) {
+                                            $row_item = $this->reports()->getProductsByStakeholderActivity($res_stak['pkId']);
+                                            foreach ($row_item as $res_item) {
+                                                $colspan += 1;
+                                            }
+                                            ?>
+                                            <th style='text-align:center;' colspan="<?php echo $colspan; ?>" ><?php echo $res_stak['activity']; ?></th>
+                                        <?php }
+                                        ?>
+
+
+                                    </tr>
+                                    <tr>
+                                        <?php
+                                        $row_stakeholders1 = $this->reports()->getAllStakeholderActivitiesIssues();
+                                        foreach ($row_stakeholders1 as $res_stak) {
+                                            $row_item = $this->reports()->getProductsByStakeholderActivity($res_stak['pkId']);
+                                            foreach ($row_item as $res_item) {
+                                                ?>
+                                                <th tyle="text-align:center;" colspan="1"><?php echo $res_item['item_name'] ?></th>
+
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+
+
+
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    unset($sum_arr);
+                                    foreach ($data_arr as $dis_id => $sub_arr) {
+                                        ?>
+                                        <tr>
+
+
+                                            <td><?php echo $sub_arr[0]; ?></td>
+
+                                            <?php
+                                            foreach ($sub_arr as $key => $value) {
+                                                if (!isset($sum_arr[$key])) {
+                                                    $sum_arr[$key] = 0;
+                                                }
+                                                $sum_arr[$key] += $value;
+
+
+                                                if ($key > 0) {
+                                                    ?><td style="text-align:right;"><?php echo number_format($value); ?></td>
+
+                                                    <?php
+                                                }
+                                            }
+                                        }
+
+                                        // To show Total
+                                        array_shift($sum_arr);
+                                        ?>
+                                    <tr>
+
+                                        <td></td>
+
+
+                                        <td style="font-weight:bold">Total</td>
+                                        <?php
+                                        foreach ($sum_arr as $key => $value) {
+
+                                            if ($key == 2) {
+                                                $total_target = $value;
+                                                ?>
+                                                <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+                                                <?php
+                                            } else if ($key == 3) {
+                                                $total_wh = $value
+                                                ?>
+                                                <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+
+
+                                            <?php } else if ($key == 4) { ?>
+                                                <td style="text-align:right; font-weight:bold"><?php echo Round(($total_wh / $total_target) * 100); ?></td>
+                                                <?php
+                                            } else if ($key == 5) {
+                                                $total_wh1 = $value;
+                                                ?>
+                                                <td style="text-align:right; font-weight:bold"><?php echo number_format($total_target - $total_wh); ?></td>
+                                                <?php
+                                            } else if ($key == 6) {
+                                                $total_wh1 = $value;
+                                                ?>
+                                                <td style="text-align:right; font-weight:bold"><?php echo number_format($value); ?></td>
+                                                <?php
+                                            } else if ($key == 7) {
+                                                ?>
+                                                <td style="text-align:right; font-weight:bold"><?php echo Round(($total_wh1 / $total_target) * 100); ?></td>
+                                                <?php
+                                            } else if ($key == 8) {
+                                                ?>
+                                                <td style="text-align:right; font-weight:bold"><?php echo number_format($total_target - $total_wh1); ?></td>
+                                                <?php
+                                            } else if ($key == 9) {
+                                                ?>
+                                                <td style="text-align:right; font-weight:bold"><?php echo number_format((($total_wh - $total_wh1) / $total_wh) * 100); ?></td>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                    </tr>
+                                </tbody>
+                            </table></td>
+                    </tr>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+

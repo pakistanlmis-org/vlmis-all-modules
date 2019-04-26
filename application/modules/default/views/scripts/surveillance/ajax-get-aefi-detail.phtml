@@ -1,0 +1,42 @@
+<?php
+/**
+ *  phtml for Ajax Get VPD detail
+ */
+?>
+<div class="scroller" style="min-height:200px" data-always-visible="1" data-rail-visible1="1">
+
+    <h4 class="form-section">Section 1</h4>
+    <strong>Date : </strong><?php echo $this->data[0]['date']; ?>&nbsp;&nbsp;&nbsp;<strong>Case Reported : </strong> <?php if ($this->data[0]['type_case'] == 1) {
+    echo "Yes";
+} else {
+    echo "No";
+} ?>
+    <h4 class="form-section">Section 2</h4>
+    <strong>District : </strong> <?php echo $this->data[0]['district']; ?>&nbsp;&nbsp;&nbsp;<strong>Tehsil : </strong> <?php echo $this->data[0]['tehsil']; ?>&nbsp;&nbsp;&nbsp;<strong>UC : </strong> <?php echo $this->data[0]['uc']; ?><br>
+    <strong>Case Reported from Health Facility : </strong> <?php echo $this->data[0]['hf_name']; ?><br>
+    <strong>Case Reported from EPI Center : </strong> <?php echo $this->data[0]['hf_name']; ?>
+    <h4 class="form-section">Section 3</h4>
+    <strong>Gender : </strong><?php if ($this->data[0]['gender'] == 1) {
+    echo 'Male';
+} else {
+    echo 'Female';
+} ?>&nbsp;&nbsp;&nbsp;<strong>Child Name : </strong> <?php echo $this->data[0]['child_name']; ?>&nbsp;&nbsp;&nbsp;<strong>Father Name : </strong> <?php echo $this->data[0]['father_name']; ?><br>
+    <strong>Contact Number : </strong> <?php echo $this->data[0]['type_case']; ?><br>
+    <strong>Address1 : </strong><?php echo $this->data[0]['address1']; ?>&nbsp;&nbsp;&nbsp;<strong>Address2 : </strong> <?php echo $this->data[0]['address2']; ?>&nbsp;&nbsp;&nbsp;<strong>Village : </strong> <?php echo $this->data[0]['address_village']; ?><br>
+    <strong>Date of Birth : </strong> <?php echo $this->data[0]['dob']; ?>&nbsp;&nbsp;&nbsp;<strong>Age : </strong> <?php echo $this->data[0]['age'] . '-';
+if ($this->data[0]['age_unit'] == 1) {
+    echo "Months";
+} else if ($this->data[0]['age_unit'] == 2) {
+    echo "Days";
+} else {
+    echo "Years";
+} ?><br>
+    <h4 class="form-section">Section 4</h4>
+    <strong>AEFI : </strong><?php echo $this->data[0]['aefi'];  ?>
+    <br><strong>Vaccine : </strong> <?php echo $this->data[0]['vaccine']; ?>&nbsp;&nbsp;&nbsp;<strong>Batch : </strong> <?php echo $this->data[0]['batch']; ?><br>
+    <strong>Date of Vaccine Given : </strong><?php echo $this->data[0]['date_vaccine_given']; ?>&nbsp;&nbsp;&nbsp;<strong>Date of AEFI Onset : </strong> <?php echo $this->data[0]['date_aefi_onset']; ?><br><strong>Date of Investigation : </strong> <?php echo $this->data[0]['date_of_investigation']; ?><br>
+     <br><strong>Hospitalization : </strong> <?php  if($this->data[0]['hospitalization']==1){echo "Yes";}else {echo "No";} ?>&nbsp;&nbsp;&nbsp;<strong>Death : </strong> <?php  if($this->data[0]['death']==1){echo "Yes";}else {echo "No";} ?><br>
+   
+
+
+</div>

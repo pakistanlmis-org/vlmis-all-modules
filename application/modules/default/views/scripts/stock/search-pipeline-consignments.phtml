@@ -1,0 +1,214 @@
+<?php
+/**
+ *  phtml for Search Pipeline Consignments
+ */
+?>
+<!-- Content -->
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <h3 class="page-title">
+            <?php echo $this->translate("Shipments Search"); ?>
+        </h3>
+        <div class="row">
+            <?php if (!empty($this->voucher)) { ?>
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        <button data-dismiss="alert" class="close" type="button">
+                            ×
+                        </button>
+                        Stock has been received successfully. Your receive voucher number is <a onclick="window.open('<?php echo $this->baseUrl(); ?>/stock/print-receive?id=<?php echo $this->master_id; ?>', '_blank', 'scrollbars=1,width=860,height=595');" href="javascript:void(0);"><strong><?php echo $this->voucher; ?></strong></a>
+                    </div>                                
+                </div>
+            <?php } ?>
+            <div class="col-md-12">
+                <div class="portlet box green">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <?php echo $this->translate("Filters"); ?>
+                        </div>
+                        <div class="tools">
+                            <a href="javascript:;" class="collapse"></a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <form name="search-pipeline" id="search-pipeline" method="post" action="">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <!-- Group Receive No-->
+                                    <div class="control-group">
+                                        <label class="control-label" for="from_warehouse_id">
+                                            <?php echo $this->translate("Source"); ?>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->from_warehouse_id; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label class="control-label" for="from_date">
+                                            <?php echo $this->translate("From Date"); ?>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->from_date; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label class="control-label" for="to_date">
+                                            <?php echo $this->translate("To Date"); ?>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->to_date; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label class="control-label" for="item_pack_size_id">
+                                            <?php echo $this->translate("Products"); ?>
+                                        </label>
+                                        <div class="controls">
+                                            <?php echo $this->form->item_pack_size_id; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label class="control-label" for="status">
+                                        <?php echo $this->translate("Status"); ?>
+                                    </label>
+                                    <div class="controls">
+                                        <?php echo $this->form->status; ?>
+                                    </div>
+                                </div>                                      
+                                <div class="col-md-9 right">
+                                    <label class="control-label">&nbsp;</label>  
+                                    <div class="controls">
+                                        <button data-loading-text="Please Wait ..." class="btn btn-primary" id="btn-loading" type="submit">
+                                            <?php echo $this->translate("Search"); ?>
+                                        </button>
+                                        <button type="reset" class="btn btn-info" id="reset">
+                                            <?php echo $this->translate("Reset"); ?>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php if ($this->arr_data && count($this->arr_data) > 0) { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <?php echo $this->translate("Shipments List"); ?>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php
+                                    echo App_Controller_Functions::getPageNarrative(Zend_Registry::get('resource'));
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table table-striped table-bordered table-condensed">
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    <?php echo $this->translate("S.No"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Voucher"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Ref. No."); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Source"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Expected Arrival"); ?>
+                                                </th>
+                                                <th>
+                                                    <?php echo $this->translate("Status"); ?>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <!-- // Table heading END -->
+
+                                        <!-- Table body -->
+                                        <tbody>
+                                            <!-- Table row -->
+                                            <?php
+                                            $i = 1;
+                                            foreach ($this->arr_data as $row) {
+                                                ?>
+                                                <tr class="gradeX">
+                                                    <td>
+                                                        <?php echo $i; ?>
+                                                    </td>
+                                                    <td nowrap>
+                                                        <a class="future_arrival_details cursor-hand" id="<?php echo $row['voucherNumber']; ?>"><?php echo $row['voucherNumber']; ?></a>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $row['referenceNumber']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo $row['warehouseName']; ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php echo App_Controller_Functions::dateToUserFormat($row['expectedArrivalDate']);  //$row->getExpectedArrivalDate()->format("d-m-Y"); ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php
+                                                        if ($row['receivedQuantity'] == 0)
+                                                            echo "Planned";
+                                                        elseif ($row['receivedQuantity'] > 0 && $row['status'] != 'Received')
+                                                            echo "Receiving";
+                                                        elseif ($row['receivedQuantity'] > 0 && $row['status'] == 'Received')
+                                                            echo "Received";
+                                                        ?>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                $i++;
+                                            }
+                                            ?>
+                                            <!-- // Table row END -->
+                                        </tbody>
+                                        <!-- // Table body END -->
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
+        else {
+            ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4>No data found</h4>
+                </div>
+            </div>
+        <?php } ?>
+        <div id="future_arrival_details"></div>
+    </div>
+</div>
+

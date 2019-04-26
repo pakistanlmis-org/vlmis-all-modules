@@ -1,0 +1,677 @@
+<?php
+/**
+ * 
+ */
+?>
+<div class="page-content-wrapper">
+    <div class="page-content">
+        <table width="99%">
+            <tr>
+                <td colspan="2">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="portlet box green">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        Filter By
+                                    </div>
+
+                                </div>
+                                <div class="portlet-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <form method="POST" name="form" action="" >
+
+                                                <div class="row">
+
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="Date">Last Month</label>
+                                                            <input class="form-control input-sm"  type="text" name="last_month" id="last_month" readonly="">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-2">   
+                                                        <label class="control-label" >Province</label>
+
+
+
+
+                                                        <select class="form-control input-sm" id="province" name="province">
+                                                            <option value="all"> All</option>
+                                                            <?php
+                                                            foreach ($this->province as $rowprov) {
+
+                                                                if ($this->prov_sel == $rowprov['pkId'])
+                                                                    $sel = "selected='selected'";
+                                                                else
+                                                                    $sel = "";
+                                                                ?>
+                                                                <option value="<?php echo $rowprov['pkId']; ?>" <?php echo $sel; ?>><?php echo $rowprov['locationName']; ?></option>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div> 
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Products</label>
+
+                                                            <?php
+                                                            // foreach ($this->clinical_presentation as $row2) {
+                                                            //    $sel_array[] = $row2['clinical_presentation_id'];
+                                                            // }
+                                                            ?>
+                                                            <select style="width: 551px !important;" id="products" name="products[]" class="form-control select2 select2-offscreen" multiple="" tabindex="-1">
+
+                                                                <?php
+                                                                foreach ($this->products as $row) {
+
+//                                                                    if (in_array($row['pkId'], $sel_array)) {
+//
+//                                                                        
+//                                                                    } else {
+//                                                                        $sel_var = '';
+//                                                                    }
+                                                                    $sel_var = 'selected="selected"';
+                                                                    ?>
+                                                                    <option value="<?php echo $row['pkId']; ?>" <?php echo $sel_var; ?> >
+                                                                        <?php echo $row['itemName']; ?>
+                                                                    </option>
+                                                                    <?php
+                                                                }
+                                                                ?>
+
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-md-1">
+                                                        <label class="control-label" >&nbsp;</label>
+                                                        <div class="controls">
+                                                            <input class="btn btn-succes" value="Go" type="submit">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+
+        <h3 class="page-title row-br-b-wp center"> Executive Dashboard - Jan-2018</h3>
+        <!-- BEGIN DASHBOARD STATS -->
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="dashboard-stat blue">
+                    <div class="visual">
+                        <i class="icon-comments"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">
+                            42.62 %
+                        </div>
+                        <div class="desc">                           
+                            Stock Availability Summary (Province)
+
+                        </div>
+                    </div>
+                    <a class="more" href="#">
+                        View more <i class="m-icon-swapright m-icon-white"></i>
+                    </a>               
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="dashboard-stat green">
+                    <div class="visual">
+                        <i class="icon-shopping-cart"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">45 %</div>
+                        <div class="desc">
+                            Stock Availability Summary (District)
+                        </div>
+                    </div>
+                    <a class="more" href="#">
+                        View more <i class="m-icon-swapright m-icon-white"></i>
+                    </a>               
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="dashboard-stat purple">
+                    <div class="visual">
+                        <i class="icon-globe"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">40 %</div>
+                        <div class="desc"> 
+                            Stock Availability Summary (Tehsil)
+
+                        </div>
+                    </div>
+                    <a class="more" href="#">
+                        View more <i class="m-icon-swapright m-icon-white"></i>
+                    </a>           
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                <div class="dashboard-stat yellow">
+                    <div class="visual">
+                        <i class="icon-bar-chart"></i>
+                    </div>
+                    <div class="details">
+                        <div class="number">20%</div>
+                        <div class="desc">  
+                            Stock Availability Summary(UC)
+                        </div>
+                    </div>
+                    <a class="more" href="#">
+                        View more <i class="m-icon-swapright m-icon-white"></i>
+                    </a>                 
+                </div>
+            </div>
+        </div>
+        <!-- END DASHBOARD STATS -->
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <div class="portlet box blue">
+                    <div class="portlet-title">
+                        <div class="caption"><i class="icon-bell"></i>Stock Status</div>
+                        <div class="actions">
+                            <div class="btn-group">
+                                <a class="btn btn-sm default" href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    Filter By
+                                    <i class="icon-angle-down"></i>
+                                </a>
+                                <div class="dropdown-menu hold-on-click dropdown-checkboxes pull-right">
+                                    <label><input type="checkbox" /> BCG</label>
+                                    <label><input type="checkbox" checked="" /> IPV</label>
+                                    <label><input type="checkbox" /> Measles</label>
+                                    <label><input type="checkbox" checked="" /> Penta</label>
+                                    <label><input type="checkbox" /> PCV</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+
+                        <?php
+                        FC_SetRenderer('javascript');
+                        echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Doughnut2D.swf", "", $this->xml_stock_status, "coldchainCapacity20", '100%', 350, false, false);
+                        ?>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <div class="portlet light ">
+                    <div class="portlet-title">
+                        <div class="caption ">
+                            <span class="caption-subject font-dark bold uppercase">Finance</span>
+                            <span class="caption-helper">distance stats...</span>
+                        </div>
+                        <div class="actions">
+                            <a href="#" class="btn btn-circle green btn-outline btn-sm">
+                                <i class="fa fa-pencil"></i> Export </a>
+                            <a href="#" class="btn btn-circle green btn-outline btn-sm">
+                                <i class="fa fa-print"></i> Print </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div id="dashboard_amchart_3" class="CSSAnimationChart" style="overflow: hidden; text-align: left;">
+                            <div style="position: relative;" class="amcharts-main-div"><div style="overflow: hidden; position: relative; text-align: left; width: 482px; height: 500px; padding: 0px;" class="amcharts-chart-div"><svg version="1.1" style="position: absolute; width: 482px; height: 500px; top: -0.100006px; left: 0px;"><desc>JavaScript chart by amCharts 3.17.1</desc><g><path cs="100,100" d="M0.5,0.5 L481.5,0.5 L481.5,499.5 L0.5,499.5 Z" fill="#FFFFFF" stroke="#000000" fill-opacity="0" stroke-width="1" stroke-opacity="0" class="amcharts-bg"></path><path cs="100,100" d="M0.5,0.5 L443.5,0.5 L443.5,463.5 L0.5,463.5 L0.5,0.5 Z" fill="#FFFFFF" stroke="#000000" fill-opacity="0" stroke-width="1" stroke-opacity="0" class="amcharts-plot-area" transform="translate(30,10)"></path></g><g><g class="amcharts-category-axis" transform="translate(30,10)"><g><path cs="100,100" d="M0.5,463.5 L0.5,463.5 L0.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M74.5,463.5 L74.5,463.5 L74.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M148.5,463.5 L148.5,463.5 L148.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M221.5,463.5 L221.5,463.5 L221.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M295.5,463.5 L295.5,463.5 L295.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M369.5,463.5 L369.5,463.5 L369.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M443.5,463.5 L443.5,463.5 L443.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g></g><g class="amcharts-value-axis value-axis-valueAxisAuto0_1519195375319" transform="translate(30,10)" visibility="visible"><g><path cs="100,100" d="M0.5,463.5 L0.5,463.5 L443.5,463.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M0.5,405.5 L0.5,405.5 L443.5,405.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M0.5,347.5 L0.5,347.5 L443.5,347.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M0.5,289.5 L0.5,289.5 L443.5,289.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M0.5,232.5 L0.5,232.5 L443.5,232.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M0.5,174.5 L0.5,174.5 L443.5,174.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M0.5,116.5 L0.5,116.5 L443.5,116.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M0.5,58.5 L0.5,58.5 L443.5,58.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M0.5,0.5 L0.5,0.5 L443.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g></g></g><g></g><g></g><g></g><g><g transform="translate(30,10)"><g class="amcharts-graph-column amcharts-graph-graphAuto0_1519195375319" transform="translate(7,463)"><path cs="100,100" d="M0.5,0.5 L0.5,-100.5 L59.5,-100.5 L59.5,0.5 L0.5,0.5 Z" fill="#67b7dc" stroke="#67b7dc" fill-opacity="1" stroke-width="1" stroke-opacity="0.9" class="amcharts-graph-column-front amcharts-graph-column-element"></path></g><g class="amcharts-graph-column amcharts-graph-graphAuto0_1519195375319" transform="translate(81,463)"><path cs="100,100" d="M0.5,0.5 L0.5,-178.5 L59.5,-178.5 L59.5,0.5 L0.5,0.5 Z" fill="#67b7dc" stroke="#67b7dc" fill-opacity="1" stroke-width="1" stroke-opacity="0.9" class="amcharts-graph-column-front amcharts-graph-column-element"></path></g><g class="amcharts-graph-column amcharts-graph-graphAuto0_1519195375319" transform="translate(155,463)"><path cs="100,100" d="M0.5,0.5 L0.5,-291.5 L59.5,-291.5 L59.5,0.5 L0.5,0.5 Z" fill="#67b7dc" stroke="#67b7dc" fill-opacity="1" stroke-width="1" stroke-opacity="0.9" class="amcharts-graph-column-front amcharts-graph-column-element"></path></g><g class="amcharts-graph-column amcharts-graph-graphAuto0_1519195375319" transform="translate(228,463)"><path cs="100,100" d="M0.5,0.5 L0.5,-274.5 L59.5,-274.5 L59.5,0.5 L0.5,0.5 Z" fill="#67b7dc" stroke="#67b7dc" fill-opacity="1" stroke-width="1" stroke-opacity="0.9" class="amcharts-graph-column-front amcharts-graph-column-element"></path></g><g class="amcharts-graph-column amcharts-graph-graphAuto0_1519195375319" transform="translate(302,463)"><path cs="100,100" d="M0.5,0.5 L0.5,-306.5 L59.5,-306.5 L59.5,0.5 L0.5,0.5 Z" fill="#67b7dc" stroke="#67b7dc" fill-opacity="1" stroke-width="1" stroke-opacity="0.9" class="amcharts-graph-column-front amcharts-graph-column-element"></path></g><g class="amcharts-graph-column amcharts-graph-graphAuto0_1519195375319" transform="translate(376,463)"><path cs="100,100" d="M0.5,0.5 L0.5,-407.5 L59.5,-407.5 L59.5,0.5 L0.5,0.5 Z" fill="#67b7dc" stroke="#67b7dc" fill-opacity="0.2" stroke-width="1" stroke-opacity="0.9" stroke-dasharray="5" class="amcharts-graph-column-front amcharts-graph-column-element"></path></g></g></g><g><g transform="translate(30,10)" class="amcharts-graph-column amcharts-graph-graphAuto0_1519195375319"><g></g></g><g transform="translate(30,10)" class="amcharts-graph-line amcharts-graph-graph2"><g></g><g></g><g clip-path="url(#AmChartsEl-16)"><path cs="100,100" d="M37.5,431.5 L111.5,159.5 L185.5,32.5 L258.5,142.5 L332.5,226.5 L406.5,90.5 M0,0 L0,0" fill="none" stroke-width="3" stroke-opacity="1" stroke="#fdd400" class="amcharts-graph-stroke"></path></g><clipPath id="AmChartsEl-16"><rect x="0" y="0" width="445" height="465" rx="0" ry="0" stroke-width="0"></rect></clipPath></g></g><g></g><g><g class="amcharts-category-axis"><path cs="100,100" d="M0.5,0.5 L443.5,0.5" fill="none" stroke-width="1" stroke-opacity="0" stroke="#000000" transform="translate(30,473)" class="amcharts-axis-line"></path></g><g class="amcharts-value-axis value-axis-valueAxisAuto0_1519195375319"><path cs="100,100" d="M0.5,0.5 L0.5,463.5" fill="none" stroke-width="1" stroke-opacity="0" stroke="#000000" transform="translate(30,10)" class="amcharts-axis-line" visibility="visible"></path></g></g><g></g><g></g><g><g transform="translate(30,10)" class="amcharts-graph-column amcharts-graph-graphAuto0_1519195375319"></g><g transform="translate(30,10)" class="amcharts-graph-line amcharts-graph-graph2"><circle r="3.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fdd400" fill-opacity="1" stroke-width="3" stroke-opacity="1" transform="translate(37,431)" class="amcharts-graph-bullet"></circle><circle r="3.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fdd400" fill-opacity="1" stroke-width="3" stroke-opacity="1" transform="translate(111,159)" class="amcharts-graph-bullet"></circle><circle r="3.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fdd400" fill-opacity="1" stroke-width="3" stroke-opacity="1" transform="translate(185,32)" class="amcharts-graph-bullet"></circle><circle r="3.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fdd400" fill-opacity="1" stroke-width="3" stroke-opacity="1" transform="translate(258,142)" class="amcharts-graph-bullet"></circle><circle r="3.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fdd400" fill-opacity="1" stroke-width="3" stroke-opacity="1" transform="translate(332,226)" class="amcharts-graph-bullet"></circle><circle r="3.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fdd400" fill-opacity="1" stroke-width="3" stroke-opacity="1" transform="translate(406,90)" class="amcharts-graph-bullet"></circle></g></g><g><g class="amcharts-category-axis" transform="translate(30,10)" visibility="visible"><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="middle" transform="translate(36.916666666666664,475.5)" class="amcharts-axis-label"><tspan y="6" x="0">2009</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="middle" transform="translate(110.91666666666666,475.5)" class="amcharts-axis-label"><tspan y="6" x="0">2010</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="middle" transform="translate(184.91666666666666,475.5)" class="amcharts-axis-label"><tspan y="6" x="0">2011</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="middle" transform="translate(257.9166666666667,475.5)" class="amcharts-axis-label"><tspan y="6" x="0">2012</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="middle" transform="translate(331.9166666666667,475.5)" class="amcharts-axis-label"><tspan y="6" x="0">2013</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="middle" transform="translate(405.9166666666667,475.5)" class="amcharts-axis-label"><tspan y="6" x="0">2014</tspan></text></g><g class="amcharts-value-axis value-axis-valueAxisAuto0_1519195375319" transform="translate(30,10)" visibility="visible"><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,461)" class="amcharts-axis-label"><tspan y="6" x="0">20</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,403)" class="amcharts-axis-label"><tspan y="6" x="0">22</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,345)" class="amcharts-axis-label"><tspan y="6" x="0">24</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,287)" class="amcharts-axis-label"><tspan y="6" x="0">26</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,230)" class="amcharts-axis-label"><tspan y="6" x="0">28</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,172)" class="amcharts-axis-label"><tspan y="6" x="0">30</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,114)" class="amcharts-axis-label"><tspan y="6" x="0">32</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,56)" class="amcharts-axis-label"><tspan y="6" x="0">34</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,-2)" class="amcharts-axis-label"><tspan y="6" x="0">36</tspan></text></g></g><g><g></g></g><g></g><g></g><g></g></svg><a href="http://www.amcharts.com/javascript-charts/" title="JavaScript charts" style="position: absolute; text-decoration: none; color: rgb(0, 0, 0); font-family: Verdana; font-size: 11px; opacity: 0.7; display: block; left: 35px; top: 15px;">JS chart by amCharts</a></div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <div class="portlet box blue">
+                    <div class="portlet-title">
+                        <div class="caption"><i class="icon-bell"></i>Transaction Data</div>
+                        <div class="actions">
+                            <div class="btn-group">
+                                <a class="btn btn-sm default" href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    Filter By
+                                    <i class="icon-angle-down"></i>
+                                </a>
+                                <div class="dropdown-menu hold-on-click dropdown-checkboxes pull-right">
+                                    <label><input type="checkbox" /> BCG</label>
+                                    <label><input type="checkbox" checked="" /> IPV</label>
+                                    <label><input type="checkbox" /> Measles</label>
+                                    <label><input type="checkbox" checked="" /> Penta</label>
+                                    <label><input type="checkbox" /> PCV</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="scroller" style="height: 300px;" data-always-visible="1" data-rail-visible="0">
+                            <ul class="feeds">
+                                <li>
+                                    <div class="col1">
+                                        <div class="cont">
+                                            <div class="cont-col1">
+                                                <div class="label label-sm label-info">                        
+                                                    <i class="icon-check"></i>
+                                                </div>
+                                            </div>
+                                            <div class="cont-col2">
+                                                <div class="desc">
+                                                    You have 4 pending tasks.
+                                                    <span class="label label-sm label-warning ">
+                                                        Take action 
+                                                        <i class="icon-share-alt"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col2">
+                                        <div class="date">
+                                            Just now
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="col1">
+                                            <div class="cont">
+                                                <div class="cont-col1">
+                                                    <div class="label label-sm label-success">                        
+                                                        <i class="icon-bar-chart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="cont-col2">
+                                                    <div class="desc">
+                                                        Finance Report for year 2013 has been released.   
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col2">
+                                            <div class="date">
+                                                20 mins
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="col1">
+                                        <div class="cont">
+                                            <div class="cont-col1">
+                                                <div class="label label-sm label-danger">                      
+                                                    <i class="icon-user"></i>
+                                                </div>
+                                            </div>
+                                            <div class="cont-col2">
+                                                <div class="desc">
+                                                    You have 5 pending membership that requires a quick review.                       
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col2">
+                                        <div class="date">
+                                            24 mins
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="col1">
+                                        <div class="cont">
+                                            <div class="cont-col1">
+                                                <div class="label label-sm label-info">                        
+                                                    <i class="icon-shopping-cart"></i>
+                                                </div>
+                                            </div>
+                                            <div class="cont-col2">
+                                                <div class="desc">
+                                                    New order received with <span class="label label-sm label-success">Reference Number: DR23923</span>             
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col2">
+                                        <div class="date">
+                                            30 mins
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="col1">
+                                        <div class="cont">
+                                            <div class="cont-col1">
+                                                <div class="label label-sm label-success">                      
+                                                    <i class="icon-user"></i>
+                                                </div>
+                                            </div>
+                                            <div class="cont-col2">
+                                                <div class="desc">
+                                                    You have 5 pending membership that requires a quick review.                       
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col2">
+                                        <div class="date">
+                                            24 mins
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="col1">
+                                        <div class="cont">
+                                            <div class="cont-col1">
+                                                <div class="label label-sm label-default">                        
+                                                    <i class="icon-bell-alt"></i>
+                                                </div>
+                                            </div>
+                                            <div class="cont-col2">
+                                                <div class="desc">
+                                                    Web server hardware needs to be upgraded. 
+                                                    <span class="label label-sm label-default ">Overdue</span>             
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col2">
+                                        <div class="date">
+                                            2 hours
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="col1">
+                                            <div class="cont">
+                                                <div class="cont-col1">
+                                                    <div class="label label-sm label-default">                        
+                                                        <i class="icon-briefcase"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="cont-col2">
+                                                    <div class="desc">
+                                                        IPO Report for year 2013 has been released.   
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col2">
+                                            <div class="date">
+                                                20 mins
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="col1">
+                                        <div class="cont">
+                                            <div class="cont-col1">
+                                                <div class="label label-sm label-info">                        
+                                                    <i class="icon-check"></i>
+                                                </div>
+                                            </div>
+                                            <div class="cont-col2">
+                                                <div class="desc">
+                                                    You have 4 pending tasks.
+                                                    <span class="label label-sm label-warning ">
+                                                        Take action 
+                                                        <i class="icon-share-alt"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col2">
+                                        <div class="date">
+                                            Just now
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="col1">
+                                            <div class="cont">
+                                                <div class="cont-col1">
+                                                    <div class="label label-sm label-danger">                        
+                                                        <i class="icon-bar-chart"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="cont-col2">
+                                                    <div class="desc">
+                                                        Finance Report for year 2013 has been released.   
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col2">
+                                            <div class="date">
+                                                20 mins
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="col1">
+                                        <div class="cont">
+                                            <div class="cont-col1">
+                                                <div class="label label-sm label-default">                      
+                                                    <i class="icon-user"></i>
+                                                </div>
+                                            </div>
+                                            <div class="cont-col2">
+                                                <div class="desc">
+                                                    You have 5 pending membership that requires a quick review.                       
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col2">
+                                        <div class="date">
+                                            24 mins
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="col1">
+                                        <div class="cont">
+                                            <div class="cont-col1">
+                                                <div class="label label-sm label-info">                        
+                                                    <i class="icon-shopping-cart"></i>
+                                                </div>
+                                            </div>
+                                            <div class="cont-col2">
+                                                <div class="desc">
+                                                    New order received with <span class="label label-sm label-success">Reference Number: DR23923</span>             
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col2">
+                                        <div class="date">
+                                            30 mins
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="col1">
+                                        <div class="cont">
+                                            <div class="cont-col1">
+                                                <div class="label label-sm label-success">                      
+                                                    <i class="icon-user"></i>
+                                                </div>
+                                            </div>
+                                            <div class="cont-col2">
+                                                <div class="desc">
+                                                    You have 5 pending membership that requires a quick review.                       
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col2">
+                                        <div class="date">
+                                            24 mins
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="col1">
+                                        <div class="cont">
+                                            <div class="cont-col1">
+                                                <div class="label label-sm label-warning">                        
+                                                    <i class="icon-bell-alt"></i>
+                                                </div>
+                                            </div>
+                                            <div class="cont-col2">
+                                                <div class="desc">
+                                                    Web server hardware needs to be upgraded. 
+                                                    <span class="label label-sm label-default ">Overdue</span>             
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col2">
+                                        <div class="date">
+                                            2 hours
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="col1">
+                                            <div class="cont">
+                                                <div class="cont-col1">
+                                                    <div class="label label-sm label-info">                        
+                                                        <i class="icon-briefcase"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="cont-col2">
+                                                    <div class="desc">
+                                                        IPO Report for year 2013 has been released.   
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col2">
+                                            <div class="date">
+                                                20 mins
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-md-12 " style=" ">
+                            <div class="dashlet_graph_html" id="dashboard_ss_b3" href="dashboard_fp2020_a1.php"><!--height:750px;overflow: auto;-->
+                                <div class="" style="">
+                                    <table class="table table-condensed " style="border:1px solid grey!important;" width="100%" bordercolor="grey" border="1">
+                                        <tbody><tr style="background-color: #26C281;color:#ffffff;">
+                                                <th rowspan="2" style="text-align:left;vertical-align:middle;color:#fffff;" width="23%">Products</th>
+                                                <th rowspan="2" style="text-align:center;vertical-align:middle;" width="5%">Unit</th>
+                                                <th rowspan="2" style="text-align:left;vertical-align:middle;color: #ffffff">Status</th>
+                                                <th colspan="2" style="text-align:center;vertical-align:middle;">03-Jan-2018</th>        </tr>
+
+                                            <tr style="background-color: #26C281;color:#ffffff;">
+
+                                                <th style="text-align:center;vertical-align:middle;">Quantity</th>
+                                                <th style="text-align:center;vertical-align:middle;">MOS</th>        </tr>
+                                            <tr style="background-color:">
+                                                <td rowspan="" style="vertical-align:middle;">Condom<br>(AMC**: 8,598,132.94)<div class="center"><a data-prod="1" style="font-size:10px" class=" hide when_to_order btn green-jungle btn-xs pull-left"><i class="fa fa-angle-down"></i> When to Re-Order ?</a></div></td>
+                                                <td rowspan="" style="text-align:center;vertical-align:middle;">PCs</td>
+
+                                                <td style="text-align:left">Stocks at CW&amp;S
+                                                    <br><span style="color:green" onclick="window.open('dashboard_fp2020_batches.php?province=1&amp;prov_name=Punjab&amp;prod_name=Condom&amp;from_date=2018-01-03&amp;funding_source=&amp;itm_id=1', '_blank', 'scrollbars=1,width=900,height=500')">(Expiring on: 2021-Jun-30)</span>
+                                                </td>
+                                                <td style="text-align:right"> <a data-toggle="popover" title="" data-trigger="hover" data-placement="left" data-html="true" data-content="<b>Provincial Stock at CW&amp;S : 123,813,885(14.40)</b> <br/> - Govt. of Punjab - DoH: 0(0.00) <br/> - Govt. of Punjab - PWD: 123,813,885(14.40) <br/> <br/><b>Provincial stock at MSD: 91,316,700(10.62)</b> <br/><b>USAID Supported Stock: 0(0.00)</b>" data-original-title="Stock Breakdown (with MOS)"><i style="color:black !important;" class="fa fa-table"></i></a>
+                                                    215,130,585</td>
+                                                <td style="text-align:right"><div class="pull-right">25.02</div><div style="width:10px; height:12px; background-color:#6bceff;border:1px solid green;" title=""></div></td></tr> <tr prod="1" class="reorder " style="display:none1;background-color:"> <td class="left grey " colspan="5"><span class="  badge  pull-right1" style="background-color:white !important;color:black !important;">Order <b>51,588,798 Condom PCs</b> sufficient for <b>6 months</b>.  Order after : 7 months. </span></td> </tr> <tr style="background-color:#e2e2e2">
+                                                <td rowspan="" style="vertical-align:middle;">POP<br>(AMC**: 2,646.67)<div class="center"><a data-prod="2" style="font-size:10px" class=" hide when_to_order btn green-jungle btn-xs pull-left"><i class="fa fa-angle-down"></i> When to Re-Order ?</a></div></td>
+                                                <td rowspan="" style="text-align:center;vertical-align:middle;">Cycles</td>
+
+                                                <td style="text-align:left">Stocks at CW&amp;S
+
+                                                </td>
+                                                <td style="text-align:right"> <a data-toggle="popover" title="" data-trigger="hover" data-placement="left" data-html="true" data-content="<b>Provincial Stock at CW&amp;S : 0(0.00)</b> <br/><b>USAID Supported Stock: 0(0.00)</b>" data-original-title="Stock Breakdown (with MOS)"><i style="color:black !important;" class="fa fa-table"></i></a>
+                                                    0</td>
+                                                <td style="text-align:right"><div class="pull-right">0</div><div style="width:10px; height:12px; background-color:#ff370f;border:1px solid green;" title=""></div></td></tr> <tr prod="2" class="reorder  " style="display:none1;background-color:#e2e2e2"> <td class="left grey " colspan="5"><span class=" badge badge-danger pull-right1" style="">Order <b>47,640 POP Cycles</b> sufficient for <b>18 months</b>.  (You need to order ASAP) </span></td> </tr> <tr style="background-color:">
+                                            </tr>     </tbody></table>
+
+                                    <div class="col-md-12 " style=" ">
+
+                                        <div class="col-md-12 left" style=" font-size: 10px;padding-left: 0;"><span> MOS Legend :</span>
+
+
+                                            <div style="display:inline-block;width:12px; height:12px; vertical-align: bottom; background-color:#ff370f;margin-left:20px;border:1px solid green;"></div>
+                                            <div style="display:inline-block;margin-left:5px;">Stock Out (0 - 4.99)</div>
+                                            <div style="display:inline-block;width:12px; height:12px; vertical-align: bottom; background-color:#0000ff;margin-left:20px;border:1px solid green;"></div>
+                                            <div style="display:inline-block;margin-left:5px;">Under Stock (5 - 6.99)</div>
+                                            <div style="display:inline-block;width:12px; height:12px; vertical-align: bottom; background-color:#008000;margin-left:20px;border:1px solid green;"></div>
+                                            <div style="display:inline-block;margin-left:5px;">Satisfactory (7 - 14.99)</div>
+                                            <div style="display:inline-block;width:12px; height:12px; vertical-align: bottom; background-color:#6bceff;margin-left:20px;border:1px solid green;"></div>
+                                            <div style="display:inline-block;margin-left:5px;">Over Stock (15 - 9999999)</div>         
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <script>
+                                    $('[data-toggle="popover"]').popover();
+                                </script></div>
+                        </div>
+                        <div class="scroller-footer">
+                            <div class="pull-right">
+                                <a href="#">See All Records <i class="m-icon-swapright m-icon-gray"></i></a> &nbsp;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <div class="portlet light ">
+                    <div class="portlet-title">
+                        <div class="caption ">
+                            <span class="caption-subject font-dark bold uppercase">Finance</span>
+                            <span class="caption-helper">distance stats...</span>
+                        </div>
+                        <div class="actions">
+                            <a href="#" class="btn btn-circle green btn-outline btn-sm">
+                                <i class="fa fa-pencil"></i> Export </a>
+                            <a href="#" class="btn btn-circle green btn-outline btn-sm">
+                                <i class="fa fa-print"></i> Print </a>
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div id="dashboard_amchart_3" class="CSSAnimationChart" style="overflow: hidden; text-align: left;">
+                            <div style="position: relative;" class="amcharts-main-div"><div style="overflow: hidden; position: relative; text-align: left; width: 482px; height: 500px; padding: 0px;" class="amcharts-chart-div"><svg version="1.1" style="position: absolute; width: 482px; height: 500px; top: -0.100006px; left: 0px;"><desc>JavaScript chart by amCharts 3.17.1</desc><g><path cs="100,100" d="M0.5,0.5 L481.5,0.5 L481.5,499.5 L0.5,499.5 Z" fill="#FFFFFF" stroke="#000000" fill-opacity="0" stroke-width="1" stroke-opacity="0" class="amcharts-bg"></path><path cs="100,100" d="M0.5,0.5 L443.5,0.5 L443.5,463.5 L0.5,463.5 L0.5,0.5 Z" fill="#FFFFFF" stroke="#000000" fill-opacity="0" stroke-width="1" stroke-opacity="0" class="amcharts-plot-area" transform="translate(30,10)"></path></g><g><g class="amcharts-category-axis" transform="translate(30,10)"><g><path cs="100,100" d="M0.5,463.5 L0.5,463.5 L0.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M74.5,463.5 L74.5,463.5 L74.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M148.5,463.5 L148.5,463.5 L148.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M221.5,463.5 L221.5,463.5 L221.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M295.5,463.5 L295.5,463.5 L295.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M369.5,463.5 L369.5,463.5 L369.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M443.5,463.5 L443.5,463.5 L443.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g></g><g class="amcharts-value-axis value-axis-valueAxisAuto0_1519195375319" transform="translate(30,10)" visibility="visible"><g><path cs="100,100" d="M0.5,463.5 L0.5,463.5 L443.5,463.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M0.5,405.5 L0.5,405.5 L443.5,405.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M0.5,347.5 L0.5,347.5 L443.5,347.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M0.5,289.5 L0.5,289.5 L443.5,289.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M0.5,232.5 L0.5,232.5 L443.5,232.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M0.5,174.5 L0.5,174.5 L443.5,174.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M0.5,116.5 L0.5,116.5 L443.5,116.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M0.5,58.5 L0.5,58.5 L443.5,58.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g><g><path cs="100,100" d="M0.5,0.5 L0.5,0.5 L443.5,0.5" fill="none" stroke-width="1" stroke-opacity="0.1" stroke="#000000" class="amcharts-axis-grid"></path></g></g></g><g></g><g></g><g></g><g><g transform="translate(30,10)"><g class="amcharts-graph-column amcharts-graph-graphAuto0_1519195375319" transform="translate(7,463)"><path cs="100,100" d="M0.5,0.5 L0.5,-100.5 L59.5,-100.5 L59.5,0.5 L0.5,0.5 Z" fill="#67b7dc" stroke="#67b7dc" fill-opacity="1" stroke-width="1" stroke-opacity="0.9" class="amcharts-graph-column-front amcharts-graph-column-element"></path></g><g class="amcharts-graph-column amcharts-graph-graphAuto0_1519195375319" transform="translate(81,463)"><path cs="100,100" d="M0.5,0.5 L0.5,-178.5 L59.5,-178.5 L59.5,0.5 L0.5,0.5 Z" fill="#67b7dc" stroke="#67b7dc" fill-opacity="1" stroke-width="1" stroke-opacity="0.9" class="amcharts-graph-column-front amcharts-graph-column-element"></path></g><g class="amcharts-graph-column amcharts-graph-graphAuto0_1519195375319" transform="translate(155,463)"><path cs="100,100" d="M0.5,0.5 L0.5,-291.5 L59.5,-291.5 L59.5,0.5 L0.5,0.5 Z" fill="#67b7dc" stroke="#67b7dc" fill-opacity="1" stroke-width="1" stroke-opacity="0.9" class="amcharts-graph-column-front amcharts-graph-column-element"></path></g><g class="amcharts-graph-column amcharts-graph-graphAuto0_1519195375319" transform="translate(228,463)"><path cs="100,100" d="M0.5,0.5 L0.5,-274.5 L59.5,-274.5 L59.5,0.5 L0.5,0.5 Z" fill="#67b7dc" stroke="#67b7dc" fill-opacity="1" stroke-width="1" stroke-opacity="0.9" class="amcharts-graph-column-front amcharts-graph-column-element"></path></g><g class="amcharts-graph-column amcharts-graph-graphAuto0_1519195375319" transform="translate(302,463)"><path cs="100,100" d="M0.5,0.5 L0.5,-306.5 L59.5,-306.5 L59.5,0.5 L0.5,0.5 Z" fill="#67b7dc" stroke="#67b7dc" fill-opacity="1" stroke-width="1" stroke-opacity="0.9" class="amcharts-graph-column-front amcharts-graph-column-element"></path></g><g class="amcharts-graph-column amcharts-graph-graphAuto0_1519195375319" transform="translate(376,463)"><path cs="100,100" d="M0.5,0.5 L0.5,-407.5 L59.5,-407.5 L59.5,0.5 L0.5,0.5 Z" fill="#67b7dc" stroke="#67b7dc" fill-opacity="0.2" stroke-width="1" stroke-opacity="0.9" stroke-dasharray="5" class="amcharts-graph-column-front amcharts-graph-column-element"></path></g></g></g><g><g transform="translate(30,10)" class="amcharts-graph-column amcharts-graph-graphAuto0_1519195375319"><g></g></g><g transform="translate(30,10)" class="amcharts-graph-line amcharts-graph-graph2"><g></g><g></g><g clip-path="url(#AmChartsEl-16)"><path cs="100,100" d="M37.5,431.5 L111.5,159.5 L185.5,32.5 L258.5,142.5 L332.5,226.5 L406.5,90.5 M0,0 L0,0" fill="none" stroke-width="3" stroke-opacity="1" stroke="#fdd400" class="amcharts-graph-stroke"></path></g><clipPath id="AmChartsEl-16"><rect x="0" y="0" width="445" height="465" rx="0" ry="0" stroke-width="0"></rect></clipPath></g></g><g></g><g><g class="amcharts-category-axis"><path cs="100,100" d="M0.5,0.5 L443.5,0.5" fill="none" stroke-width="1" stroke-opacity="0" stroke="#000000" transform="translate(30,473)" class="amcharts-axis-line"></path></g><g class="amcharts-value-axis value-axis-valueAxisAuto0_1519195375319"><path cs="100,100" d="M0.5,0.5 L0.5,463.5" fill="none" stroke-width="1" stroke-opacity="0" stroke="#000000" transform="translate(30,10)" class="amcharts-axis-line" visibility="visible"></path></g></g><g></g><g></g><g><g transform="translate(30,10)" class="amcharts-graph-column amcharts-graph-graphAuto0_1519195375319"></g><g transform="translate(30,10)" class="amcharts-graph-line amcharts-graph-graph2"><circle r="3.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fdd400" fill-opacity="1" stroke-width="3" stroke-opacity="1" transform="translate(37,431)" class="amcharts-graph-bullet"></circle><circle r="3.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fdd400" fill-opacity="1" stroke-width="3" stroke-opacity="1" transform="translate(111,159)" class="amcharts-graph-bullet"></circle><circle r="3.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fdd400" fill-opacity="1" stroke-width="3" stroke-opacity="1" transform="translate(185,32)" class="amcharts-graph-bullet"></circle><circle r="3.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fdd400" fill-opacity="1" stroke-width="3" stroke-opacity="1" transform="translate(258,142)" class="amcharts-graph-bullet"></circle><circle r="3.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fdd400" fill-opacity="1" stroke-width="3" stroke-opacity="1" transform="translate(332,226)" class="amcharts-graph-bullet"></circle><circle r="3.5" cx="0" cy="0" fill="#FFFFFF" stroke="#fdd400" fill-opacity="1" stroke-width="3" stroke-opacity="1" transform="translate(406,90)" class="amcharts-graph-bullet"></circle></g></g><g><g class="amcharts-category-axis" transform="translate(30,10)" visibility="visible"><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="middle" transform="translate(36.916666666666664,475.5)" class="amcharts-axis-label"><tspan y="6" x="0">2009</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="middle" transform="translate(110.91666666666666,475.5)" class="amcharts-axis-label"><tspan y="6" x="0">2010</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="middle" transform="translate(184.91666666666666,475.5)" class="amcharts-axis-label"><tspan y="6" x="0">2011</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="middle" transform="translate(257.9166666666667,475.5)" class="amcharts-axis-label"><tspan y="6" x="0">2012</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="middle" transform="translate(331.9166666666667,475.5)" class="amcharts-axis-label"><tspan y="6" x="0">2013</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="middle" transform="translate(405.9166666666667,475.5)" class="amcharts-axis-label"><tspan y="6" x="0">2014</tspan></text></g><g class="amcharts-value-axis value-axis-valueAxisAuto0_1519195375319" transform="translate(30,10)" visibility="visible"><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,461)" class="amcharts-axis-label"><tspan y="6" x="0">20</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,403)" class="amcharts-axis-label"><tspan y="6" x="0">22</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,345)" class="amcharts-axis-label"><tspan y="6" x="0">24</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,287)" class="amcharts-axis-label"><tspan y="6" x="0">26</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,230)" class="amcharts-axis-label"><tspan y="6" x="0">28</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,172)" class="amcharts-axis-label"><tspan y="6" x="0">30</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,114)" class="amcharts-axis-label"><tspan y="6" x="0">32</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,56)" class="amcharts-axis-label"><tspan y="6" x="0">34</tspan></text><text y="6" fill="#000000" font-family="Verdana" font-size="11px" opacity="1" text-anchor="end" transform="translate(-12,-2)" class="amcharts-axis-label"><tspan y="6" x="0">36</tspan></text></g></g><g><g></g></g><g></g><g></g><g></g></svg><a href="http://www.amcharts.com/javascript-charts/" title="JavaScript charts" style="position: absolute; text-decoration: none; color: rgb(0, 0, 0); font-family: Verdana; font-size: 11px; opacity: 0.7; display: block; left: 35px; top: 15px;">JS chart by amCharts</a></div></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+                     <div class="row">
+                        <div class="col-md-12">
+                            <div class="widget widget-tabs">
+                                <div class="widget-body">
+
+                                    <?php
+                                    FC_SetRenderer('javascript');
+                                    echo renderChart($this->baseUrl() . "/FusionCharts/Charts/Column2D.swf", "", $this->xmlstore_cold_store_mos, "coldchainCapacity281", '100%', 350, false, false);
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+    </div>
+    <!-- END PAGE -->
+</div>
+

@@ -1,0 +1,48 @@
+<?php
+/**
+*  phtml for Update Placement
+*/
+?>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label" for="area"><?php echo $this->translate("Area"); ?><span class="red">*</span></label>
+            <?php echo $this->form->area; ?>
+        </div>
+    </div> 
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label" for="row"><?php echo $this->translate("Row"); ?><span class="red">*</span></label>
+            <?php echo $this->form->row; ?>
+        </div>
+    </div> 
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label" for="rack"><?php echo $this->translate("Rack"); ?><span class="red">*</span></label>
+            <?php echo $this->form->rack; ?>
+        </div>
+    </div> 
+    <div class="col-md-3"></div>
+</div>
+<div class="row">     
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label" for="rackinformationid"><?php echo $this->translate("Rack Type"); ?><span class="red">*</span></label>
+            <?php echo $this->form->rack_information_id; ?>
+        </div>
+    </div> 
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label" for="pallet"><?php echo $this->translate("Pallet"); ?><span class="red">*</span></label>
+            <?php echo $this->form->pallet; ?>
+        </div>
+    </div> 
+    <div class="col-md-3">
+        <div class="form-group">
+            <label class="control-label" for="level"><?php echo $this->translate("Level"); ?><span class="red">*</span></label>
+            <?php echo $this->form->level; ?>
+        </div>
+    </div> 
+    <div class="col-md-3"><?php echo $this->form->placement_id; ?></div>
+</div>  
+

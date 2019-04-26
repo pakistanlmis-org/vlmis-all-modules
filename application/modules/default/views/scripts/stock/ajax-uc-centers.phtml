@@ -1,0 +1,15 @@
+<?php
+/**
+*  phtml for Ajax UC Centers
+*/
+?>
+<option value=""><?php echo $this->translate("Select"); ?></option>
+<?php
+if ($this->result != false) {
+    foreach ($this->result as $row) {
+        ?>
+        <option value="<?php echo $row['pkId']; ?> "><?php echo $row['warehouseName']; ?></option>
+        <?php
+    }
+}
+?>

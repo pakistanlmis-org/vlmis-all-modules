@@ -1,0 +1,33 @@
+<?php
+/**
+*  phtml for Ajax Issue Available VVm Stages
+*/
+?>
+<?php
+
+if ($this->item_cat == 1) {
+    $vvm = array(
+        '1' => '1 (Usable)',
+        '2' => '2 (Usable)',
+        '3' => '3 (Not Usable)',
+        '4' => '4 (Not Usable)'
+    );
+} else {
+    $vvm = array(
+        '0' => 'NA'
+    );
+}
+
+if ($this->vvmstages != false && $this->is_placement_enable) {
+    if ($this->item_cat == 1) {
+        $row = $this->vvmstages;
+        echo trim($row[0]['placement_location_id'] . "|" . $row[0]['vvm_stage_id'] . "|" . $row[0]['qty']);
+    } else {
+        $row = $this->vvmstages;
+        echo trim($row[0]['placement_location_id'] . "|0|" . $row[0]['qty']);
+    }
+} else {
+    foreach ($vvm as $key => $value) {
+        echo $key;
+    }
+}?>
