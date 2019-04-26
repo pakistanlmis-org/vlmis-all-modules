@@ -12,6 +12,10 @@ doctrine.db.password = ""
 
 doctrine.db.dbname = "vlmis"
 
+*******************************************************
+
+Database configuration for readonly server:
+
 doctrine_read.db.driver = "pdo_mysql"
 
 doctrine_read.db.host = "localhost"
@@ -21,6 +25,8 @@ doctrine_read.db.user = "root"
 doctrine_read.db.password = ""
 
 doctrine_read.db.dbname = "vlmis"
+
+*******************************************************
 
 For SMTP configuration change these lines
 
@@ -45,6 +51,8 @@ smtpConfig.toAddress = ""
 smtpConfig.toName = ""
 
 smtpConfig.isSendMails = true
+
+*******************************************************
 
 For enable application errors use
 
